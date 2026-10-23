@@ -108,5 +108,5 @@ def test_every_story_template_field_resolves_and_every_chart_exists(tmp_path: Pa
     demonstration world through the real stages, every field resolves and every declared chart was written."""
     pytest.importorskip("dbt.cli.main", reason="dbt is needed to build the demonstration warehouse")
     pytest.skip(
-        "covered by tests/pipeline/test_simtest_pipeline.py when the demonstration warehouse is built"
+        "covered by tests/pipeline/test_demonstration_pipeline.py when the demonstration warehouse is built"
     )
