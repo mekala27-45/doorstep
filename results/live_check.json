@@ -1,0 +1,57 @@
+{
+ "checked_at": "2026-10-23T16:40:00Z",
+ "browser": "Claude desktop app browser (Chrome 152) on Windows 11",
+ "site_url": "https://mekala27-45.github.io/doorstep/",
+ "api_url": "https://doorstep-housing-api.vercel.app",
+ "routes": [
+  {
+   "route": "/",
+   "loaded": true,
+   "statement": true
+  },
+  {
+   "route": "/explore/",
+   "loaded": true,
+   "statement": true
+  },
+  {
+   "route": "/rank/",
+   "loaded": true,
+   "statement": true
+  },
+  {
+   "route": "/buyers/",
+   "loaded": true,
+   "statement": true
+  },
+  {
+   "route": "/shocks/",
+   "loaded": true,
+   "statement": true
+  },
+  {
+   "route": "/planner/",
+   "loaded": true,
+   "statement": true
+  },
+  {
+   "route": "/data/",
+   "loaded": true,
+   "statement": true
+  },
+  {
+   "route": "/report/",
+   "loaded": true,
+   "statement": true
+  }
+ ],
+ "routes_total": 8,
+ "routes_loaded": 8,
+ "statements_present": 8,
+ "api_health_status": "ok",
+ "check_id": "6173b446-a6a1-4b40-865e-bb2a1fab66d6",
+ "check_source": "live",
+ "asleep_first_probe": "timed out at 6.0 s while the container started after six idle minutes",
+ "asleep_outcome": "answered on the second probe",
+ "passed": true
+}

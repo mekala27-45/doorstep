@@ -6,7 +6,7 @@
 
 One FastAPI service (`packages/api`) in a container, with its check log in Neon Postgres under the `doorstep` schema and the calculator marts (`calc_metros.parquet`, `calc_quarters.parquet`, `calc_meta.json`) copied into the image from `results/marts`. The routes: `GET /v1/health`; `GET /v1/metros`; `GET /v1/curve` (the breakeven curve for a metro, income, down payment, rate and horizon); `POST /v1/checks` (token gated), which computes the answer, writes the check row, then the audit row, then returns the id; `GET /v1/checks` and `GET /v1/checks/{id}`; `POST /v1/score` (token gated), which scores stored checks whose next quarter has published against the realised payment share; `GET /v1/scorecard`; `GET /v1/audit`. Every response carries the statement and the rate attribution. A write without the token is refused with HTTP 401; a machine that is waking answers its first request with HTTP 503 and the site probes twice.
 
-The live deployment: not yet deployed.
+The live deployment: https://doorstep-housing-api.vercel.app, deployed and verified; model marts-247f8dbafa, 382 metros, latest period 2026Q2, rate default 7.32%. Verified from AJAY, Windows, PowerShell 5.1.26100.9711 at 2026-10-23T16:21:02.4811389Z: audit before response yes, statement present yes.
 
 ## What is stored
 
@@ -14,10 +14,10 @@ A check stores the metro code, the income rounded to the nearest thousand, the d
 
 ## Latency
 
-Live latency not measured. Local latency not measured.
+Live: POST /v1/checks p50 1,034 ms, p99 1,105 ms, max 1,105 ms; reads p50 101 ms, p99 1,095 ms; the first request after idle 104 ms; a burst of concurrent checks at most 2,251 ms; 40 requests at concurrency 6 on 2026-10-23T16:23:23.4429490Z. Local latency not measured.
 ## The site
 
-Static export of the Next.js app on GitHub Pages at not yet published, reading the committed marts in the browser through DuckDB-WASM. The test server (`web/scripts/serve.mjs`) refuses HEAD and answers the first mock API request with HTTP 503, the way the Pages host and a sleeping API behave, and the Playwright suite runs against it. The live check in a real browser (no browser yet, not yet): not checked, 0 of 0 routes loaded with the statement; with the API asleep: not observed.
+Static export of the Next.js app on GitHub Pages at https://mekala27-45.github.io/doorstep/, reading the committed marts in the browser through DuckDB-WASM. The test server (`web/scripts/serve.mjs`) refuses HEAD and answers the first mock API request with HTTP 503, the way the Pages host and a sleeping API behave, and the Playwright suite runs against it. The live check in a real browser (Claude desktop app browser (Chrome 152) on Windows 11, 2026-10-23T16:40:00Z): passed, 8 of 8 routes loaded with the statement; with the API asleep: answered on the second probe.
 
 ## Operations
 

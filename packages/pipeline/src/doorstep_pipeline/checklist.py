@@ -24,7 +24,7 @@ LINES: tuple[str, ...] = (
     "Chapters 1 and 2 with plan hashes, simulator recovery, results on the test years with intervals, the anchor sensitivity table, the overtaking quarter named, the lock in regression with its placebo",
     "Chapter 3: the burden shares by metro, year and income bracket with intervals; the changepoints named",
     "Chapter 5: the fair ranking with Monte Carlo intervals beside the raw ranking, the rank changes named, the simulator recovery",
-    "API deployed on Fly with Neon; live URL in the README; verified from a separate client, with the client response printed",
+    "API deployed on a free host with Neon; live URL in the README; verified from a separate client, with the client response printed",
     "Checks and scores observed from an independent connection; audit before response; the out of process check",
     "Chapter 4: the supply elasticity under both specifications with intervals and the recovery study beside it; chapter 7: the migration regression with its placebo and three synthetic controls with placebo inference",
     "Chapter 6: the borrower pool measures by year and metro with intervals",

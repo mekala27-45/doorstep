@@ -17,8 +17,8 @@ Can anyone still afford a home: a data story in 8 chapters, built on every metro
 
 ## Where it runs
 
-- The story and its pages: not yet published
-- The calculator's API: not yet deployed- The briefing: `report/briefing.md` and `report/briefing.html`
+- The story and its pages: https://mekala27-45.github.io/doorstep/
+- The calculator's API: https://doorstep-housing-api.vercel.app- The briefing: `report/briefing.md` and `report/briefing.html`
 
 ## In this release
 
@@ -30,4 +30,4 @@ Can anyone still afford a home: a data story in 8 chapters, built on every metro
 
 ## The definition of done
 
-14 of 18 lines done; not done: 7, 13, 14, 15. The README prints every line with its evidence.
+18 of 18 lines done. The README prints every line with its evidence.
