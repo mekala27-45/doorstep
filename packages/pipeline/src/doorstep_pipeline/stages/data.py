@@ -73,13 +73,26 @@ def run(p: Paths) -> Manifest:
     read_files.append(p.external / "fhfa" / "hpi_master.csv")
     fhfa_latest = fhfa.latest_period(flagged)
     source_latest["fhfa"] = fhfa_latest
-    s = Scribe(manifest, source="real:fhfa", population="every metropolitan area and division in the FHFA index", origin="data.fhfa")
+    s = Scribe(
+        manifest,
+        source="real:fhfa",
+        population="every metropolitan area and division in the FHFA index",
+        origin="data.fhfa",
+    )
     s.put("data.fhfa.rows", flagged.height, "int")
-    s.put("data.fhfa.areas_all_transactions", flagged.filter(pl.col("flavor") == "all-transactions")["place_id"].n_unique(), "int")
-    s.put("data.fhfa.areas_purchase_only", flagged.filter(pl.col("flavor") == "purchase-only")["place_id"].n_unique(), "int")
+    s.put(
+        "data.fhfa.areas_all_transactions",
+        flagged.filter(pl.col("flavor") == "all-transactions")["place_id"].n_unique(),
+        "int",
+    )
+    s.put(
+        "data.fhfa.areas_purchase_only",
+        flagged.filter(pl.col("flavor") == "purchase-only")["place_id"].n_unique(),
+        "int",
+    )
     s.put("data.fhfa.divisions", flagged.filter(pl.col("is_division"))["place_id"].n_unique(), "int")
     s.put("data.fhfa.latest_period", fhfa_latest, "quarter")
-    s.put("data.fhfa.first_year", int(flagged["year"].min()), "int")  # type: ignore[arg-type]
+    s.put("data.fhfa.first_year", int(flagged["year"].min()), "year")  # type: ignore[arg-type]
     s.put("data.fhfa.contract_digest", fhfa.DIGEST, "text")
     log.info("fhfa", rows=flagged.height, latest=fhfa_latest)
 
@@ -93,7 +106,9 @@ def run(p: Paths) -> Manifest:
     read_files.append(p.external / "pmms" / "historicalweeklydata.xlsx")
     latest_week, latest_rate = pmms.latest(flagged)
     source_latest["pmms"] = latest_week.isoformat()
-    s = Scribe(manifest, source="real:pmms", population="every weekly survey since April 1971", origin="data.pmms")
+    s = Scribe(
+        manifest, source="real:pmms", population="every weekly survey since April 1971", origin="data.pmms"
+    )
     s.put("data.pmms.weeks", flagged.height, "int")
     s.put("data.pmms.latest_week", latest_week.isoformat(), "text")
     s.put("data.pmms.latest_rate", latest_rate, "rate2")
@@ -114,17 +129,28 @@ def run(p: Paths) -> Manifest:
     flagged_il, report = hud.quarantine_il(il)
     reports.append(report)
     write_parquet(flagged_il, derived / "hud_income_limits.parquet")
-    read_files.extend(sorted((p.external / "hud").glob("*.xls*")) + sorted((p.external / "hud").glob("*.csv")))
+    read_files.extend(
+        sorted((p.external / "hud").glob("*.xls*")) + sorted((p.external / "hud").glob("*.csv"))
+    )
     source_latest["hud_fmr"] = f"FY{fmr_fy}"
     source_latest["hud_il"] = f"FY{max(il_years)}"
-    s = Scribe(manifest, source="real:hud", population="every county HUD publishes a Fair Market Rent or an income limit for", origin="data.hud")
-    s.put("data.hud.fmr_fiscal_year", fmr_fy, "int")
+    s = Scribe(
+        manifest,
+        source="real:hud",
+        population="every county HUD publishes a Fair Market Rent or an income limit for",
+        origin="data.hud",
+    )
+    s.put("data.hud.fmr_fiscal_year", fmr_fy, "year")
     s.put("data.hud.fmr_counties", flagged.height, "int")
-    s.put("data.hud.fmr_metros", flagged.filter(pl.col("cbsa_code").is_not_null())["cbsa_code"].n_unique(), "int")
+    s.put(
+        "data.hud.fmr_metros",
+        flagged.filter(pl.col("cbsa_code").is_not_null())["cbsa_code"].n_unique(),
+        "int",
+    )
     s.put("data.hud.fmr_history_years", hist_years, "int")
     s.put("data.hud.income_limit_years", len(il_years), "int")
-    s.put("data.hud.income_limit_first_year", min(il_years), "int")
-    s.put("data.hud.income_limit_last_year", max(il_years), "int")
+    s.put("data.hud.income_limit_first_year", min(il_years), "year")
+    s.put("data.hud.income_limit_last_year", max(il_years), "year")
     s.put("data.hud.contract_digest", hud.DIGEST, "text")
 
     # Permits
@@ -136,13 +162,15 @@ def run(p: Paths) -> Manifest:
     full_years = flagged.filter(pl.col("partial_through_month").is_null())
     ytd = flagged.filter(pl.col("partial_through_month").is_not_null())
     source_latest["bps"] = (
-        f"{int(ytd['year'].max())} through month {int(ytd['partial_through_month'].max())}" if ytd.height else str(int(full_years["year"].max()))  # type: ignore[arg-type]
+        f"{int(ytd['year'].max())} through month {int(ytd['partial_through_month'].max())}"
+        if ytd.height
+        else str(int(full_years["year"].max()))  # type: ignore[arg-type]
     )
     s = Scribe(manifest, source="real:bps", population="every permit issuing county", origin="data.bps")
     s.put("data.bps.rows", flagged.height, "int")
-    s.put("data.bps.first_year", int(full_years["year"].min()), "int")  # type: ignore[arg-type]
-    s.put("data.bps.last_full_year", int(full_years["year"].max()), "int")  # type: ignore[arg-type]
-    s.put("data.bps.ytd_year", int(ytd["year"].max()) if ytd.height else None, "int")  # type: ignore[arg-type]
+    s.put("data.bps.first_year", int(full_years["year"].min()), "year")  # type: ignore[arg-type]
+    s.put("data.bps.last_full_year", int(full_years["year"].max()), "year")  # type: ignore[arg-type]
+    s.put("data.bps.ytd_year", int(ytd["year"].max()) if ytd.height else None, "year")  # type: ignore[arg-type]
     s.put("data.bps.ytd_month", int(ytd["partial_through_month"].max()) if ytd.height else None, "int")  # type: ignore[arg-type]
     s.put("data.bps.contract_digest", permits.DIGEST, "text")
 
@@ -160,10 +188,15 @@ def run(p: Paths) -> Manifest:
     write_parquet(metros, derived / "popest_metro_published.parquet")
     read_files.extend(sorted((p.external / "popest").glob("*.csv")))
     source_latest["popest"] = str(int(latest["year"].max()))  # type: ignore[arg-type]
-    s = Scribe(manifest, source="real:popest", population="every county, 2000 to the latest vintage", origin="data.popest")
+    s = Scribe(
+        manifest,
+        source="real:popest",
+        population="every county, 2000 to the latest vintage",
+        origin="data.popest",
+    )
     s.put("data.popest.rows", latest.height, "int")
-    s.put("data.popest.first_year", int(latest["year"].min()), "int")  # type: ignore[arg-type]
-    s.put("data.popest.last_year", int(latest["year"].max()), "int")  # type: ignore[arg-type]
+    s.put("data.popest.first_year", int(latest["year"].min()), "year")  # type: ignore[arg-type]
+    s.put("data.popest.last_year", int(latest["year"].max()), "year")  # type: ignore[arg-type]
     s.put("data.popest.vintages", flagged["vintage"].n_unique(), "int")
     s.put("data.popest.contract_digest", population.DIGEST, "text")
 
@@ -172,15 +205,32 @@ def run(p: Paths) -> Manifest:
     flagged, report = geography.quarantine(frame)
     reports.append(report)
     write_parquet(flagged, derived / "delineations.parquet")
+    delineations = flagged
     gaz = geography.parse_gazetteer(p.external)
     write_parquet(gaz, derived / "gazetteer.parquet")
-    read_files.extend(sorted((p.external / "delineations").glob("*.xls*")) + sorted((p.external / "gazetteer").glob("*.zip")))
+    read_files.extend(
+        sorted((p.external / "delineations").glob("*.xls*"))
+        + sorted((p.external / "gazetteer").glob("*.zip"))
+    )
     latest_v = geography.latest_vintage(flagged)
-    s = Scribe(manifest, source="real:omb", population="every county in every delineation vintage the window crosses", origin="data.omb")
+    s = Scribe(
+        manifest,
+        source="real:omb",
+        population="every county in every delineation vintage the window crosses",
+        origin="data.omb",
+    )
     s.put("data.omb.vintages", flagged["vintage"].n_unique(), "int")
     s.put("data.omb.latest_vintage", latest_v, "int")
-    s.put("data.omb.metropolitan_areas", geography.areas(flagged, latest_v).filter(pl.col("kind") == "metropolitan").height, "int")
-    s.put("data.omb.micropolitan_areas", geography.areas(flagged, latest_v).filter(pl.col("kind") == "micropolitan").height, "int")
+    s.put(
+        "data.omb.metropolitan_areas",
+        geography.areas(flagged, latest_v).filter(pl.col("kind") == "metropolitan").height,
+        "int",
+    )
+    s.put(
+        "data.omb.micropolitan_areas",
+        geography.areas(flagged, latest_v).filter(pl.col("kind") == "micropolitan").height,
+        "int",
+    )
     s.put("data.omb.contract_digest", geography.DIGEST, "text")
 
     # ACS (optional until the fetch lands; the warehouse refuses to build without it)
@@ -195,20 +245,29 @@ def run(p: Paths) -> Manifest:
         read_files.extend(sorted(acs_dir.glob("*/*.json")))
         years = acs.years_present(flagged)
         source_latest["acs"] = str(max(years))
-        s = Scribe(manifest, source="real:acs", population="every metropolitan and micropolitan area the one year release covers", origin="data.acs")
+        s = Scribe(
+            manifest,
+            source="real:acs",
+            population="every metropolitan and micropolitan area the one year release covers",
+            origin="data.acs",
+        )
         s.put("data.acs.rows", flagged.height, "int")
         s.put("data.acs.years", len(years), "int")
-        s.put("data.acs.first_year", min(years), "int")
-        s.put("data.acs.last_year", max(years), "int")
+        s.put("data.acs.first_year", min(years), "year")
+        s.put("data.acs.last_year", max(years), "year")
         s.put("data.acs.tables", flagged["table"].n_unique(), "int")
         s.put("data.acs.areas_latest", cov.filter(pl.col("year") == max(years))["areas"].max(), "int")
         s.put("data.acs.gap_2020", 1 if 2020 not in years else 0, "int")
+        missing = sorted(set(range(min(years), max(years) + 1)) - set(years))
+        s.put("data.acs.gap_years", ", ".join(str(y) for y in missing) if missing else "none", "text")
+        s.put("data.acs.gap_year", str(missing[0]) if missing else "none", "text")
         s.put("data.acs.contract_digest", acs.DIGEST, "text")
     else:
         log.info("acs", status="not fetched yet")
 
     # HMDA (optional until the fetch lands)
     hmda_years = hmda.years_available(p.external)
+    metro_counties = set(delineations["county_fips"].cast(pl.Utf8).to_list())
     if hmda_years:
         con = connect(p, memory_limit="3GB", threads=2)
         p.hmda.mkdir(parents=True, exist_ok=True)
@@ -218,18 +277,60 @@ def run(p: Paths) -> Manifest:
         for year in hmda_years:
             summary = hmda.fetch_summary(p.external, year)
             fetch_total += int(summary.get("rows_total", 0))  # type: ignore[arg-type]
-            frame = hmda.read_year(con, p.external, year)
-            flagged, report = hmda.quarantine(frame)
+            # The year's parquet is kept when the parts it was made from have not changed: the cache key is the
+            # digest of every part's name and size with the contract digest, so a new part or a new rule misses.
+            key = _hmda_cache_key(p.external, year, metro_counties)
+            target = p.hmda / f"lar_{year}.parquet"
+            sidecar = p.hmda / f"lar_{year}.quarantine.parquet"
+            keyfile = p.hmda / f"lar_{year}.key"
+            if target.exists() and sidecar.exists() and keyfile.exists() and keyfile.read_text() == key:
+                report = pl.read_parquet(sidecar)
+                log.info("hmda", year=year, cache="hit")
+            else:
+                # A part at a time: a year is up to fourteen million rows, and the frame plus its flags would not
+                # fit beside the warehouse. Each part is typed, flagged and written; the year's parquet is then
+                # written by DuckDB streaming the parts, and the report is the sum over parts.
+                part_files: list[Path] = []
+                part_reports: list[pl.DataFrame] = []
+                for i, part in enumerate(hmda.parts_of(p.external, year)):
+                    frame = hmda.read_part(con, part, year)
+                    flagged_part, part_report = hmda.quarantine(frame, metro_counties)
+                    out = p.hmda / f"lar_{year}_part{i:03d}.parquet"
+                    write_parquet(flagged_part, out)
+                    part_files.append(out)
+                    part_reports.append(part_report)
+                    del frame, flagged_part
+                con.execute(
+                    f"copy (select * from read_parquet({[f.as_posix() for f in part_files]!r})) "
+                    f"to '{target.as_posix()}' (format parquet, compression zstd)"
+                )
+                for f in part_files:
+                    f.unlink()
+                report = (
+                    pl.concat(part_reports)
+                    .group_by(["source", "rule", "year"], maintain_order=True)
+                    .agg(pl.col("flagged").sum(), pl.col("rows").sum())
+                )
+                write_parquet(report, sidecar)
+                keyfile.write_text(key)
+                log.info("hmda", year=year, parts=len(part_files), cache="miss")
             reports.append(report)
-            write_parquet(flagged, p.hmda / f"lar_{year}.parquet")
-            total_rows += flagged.height
-            kept_rows += flagged.filter(hmda.analysis_rows()).height
-            log.info("hmda", year=year, rows=flagged.height)
+            counted = con.execute(
+                f"select count(*), count(*) filter (where {hmda.ANALYSIS_SQL}) from read_parquet('{target.as_posix()}')"
+            ).fetchone()
+            assert counted is not None
+            total_rows += int(counted[0])
+            kept_rows += int(counted[1])
         read_files.extend(sorted((p.external / "hmda").glob("*/lar_part*.csv.gz")))
         source_latest["hmda"] = str(max(hmda_years))
-        s = Scribe(manifest, source="real:hmda", population="every originated purchase or refinance loan on a principal residence, every year fetched", origin="data.hmda")
-        s.put("data.hmda.first_year", min(hmda_years), "int")
-        s.put("data.hmda.last_year", max(hmda_years), "int")
+        s = Scribe(
+            manifest,
+            source="real:hmda",
+            population="every originated purchase or refinance loan on a principal residence, every year fetched",
+            origin="data.hmda",
+        )
+        s.put("data.hmda.first_year", min(hmda_years), "year")
+        s.put("data.hmda.last_year", max(hmda_years), "year")
         s.put("data.hmda.years", len(hmda_years), "int")
         s.put("data.hmda.rows_in_source_files", fetch_total, "int")
         s.put("data.hmda.rows_after_fetch_filter", total_rows, "int")
@@ -244,7 +345,11 @@ def run(p: Paths) -> Manifest:
     quarantine = pl.concat(reports)
     (p.results / "data").mkdir(parents=True, exist_ok=True)
     write_parquet(quarantine, p.results / "data" / "quarantine.parquet")
-    totals = quarantine.group_by(["source", "rule"]).agg(pl.col("flagged").sum(), pl.col("rows").sum()).sort(["source", "rule"])
+    totals = (
+        quarantine.group_by(["source", "rule"])
+        .agg(pl.col("flagged").sum(), pl.col("rows").sum())
+        .sort(["source", "rule"])
+    )
     s = Scribe(manifest, source="mixed", population="every row of every source", origin="data.quarantine")
     s.table(
         "data.quarantine.by_rule",
@@ -259,14 +364,38 @@ def run(p: Paths) -> Manifest:
     s.put("data.ledger.bytes", sum(int(r["bytes"]) for r in ledger), "int")
     for name, value in sorted(source_latest.items()):
         s.put(f"data.latest.{name}", value, "text")
-    s.put("data.window.start_year", POLICY.window_start_year, "int")
+    s.put("data.window.start_year", POLICY.window_start_year, "year")
     status = _fetch_status(p)
     s.put("data.fetch.status_files", len(status), "int")
     save_partial(p, "data", manifest)
     return manifest
 
 
+def _hmda_cache_key(external: Path, year: int, metro_counties: set[str]) -> str:
+    """Names and sizes of the year's parts with the contract digest and the metro county set; the sidecar is
+    kept while it matches."""
+    import hashlib
+
+    h = hashlib.sha256()
+    for part in sorted((external / "hmda" / str(year)).glob("lar_part*.csv.gz")):
+        h.update(f"{part.name}:{part.stat().st_size}\n".encode())
+    h.update(hmda.DIGEST.encode())
+    h.update(",".join(sorted(metro_counties)).encode())
+    return h.hexdigest()
+
+
 def require_sources(p: Paths) -> None:
-    missing = [name for name in ("fhfa_quarterly", "pmms_quarterly", "acs_long", "bps_county", "popest_county", "delineations") if not (p.derived / f"{name}.parquet").exists()]
+    missing = [
+        name
+        for name in (
+            "fhfa_quarterly",
+            "pmms_quarterly",
+            "acs_long",
+            "bps_county",
+            "popest_county",
+            "delineations",
+        )
+        if not (p.derived / f"{name}.parquet").exists()
+    ]
     if missing:
         raise ContractError(f"derived sources missing: {missing}; run `doorstep data` after the fetch")

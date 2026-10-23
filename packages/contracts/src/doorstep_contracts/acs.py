@@ -166,6 +166,9 @@ def parse(external: Path) -> pl.DataFrame:
             if not text.strip():
                 continue
             payload = json.loads(text)
+            if isinstance(payload, dict) and isinstance(payload.get("value"), list) and "Count" in payload:
+                # PowerShell's ConvertTo-Json wraps an array it was handed by name as {value, Count}.
+                payload = payload["value"]
             if isinstance(payload, list):
                 rows.extend(_parse_census(payload, year, table, is_national))
             elif isinstance(payload, dict):

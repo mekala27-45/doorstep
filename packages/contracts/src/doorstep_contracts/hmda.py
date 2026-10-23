@@ -66,8 +66,9 @@ RULES = (
     ),
     Rule(
         "metro_unresolved",
-        "a metro code that is not five digits or is the 99999 code for no metro",
-        lambda f: pl.col("msa_md").is_null() | (pl.col("msa_md") == "99999"),
+        "a loan whose county is in no metropolitan or micropolitan area of any delineation vintage and whose "
+        "reported metro code is missing or the 99999 code for no metro",
+        lambda f: ~pl.col("county_in_metro") & (pl.col("msa_md").is_null() | (pl.col("msa_md") == "99999")),
     ),
     Rule(
         "not_principal_residence",
@@ -106,12 +107,25 @@ def fetch_summary(external: Path, year: int) -> dict[str, object]:
     return loaded
 
 
-def read_year(con: duckdb.DuckDBPyConnection, external: Path, year: int) -> pl.DataFrame:
+def parts_of(external: Path, year: int) -> list[Path]:
     folder = external / "hmda" / str(year)
     parts = sorted(folder.glob("lar_part*.csv.gz"))
     if not parts:
         raise ContractError(f"no HMDA parts for {year} under {folder}")
-    glob = (folder / "lar_part*.csv.gz").as_posix()
+    return parts
+
+
+def read_year(con: duckdb.DuckDBPyConnection, external: Path, year: int) -> pl.DataFrame:
+    """Every part of the year in one frame; the data stage reads a part at a time instead (``read_part``)
+    because a full year is fourteen million rows and the machine is not."""
+    folder = external / "hmda" / str(year)
+    parts_of(external, year)
+    return read_part(con, folder / "lar_part*.csv.gz", year)
+
+
+def read_part(con: duckdb.DuckDBPyConnection, path: Path, year: int) -> pl.DataFrame:
+    """One part file (or a glob of them) typed through the contract."""
+    glob = path.as_posix()
     sql = f"""
     select
         {year}::bigint as year,
@@ -140,13 +154,29 @@ def read_year(con: duckdb.DuckDBPyConnection, external: Path, year: int) -> pl.D
     """
     frame: pl.DataFrame = con.execute(sql).pl()
     if frame.height == 0:
-        raise ContractError(f"HMDA {year} read to zero rows")
+        raise ContractError(f"HMDA {year} read to zero rows from {glob}")
     return frame
 
 
-def quarantine(frame: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
-    flagged, report = apply_rules(frame, RULES, "hmda", "year")
-    return flagged, report.frame()
+ANALYSIS_SQL = "not q_not_principal_residence and not q_reverse_open_or_business and not q_metro_unresolved"
+"""The analysis filter as SQL, the same condition as ``analysis_rows`` for a query over the year's parquet."""
+
+
+def quarantine(
+    frame: pl.DataFrame, metro_counties: set[str] | None = None
+) -> tuple[pl.DataFrame, pl.DataFrame]:
+    """Flag every row by every rule. ``metro_counties`` is the set of county FIPS codes that belong to a
+    metropolitan or micropolitan area in any delineation vintage; the warehouse maps a loan to its area through
+    the vintage of its year, so a loan is unresolved only when its county is in no area and the reported metro
+    code is missing. Without the set, every loan with a county code counts as resolvable."""
+    if metro_counties is None:
+        in_metro = pl.col("county_fips").is_not_null()
+    else:
+        in_metro = pl.col("county_fips").is_in(sorted(metro_counties))
+    flagged, report = apply_rules(
+        frame.with_columns(in_metro.fill_null(False).alias("county_in_metro")), RULES, "hmda", "year"
+    )
+    return flagged.drop("county_in_metro"), report.frame()
 
 
 def purchase_filter() -> pl.Expr:
