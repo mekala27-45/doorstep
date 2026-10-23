@@ -16,10 +16,13 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
-# Roles map to the palette in web/src/theme/palette.json: ink is the actual, delay is vermilion
-# (slot one), early is blue (slot two), adjusted is slot three, control is the control gray, and cat4
-# to cat8 are the remaining categorical slots in their committed order.
-ROLES = ("ink", "delay", "early", "adjusted", "control", "cat4", "cat5", "cat6", "cat7", "cat8")
+# Roles map to the palette in web/src/theme/palette.json: ink is income and the actual; owning (slot one,
+# green) is owning, the price and the payment; renting (slot two, clay) is renting and the rent; adjusted
+# (slot three, slate blue) is the adjusted measure beside the raw one in the control gray; burden is slot
+# four (the cost burden bands); rate is slot five (the mortgage rate); supply is slot six (permits); people
+# is slot seven (population and migration); borrowers is slot eight.
+ROLES = ("ink", "owning", "renting", "adjusted", "control", "burden", "rate", "supply", "people", "borrowers")
+KINDS = ("line", "multiples", "area", "bars", "scatter", "slope", "curves", "histogram")
 
 
 def _clean(value: Any) -> Any:
@@ -79,7 +82,7 @@ class State:
 @dataclass
 class Chart:
     id: str
-    kind: str
+    kind: str  # one of KINDS
     message: str
     subtitle: str
     source: str
@@ -93,6 +96,10 @@ class Chart:
     table_columns: list[str]
     table_rows: list[list[Any]]
     notes: list[str] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        if self.kind not in KINDS:
+            raise ValueError(f"unknown chart kind {self.kind!r}")
 
     def write(self, directory: Path) -> Path:
         directory.mkdir(parents=True, exist_ok=True)

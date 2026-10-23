@@ -20,7 +20,9 @@ def test_block_bootstrap_interval_covers_the_population_ratio() -> None:
     blocks = 200
     num = rng.poisson(30, blocks).astype(float)
     den = np.full(blocks, 100.0)
-    iv = block_bootstrap(np.arange(blocks), np.column_stack([num, den]), ratio(0, 1), replicates=300, seed=1, label="t")
+    iv = block_bootstrap(
+        np.arange(blocks), np.column_stack([num, den]), ratio(0, 1), replicates=300, seed=1, label="t"
+    )
     assert iv.low <= iv.estimate <= iv.high
     assert iv.low <= 0.30 <= iv.high
     assert iv.replicates == 300 and iv.blocks == blocks

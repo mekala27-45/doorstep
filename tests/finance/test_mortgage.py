@@ -61,7 +61,9 @@ def test_affordable_price_inverts_the_payment_share() -> None:
 
 
 def test_principal_for_payment_is_the_inverse_of_payment() -> None:
-    assert principal_for_payment(payment(312_345.67, 5.25, 30), 5.25, 30) == pytest.approx(312_345.67, abs=1e-6)
+    assert principal_for_payment(payment(312_345.67, 5.25, 30), 5.25, 30) == pytest.approx(
+        312_345.67, abs=1e-6
+    )
 
 
 @given(st.floats(min_value=50_000, max_value=2_000_000), st.floats(min_value=0.5, max_value=12.0))

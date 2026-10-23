@@ -2,48 +2,50 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import polars as pl
 from doorstep_core.frames import num
 from doorstep_core.manifest import Manifest, Scribe
 from doorstep_core.paths import Paths
-from doorstep_evaluation.recovery import conditions, run_definition_study, run_study
+from doorstep_evaluation.recovery import ESTIMATOR_NOTES, by_estimator, run_study, summarise
+from doorstep_sim.metros import conditions
 
 from doorstep_pipeline.common import new_partial, save_partial
 
 SEEDS = 20
 
+# Which estimators the page groups under each chapter, in the order the small multiples are drawn.
+CHAPTER_ESTIMATORS: dict[int, tuple[str, ...]] = {
+    1: ("anchored_payment_share", "anchored_level", "self_report_correction"),
+    2: ("lock_in_did", "lock_in_placebo"),
+    3: ("burden_changepoint", "severe_share"),
+    4: ("supply_controlled", "supply_uncontrolled"),
+    5: ("ranking_adjusted", "bracket_interpolation"),
+    6: ("borrower_ratio_shift", "under_35_shift"),
+    7: ("migration_effect", "migration_placebo"),
+    8: ("breakeven_horizon",),
+}
 
-def summarise(records: pl.DataFrame) -> pl.DataFrame:
-    return (
-        records.group_by("condition")
-        .agg(
-            pl.len().alias("seeds"),
-            pl.col("padding_mae").mean(),
-            pl.col("padding_bias").mean(),
-            (pl.col("changepoints_found").sum() / pl.col("changepoints_true").sum()).alias(
-                "changepoint_recall"
-            ),
-            pl.col("changepoint_date_error_days").mean().alias("changepoint_date_error"),
-            pl.col("changepoints_false").mean().alias("changepoints_false"),
-            (pl.col("rho_hat") - pl.col("rho_true")).mean().alias("rho_bias"),
-            pl.col("rho_covered").mean().alias("rho_coverage"),
-            (pl.col("min_turn_hat") == pl.col("min_turn_true")).mean().alias("min_turn_exact"),
-            (pl.col("inherited_share_hat") - pl.col("inherited_share_true")).mean().alias("inherited_error"),
-            pl.col("rank_raw").mean(),
-            pl.col("rank_adjusted").mean(),
-            pl.col("ranking_mae").mean(),
-            (pl.col("weather_share_hat") - pl.col("weather_share_true")).mean().alias("weather_error"),
-            pl.col("weather_covered").mean().alias("weather_coverage"),
-            pl.col("weather_reported_share").mean().alias("weather_reported"),
-            pl.col("weather_share_true").mean().alias("weather_true"),
-            (pl.col("bunching_false_positive").sum() / pl.col("bunching_clean").sum()).alias("bunching_fpr"),
-            (pl.col("bunching_detected").sum() / pl.col("bunching_planted").sum()).alias("bunching_power"),
-            pl.col("detector_recall").mean(),
-            pl.col("detector_precision").mean(),
-            pl.col("detector_lag_days").mean().alias("detector_lag"),
-        )
-        .sort("condition")
-    )
+FORMATS: dict[str, tuple[str, str]] = {
+    # estimator: (format of the estimate and bias, format of the truth)
+    "anchored_payment_share": ("pts2", "pct1"),
+    "anchored_level": ("sfloat3", "float1"),
+    "self_report_correction": ("sfloat3", "float3"),
+    "lock_in_did": ("sfloat4", "sfloat3"),
+    "lock_in_placebo": ("sfloat4", "sfloat3"),
+    "burden_changepoint": ("sfloat1", "int"),
+    "severe_share": ("pts2", "pct1"),
+    "supply_controlled": ("sfloat4", "sfloat3"),
+    "supply_uncontrolled": ("sfloat4", "sfloat3"),
+    "ranking_adjusted": ("sfloat3", "float1"),
+    "bracket_interpolation": ("apts1", "pct0"),
+    "borrower_ratio_shift": ("sfloat3", "sfloat2"),
+    "under_35_shift": ("pts2", "pct0"),
+    "migration_effect": ("spct2", "pct1"),
+    "migration_placebo": ("spct2", "pct1"),
+    "breakeven_horizon": ("float2", "float1"),
+}
 
 
 def run(p: Paths, *, seeds: int = SEEDS, workers: int = 2, use_cache: bool = True) -> Manifest:
@@ -51,9 +53,12 @@ def run(p: Paths, *, seeds: int = SEEDS, workers: int = 2, use_cache: bool = Tru
     records = pl.DataFrame(run_study(seeds, workers=workers, cache_dir=cache), infer_schema_length=None)
     out = p.results / "recovery"
     out.mkdir(parents=True, exist_ok=True)
+    records = records.sort(["estimator", "condition", "seed"])
     records.write_parquet(out / "records.parquet", compression="zstd")
     summary = summarise(records)
     summary.write_parquet(out / "summary.parquet", compression="zstd")
+    estimators = by_estimator(summary)
+    estimators.write_parquet(out / "estimators.parquet", compression="zstd")
 
     manifest = new_partial("recovery")
     s = Scribe(
@@ -65,133 +70,108 @@ def run(p: Paths, *, seeds: int = SEEDS, workers: int = 2, use_cache: bool = Tru
     )
     s.put("recovery.seeds", seeds, "int")
     s.put("recovery.conditions", len(conditions()), "int")
-    s.put("recovery.runs", records.height, "int")
-    s.put("recovery.flights_per_run", int(num(records["flights"].median())), "int")
-    s.put("recovery.padding_mae", num(records["padding_mae"].mean()), "min2")
-    s.put("recovery.changepoint_recall", num(summary["changepoint_recall"].mean()), "pct0")
-    s.put(
-        "recovery.changepoint_date_error",
-        num(records["changepoint_date_error_days"].mean()),
-        "days1",
-    )
-    s.put("recovery.changepoints_false", num(records["changepoints_false"].mean()), "float2")
-    for level in (0.8, 1.0):
-        sub = records.filter(pl.col("rho_true") == level)
-        tag = "weak" if level < 1 else "strong"
-        s.put(f"recovery.rho_bias.{tag}", num((sub["rho_hat"] - sub["rho_true"]).mean()), "sfloat3")
-        s.put(f"recovery.rho_coverage.{tag}", num(sub["rho_covered"].mean()), "pct0")
-    s.put(
-        "recovery.min_turn_exact",
-        num((records["min_turn_hat"] == records["min_turn_true"]).mean()),
-        "pct0",
-    )
-    s.put(
-        "recovery.inherited_error",
-        num((records["inherited_share_hat"] - records["inherited_share_true"]).abs().mean()),
-        "apts1",
-    )
-    for strength in ("none", "moderate", "strong"):
-        sub = records.filter(pl.col("condition").str.starts_with(f"confounding {strength}"))
-        s.put(f"recovery.rank_raw.{strength}", num(sub["rank_raw"].mean()), "float2")
-        s.put(f"recovery.rank_adjusted.{strength}", num(sub["rank_adjusted"].mean()), "float2")
-    s.put(
-        "recovery.weather_error",
-        num((records["weather_share_hat"] - records["weather_share_true"]).abs().mean()),
-        "apts1",
-    )
-    s.put(
-        "recovery.weather_bias",
-        num((records["weather_share_hat"] - records["weather_share_true"]).mean()),
-        "pts1",
-    )
-    s.put("recovery.weather_coverage", num(records["weather_covered"].mean()), "pct0")
-    s.put("recovery.weather_true", num(records["weather_share_true"].mean()), "pct1")
-    s.put("recovery.weather_reported", num(records["weather_reported_share"].mean()), "pct1")
-    s.put(
-        "recovery.bunching_fpr",
-        num(records["bunching_false_positive"].sum()) / num(records["bunching_clean"].sum()),
-        "pct1",
-    )
-    s.put(
-        "recovery.bunching_power",
-        num(records["bunching_detected"].sum()) / num(records["bunching_planted"].sum()),
-        "pct0",
-    )
-    s.put("recovery.detector_recall", num(records["detector_recall"].mean()), "pct0")
-    s.put("recovery.detector_precision", num(records["detector_precision"].mean()), "pct0")
-    s.put("recovery.detector_lag", num(records["detector_lag_days"].mean()), "days1")
+    s.put("recovery.worlds", int(records.select(["condition", "seed"]).unique().height), "int")
+    s.put("recovery.estimators", int(records["estimator"].n_unique()), "int")
+    s.put("recovery.grades", records.height, "int")
+    for row in estimators.iter_rows(named=True):
+        name = str(row["estimator"])
+        fmt_est, fmt_truth = FORMATS.get(name, ("float3", "float3"))
+        s.put(f"recovery.{name}.mean_bias", num(row["mean_bias"]), fmt_est)
+        s.put(
+            f"recovery.{name}.mean_rmse",
+            num(row["mean_rmse"]),
+            fmt_est.replace("s", "", 1) if fmt_est.startswith("s") else fmt_est,
+        )
+        s.put(f"recovery.{name}.mean_coverage", row["mean_coverage"], "pct0")
+        s.put(f"recovery.{name}.mean_flag_rate", row["mean_flag_rate"], "pct0")
+        s.put(f"recovery.{name}.worst_bias", num(row["worst_bias"]), fmt_est)
+        s.put(f"recovery.{name}.worst_bias_condition", str(row["worst_bias_condition"]), "text")
+        s.put(f"recovery.{name}.lowest_coverage", row["lowest_coverage"], "pct0")
+        s.put(
+            f"recovery.{name}.lowest_coverage_condition",
+            str(row["lowest_coverage_condition"] or "none"),
+            "text",
+        )
+        s.put(f"recovery.{name}.note", ESTIMATOR_NOTES.get(name, ""), "text")
+        truth = summary.filter(pl.col("estimator") == name)["truth"].mean()
+        s.put(f"recovery.{name}.truth", num(truth) if truth is not None else None, fmt_truth)
+    # The reverse causality contrast the migration chapter has to admit in print
+    mig = summary.filter(pl.col("estimator") == "migration_effect")
+    for level in ("none", "mild", "strong"):
+        sub = mig.filter(pl.col("reverse_causality") == level)
+        s.put(f"recovery.migration.{level}.bias", num(sub["bias"].mean()) if sub.height else None, "spct2")
+        s.put(
+            f"recovery.migration.{level}.coverage",
+            num(sub["coverage"].mean()) if sub.height else None,
+            "pct0",
+        )
+        s.put(
+            f"recovery.migration.{level}.flag_rate",
+            num(sub["flag_rate"].mean()) if sub.height else None,
+            "pct0",
+        )
+    sup = summary.filter(pl.col("estimator").is_in(["supply_controlled", "supply_uncontrolled"]))
+    for level in ("weak", "strong"):
+        for est in ("supply_controlled", "supply_uncontrolled"):
+            sub = sup.filter((pl.col("demand_strength") == level) & (pl.col("estimator") == est))
+            s.put(
+                f"recovery.{est}.{level}_demand.bias",
+                num(sub["bias"].mean()) if sub.height else None,
+                "sfloat4",
+            )
+    rank = summary.filter(pl.col("estimator") == "ranking_adjusted")
+    s.put("recovery.ranking.adjusted", num(rank["estimate"].mean()) if rank.height else None, "float3")
+    s.put("recovery.ranking.raw", num(rank["flag_rate"].mean()) if rank.height else None, "float3")
+    worst = estimators.sort("lowest_coverage", nulls_last=True).row(0, named=True)
+    s.put("recovery.worst.estimator", str(worst["estimator"]), "text")
+    s.put("recovery.worst.condition", str(worst["lowest_coverage_condition"]), "text")
 
-    definition = pl.DataFrame(run_definition_study(seeds, workers=workers, cache_dir=cache))
-    definition.write_parquet(out / "definition.parquet", compression="zstd")
-    s.put(
-        "recovery.definition.sched_error",
-        num((definition["sched_change_hat"] - definition["sched_change_true"]).abs().mean()),
-        "min2",
-    )
-    s.put("recovery.definition.actual_coverage", num(definition["actual_covers_zero"].mean()), "pct0")
-    s.put("recovery.definition.seeds", definition.height, "int")
-
-    worst = {
-        "padding": summary.sort("padding_mae", descending=True)["condition"][0],
-        "propagation": summary.sort("rho_coverage")["condition"][0],
-        "ranking": summary.sort("rank_adjusted")["condition"][0],
-        "raw_ranking": summary.sort("rank_raw")["condition"][0],
-        "bunching": summary.sort("bunching_power")["condition"][0],
-        "detector": summary.sort("detector_precision")["condition"][0],
-        "weather": summary.sort("weather_coverage")["condition"][0],
-    }
-    for name, condition in worst.items():
-        s.put(f"recovery.worst.{name}", condition, "text")
+    rows: list[list[Any]] = []
+    for row in summary.sort(["estimator", "condition"]).iter_rows(named=True):
+        rows.append(
+            [
+                row["estimator"],
+                row["condition"],
+                int(row["seeds"]),
+                row["bias"],
+                row["rmse"],
+                row["coverage"],
+                row["flag_rate"],
+            ]
+        )
     s.table(
         "recovery.by_condition",
+        ["Estimator", "Condition", "Seeds", "Bias", "RMSE", "Coverage", "Flag rate"],
+        ["text", "text", "int", "sfloat4", "float4", "pct0", "pct0"],
+        rows,
+    )
+    est_rows = [
         [
-            "Condition",
-            "Padding error",
-            "Changepoint date error",
-            "Rho bias",
-            "Rho coverage",
-            "Inherited share error",
-            "Raw rank correlation",
-            "Adjusted rank correlation",
-            "Bunching false positives",
-            "Bunching power",
-            "Weather share error",
-            "Weather coverage",
-            "Detector precision",
-        ],
+            r["estimator"],
+            r["mean_bias"],
+            r["mean_rmse"],
+            r["mean_coverage"],
+            r["mean_flag_rate"],
+            r["worst_bias_condition"],
+            r["lowest_coverage"],
+            r["lowest_coverage_condition"],
+        ]
+        for r in estimators.iter_rows(named=True)
+    ]
+    s.table(
+        "recovery.by_estimator",
         [
-            "text",
-            "min2",
-            "days1",
-            "sfloat3",
-            "pct0",
-            "pts1",
-            "float2",
-            "float2",
-            "pct1",
-            "pct0",
-            "pts1",
-            "pct0",
-            "pct0",
+            "Estimator",
+            "Mean bias",
+            "Mean RMSE",
+            "Mean coverage",
+            "Mean flag rate",
+            "Worst bias under",
+            "Lowest coverage",
+            "Lowest coverage under",
         ],
-        [
-            [
-                r["condition"],
-                r["padding_mae"],
-                r["changepoint_date_error"],
-                r["rho_bias"],
-                r["rho_coverage"],
-                r["inherited_error"],
-                r["rank_raw"],
-                r["rank_adjusted"],
-                r["bunching_fpr"],
-                r["bunching_power"],
-                r["weather_error"],
-                r["weather_coverage"],
-                r["detector_precision"],
-            ]
-            for r in summary.iter_rows(named=True)
-        ],
+        ["text", "sfloat4", "float4", "pct0", "pct0", "text", "pct0", "text"],
+        est_rows,
     )
     save_partial(p, "recovery", manifest)
     return manifest
