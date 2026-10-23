@@ -1,0 +1,22 @@
+[project]
+name = "doorstep-evaluation"
+version = "0.1.0"
+description = "The recovery study: every estimator graded on simulated metros with known truth, by condition and seed"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+dependencies = [
+  "doorstep-core",
+  "doorstep-sim",
+  "doorstep-stats",
+  "doorstep-chapters",
+  "doorstep-finance",
+  "numpy>=1.26",
+  "polars>=1.10",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/doorstep_evaluation"]

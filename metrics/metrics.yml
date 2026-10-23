@@ -1,0 +1,129 @@
+# Every metric the story, the explorer, the memo, the workbook and the BI extracts use, defined once.
+#
+# Each metric carries two expressions, and that is the point of the file:
+#
+#   grain: SQL over the finest table that holds the measure (the census long table for census counts,
+#          the county table for permits and population, the loan rows for loans). This is the definition.
+#   mart:  SQL over the additive columns of the shipped metro by year mart (mart_metro_year unless
+#          mart_source says otherwise), which is what the site's DuckDB-WASM, the workbook and the BI model run.
+#
+# `doorstep metrics` evaluates both at four grains (overall, by year, by kind, by year and kind) and fails
+# when any cell disagrees beyond floating point. A metric layer without that check is a document about the
+# code; with it, a mart that drops a filter breaks the build.
+#
+# `fmt` is the manifest format every surface prints the metric in. `dax` is generated from `mart`.
+
+version: 1
+
+metrics:
+  - name: households
+    kind: sum
+    fmt: int
+    description: Households in the metro universe, from census table B11001.
+    grain: sum(estimate) filter (where variable = 'B11001_001')
+    grain_source: grain_acs
+    mart: sum(households)
+
+  - name: owner_households
+    kind: sum
+    fmt: int
+    description: Owner occupied households, census table B25003.
+    grain: sum(estimate) filter (where variable = 'B25003_002')
+    grain_source: grain_acs
+    mart: sum(owner_households)
+
+  - name: renter_households
+    kind: sum
+    fmt: int
+    description: Renter occupied households, census table B25003.
+    grain: sum(estimate) filter (where variable = 'B25003_003')
+    grain_source: grain_acs
+    mart: sum(renter_households)
+
+  - name: renters_burdened
+    kind: sum
+    fmt: int
+    description: Renter households paying thirty percent or more of income in gross rent, census table B25070.
+    grain: sum(estimate) filter (where variable in ('B25070_007', 'B25070_008', 'B25070_009', 'B25070_010'))
+    grain_source: grain_acs
+    mart: sum(renters_burdened)
+
+  - name: renters_severe
+    kind: sum
+    fmt: int
+    description: Renter households paying fifty percent or more of income in gross rent.
+    grain: sum(estimate) filter (where variable = 'B25070_010')
+    grain_source: grain_acs
+    mart: sum(renters_severe)
+
+  - name: renter_burdened_share
+    kind: proportion
+    fmt: pct1
+    description: Burdened renters over renters with a computed rent share.
+    grain: sum(estimate) filter (where variable in ('B25070_007', 'B25070_008', 'B25070_009', 'B25070_010')) / (sum(estimate) filter (where variable = 'B25070_001') - coalesce(sum(estimate) filter (where variable = 'B25070_011'), 0))
+    grain_source: grain_acs
+    mart: sum(renters_burdened) / sum(renters_with_share)
+
+  - name: housing_units
+    kind: sum
+    fmt: int
+    description: Housing units, census table B25001.
+    grain: sum(estimate) filter (where variable = 'B25001_001')
+    grain_source: grain_acs
+    mart: sum(housing_units)
+
+  - name: permits
+    kind: sum
+    fmt: int
+    description: Housing units permitted, every structure size, from the county permit files mapped to their area.
+    grain: sum(permits)
+    grain_source: grain_counties
+    mart: sum(permits)
+
+  - name: population
+    kind: sum
+    fmt: int
+    description: Resident population from the county estimates mapped to their area.
+    grain: sum(population)
+    grain_source: grain_counties
+    mart: sum(population)
+
+  - name: domestic_migration
+    kind: sum
+    fmt: int
+    description: Net domestic migration from the county estimates mapped to their area.
+    grain: sum(domestic_migration)
+    grain_source: grain_counties
+    mart: sum(domestic_migration)
+
+  - name: purchase_loans
+    kind: sum
+    fmt: int
+    description: Originated home purchase loans on principal residences, counted from the loan rows.
+    grain: count(*) filter (where loan_purpose = 1)
+    grain_source: grain_loans
+    mart: sum(purchase_loans)
+
+  - name: refinance_loans
+    kind: sum
+    fmt: int
+    description: Originated refinance and cash out refinance loans on principal residences.
+    grain: count(*) filter (where loan_purpose in (31, 32))
+    grain_source: grain_loans
+    mart: sum(refinance_loans)
+
+  - name: low_rate_originations
+    kind: sum
+    fmt: int
+    description: Thirty year originations under the lock in threshold of four percent.
+    grain: count(*) filter (where interest_rate < 4.0 and not q_rate_missing and not q_term_not_30_years)
+    grain_source: grain_loans
+    mart: sum(low_rate_originations)
+
+  - name: turnover_per_100_owners
+    kind: ratio
+    fmt: float2
+    description: Purchase originations per hundred owner households, the turnover the lock in chapter follows.
+    grain: 100.0 * sum(purchase_loans) / sum(owner_households)
+    grain_source: fct_metro_year
+    mart: 100.0 * sum(purchase_loans) / sum(owner_households)

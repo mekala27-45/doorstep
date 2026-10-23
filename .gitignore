@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Raw public files are fetched on a machine that can reach the hosts, never committed.
+data/external/*
+!data/external/.gitkeep
+# The HMDA parquet, one file per year, tens of millions of rows: rebuilt by `make data` from the fetched parts.
+data/hmda/
+# The warehouse file, checkpoints and spill space.
+.cache/
+
+# dbt build output
+warehouse/target/
+warehouse/dbt_packages/
+warehouse/logs/
+
+logs/*
+!logs/.gitkeep
+results/scratch/
+
+# Web
+web/node_modules/
+web/.next/
+web/out/
+web/test-results/
+web/playwright-report/
+web/tsconfig.tsbuildinfo
+web/public/duckdb/
+# The site's data folder is written from the committed results by `doorstep marts` (in CI too);
+# only the recorded session, which a run against the API produces, is kept in the repository.
+web/public/data/*
+!web/public/data/recorded_session.json
+web/src/app/tokens.css
+
+# Local environment and what the deploy scripts write on the machine that runs them
+.env
+deploy/live-url.txt
+deploy/write-token.txt
+deploy/*-log.txt
+deploy/fly-logs.txt
+warehouse/.user.yml

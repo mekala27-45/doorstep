@@ -1,0 +1,18 @@
+[project]
+name = "doorstep-loans"
+version = "0.1.0"
+description = "The HMDA extract: the metro map through the delineation vintages, lock in intensity, turnover, the borrower pool"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+dependencies = [
+  "doorstep-core",
+  "duckdb>=1.1,<2",
+  "polars>=1.10",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/doorstep_loans"]

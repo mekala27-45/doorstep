@@ -1,0 +1,20 @@
+[project]
+name = "doorstep-contracts"
+version = "0.1.0"
+description = "Typed frames and quarantine rules for every source: FHFA, ACS, HUD, PMMS, BPS, population estimates, delineations, HMDA; the seeded generator"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+dependencies = [
+  "doorstep-core",
+  "duckdb>=1.1,<2",
+  "polars>=1.10",
+  "openpyxl>=3.1",
+  "xlrd>=2.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/doorstep_contracts"]

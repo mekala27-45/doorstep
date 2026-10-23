@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: derived
+    description: >
+      Every public source after its contract: typed, flagged by the quarantine rules in
+      packages/contracts, written as parquet by `make data` under data/derived. The small files are
+      committed; the HMDA parquet under data/hmda is rebuilt from the fetched parts.
+    meta:
+      external_location: "read_parquet('{{ env_var('DOORSTEP_DATA_DIR', '../data') }}/derived/{name}.parquet')"
+    tables:
+      - name: fhfa_quarterly
+        description: The FHFA House Price Index, traditional, quarterly, every metropolitan area and division, all-transactions and purchase-only.
+      - name: pmms_quarterly
+        description: The quarterly average of the Freddie Mac 30 year fixed rate.
+      - name: pmms_weekly
+      - name: acs_long
+        description: Every ACS one year estimate and margin this build reads, one row per area, year, table and variable.
+      - name: hud_fmr_latest
+      - name: hud_fmr_history
+      - name: hud_income_limits
+      - name: bps_county
+        description: Building permits by county and year, units by structure size, with the current year to date file flagged.
+      - name: popest_county
+        description: Population and the components of change by county and year, the latest vintage per year.
+      - name: popest_metro_published
+      - name: delineations
+        description: The OMB county to area mapping, one row per county per vintage.
+      - name: gazetteer
+
+  - name: loans
+    description: The HMDA extract after its contract, one parquet file per year under data/hmda.
+    meta:
+      external_location: "read_parquet('{{ env_var('DOORSTEP_DATA_DIR', '../data') }}/hmda/lar_*.parquet', union_by_name = true)"
+    tables:
+      - name: lar

@@ -1,0 +1,32 @@
+name: doorstep
+version: "0.1.0"
+config-version: 2
+profile: doorstep
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+analysis-paths: ["analyses"]
+seed-paths: ["seeds"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+# No usage pings: the build machine cannot reach the collector and CI has no reason to.
+flags:
+  send_anonymous_usage_stats: false
+
+vars:
+  # The policy values the warehouse shares with packages/core/config.py; tests/warehouse holds them equal.
+  anchor_year: 2019
+  down_payment_share: 0.10
+  loan_term_years: 30
+  lock_in_threshold: 4.0
+
+models:
+  doorstep:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

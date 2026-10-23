@@ -1,0 +1,789 @@
+{
+ "as_of": "2026-10-22",
+ "figures": {},
+ "seed": 20261022,
+ "tables": {
+  "data.quarantine.by_rule": {
+   "columns": [
+    "Source",
+    "Rule",
+    "Flagged",
+    "Rows"
+   ],
+   "formats": [
+    "text",
+    "text",
+    "int",
+    "int"
+   ],
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "rows": [
+    [
+     "bps",
+     "imputed_share_high",
+     1154,
+     9067
+    ],
+    [
+     "bps",
+     "malformed_fips",
+     0,
+     9067
+    ],
+    [
+     "bps",
+     "negative_units",
+     0,
+     9067
+    ],
+    [
+     "fhfa",
+     "implausible_jump",
+     15,
+     85272
+    ],
+    [
+     "fhfa",
+     "missing_quarter",
+     61,
+     85272
+    ],
+    [
+     "fhfa",
+     "non_positive_index",
+     0,
+     85272
+    ],
+    [
+     "hud_fmr",
+     "bedroom_order",
+     0,
+     4764
+    ],
+    [
+     "hud_fmr",
+     "non_positive_rent",
+     0,
+     4764
+    ],
+    [
+     "hud_il",
+     "limit_order",
+     0,
+     84224
+    ],
+    [
+     "hud_il",
+     "non_positive_income",
+     0,
+     84224
+    ],
+    [
+     "omb",
+     "county_in_two_areas",
+     0,
+     13288
+    ],
+    [
+     "omb",
+     "malformed_fips",
+     0,
+     13288
+    ],
+    [
+     "pmms",
+     "implausible_rate",
+     0,
+     2900
+    ],
+    [
+     "pmms",
+     "missing_week",
+     0,
+     2900
+    ],
+    [
+     "popest",
+     "non_positive_population",
+     0,
+     81714
+    ],
+    [
+     "popest",
+     "vintage_overlap",
+     0,
+     81714
+    ]
+   ]
+  }
+ },
+ "values": {
+  "data.bps.contract_digest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.bps",
+    "population": "every permit issuing county",
+    "seed": null,
+    "seeds": null,
+    "source": "real:bps"
+   },
+   "value": "163504b4b91c7f03"
+  },
+  "data.bps.first_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.bps",
+    "population": "every permit issuing county",
+    "seed": null,
+    "seeds": null,
+    "source": "real:bps"
+   },
+   "value": 2000
+  },
+  "data.bps.last_full_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.bps",
+    "population": "every permit issuing county",
+    "seed": null,
+    "seeds": null,
+    "source": "real:bps"
+   },
+   "value": 2025
+  },
+  "data.bps.rows": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.bps",
+    "population": "every permit issuing county",
+    "seed": null,
+    "seeds": null,
+    "source": "real:bps"
+   },
+   "value": 9067
+  },
+  "data.bps.ytd_month": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.bps",
+    "population": "every permit issuing county",
+    "seed": null,
+    "seeds": null,
+    "source": "real:bps"
+   },
+   "value": 8
+  },
+  "data.bps.ytd_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.bps",
+    "population": "every permit issuing county",
+    "seed": null,
+    "seeds": null,
+    "source": "real:bps"
+   },
+   "value": 2026
+  },
+  "data.fetch.status_files": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0
+  },
+  "data.fhfa.areas_all_transactions": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.fhfa",
+    "population": "every metropolitan area and division in the FHFA index",
+    "seed": null,
+    "seeds": null,
+    "source": "real:fhfa"
+   },
+   "value": 410
+  },
+  "data.fhfa.areas_purchase_only": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.fhfa",
+    "population": "every metropolitan area and division in the FHFA index",
+    "seed": null,
+    "seeds": null,
+    "source": "real:fhfa"
+   },
+   "value": 100
+  },
+  "data.fhfa.contract_digest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.fhfa",
+    "population": "every metropolitan area and division in the FHFA index",
+    "seed": null,
+    "seeds": null,
+    "source": "real:fhfa"
+   },
+   "value": "49ea2f1979a460ca"
+  },
+  "data.fhfa.divisions": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.fhfa",
+    "population": "every metropolitan area and division in the FHFA index",
+    "seed": null,
+    "seeds": null,
+    "source": "real:fhfa"
+   },
+   "value": 37
+  },
+  "data.fhfa.first_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.fhfa",
+    "population": "every metropolitan area and division in the FHFA index",
+    "seed": null,
+    "seeds": null,
+    "source": "real:fhfa"
+   },
+   "value": 1975
+  },
+  "data.fhfa.latest_period": {
+   "fmt": "quarter",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.fhfa",
+    "population": "every metropolitan area and division in the FHFA index",
+    "seed": null,
+    "seeds": null,
+    "source": "real:fhfa"
+   },
+   "value": "2026Q2"
+  },
+  "data.fhfa.rows": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.fhfa",
+    "population": "every metropolitan area and division in the FHFA index",
+    "seed": null,
+    "seeds": null,
+    "source": "real:fhfa"
+   },
+   "value": 85272
+  },
+  "data.hud.contract_digest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hud",
+    "population": "every county HUD publishes a Fair Market Rent or an income limit for",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hud"
+   },
+   "value": "d4b0c640a126f211"
+  },
+  "data.hud.fmr_counties": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hud",
+    "population": "every county HUD publishes a Fair Market Rent or an income limit for",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hud"
+   },
+   "value": 4764
+  },
+  "data.hud.fmr_fiscal_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hud",
+    "population": "every county HUD publishes a Fair Market Rent or an income limit for",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hud"
+   },
+   "value": 2027
+  },
+  "data.hud.fmr_history_years": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hud",
+    "population": "every county HUD publishes a Fair Market Rent or an income limit for",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hud"
+   },
+   "value": 44
+  },
+  "data.hud.fmr_metros": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hud",
+    "population": "every county HUD publishes a Fair Market Rent or an income limit for",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hud"
+   },
+   "value": 393
+  },
+  "data.hud.income_limit_first_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hud",
+    "population": "every county HUD publishes a Fair Market Rent or an income limit for",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hud"
+   },
+   "value": 2004
+  },
+  "data.hud.income_limit_last_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hud",
+    "population": "every county HUD publishes a Fair Market Rent or an income limit for",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hud"
+   },
+   "value": 2026
+  },
+  "data.hud.income_limit_years": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hud",
+    "population": "every county HUD publishes a Fair Market Rent or an income limit for",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hud"
+   },
+   "value": 18
+  },
+  "data.latest.bps": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "2026 through month 8"
+  },
+  "data.latest.fhfa": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "2026Q2"
+  },
+  "data.latest.hud_fmr": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "FY2027"
+  },
+  "data.latest.hud_il": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "FY2026"
+  },
+  "data.latest.pmms": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "2026-10-22"
+  },
+  "data.latest.popest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "2025"
+  },
+  "data.ledger.bytes": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 68599729
+  },
+  "data.ledger.files": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 39
+  },
+  "data.omb.contract_digest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": "0688c94ab90f33a8"
+  },
+  "data.omb.latest_vintage": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 2023
+  },
+  "data.omb.metropolitan_areas": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 393
+  },
+  "data.omb.micropolitan_areas": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 542
+  },
+  "data.omb.vintages": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 7
+  },
+  "data.pmms.contract_digest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.pmms",
+    "population": "every weekly survey since April 1971",
+    "seed": null,
+    "seeds": null,
+    "source": "real:pmms"
+   },
+   "value": "ae0e85eaed9be903"
+  },
+  "data.pmms.latest_rate": {
+   "fmt": "rate2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.pmms",
+    "population": "every weekly survey since April 1971",
+    "seed": null,
+    "seeds": null,
+    "source": "real:pmms"
+   },
+   "value": 7.32
+  },
+  "data.pmms.latest_week": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.pmms",
+    "population": "every weekly survey since April 1971",
+    "seed": null,
+    "seeds": null,
+    "source": "real:pmms"
+   },
+   "value": "2026-10-22"
+  },
+  "data.pmms.weeks": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.pmms",
+    "population": "every weekly survey since April 1971",
+    "seed": null,
+    "seeds": null,
+    "source": "real:pmms"
+   },
+   "value": 2900
+  },
+  "data.popest.contract_digest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.popest",
+    "population": "every county, 2000 to the latest vintage",
+    "seed": null,
+    "seeds": null,
+    "source": "real:popest"
+   },
+   "value": "6201136c93e2ff87"
+  },
+  "data.popest.first_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.popest",
+    "population": "every county, 2000 to the latest vintage",
+    "seed": null,
+    "seeds": null,
+    "source": "real:popest"
+   },
+   "value": 2000
+  },
+  "data.popest.last_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.popest",
+    "population": "every county, 2000 to the latest vintage",
+    "seed": null,
+    "seeds": null,
+    "source": "real:popest"
+   },
+   "value": 2025
+  },
+  "data.popest.rows": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.popest",
+    "population": "every county, 2000 to the latest vintage",
+    "seed": null,
+    "seeds": null,
+    "source": "real:popest"
+   },
+   "value": 81714
+  },
+  "data.popest.vintages": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.popest",
+    "population": "every county, 2000 to the latest vintage",
+    "seed": null,
+    "seeds": null,
+    "source": "real:popest"
+   },
+   "value": 3
+  },
+  "data.quarantine.flagged_total": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1230
+  },
+  "data.quarantine.rules": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 16
+  },
+  "data.window.start_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 2000
+  }
+ }
+}

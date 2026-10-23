@@ -1,0 +1,20 @@
+[project]
+name = "doorstep-exports"
+version = "0.1.0"
+description = "The Excel workbook with live formulas, the Tableau extract and Power BI specification, the CSV bundle"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+dependencies = [
+  "doorstep-core",
+  "doorstep-finance",
+  "openpyxl>=3.1",
+  "polars>=1.10",
+  "duckdb>=1.1,<2",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/doorstep_exports"]
