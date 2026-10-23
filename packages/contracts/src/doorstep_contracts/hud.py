@@ -18,16 +18,49 @@ import polars as pl
 
 from doorstep_contracts.common import ContractError, Rule, apply_rules, contract_digest
 
-FMR_FIELDS = ("county_fips", "fiscal_year", "hud_area_code", "hud_area_name", "cbsa_code", "fmr_0", "fmr_1", "fmr_2", "fmr_3", "fmr_4")
-IL_FIELDS = ("county_fips", "fiscal_year", "hud_area_code", "hud_area_name", "cbsa_code", "median_family_income", "l30_4", "l50_4", "l80_4")
+FMR_FIELDS = (
+    "county_fips",
+    "fiscal_year",
+    "hud_area_code",
+    "hud_area_name",
+    "cbsa_code",
+    "fmr_0",
+    "fmr_1",
+    "fmr_2",
+    "fmr_3",
+    "fmr_4",
+)
+IL_FIELDS = (
+    "county_fips",
+    "fiscal_year",
+    "hud_area_code",
+    "hud_area_name",
+    "cbsa_code",
+    "median_family_income",
+    "l30_4",
+    "l50_4",
+    "l80_4",
+)
 
 FMR_RULES = (
     Rule("non_positive_rent", "a two bedroom FMR at or below zero", lambda f: pl.col("fmr_2") <= 0),
-    Rule("bedroom_order", "a larger unit cheaper than a smaller one", lambda f: (pl.col("fmr_2") < pl.col("fmr_1")) | (pl.col("fmr_3") < pl.col("fmr_2"))),
+    Rule(
+        "bedroom_order",
+        "a larger unit cheaper than a smaller one",
+        lambda f: (pl.col("fmr_2") < pl.col("fmr_1")) | (pl.col("fmr_3") < pl.col("fmr_2")),
+    ),
 )
 IL_RULES = (
-    Rule("non_positive_income", "a median family income at or below zero", lambda f: pl.col("median_family_income") <= 0),
-    Rule("limit_order", "the 50 percent limit above the 80 percent limit", lambda f: (pl.col("l80_4").is_not_null()) & (pl.col("l50_4") > pl.col("l80_4"))),
+    Rule(
+        "non_positive_income",
+        "a median family income at or below zero",
+        lambda f: pl.col("median_family_income") <= 0,
+    ),
+    Rule(
+        "limit_order",
+        "the 50 percent limit above the 80 percent limit",
+        lambda f: (pl.col("l80_4").is_not_null()) & (pl.col("l50_4") > pl.col("l80_4")),
+    ),
 )
 
 DIGEST = contract_digest("hud", FMR_FIELDS + IL_FIELDS, FMR_RULES + IL_RULES)
@@ -71,9 +104,10 @@ def _sheet_rows(path: Path) -> tuple[list[str], list[list[object]]]:
     else:
         import xlrd
 
-        book = xlrd.open_workbook(path, logfile=open("/dev/null", "w"))
-        sheet = book.sheet_by_index(0)
-        rows = [sheet.row_values(r) for r in range(sheet.nrows)]
+        with open("/dev/null", "w") as quiet:
+            book = xlrd.open_workbook(path, logfile=quiet)
+            sheet = book.sheet_by_index(0)
+            rows = [sheet.row_values(r) for r in range(sheet.nrows)]
     header = [str(h).strip() if h is not None else "" for h in rows[0]]
     return header, rows[1:]
 
@@ -137,7 +171,13 @@ def parse_fmr_history(external: Path) -> pl.DataFrame | None:
         raw = pl.read_csv(path, infer_schema_length=0, encoding="latin-1")
     else:
         header, rows = _sheet_rows(path)
-        raw = pl.DataFrame([dict(zip(header, [str(c) if c is not None else None for c in r], strict=False)) for r in rows if r])
+        raw = pl.DataFrame(
+            [
+                dict(zip(header, [str(c) if c is not None else None for c in r], strict=False))
+                for r in rows
+                if r
+            ]
+        )
     cols = {c.lower(): c for c in raw.columns}
     fips_col = next((cols[c] for c in cols if c.startswith("fips")), None)
     if fips_col is None:
@@ -146,18 +186,29 @@ def parse_fmr_history(external: Path) -> pl.DataFrame | None:
     years = sorted({int(m.group(1)) for c in cols for m in [re.match(r"fmr(\d{2,4})_?2$", c)] if m})
     for y in years:
         fy = y if y > 1900 else (1900 + y if y >= 83 else 2000 + y)
+
         def col(bed: int, y: int = y) -> str | None:
             for cand in (f"fmr{y}_{bed}", f"fmr{y:02d}_{bed}", f"fmr{y}{bed}"):
                 if cand in cols:
                     return cols[cand]
             return None
+
         c2 = col(2)
         if c2 is None:
             continue
-        sel = {"county_fips": pl.col(fips_col).cast(pl.Utf8).str.replace_all(r"\D", "").str.slice(0, 5).str.zfill(5), "fiscal_year": pl.lit(fy)}
+        sel = {
+            "county_fips": pl.col(fips_col)
+            .cast(pl.Utf8)
+            .str.replace_all(r"\D", "")
+            .str.slice(0, 5)
+            .str.zfill(5),
+            "fiscal_year": pl.lit(fy),
+        }
         for bed in range(5):
             c = col(bed)
-            sel[f"fmr_{bed}"] = pl.col(c).cast(pl.Float64, strict=False) if c else pl.lit(None, dtype=pl.Float64)
+            sel[f"fmr_{bed}"] = (
+                pl.col(c).cast(pl.Float64, strict=False) if c else pl.lit(None, dtype=pl.Float64)
+            )
         out.append(raw.select(**sel))
     if not out:
         return None
@@ -175,7 +226,9 @@ def parse_income_limits(external: Path) -> tuple[pl.DataFrame, list[int]]:
         fy = 2000 + yy
         header, rows = _sheet_rows(path)
         idx = {h.lower(): i for i, h in enumerate(header)}
-        median_col = next((idx[c] for c in idx if re.fullmatch(r"median\d{4}", c) and c.endswith(str(fy))), None)
+        median_col = next(
+            (idx[c] for c in idx if re.fullmatch(r"median\d{4}", c) and c.endswith(str(fy))), None
+        )
         if median_col is None:
             median_col = next((idx[c] for c in idx if re.fullmatch(r"median\d{4}", c)), None)
         if median_col is None:
@@ -201,7 +254,9 @@ def parse_income_limits(external: Path) -> tuple[pl.DataFrame, list[int]]:
                     "county_fips": fips,
                     "fiscal_year": fy,
                     "hud_area_code": code,
-                    "hud_area_name": str(r[name_col]).strip() if name_col is not None and r[name_col] is not None else "",
+                    "hud_area_name": str(r[name_col]).strip()
+                    if name_col is not None and r[name_col] is not None
+                    else "",
                     "cbsa_code": cbsa_from_hud_code(code),
                     "median_family_income": _num(r[median_col]),
                     "l30_4": _num(r[idx["l30_4"]]) if "l30_4" in idx else None,
@@ -210,7 +265,17 @@ def parse_income_limits(external: Path) -> tuple[pl.DataFrame, list[int]]:
                 }
             )
         if out:
-            frames.append(pl.DataFrame(out, schema_overrides={"cbsa_code": pl.Utf8, "l30_4": pl.Float64, "l50_4": pl.Float64, "l80_4": pl.Float64}))
+            frames.append(
+                pl.DataFrame(
+                    out,
+                    schema_overrides={
+                        "cbsa_code": pl.Utf8,
+                        "l30_4": pl.Float64,
+                        "l50_4": pl.Float64,
+                        "l80_4": pl.Float64,
+                    },
+                )
+            )
             years.append(fy)
     if not frames:
         raise ContractError(f"no income limits workbooks under {folder}")

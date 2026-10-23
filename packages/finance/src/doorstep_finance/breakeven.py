@@ -123,3 +123,51 @@ def breakeven(
 def breakeven_year(result: Breakeven, horizon_years: int) -> float:
     """The breakeven as a number for intervals: the year, or one past the horizon when owning never catches up."""
     return float(result.breakeven_year) if result.breakeven_year is not None else float(horizon_years + 1)
+
+
+def breakeven_years_vectorised(
+    price: float,
+    annual_rent: float,
+    annual_rate_pct: float,
+    down_share: float,
+    term_years: int,
+    appreciation: Sequence[Sequence[float]],
+    rent_growth: Sequence[Sequence[float]],
+    cost: CostModel,
+) -> list[float]:
+    """The breakeven year for many appreciation and rent growth paths at once (one row per path), with the
+    same arithmetic as ``breakeven``; a path that never breaks even returns one past the horizon. The test
+    holds this to the scalar engine path by path."""
+    import numpy as np
+
+    app = np.asarray(appreciation, dtype=np.float64)
+    rg = np.asarray(rent_growth, dtype=np.float64)
+    if app.ndim != 2 or rg.shape != app.shape:
+        raise FinanceError("appreciation and rent growth must be matrices of the same shape")
+    draws, horizon = app.shape
+    if horizon < 1:
+        raise FinanceError("the horizon must be at least one year")
+    loan = price * (1.0 - down_share)
+    monthly = payment(loan, annual_rate_pct, term_years)
+    cash_at_start = price * down_share + price * cost.buy_closing_share
+    renter_wealth = np.full(draws, cash_at_start)
+    value = np.full(draws, price)
+    rent = np.full(draws, annual_rent)
+    hit = np.full(draws, float(horizon + 1))
+    for year in range(1, horizon + 1):
+        value = value * (1.0 + app[:, year - 1])
+        if year > 1:
+            rent = rent * (1.0 + rg[:, year - 2])
+        months = min(year * 12, term_years * 12)
+        balance = balance_after(loan, annual_rate_pct, term_years, months)
+        paid = monthly * 12.0 if year * 12 <= term_years * 12 else 0.0
+        ltv = np.where(value > 0, balance / value, 0.0)
+        pmi = np.where((down_share < 0.20) & (ltv > 0.80), cost.pmi_rate_under_20 * balance, 0.0)
+        carrying = value * (cost.property_tax_share + cost.insurance_share + cost.maintenance_share)
+        outlay = paid + carrying + pmi
+        renter_wealth = renter_wealth * (1.0 + cost.investment_return) + (outlay - rent)
+        equity = value - balance - value * cost.sell_closing_share
+        difference = renter_wealth - equity
+        newly = (hit > horizon) & (difference <= 0.0)
+        hit = np.where(newly, float(year), hit)
+    return [float(h) for h in hit]

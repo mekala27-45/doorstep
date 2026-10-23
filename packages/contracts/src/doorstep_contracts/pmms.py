@@ -19,8 +19,16 @@ from doorstep_contracts.common import ContractError, Rule, apply_rules, contract
 FIELDS = ("week", "year", "quarter", "period", "rate_30", "points_30", "rate_15")
 
 RULES = (
-    Rule("missing_week", "more than ten days between consecutive published weeks", lambda f: pl.col("days_since_prev") > 10),
-    Rule("implausible_rate", "a 30 year rate outside 2 to 20 percent", lambda f: (pl.col("rate_30") < 2.0) | (pl.col("rate_30") > 20.0)),
+    Rule(
+        "missing_week",
+        "more than ten days between consecutive published weeks",
+        lambda f: pl.col("days_since_prev") > 10,
+    ),
+    Rule(
+        "implausible_rate",
+        "a 30 year rate outside 2 to 20 percent",
+        lambda f: (pl.col("rate_30") < 2.0) | (pl.col("rate_30") > 20.0),
+    ),
 )
 
 DIGEST = contract_digest("pmms", FIELDS, RULES)
@@ -66,7 +74,9 @@ def parse(external: Path) -> pl.DataFrame:
 
 def quarantine(frame: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
     flagged, report = apply_rules(frame, RULES, "pmms", "year")
-    return flagged.select([*FIELDS, *[c for c in flagged.columns if c.startswith("q_")], "quarantined"]), report.frame()
+    return flagged.select(
+        [*FIELDS, *[c for c in flagged.columns if c.startswith("q_")], "quarantined"]
+    ), report.frame()
 
 
 def quarterly(frame: pl.DataFrame) -> pl.DataFrame:

@@ -92,7 +92,8 @@ class Truth:
     burden_step_year: int
     burden_step_size: float
     rate_shock_year: int
-    metros: pl.DataFrame  # per metro: elasticity, income_bias, value_bias, true ranking inputs
+    borrower_ratio_shift: float
+    metros: pl.DataFrame  # per metro: state, kind, elasticity, value_bias, income sigma, base turnover
 
 
 @dataclass(frozen=True)
@@ -110,15 +111,33 @@ class World:
 
 
 N_METROS = 60
+N_STATES = 15
+N_MICROPOLITAN = (
+    6  # the last metros are micropolitan areas, carried in the warehouse and excluded from the ranking
+)
 FIRST_YEAR = 2005
 LAST_YEAR = 2024
 RATE_SHOCK_YEAR = 2022
 LOCK_IN_RESPONSE = 0.04  # purchases per 100 owner households lost per point of lock in share after the shock
-BETA_SUPPLY = 0.025  # log price growth per permit per hundred new households, one window lagged
+BETA_SUPPLY = 0.025  # log price growth per permit per hundred new households, lagged one year
 BURDEN_STEP_YEAR = 2013
 BURDEN_STEP_SIZE = 0.03
+BORROWER_RATIO_BASE = 1.35
+BORROWER_RATIO_SHIFT = 0.08  # the buyer pool moves up the income ladder by this much after the shock
 BASE_RENT_TO_PRICE = 0.058
 SUPPRESSION_THRESHOLD = 50
+MEAN_REVERSION = 0.006  # log price growth lost per standard deviation of the affordability gap
+SUPPLY_SHOCK_SD = 0.30  # log building rate shock a metro's own land, zoning and costs give it each year
+SUPPLY_SHOCK_PERSISTENCE = 0.6
+
+
+def state_of(i: int) -> str:
+    """Synthetic metros are spread over fifteen synthetic states, the clusters for the standard errors."""
+    return f"Z{(i % N_STATES) + 1:02d}"
+
+
+def kind_of(i: int, n_metros: int = N_METROS) -> str:
+    return "micropolitan" if i >= n_metros - N_MICROPOLITAN else "metropolitan"
 
 
 def rate_path(first_year: int, last_year: int) -> pl.DataFrame:
@@ -149,7 +168,6 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
     g_metro = rng(seed, "metros", condition.name)
     g_year = rng(seed, "years", condition.name)
     years = list(range(FIRST_YEAR, LAST_YEAR + 1))
-    n_years = len(years)
 
     # Metro characteristics. Price level and income are given a positive correlation on purpose: the
     # expensive metros are the rich ones, so a price ranking is not an affordability ranking.
@@ -165,8 +183,12 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
     base_permits = np.clip(g_metro.normal(1.0, 0.25, n_metros), 0.3, 2.0)  # per hundred new households
     rent_to_price = BASE_RENT_TO_PRICE * np.exp(g_metro.normal(0.0, 0.08, n_metros))
     renter_share = np.clip(g_metro.normal(0.36, 0.06, n_metros), 0.2, 0.6)
-    base_turnover = np.clip(g_metro.normal(5.5, 0.8, n_metros), 3.0, 9.0)  # purchases per 100 owner households
-    low_rate_buying = np.clip(g_metro.normal(1.0, 0.25, n_metros), 0.4, 1.8)  # how much a metro bought in 2019 to 2021
+    base_turnover = np.clip(
+        g_metro.normal(5.5, 0.8, n_metros), 3.0, 9.0
+    )  # purchases per 100 owner households
+    low_rate_buying = np.clip(
+        g_metro.normal(1.0, 0.25, n_metros), 0.4, 1.8
+    )  # how much a metro bought in 2019 to 2021
 
     rates = rate_path(FIRST_YEAR, LAST_YEAR)
     annual_rate = rates.group_by("year").agg(pl.col("rate").mean()).sort("year")["rate"].to_numpy()
@@ -185,44 +207,70 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
     loans_rows: list[dict[str, object]] = []
     held_low_share = np.zeros(n_metros)
     affordability_gap = np.zeros(n_metros)
+    households_prev = households.copy()
+    supply_shock = g_metro.normal(0.0, SUPPLY_SHOCK_SD, n_metros)
+    gap_history: list[np.ndarray] = []
+    gap_two_years_ago = np.zeros(n_metros)
 
     for t, year in enumerate(years):
         shock_t = 1.0 if year >= 2020 and year <= 2021 else 0.0
         national_pull = g_year.normal(0.0, 0.5)
         # Migration: an exogenous draw, a national pull in the pandemic years, and under reverse causality a
         # response to last year's affordability gap (cheaper metros gain people).
+        # Under reverse causality people leave the metros that are expensive for their incomes and, more so, the
+        # metros that have just become expensive: the level of last year's gap and its change over two years.
         migration = (
             base_migration
             + 1.2 * shock_t * g_metro.normal(0.0, 1.0, n_metros)
             + national_pull
-            - k["reverse"] * affordability_gap
+            - k["reverse"] * (0.5 * affordability_gap + 1.0 * (affordability_gap - gap_two_years_ago))
             + g_metro.normal(0.0, 0.3, n_metros)
         )
-        # Permits respond to last year's price growth with the metro's elasticity.
-        permits = np.clip(base_permits * (1.0 + elasticity * last_growth / 0.04), 0.05, None)
+        # Permits respond to last year's price growth with the metro's elasticity, around a persistent supply shock of
+        # their own (land, zoning, costs) that gives the building rate variation prices did not cause.
+        supply_shock = SUPPLY_SHOCK_PERSISTENCE * supply_shock + g_metro.normal(
+            0.0, SUPPLY_SHOCK_SD, n_metros
+        )
+        permits = np.clip(
+            base_permits * (1.0 + elasticity * last_growth / 0.04) * np.exp(supply_shock), 0.05, None
+        )
         # Price growth: income growth passes through, demand pushes, lagged permits pull down.
         permits_lag = permits_prev
+        # Price growth: income growth passes through, demand pushes, lagged permits pull down, and a metro that
+        # has run ahead of its incomes (a high affordability gap) grows more slowly, which is the channel through
+        # which reverse causality confounds the migration chapter: the same gap sends people away.
         growth = (
             1.0 * income_growth
             + 0.012
             + k["beta_demand"] * migration
             - BETA_SUPPLY * (permits_lag - base_permits.mean())
+            - MEAN_REVERSION * affordability_gap
             + g_metro.normal(0.0, k["noise_sd"], n_metros)
         )
         if year in (2008, 2009, 2010):
             growth -= 0.06
         if year in (2021, 2022):
             growth += 0.05
+        log_price_prev = log_price.copy()
         log_price = log_price + growth
         last_growth = growth
         permits_prev = permits
         income = income * (1.0 + income_growth + g_metro.normal(0.0, 0.004, n_metros))
+        households_prev = households.copy()
         households = households * (1.0 + 0.006 + migration / 100.0)
         population = households * 2.5
-        price = np.exp(log_price)
+        new_households = households - households_prev
+        # The year's growth arrives in four equal quarterly steps from last year's end, so the fourth quarter is
+        # the end of year level and a fourth quarter to fourth quarter difference is exactly the years' growth.
+        # The year's price is the mean of its four quarters, as an annual index average is, so the truth the
+        # chapters are graded against sits at the grain the census survey year sits at.
+        quarter_prices = np.exp(log_price_prev[None, :] + np.arange(1, 5)[:, None] / 4.0 * growth[None, :])
+        price = quarter_prices.mean(axis=0)
         rate = float(annual_rate[t])
         share = np.array([payment_share(p, i, rate, 0.10, 30) for p, i in zip(price, income, strict=True)])
         affordability_gap = (share - share.mean()) / share.std() if share.std() > 0 else np.zeros(n_metros)
+        gap_history.append(affordability_gap)
+        gap_two_years_ago = gap_history[-3] if len(gap_history) >= 3 else gap_history[0]
         rent = rent_to_price * price / 12.0 * np.exp(g_metro.normal(0.0, 0.02, n_metros))
         mu = np.log(income)
         renter_mu = mu - 0.45
@@ -244,8 +292,11 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
                 {
                     "metro_id": metro_id,
                     "metro_name": f"Simulated metro {i + 1}",
+                    "state": state_of(i),
+                    "kind": kind_of(i, n_metros),
                     "year": year,
                     "households": hh,
+                    "new_households": float(new_households[i]),
                     "owner_households": owners,
                     "renter_households": renters,
                     "population": float(population[i]),
@@ -254,13 +305,20 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
                     "median_income_moe": moe_income,
                     "renter_median_income": float(np.exp(renter_mu[i])),
                     "median_value_true": float(price[i]),
-                    "median_value_reported": float(price[i] * value_bias[i] + g_metro.normal(0.0, moe_value / 1.645)),
+                    "median_value_reported": float(
+                        price[i] * value_bias[i] + g_metro.normal(0.0, moe_value / 1.645)
+                    ),
                     "median_value_moe": moe_value,
                     "median_rent": float(rent[i]),
                     "rent_burdened_share": burdened,
                     "rent_severe_share": severe,
-                    "permits_per_100_new_households": float(permits[i]),
-                    "permits": float(permits[i] * hh * 0.006),
+                    "permits_per_100_households": float(permits[i]),
+                    "permits": float(permits[i] / 100.0 * hh),
+                    "permits_per_100_new_households": (
+                        float(permits[i] / 100.0 * hh / new_households[i] * 100.0)
+                        if new_households[i] > 0
+                        else None
+                    ),
                     "domestic_migration_per_100": float(migration[i]),
                     "rate": rate,
                     "payment_share_true": float(share[i]),
@@ -271,7 +329,13 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
             for b, count in enumerate(counts):
                 reported = count if count >= SUPPRESSION_THRESHOLD else None
                 bracket_rows.append(
-                    {"metro_id": metro_id, "year": year, "bracket": b, "households": reported, "households_true": count}
+                    {
+                        "metro_id": metro_id,
+                        "year": year,
+                        "bracket": b,
+                        "households": reported,
+                        "households_true": count,
+                    }
                 )
             # Loans: purchases per 100 owner households fall with the lock in share after the shock.
             lock_in = held_low_share[i]
@@ -281,27 +345,37 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
             turnover = float(max(turnover, 0.3))
             purchases = turnover / 100.0 * owners
             refis = owners * (0.14 if year in (2020, 2021) else 0.04 if year in (2012, 2019) else 0.02)
+            # Originations written at a rate under four percent: the whole year's book when the year's rate is
+            # under four, scaled by how much the metro borrowed at the bottom, else none.
+            low_rate = (
+                (purchases + refis) * low_rate_buying[i]
+                if (year in (2019, 2020, 2021) and rate < 4.0)
+                else 0.0
+            )
+            ratio_true = BORROWER_RATIO_BASE + BORROWER_RATIO_SHIFT * after
             loans_rows.append(
                 {
                     "metro_id": metro_id,
+                    "state": state_of(i),
                     "year": year,
                     "purchase_loans": float(purchases),
                     "refinance_loans": float(refis),
+                    "low_rate_originations": float(low_rate),
                     "rate_at_origination": rate,
                     "owner_households": owners,
                     "turnover_per_100": turnover,
                     "lock_in_share_true": float(lock_in),
-                    "borrower_income_ratio": float(1.35 + 0.08 * after + g_metro.normal(0.0, 0.03)),
+                    "borrower_income_ratio_true": float(ratio_true),
+                    "borrower_income_ratio": float(ratio_true + g_metro.normal(0.0, 0.03)),
+                    "purchase_median_value": float(price[i] * np.exp(g_metro.normal(0.0, 0.015))),
                 }
             )
             # Owners who bought at a low rate: originations of 2019 to 2021 under four percent per 100 owners.
-            if year in (2019, 2020, 2021) and rate < 4.0:
-                held_low_share[i] += (purchases + refis) * low_rate_buying[i] / owners
+            held_low_share[i] += low_rate / owners
         for q in range(1, 5):
             qrate = float(rates.filter((pl.col("year") == year) & (pl.col("quarter") == q))["rate"][0])
-            frac = (q - 2.5) / 4.0
             for i in range(n_metros):
-                p_q = float(np.exp(log_price[i] + frac * last_growth[i]))
+                p_q = float(quarter_prices[q - 1, i])
                 quarter_rows.append(
                     {
                         "metro_id": f"S{i + 1:03d}",
@@ -317,6 +391,8 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
     metros = pl.DataFrame(
         {
             "metro_id": [f"S{i + 1:03d}" for i in range(n_metros)],
+            "state": [state_of(i) for i in range(n_metros)],
+            "kind": [kind_of(i, n_metros) for i in range(n_metros)],
             "elasticity": elasticity,
             "value_bias": value_bias,
             "income_sigma": sigma,
@@ -332,6 +408,7 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
         burden_step_year=BURDEN_STEP_YEAR,
         burden_step_size=BURDEN_STEP_SIZE,
         rate_shock_year=RATE_SHOCK_YEAR,
+        borrower_ratio_shift=BORROWER_RATIO_SHIFT,
         metros=metros,
     )
     return World(
@@ -341,7 +418,9 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
         last_year=LAST_YEAR,
         metro_year=pl.DataFrame(metro_rows).sort(["metro_id", "year"]),
         metro_quarter=pl.DataFrame(quarter_rows).sort(["metro_id", "year", "quarter"]),
-        brackets=pl.DataFrame(bracket_rows, schema_overrides={"households": pl.Float64}).sort(["metro_id", "year", "bracket"]),
+        brackets=pl.DataFrame(bracket_rows, schema_overrides={"households": pl.Float64}).sort(
+            ["metro_id", "year", "bracket"]
+        ),
         loans_year=pl.DataFrame(loans_rows).sort(["metro_id", "year"]),
         rates=rates,
         truth=truth,
@@ -350,3 +429,61 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
 
 def bracket_bounds() -> list[int]:
     return list(INCOME_BRACKETS)
+
+
+# The renter cost burden by household income group, as table B25074 reports it: seven income groups, the
+# renters in each whose rent takes thirty percent or more and fifty percent or more of income. Computed
+# exactly from the metro's known log normal renter income distribution, so chapter 3's bracket shares have
+# a truth to be graded against.
+
+INCOME_GROUPS: tuple[tuple[str, float, float | None], ...] = (
+    ("under_10k", 0.0, 10_000.0),
+    ("10k_to_20k", 10_000.0, 20_000.0),
+    ("20k_to_35k", 20_000.0, 35_000.0),
+    ("35k_to_50k", 35_000.0, 50_000.0),
+    ("50k_to_75k", 50_000.0, 75_000.0),
+    ("75k_to_100k", 75_000.0, 100_000.0),
+    ("100k_plus", 100_000.0, None),
+)
+
+
+def burden_by_income(w: World) -> pl.DataFrame:
+    """One row per metro, year and income group with the renters, the burdened and the severely burdened."""
+    from math import erf, log, sqrt
+
+    def cdf(x: float, mu: float, sigma: float) -> float:
+        if x <= 0:
+            return 0.0
+        return 0.5 * (1.0 + erf((log(x) - mu) / (sigma * sqrt(2.0))))
+
+    rows: list[dict[str, object]] = []
+    for r in w.metro_year.iter_rows(named=True):
+        mu = log(float(r["renter_median_income"]))
+        sigma = float(r["income_sigma"])
+        renters = float(r["renter_households"]) * 0.97
+        annual_rent = float(r["median_rent"]) * 12.0
+        step = w.truth.burden_step_size if int(r["year"]) >= w.truth.burden_step_year else 0.0
+        for order, (name, lo, hi) in enumerate(INCOME_GROUPS, start=1):
+            p_lo = cdf(lo, mu, sigma)
+            p_hi = cdf(hi, mu, sigma) if hi is not None else 1.0
+            mass = max(p_hi - p_lo, 1e-12)
+            # burdened when income <= rent / 0.30, severe when income <= rent / 0.50, inside the group
+            b_cut = min(annual_rent / 0.30, hi) if hi is not None else annual_rent / 0.30
+            s_cut = min(annual_rent / 0.50, hi) if hi is not None else annual_rent / 0.50
+            burdened = max(cdf(b_cut, mu, sigma) - p_lo, 0.0) / mass if b_cut > lo else 0.0
+            severe = max(cdf(s_cut, mu, sigma) - p_lo, 0.0) / mass if s_cut > lo else 0.0
+            burdened = min(burdened + step, 1.0)
+            severe = min(severe + step, burdened)
+            count = renters * mass
+            rows.append(
+                {
+                    "year": int(r["year"]),
+                    "metro_id": str(r["metro_id"]),
+                    "income_group": name,
+                    "group_order": order,
+                    "renters_with_share": count,
+                    "renters_burdened": count * burdened,
+                    "renters_severe": count * severe,
+                }
+            )
+    return pl.DataFrame(rows).sort(["year", "metro_id", "group_order"])

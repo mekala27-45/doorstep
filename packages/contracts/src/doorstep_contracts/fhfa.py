@@ -31,7 +31,11 @@ FIELDS = (
 )
 
 RULES = (
-    Rule("missing_quarter", "a metro and flavor skips a quarter inside its own span", lambda f: pl.col("gap_before")),
+    Rule(
+        "missing_quarter",
+        "a metro and flavor skips a quarter inside its own span",
+        lambda f: pl.col("gap_before"),
+    ),
     Rule("non_positive_index", "an index value at or below zero", lambda f: pl.col("index_nsa") <= 0),
     Rule(
         "implausible_jump",
@@ -40,7 +44,9 @@ RULES = (
     ),
 )
 
-DIGEST = contract_digest("fhfa", FIELDS, RULES, {"keep": "traditional, quarterly, MSA, all-transactions and purchase-only"})
+DIGEST = contract_digest(
+    "fhfa", FIELDS, RULES, {"keep": "traditional, quarterly, MSA, all-transactions and purchase-only"}
+)
 
 
 def parse(external: Path) -> pl.DataFrame:
@@ -70,7 +76,10 @@ def parse(external: Path) -> pl.DataFrame:
     )
     kept = kept.with_columns(
         pl.col("index_nsa").shift(1).over(["flavor", "place_id"]).alias("prev_index"),
-        ((pl.col("year") * 4 + pl.col("quarter")) - (pl.col("year") * 4 + pl.col("quarter")).shift(1).over(["flavor", "place_id"])).alias("step"),
+        (
+            (pl.col("year") * 4 + pl.col("quarter"))
+            - (pl.col("year") * 4 + pl.col("quarter")).shift(1).over(["flavor", "place_id"])
+        ).alias("step"),
     ).with_columns((pl.col("step").is_not_null() & (pl.col("step") != 1)).alias("gap_before"))
     return kept
 

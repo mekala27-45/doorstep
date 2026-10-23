@@ -34,17 +34,27 @@ class QuarantineReport:
     counts: list[dict[str, object]] = field(default_factory=list)
 
     def add(self, rule: str, year: int | None, count: int, rows: int) -> None:
-        self.counts.append({"source": self.source, "rule": rule, "year": year, "flagged": count, "rows": rows})
+        self.counts.append(
+            {"source": self.source, "rule": rule, "year": year, "flagged": count, "rows": rows}
+        )
 
     def frame(self) -> pl.DataFrame:
         if not self.counts:
             return pl.DataFrame(
-                schema={"source": pl.Utf8, "rule": pl.Utf8, "year": pl.Int64, "flagged": pl.Int64, "rows": pl.Int64}
+                schema={
+                    "source": pl.Utf8,
+                    "rule": pl.Utf8,
+                    "year": pl.Int64,
+                    "flagged": pl.Int64,
+                    "rows": pl.Int64,
+                }
             )
         return pl.DataFrame(self.counts)
 
 
-def apply_rules(frame: pl.DataFrame, rules: Sequence[Rule], source: str, year_column: str | None) -> tuple[pl.DataFrame, QuarantineReport]:
+def apply_rules(
+    frame: pl.DataFrame, rules: Sequence[Rule], source: str, year_column: str | None
+) -> tuple[pl.DataFrame, QuarantineReport]:
     """Add one boolean column per rule and a ``quarantined`` column that is true when any rule fires.
     Refuses an empty frame: a rule that reports a pass over nothing is the Day 3 bug."""
     if frame.height == 0:
@@ -57,7 +67,11 @@ def apply_rules(frame: pl.DataFrame, rules: Sequence[Rule], source: str, year_co
         out = out.with_columns(rule.expression(out).fill_null(False).alias(column))
         flags.append(column)
         if year_column and year_column in out.columns:
-            grouped = out.group_by(year_column).agg(pl.col(column).sum().alias("flagged"), pl.len().alias("rows")).sort(year_column)
+            grouped = (
+                out.group_by(year_column)
+                .agg(pl.col(column).sum().alias("flagged"), pl.len().alias("rows"))
+                .sort(year_column)
+            )
             for row in grouped.iter_rows(named=True):
                 report.add(rule.name, int(row[year_column]), int(row["flagged"]), int(row["rows"]))
         else:
@@ -67,7 +81,9 @@ def apply_rules(frame: pl.DataFrame, rules: Sequence[Rule], source: str, year_co
     return out, report
 
 
-def contract_digest(name: str, fields: Sequence[str], rules: Sequence[Rule], extra: dict[str, object] | None = None) -> str:
+def contract_digest(
+    name: str, fields: Sequence[str], rules: Sequence[Rule], extra: dict[str, object] | None = None
+) -> str:
     """Sixteen hex characters over the field list, the rule names and descriptions, and any stated
     filter, so a change to the contract changes the digest and the derived files are rebuilt."""
     payload = {
@@ -81,7 +97,9 @@ def contract_digest(name: str, fields: Sequence[str], rules: Sequence[Rule], ext
 
 def require(path: Path, what: str) -> Path:
     if not path.exists():
-        raise ContractError(f"{what} is missing: expected {path}. Run deploy/fetch-data.ps1 on a machine that reaches the host.")
+        raise ContractError(
+            f"{what} is missing: expected {path}. Run deploy/fetch-data.ps1 on a machine that reaches the host."
+        )
     return path
 
 

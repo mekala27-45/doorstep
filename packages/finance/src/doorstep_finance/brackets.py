@@ -15,7 +15,6 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 import numpy as np
-
 from doorstep_core.config import INCOME_BRACKETS
 
 DEFAULT_PARETO_SHAPE = 2.5
@@ -66,14 +65,21 @@ def share_above(
 
 
 def median_from_brackets(
-    counts: Sequence[float], bounds: Sequence[int] = INCOME_BRACKETS, *, pareto_shape: float = DEFAULT_PARETO_SHAPE
+    counts: Sequence[float],
+    bounds: Sequence[int] = INCOME_BRACKETS,
+    *,
+    pareto_shape: float = DEFAULT_PARETO_SHAPE,
 ) -> float:
     """The median implied by the brackets, for the test that holds the interpolation to the published median."""
     return quantile_from_brackets(0.5, counts, bounds, pareto_shape=pareto_shape)
 
 
 def quantile_from_brackets(
-    q: float, counts: Sequence[float], bounds: Sequence[int] = INCOME_BRACKETS, *, pareto_shape: float = DEFAULT_PARETO_SHAPE
+    q: float,
+    counts: Sequence[float],
+    bounds: Sequence[int] = INCOME_BRACKETS,
+    *,
+    pareto_shape: float = DEFAULT_PARETO_SHAPE,
 ) -> float:
     validate(counts, bounds)
     if not 0.0 < q < 1.0:
@@ -99,7 +105,10 @@ def quantile_from_brackets(
 
 
 def decile_incomes(
-    counts: Sequence[float], bounds: Sequence[int] = INCOME_BRACKETS, *, pareto_shape: float = DEFAULT_PARETO_SHAPE
+    counts: Sequence[float],
+    bounds: Sequence[int] = INCOME_BRACKETS,
+    *,
+    pareto_shape: float = DEFAULT_PARETO_SHAPE,
 ) -> list[float]:
     """The income at each decile boundary, 10th to 90th."""
     return [quantile_from_brackets(d / 10.0, counts, bounds, pareto_shape=pareto_shape) for d in range(1, 10)]
@@ -116,7 +125,9 @@ def exact_share_above_lognormal(threshold: float, mu: float, sigma: float) -> fl
     return float(0.5 * (1.0 - erf(z / sqrt(2.0))))
 
 
-def lognormal_bracket_counts(mu: float, sigma: float, households: float, bounds: Sequence[int] = INCOME_BRACKETS) -> list[float]:
+def lognormal_bracket_counts(
+    mu: float, sigma: float, households: float, bounds: Sequence[int] = INCOME_BRACKETS
+) -> list[float]:
     """Bracket counts a log normal population would report: the generator's census table."""
     from math import erf, log, sqrt
 
@@ -141,7 +152,5 @@ def pareto_shape_from_mean(top_lo: float, tail_mean: float) -> float:
 def interpolation_error(mu: float, sigma: float, households: float, thresholds: Sequence[float]) -> float:
     """Largest absolute error of the bracket interpolation against the exact share, over thresholds."""
     counts = lognormal_bracket_counts(mu, sigma, households)
-    errors = [
-        abs(share_above(t, counts) - exact_share_above_lognormal(t, mu, sigma)) for t in thresholds
-    ]
+    errors = [abs(share_above(t, counts) - exact_share_above_lognormal(t, mu, sigma)) for t in thresholds]
     return float(np.max(errors)) if errors else 0.0

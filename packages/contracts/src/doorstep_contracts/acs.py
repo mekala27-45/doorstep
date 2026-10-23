@@ -47,9 +47,21 @@ TABLES = {
 JAM_THRESHOLD = -1_000_000
 
 RULES = (
-    Rule("jam_value", "a census jam value standing in for a suppressed or inapplicable estimate", lambda f: pl.col("estimate") < JAM_THRESHOLD),
-    Rule("moe_exceeds_estimate", "a margin of error larger than the estimate it qualifies", lambda f: (pl.col("moe") > pl.col("estimate").abs()) & (pl.col("estimate") > 0)),
-    Rule("negative_moe", "a negative margin of error that is not a jam value", lambda f: (pl.col("moe") < 0) & (pl.col("moe") > JAM_THRESHOLD)),
+    Rule(
+        "jam_value",
+        "a census jam value standing in for a suppressed or inapplicable estimate",
+        lambda f: pl.col("estimate") < JAM_THRESHOLD,
+    ),
+    Rule(
+        "moe_exceeds_estimate",
+        "a margin of error larger than the estimate it qualifies",
+        lambda f: (pl.col("moe") > pl.col("estimate").abs()) & (pl.col("estimate") > 0),
+    ),
+    Rule(
+        "negative_moe",
+        "a negative margin of error that is not a jam value",
+        lambda f: (pl.col("moe") < 0) & (pl.col("moe") > JAM_THRESHOLD),
+    ),
 )
 
 DIGEST = contract_digest("acs", FIELDS, RULES, {"tables": sorted(TABLES)})
@@ -67,7 +79,9 @@ def _number(value: object) -> float | None:
         return None
 
 
-def _parse_census(payload: list[list[object]], year: int, table: str, is_national: bool) -> list[dict[str, object]]:
+def _parse_census(
+    payload: list[list[object]], year: int, table: str, is_national: bool
+) -> list[dict[str, object]]:
     header = [str(h) for h in payload[0]]
     geo_index = len(header) - 1
     name_index = header.index("NAME") if "NAME" in header else None
@@ -159,7 +173,9 @@ def parse(external: Path) -> pl.DataFrame:
             files_read += 1
     if not rows:
         raise ContractError(f"no ACS files under {folder}; run deploy/fetch-data.ps1 acs")
-    frame = pl.DataFrame(rows, schema_overrides={"estimate": pl.Float64, "moe": pl.Float64, "cbsa_code": pl.Utf8})
+    frame = pl.DataFrame(
+        rows, schema_overrides={"estimate": pl.Float64, "moe": pl.Float64, "cbsa_code": pl.Utf8}
+    )
     return frame.sort(["year", "table", "cbsa_code", "variable"])
 
 

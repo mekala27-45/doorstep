@@ -30,6 +30,7 @@ ANCHOR_YEARS: tuple[int, ...] = (2015, 2017, 2019, 2023)
 LOCK_IN_THRESHOLDS: tuple[float, ...] = (3.0, 3.5, 4.0)
 SUPPLY_WINDOWS: tuple[int, ...] = (3, 5, 7)
 SAVING_RATES: tuple[float, ...] = (0.05, 0.10, 0.15)
+SEVERE_LINES: tuple[float, ...] = (0.15, 0.20, 0.25)
 
 
 class Policy(StrictModel):
@@ -43,6 +44,7 @@ class Policy(StrictModel):
     affordable_line: float = 0.30
     affordable_sensitivity: float = 0.28
     severe_line: float = 0.50
+    severe_share_line: float = 0.20
     down_payment_share: float = 0.10
     loan_term_years: int = 30
     saving_rate: float = 0.10
@@ -51,8 +53,11 @@ class Policy(StrictModel):
     turnover_base_years: tuple[int, int] = (2018, 2019)
     turnover_test_first_year: int = 2023
     supply_window_years: int = 5
-    migration_window: tuple[str, str] = ("2020Q1", "2022Q1")
-    migration_placebo_window: tuple[str, str] = ("2017Q1", "2019Q1")
+    migration_years: tuple[int, int] = (2020, 2021)
+    migration_pre_years: tuple[int, int] = (2017, 2018)
+    migration_window: tuple[str, str] = ("2019Q4", "2021Q4")
+    migration_placebo_window: tuple[str, str] = ("2016Q4", "2018Q4")
+    synthetic_control_first_period: str = "2015Q1"
     synthetic_control_metros: int = 3
     breakeven_horizon_years: int = 30
     breakeven_cost_model: dict[str, float] = {

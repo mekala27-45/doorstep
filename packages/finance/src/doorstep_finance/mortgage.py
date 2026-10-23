@@ -18,7 +18,9 @@ class FinanceError(ValueError):
 
 def monthly_rate(annual_rate_pct: float) -> float:
     if annual_rate_pct < 0 or annual_rate_pct > 30:
-        raise FinanceError(f"a mortgage rate of {annual_rate_pct} percent is outside the range this build accepts")
+        raise FinanceError(
+            f"a mortgage rate of {annual_rate_pct} percent is outside the range this build accepts"
+        )
     return annual_rate_pct / 100.0 / 12.0
 
 
@@ -56,7 +58,9 @@ def payment_on_price(price: float, annual_rate_pct: float, down_share: float, te
     return payment(price * (1.0 - down_share), annual_rate_pct, term_years)
 
 
-def payment_share(price: float, income: float, annual_rate_pct: float, down_share: float, term_years: int) -> float:
+def payment_share(
+    price: float, income: float, annual_rate_pct: float, down_share: float, term_years: int
+) -> float:
     """Twelve payments over annual household income."""
     if income <= 0:
         raise FinanceError("income must be positive")
@@ -76,7 +80,9 @@ def affordable_price(
     return loan / (1.0 - down_share)
 
 
-def income_needed(price: float, annual_rate_pct: float, down_share: float, term_years: int, line: float) -> float:
+def income_needed(
+    price: float, annual_rate_pct: float, down_share: float, term_years: int, line: float
+) -> float:
     """The annual income at which the payment on a price sits exactly on the line."""
     if not 0.0 < line < 1.0:
         raise FinanceError("the affordable line is a share of income in (0, 1)")

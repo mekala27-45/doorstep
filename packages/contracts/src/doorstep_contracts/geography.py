@@ -14,7 +14,7 @@ from pathlib import Path
 
 import polars as pl
 
-from doorstep_contracts.common import ContractError, Rule, apply_rules, contract_digest, require
+from doorstep_contracts.common import ContractError, Rule, apply_rules, contract_digest
 
 VINTAGES = (2009, 2013, 2015, 2017, 2018, 2020, 2023)
 
@@ -32,8 +32,16 @@ FIELDS = (
 )
 
 RULES = (
-    Rule("county_in_two_areas", "a county mapped to more than one area in one vintage", lambda f: pl.col("areas_for_county") > 1),
-    Rule("malformed_fips", "a county code that is not five digits", lambda f: pl.col("county_fips").str.len_chars() != 5),
+    Rule(
+        "county_in_two_areas",
+        "a county mapped to more than one area in one vintage",
+        lambda f: pl.col("areas_for_county") > 1,
+    ),
+    Rule(
+        "malformed_fips",
+        "a county code that is not five digits",
+        lambda f: pl.col("county_fips").str.len_chars() != 5,
+    ),
 )
 
 DIGEST = contract_digest("geography", FIELDS, RULES, {"vintages": list(VINTAGES)})
@@ -118,7 +126,12 @@ def parse_vintage(external: Path, vintage: int) -> pl.DataFrame:
 
 
 def parse(external: Path) -> pl.DataFrame:
-    frames = [parse_vintage(external, v) for v in VINTAGES if (external / "delineations" / f"list1_{v}.xlsx").exists() or (external / "delineations" / f"list1_{v}.xls").exists()]
+    frames = [
+        parse_vintage(external, v)
+        for v in VINTAGES
+        if (external / "delineations" / f"list1_{v}.xlsx").exists()
+        or (external / "delineations" / f"list1_{v}.xls").exists()
+    ]
     if not frames:
         raise ContractError("no delineation files were found")
     frame = pl.concat(frames).sort(["vintage", "cbsa_code", "county_fips"])
@@ -128,7 +141,9 @@ def parse(external: Path) -> pl.DataFrame:
 
 def quarantine(frame: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
     flagged, report = apply_rules(frame, RULES, "omb", "vintage")
-    return flagged.select([*FIELDS, *[c for c in flagged.columns if c.startswith("q_")], "quarantined"]), report.frame()
+    return flagged.select(
+        [*FIELDS, *[c for c in flagged.columns if c.startswith("q_")], "quarantined"]
+    ), report.frame()
 
 
 def latest_vintage(frame: pl.DataFrame) -> int:
@@ -166,12 +181,20 @@ def parse_gazetteer(external: Path) -> pl.DataFrame:
     with zipfile.ZipFile(zips[-1]) as z:
         name = next(n for n in z.namelist() if n.endswith(".txt"))
         text = z.read(name).decode("latin-1")
-    frame = pl.read_csv(io.StringIO(text), separator="|", infer_schema_length=10_000, schema_overrides={"GEOID": pl.Utf8, "CSAFP": pl.Utf8})
+    frame = pl.read_csv(
+        io.StringIO(text),
+        separator="|",
+        infer_schema_length=10_000,
+        schema_overrides={"GEOID": pl.Utf8, "CSAFP": pl.Utf8},
+    )
     frame = frame.rename({c: c.strip() for c in frame.columns})
     return frame.select(
         pl.col("GEOID").alias("cbsa_code"),
         pl.col("NAME").alias("name"),
-        pl.when(pl.col("CBSA_TYPE") == 1).then(pl.lit("metropolitan")).otherwise(pl.lit("micropolitan")).alias("kind"),
+        pl.when(pl.col("CBSA_TYPE") == 1)
+        .then(pl.lit("metropolitan"))
+        .otherwise(pl.lit("micropolitan"))
+        .alias("kind"),
         pl.col("ALAND_SQMI").cast(pl.Float64).alias("land_sqmi"),
         pl.col("INTPTLAT").cast(pl.Float64).alias("latitude"),
         pl.col("INTPTLONG").cast(pl.Float64).alias("longitude"),

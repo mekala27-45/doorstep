@@ -27,7 +27,16 @@ def _county(i: int) -> str:
 def _acs_rows(w: World) -> pl.DataFrame:
     rows: list[dict[str, object]] = []
 
-    def put(year: int, code: str, name: str, table: str, var: str, est: float | None, moe: float | None, national: bool = False) -> None:
+    def put(
+        year: int,
+        code: str,
+        name: str,
+        table: str,
+        var: str,
+        est: float | None,
+        moe: float | None,
+        national: bool = False,
+    ) -> None:
         rows.append(
             {
                 "year": year,
@@ -62,7 +71,15 @@ def _acs_rows(w: World) -> pl.DataFrame:
         put(y, code, name, "B19013", "B19013_001", r["median_income"], r["median_income_moe"])
         put(y, code, name, "B25077", "B25077_001", r["median_value_reported"], r["median_value_moe"])
         put(y, code, name, "B25064", "B25064_001", r["median_rent"], float(r["median_rent"]) * 0.02)
-        put(y, code, name, "B25071", "B25071_001", 100.0 * 12.0 * float(r["median_rent"]) / float(r["renter_median_income"]), 0.5)
+        put(
+            y,
+            code,
+            name,
+            "B25071",
+            "B25071_001",
+            100.0 * 12.0 * float(r["median_rent"]) / float(r["renter_median_income"]),
+            0.5,
+        )
         put(y, code, name, "B25119", "B25119_001", r["median_income"], r["median_income_moe"])
         put(y, code, name, "B25119", "B25119_002", float(r["median_income"]) * 1.3, r["median_income_moe"])
         put(y, code, name, "B25119", "B25119_003", r["renter_median_income"], r["median_income_moe"])
@@ -102,7 +119,15 @@ def _acs_rows(w: World) -> pl.DataFrame:
         b = brackets.filter((pl.col("metro_id") == code) & (pl.col("year") == y)).sort("bracket")
         put(y, code, name, "B19001", "B19001_001", hh, hh * 0.01)
         for br in b.iter_rows(named=True):
-            put(y, code, name, "B19001", f"B19001_{int(br['bracket']) + 2:03d}", br["households"], None if br["households"] is None else float(br["households"]) * 0.1)
+            put(
+                y,
+                code,
+                name,
+                "B19001",
+                f"B19001_{int(br['bracket']) + 2:03d}",
+                br["households"],
+                None if br["households"] is None else float(br["households"]) * 0.1,
+            )
         # burden by income group: seven groups, spread by the renter income distribution
         starts = (2, 11, 20, 29, 38, 47, 56)
         shares = (0.08, 0.17, 0.22, 0.17, 0.18, 0.09, 0.09)
@@ -123,13 +148,67 @@ def _acs_rows(w: World) -> pl.DataFrame:
         sub = my.filter(pl.col("year") == y)
         hh = float(sub["households"].sum())
         put(y, "US", "United States", "B11001", "B11001_001", hh, hh * 0.002, True)
-        put(y, "US", "United States", "B25003", "B25003_002", float(sub["owner_households"].sum()), hh * 0.002, True)
-        put(y, "US", "United States", "B25003", "B25003_003", float(sub["renter_households"].sum()), hh * 0.002, True)
-        put(y, "US", "United States", "B19013", "B19013_001", float(sub["median_income"].median()), 300.0, True)
-        put(y, "US", "United States", "B25077", "B25077_001", float(sub["median_value_reported"].median()), 800.0, True)
+        put(
+            y,
+            "US",
+            "United States",
+            "B25003",
+            "B25003_002",
+            float(sub["owner_households"].sum()),
+            hh * 0.002,
+            True,
+        )
+        put(
+            y,
+            "US",
+            "United States",
+            "B25003",
+            "B25003_003",
+            float(sub["renter_households"].sum()),
+            hh * 0.002,
+            True,
+        )
+        put(
+            y,
+            "US",
+            "United States",
+            "B19013",
+            "B19013_001",
+            float(sub["median_income"].median()),
+            300.0,
+            True,
+        )
+        put(
+            y,
+            "US",
+            "United States",
+            "B25077",
+            "B25077_001",
+            float(sub["median_value_reported"].median()),
+            800.0,
+            True,
+        )
         put(y, "US", "United States", "B25064", "B25064_001", float(sub["median_rent"].median()), 5.0, True)
-        put(y, "US", "United States", "B25119", "B25119_003", float(sub["renter_median_income"].median()), 300.0, True)
-        put(y, "US", "United States", "B25119", "B25119_002", float(sub["median_income"].median()) * 1.3, 300.0, True)
+        put(
+            y,
+            "US",
+            "United States",
+            "B25119",
+            "B25119_003",
+            float(sub["renter_median_income"].median()),
+            300.0,
+            True,
+        )
+        put(
+            y,
+            "US",
+            "United States",
+            "B25119",
+            "B25119_002",
+            float(sub["median_income"].median()) * 1.3,
+            300.0,
+            True,
+        )
         renters = float(sub["renter_households"].sum())
         burdened = float((sub["rent_burdened_share"] * sub["renter_households"]).sum())
         severe = float((sub["rent_severe_share"] * sub["renter_households"]).sum())
@@ -146,7 +225,10 @@ def _loan_rows(w: World, *, scale: float = 1.0) -> pl.DataFrame:
     """Loan level rows per year with the counts the simulated world implies, at a stated scale."""
     g = rng(w.seed, "loans", w.condition.name)
     frames: list[pl.DataFrame] = []
-    income_by = {(r["metro_id"], r["year"]): (float(r["median_income"]), float(r["median_value_true"])) for r in w.metro_year.iter_rows(named=True)}
+    income_by = {
+        (r["metro_id"], r["year"]): (float(r["median_income"]), float(r["median_value_true"]))
+        for r in w.metro_year.iter_rows(named=True)
+    }
     for r in w.loans_year.iter_rows(named=True):
         year = int(r["year"])
         if year < 2018:
@@ -167,7 +249,11 @@ def _loan_rows(w: World, *, scale: float = 1.0) -> pl.DataFrame:
         amount = np.round(value * np.clip(g.normal(0.85, 0.1, n), 0.3, 0.98) / 5000.0) * 5000.0 + 5000.0
         purpose = np.array([1] * n_p + [31] * int(n_r * 0.6) + [32] * (n_r - int(n_r * 0.6)))
         rates = np.round(rate + g.normal(0.0, 0.3, n), 3)
-        ages = g.choice(["<25", "25-34", "35-44", "45-54", "55-64", "65-74", ">74"], size=n, p=[0.04, 0.3, 0.26, 0.18, 0.12, 0.07, 0.03])
+        ages = g.choice(
+            ["<25", "25-34", "35-44", "45-54", "55-64", "65-74", ">74"],
+            size=n,
+            p=[0.04, 0.3, 0.26, 0.18, 0.12, 0.07, 0.03],
+        )
         frames.append(
             pl.DataFrame(
                 {
@@ -206,7 +292,18 @@ def _loan_rows(w: World, *, scale: float = 1.0) -> pl.DataFrame:
         pl.lit(False).alias("q_reverse_open_or_business"),
         (pl.col("property_value") < pl.col("loan_amount")).alias("q_value_below_loan"),
     ).with_columns(
-        pl.any_horizontal([pl.col(c) for c in ["q_income_exempt_or_missing", "q_rate_missing", "q_term_not_30_years", "q_not_principal_residence", "q_value_below_loan"]]).alias("quarantined")
+        pl.any_horizontal(
+            [
+                pl.col(c)
+                for c in [
+                    "q_income_exempt_or_missing",
+                    "q_rate_missing",
+                    "q_term_not_30_years",
+                    "q_not_principal_residence",
+                    "q_value_below_loan",
+                ]
+            ]
+        ).alias("quarantined")
     )
     return frame
 
@@ -218,7 +315,10 @@ def export(w: World, external: Path, derived: Path, hmda: Path, *, loan_scale: f
     counts: dict[str, int] = {}
     n = w.metro_year["metro_id"].n_unique()
     codes = sorted(w.metro_year["metro_id"].unique().to_list())
-    names = {r["metro_id"]: r["metro_name"] for r in w.metro_year.select(["metro_id", "metro_name"]).unique().iter_rows(named=True)}
+    names = {
+        r["metro_id"]: r["metro_name"]
+        for r in w.metro_year.select(["metro_id", "metro_name"]).unique().iter_rows(named=True)
+    }
 
     # FHFA: the all-transactions index per metro and quarter, plus a purchase-only copy for the first thirty
     q = w.metro_quarter
@@ -247,7 +347,9 @@ def export(w: World, external: Path, derived: Path, hmda: Path, *, loan_scale: f
     fhfa.write_parquet(derived / "fhfa_quarterly.parquet")
     counts["fhfa_quarterly"] = fhfa.height
 
-    rates = w.rates.with_columns(pl.lit(13).alias("weeks")).select(["year", "quarter", "period", "rate", "weeks"])
+    rates = w.rates.with_columns(pl.lit(13).alias("weeks")).select(
+        ["year", "quarter", "period", "rate", "weeks"]
+    )
     rates.write_parquet(derived / "pmms_quarterly.parquet")
     counts["pmms_quarterly"] = rates.height
 
@@ -333,17 +435,54 @@ def export(w: World, external: Path, derived: Path, hmda: Path, *, loan_scale: f
                 "quarantined": False,
             }
         )
-        fmr_rows.append({"county_fips": county, "fiscal_year": y, "fmr_0": float(r["median_rent"]) * 0.8, "fmr_1": float(r["median_rent"]) * 0.9, "fmr_2": float(r["median_rent"]) * 1.05, "fmr_3": float(r["median_rent"]) * 1.4, "fmr_4": float(r["median_rent"]) * 1.7})
-        il_rows.append({"county_fips": county, "fiscal_year": y, "hud_area_code": f"METRO{r['metro_id']}", "hud_area_name": names[r["metro_id"]], "cbsa_code": r["metro_id"], "median_family_income": float(r["median_income"]) * 1.2, "l30_4": float(r["median_income"]) * 0.36, "l50_4": float(r["median_income"]) * 0.6, "l80_4": float(r["median_income"]) * 0.96, "q_non_positive_income": False, "q_limit_order": False, "quarantined": False})
-    pl.DataFrame(pop_rows, schema_overrides={"intercensal_population": pl.Float64}).write_parquet(derived / "popest_county.parquet")
-    pl.DataFrame(permit_rows, schema_overrides={"partial_through_month": pl.Int64}).write_parquet(derived / "bps_county.parquet")
+        fmr_rows.append(
+            {
+                "county_fips": county,
+                "fiscal_year": y,
+                "fmr_0": float(r["median_rent"]) * 0.8,
+                "fmr_1": float(r["median_rent"]) * 0.9,
+                "fmr_2": float(r["median_rent"]) * 1.05,
+                "fmr_3": float(r["median_rent"]) * 1.4,
+                "fmr_4": float(r["median_rent"]) * 1.7,
+            }
+        )
+        il_rows.append(
+            {
+                "county_fips": county,
+                "fiscal_year": y,
+                "hud_area_code": f"METRO{r['metro_id']}",
+                "hud_area_name": names[r["metro_id"]],
+                "cbsa_code": r["metro_id"],
+                "median_family_income": float(r["median_income"]) * 1.2,
+                "l30_4": float(r["median_income"]) * 0.36,
+                "l50_4": float(r["median_income"]) * 0.6,
+                "l80_4": float(r["median_income"]) * 0.96,
+                "q_non_positive_income": False,
+                "q_limit_order": False,
+                "quarantined": False,
+            }
+        )
+    pl.DataFrame(pop_rows, schema_overrides={"intercensal_population": pl.Float64}).write_parquet(
+        derived / "popest_county.parquet"
+    )
+    pl.DataFrame(permit_rows, schema_overrides={"partial_through_month": pl.Int64}).write_parquet(
+        derived / "bps_county.parquet"
+    )
     pl.DataFrame(fmr_rows).write_parquet(derived / "hud_fmr_history.parquet")
     il = pl.DataFrame(il_rows)
     il.write_parquet(derived / "hud_income_limits.parquet")
     il.select(["county_fips", "fiscal_year", "hud_area_code", "hud_area_name", "cbsa_code"]).with_columns(
-        pl.lit(1500.0).alias("fmr_0"), pl.lit(1600.0).alias("fmr_1"), pl.lit(1800.0).alias("fmr_2"), pl.lit(2200.0).alias("fmr_3"), pl.lit(2500.0).alias("fmr_4"),
-        pl.lit(False).alias("q_non_positive_rent"), pl.lit(False).alias("q_bedroom_order"), pl.lit(False).alias("quarantined")
-    ).filter(pl.col("fiscal_year") == pl.col("fiscal_year").max()).write_parquet(derived / "hud_fmr_latest.parquet")
+        pl.lit(1500.0).alias("fmr_0"),
+        pl.lit(1600.0).alias("fmr_1"),
+        pl.lit(1800.0).alias("fmr_2"),
+        pl.lit(2200.0).alias("fmr_3"),
+        pl.lit(2500.0).alias("fmr_4"),
+        pl.lit(False).alias("q_non_positive_rent"),
+        pl.lit(False).alias("q_bedroom_order"),
+        pl.lit(False).alias("quarantined"),
+    ).filter(pl.col("fiscal_year") == pl.col("fiscal_year").max()).write_parquet(
+        derived / "hud_fmr_latest.parquet"
+    )
     counts["popest_county"] = len(pop_rows)
     counts["bps_county"] = len(permit_rows)
 

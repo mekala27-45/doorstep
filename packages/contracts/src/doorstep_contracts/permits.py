@@ -36,9 +36,16 @@ RULES = (
     Rule(
         "imputed_share_high",
         "the imputed total exceeds the reported total by more than half",
-        lambda f: (pl.col("units_total_reported") > 0) & (pl.col("units_total") > 1.5 * pl.col("units_total_reported")),
+        lambda f: (
+            (pl.col("units_total_reported") > 0)
+            & (pl.col("units_total") > 1.5 * pl.col("units_total_reported"))
+        ),
     ),
-    Rule("malformed_fips", "a county code that is not five digits", lambda f: pl.col("county_fips").str.len_chars() != 5),
+    Rule(
+        "malformed_fips",
+        "a county code that is not five digits",
+        lambda f: pl.col("county_fips").str.len_chars() != 5,
+    ),
 )
 
 DIGEST = contract_digest("permits", FIELDS, RULES, {"grain": "county annual plus the current year to date"})
@@ -100,4 +107,6 @@ def parse(external: Path) -> pl.DataFrame:
 
 def quarantine(frame: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
     flagged, report = apply_rules(frame, RULES, "bps", "year")
-    return flagged.select([*FIELDS, *[c for c in flagged.columns if c.startswith("q_")], "quarantined"]), report.frame()
+    return flagged.select(
+        [*FIELDS, *[c for c in flagged.columns if c.startswith("q_")], "quarantined"]
+    ), report.frame()

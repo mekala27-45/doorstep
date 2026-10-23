@@ -53,13 +53,39 @@ FILTER = {
 }
 
 RULES = (
-    Rule("income_exempt_or_missing", "income reported as exempt or missing", lambda f: pl.col("income").is_null()),
+    Rule(
+        "income_exempt_or_missing",
+        "income reported as exempt or missing",
+        lambda f: pl.col("income").is_null(),
+    ),
     Rule("rate_missing", "no interest rate reported", lambda f: pl.col("interest_rate").is_null()),
-    Rule("term_not_30_years", "a loan term other than 360 months, excluded from the rate sensitive measures", lambda f: pl.col("loan_term") != 360),
-    Rule("metro_unresolved", "a metro code that is not five digits or is the 99999 code for no metro", lambda f: pl.col("msa_md").is_null() | (pl.col("msa_md") == "99999")),
-    Rule("not_principal_residence", "occupancy other than a principal residence", lambda f: pl.col("occupancy_type") != 1),
-    Rule("reverse_open_or_business", "a reverse mortgage, an open end line of credit or a business purpose loan", lambda f: (pl.col("reverse_mortgage") == 1) | (pl.col("open_end") == 1) | (pl.col("business_purpose") == 1)),
-    Rule("value_below_loan", "a property value below the loan amount", lambda f: pl.col("property_value") < pl.col("loan_amount")),
+    Rule(
+        "term_not_30_years",
+        "a loan term other than 360 months, excluded from the rate sensitive measures",
+        lambda f: pl.col("loan_term") != 360,
+    ),
+    Rule(
+        "metro_unresolved",
+        "a metro code that is not five digits or is the 99999 code for no metro",
+        lambda f: pl.col("msa_md").is_null() | (pl.col("msa_md") == "99999"),
+    ),
+    Rule(
+        "not_principal_residence",
+        "occupancy other than a principal residence",
+        lambda f: pl.col("occupancy_type") != 1,
+    ),
+    Rule(
+        "reverse_open_or_business",
+        "a reverse mortgage, an open end line of credit or a business purpose loan",
+        lambda f: (
+            (pl.col("reverse_mortgage") == 1) | (pl.col("open_end") == 1) | (pl.col("business_purpose") == 1)
+        ),
+    ),
+    Rule(
+        "value_below_loan",
+        "a property value below the loan amount",
+        lambda f: pl.col("property_value") < pl.col("loan_amount"),
+    ),
 )
 
 DIGEST = contract_digest("hmda", FIELDS, RULES, FILTER)
@@ -133,4 +159,8 @@ def refinance_filter() -> pl.Expr:
 
 def analysis_rows() -> pl.Expr:
     """Rows the chapters use: principal residence, not reverse, open end or business, metro resolved."""
-    return ~pl.col("q_not_principal_residence") & ~pl.col("q_reverse_open_or_business") & ~pl.col("q_metro_unresolved")
+    return (
+        ~pl.col("q_not_principal_residence")
+        & ~pl.col("q_reverse_open_or_business")
+        & ~pl.col("q_metro_unresolved")
+    )

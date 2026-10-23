@@ -28,18 +28,29 @@ FIELDS = (
 )
 
 RULES = (
-    Rule("vintage_overlap", "a county year estimated by more than one vintage; the later vintage is used", lambda f: pl.col("vintages_for_year") > 1),
-    Rule("non_positive_population", "a population estimate at or below zero", lambda f: pl.col("population") <= 0),
+    Rule(
+        "vintage_overlap",
+        "a county year estimated by more than one vintage; the later vintage is used",
+        lambda f: pl.col("vintages_for_year") > 1,
+    ),
+    Rule(
+        "non_positive_population",
+        "a population estimate at or below zero",
+        lambda f: pl.col("population") <= 0,
+    ),
 )
 
 DIGEST = contract_digest("population", FIELDS, RULES)
 
 
 def _melt(frame: pl.DataFrame, vintage: int, fips_expr: pl.Expr) -> pl.DataFrame:
-    years = sorted({int(m.group(1)) for c in frame.columns for m in [re.match(r"POPESTIMATE(\d{4})$", c)] if m})
+    years = sorted(
+        {int(m.group(1)) for c in frame.columns for m in [re.match(r"POPESTIMATE(\d{4})$", c)] if m}
+    )
     out: list[pl.DataFrame] = []
     for year in years:
-        def col(prefix: str) -> pl.Expr:
+
+        def col(prefix: str, year: int = year) -> pl.Expr:
             name = f"{prefix}{year}"
             alt = f"{prefix}_{year}"
             if name in frame.columns:
@@ -91,7 +102,11 @@ def parse_intercensal_totals(external: Path) -> pl.DataFrame | None:
     raw = pl.read_csv(path, encoding="latin-1", infer_schema_length=0)
     raw = raw.filter(pl.col("SUMLEV").cast(pl.Int64) == 50)
     fips = pl.col("STATE").cast(pl.Utf8).str.zfill(2) + pl.col("COUNTY").cast(pl.Utf8).str.zfill(3)
-    return _melt(raw, 2010, fips).select(["county_fips", "year", "population"]).rename({"population": "intercensal_population"})
+    return (
+        _melt(raw, 2010, fips)
+        .select(["county_fips", "year", "population"])
+        .rename({"population": "intercensal_population"})
+    )
 
 
 def latest_per_year(frame: pl.DataFrame) -> pl.DataFrame:
@@ -112,8 +127,14 @@ def parse_metros(external: Path) -> pl.DataFrame:
         if not m:
             continue
         raw = pl.read_csv(path, encoding="latin-1", infer_schema_length=0)
-        raw = raw.filter(pl.col("LSAD").str.contains("Statistical Area") & (pl.col("MDIV").is_null() | (pl.col("MDIV") == "")) & (pl.col("STCOU").is_null() | (pl.col("STCOU") == "")))
-        frames.append(_melt(raw, int(m.group(1)), pl.col("CBSA").cast(pl.Utf8)).rename({"county_fips": "cbsa_code"}))
+        raw = raw.filter(
+            pl.col("LSAD").str.contains("Statistical Area")
+            & (pl.col("MDIV").is_null() | (pl.col("MDIV") == ""))
+            & (pl.col("STCOU").is_null() | (pl.col("STCOU") == ""))
+        )
+        frames.append(
+            _melt(raw, int(m.group(1)), pl.col("CBSA").cast(pl.Utf8)).rename({"county_fips": "cbsa_code"})
+        )
     if not frames:
         raise ContractError(f"no metro population files under {folder}")
     return pl.concat(frames).sort(["cbsa_code", "year", "vintage"])
@@ -121,4 +142,6 @@ def parse_metros(external: Path) -> pl.DataFrame:
 
 def quarantine(frame: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
     flagged, report = apply_rules(frame, RULES, "popest", "year")
-    return flagged.select([*FIELDS, *[c for c in flagged.columns if c.startswith("q_")], "quarantined"]), report.frame()
+    return flagged.select(
+        [*FIELDS, *[c for c in flagged.columns if c.startswith("q_")], "quarantined"]
+    ), report.frame()
