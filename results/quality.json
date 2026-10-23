@@ -1,0 +1,42 @@
+{
+ "measured_at": "2026-10-23T06:17:40+00:00",
+ "ruff": "clean",
+ "mypy": "clean",
+ "coverage": 86.0,
+ "tests": {
+  "passed": 147,
+  "failed": 0,
+  "skipped": 2,
+  "exit_code": 0
+ },
+ "api_tests": {
+  "passed": 8,
+  "failed": 0,
+  "names": [
+   "test_audit_precedes_response",
+   "test_check_is_committed",
+   "test_curve_and_metros",
+   "test_every_route_carries_the_statement",
+   "test_health_carries_the_statement_and_the_marts",
+   "test_score_is_committed",
+   "test_the_calculator_answers_a_stated_load",
+   "test_unknown_metro_and_quarter_are_404",
+   "test_writes_without_the_token_are_refused"
+  ]
+ },
+ "finance_tests": {
+  "passed": 22,
+  "failed": 0
+ },
+ "libreoffice_recalc": "passed",
+ "skips": [
+  {
+   "test": "tests.api.test_load::test_the_calculator_answers_a_stated_load",
+   "reason": "loadtest not available: DOORSTEP_LOADTEST_BASE names no running API"
+  },
+  {
+   "test": "tests.render.test_story::test_every_story_template_field_resolves_and_every_chart_exists",
+   "reason": "covered by tests/pipeline/test_demonstration_pipeline.py when the demonstration warehouse is built"
+  }
+ ]
+}

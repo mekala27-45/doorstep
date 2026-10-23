@@ -49,7 +49,9 @@ RULES = (
     Rule(
         "county_listed_twice",
         "a county listed twice in one file under two spellings of its name (the 2014 and 2015 files); the second row",
-        lambda f: pl.col("county_fips").cum_count().over(["year", "partial_through_month", "county_fips"]) > 1,
+        lambda f: (
+            pl.col("county_fips").cum_count().over(["year", "partial_through_month", "county_fips"]) > 1
+        ),
     ),
 )
 
