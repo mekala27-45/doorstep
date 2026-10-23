@@ -102,7 +102,18 @@ def parse(external: Path) -> pl.DataFrame:
             frames.append(_read(path, 2000 + int(ytd.group(1)), int(ytd.group(2))))
     if not frames:
         raise ContractError(f"no permit files under {folder}")
-    return pl.concat(frames).sort(["year", "county_fips"])
+    out = pl.concat(frames).sort(["year", "county_fips"])
+    refuse_missing_years(out)
+    return out
+
+
+def refuse_missing_years(frame: pl.DataFrame) -> None:
+    """Every year from the first annual file to the last must be present: a window with a hole in it is a
+    fetch that stopped, not a series, and the first real build had three files where it needed twenty seven."""
+    years = sorted(frame.filter(pl.col("partial_through_month").is_null())["year"].unique().to_list())
+    missing = sorted(set(range(years[0], years[-1] + 1)) - set(years))
+    if missing:
+        raise ContractError(f"permit years missing between {years[0]} and {years[-1]}: {missing}")
 
 
 def quarantine(frame: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:

@@ -230,6 +230,42 @@ def test_every_county_maps_to_one_area_per_vintage_and_a_planted_double_is_rejec
         geography.quarantine(clean.clear())
 
 
+def test_aliases_name_a_recode_a_merge_a_dissolution_and_a_split() -> None:
+    frame = _geo(
+        [
+            # the latest vintage: Cleveland under its new code, San Juan with the county Fajardo had, two areas
+            # that split an earlier one between them
+            {"vintage": 2023, "cbsa_code": "17410", "county_fips": "39035", "areas_for_county": 1},
+            {"vintage": 2023, "cbsa_code": "17410", "county_fips": "39055", "areas_for_county": 1},
+            {"vintage": 2023, "cbsa_code": "17410", "county_fips": "39085", "areas_for_county": 1},
+            {"vintage": 2023, "cbsa_code": "41980", "county_fips": "72127", "areas_for_county": 1},
+            {"vintage": 2023, "cbsa_code": "41980", "county_fips": "72053", "areas_for_county": 1},
+            {"vintage": 2023, "cbsa_code": "25060", "county_fips": "28047", "areas_for_county": 1},
+            {"vintage": 2023, "cbsa_code": "26000", "county_fips": "28059", "areas_for_county": 1},
+            # the earlier vintage
+            {"vintage": 2020, "cbsa_code": "17460", "county_fips": "39035", "areas_for_county": 1},
+            {"vintage": 2020, "cbsa_code": "17460", "county_fips": "39055", "areas_for_county": 1},
+            {"vintage": 2020, "cbsa_code": "41980", "county_fips": "72127", "areas_for_county": 1},
+            {"vintage": 2020, "cbsa_code": "21940", "county_fips": "72053", "areas_for_county": 1},
+            {"vintage": 2020, "cbsa_code": "99990", "county_fips": "01001", "areas_for_county": 1},
+            {"vintage": 2020, "cbsa_code": "37700", "county_fips": "28047", "areas_for_county": 1},
+            {"vintage": 2020, "cbsa_code": "37700", "county_fips": "28059", "areas_for_county": 1},
+        ]
+    )
+    flagged, _ = geography.quarantine(frame)
+    aliases = geography.aliases(flagged)
+    by_code = {row["cbsa_code"]: row for row in aliases.iter_rows(named=True)}
+    assert set(by_code) == {"17460", "21940", "99990", "37700"}
+    assert by_code["17460"]["rule"] == "recode" and by_code["17460"]["latest_code"] == "17410"
+    assert by_code["17460"]["counties"] == 2 and by_code["17460"]["counties_in_latest"] == 2
+    assert by_code["21940"]["rule"] == "merged" and by_code["21940"]["latest_code"] == "41980"
+    assert by_code["99990"]["rule"] == "dissolved" and by_code["99990"]["latest_code"] is None
+    assert by_code["37700"]["rule"] == "split" and by_code["37700"]["latest_code"] is None
+    # one vintage only: nothing to alias, the schema stays
+    single = geography.aliases(flagged.filter(pl.col("vintage") == 2023))
+    assert single.height == 0 and list(single.columns) == list(aliases.columns)
+
+
 def test_areas_and_divisions_of_a_vintage() -> None:
     frame = _geo(
         [
