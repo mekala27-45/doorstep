@@ -356,8 +356,8 @@ function Run-Acs {
             $isUs = $t.EndsWith("_us")
             $table = $t -replace "_us$", ""
             $cells = $tables[$table]
-            # B25074 carried seven cells per income group (five rent bands) through 2014 and nine from 2015.
-            if ($table -eq "B25074" -and $y -le 2014) { $cells = 50 }
+            # B25074 carried seven cells per income group (five rent bands) through the 2013 release and nine from 2014.
+            if ($table -eq "B25074" -and $y -le 2013) { $cells = 50 }
             $forPart = if ($isUs) { "us:1" } else { $geo }
             $dest = Join-Path $yDir "$t.json"
             if (Test-Path $dest) {

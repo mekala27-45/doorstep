@@ -1,8 +1,8 @@
 -- Renter cost burden by household income group (table B25074): seven income groups, each with the renters whose
 -- rent takes thirty percent or more and fifty percent or more of income, over renters with a computed share.
--- The table carried five rent bands (seven cells per group, fifty in all) through 2014 and seven bands (nine cells
--- per group, sixty four in all) from 2015; the fifty percent band exists only from 2015, so the severe count is
--- null before that and the chart that crosses it says so.
+-- The table carried five rent bands (seven cells per group, fifty in all) through the 2013 release and seven bands
+-- (nine cells per group, sixty four in all) from the 2014 release; the fifty percent band exists only from 2014, so
+-- the severe count is null before that and the chart that crosses it says so.
 {% set groups = ['under_10k', '10k_to_20k', '20k_to_35k', '35k_to_50k', '50k_to_75k', '75k_to_100k', '100k_plus'] %}
 with long as (
     select year, cbsa_code, cast(substr(variable, 8, 3) as integer) as cell, estimate
@@ -10,9 +10,9 @@ with long as (
 ),
 cells as (
     select year, cbsa_code, cell, estimate,
-           case when year <= 2014 then 7 else 9 end as per_group,
-           (cell - 2) // case when year <= 2014 then 7 else 9 end as group_index,
-           (cell - 2) % case when year <= 2014 then 7 else 9 end as cell_offset
+           case when year <= 2013 then 7 else 9 end as per_group,
+           (cell - 2) // case when year <= 2013 then 7 else 9 end as group_index,
+           (cell - 2) % case when year <= 2013 then 7 else 9 end as cell_offset
     from long where cell >= 2
 ),
 pivoted as (

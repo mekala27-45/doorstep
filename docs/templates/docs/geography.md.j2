@@ -9,7 +9,8 @@ A metropolitan area is a list of counties, and the list changes. The OMB delinea
 - **FHFA** publishes by area code and by metropolitan division; the divisions are rolled up to the area through the vintage of the quarter, weighted by owner households (`int_fhfa_area`).
 - **ACS** publishes by area code for the vintage of the release year; the code is carried through the alias table to the latest code.
 - **Permits and population** are county files; each county is assigned to the area of the vintage in force for that year (`int_county_vintage_map`, `int_county_year`).
-- **HMDA** carries a derived area or division code; it is resolved through the delineation of the loan's activity year, and a code that does not resolve is flagged by the `metro_unresolved` rule and kept.
+- **HMDA** carries the county of the property; the loan is placed through the delineation of its activity year, the derived area code the file also carries is only a check, and a loan whose county is in no area and whose code is blank or the non metro sentinel is flagged by the `metro_unresolved` rule and kept.
+- **Puerto Rico** has four metropolitan areas in the delineation with census rows and loans but no FHFA index, so they appear in the explorer's census tables and in no anchored chapter; the warehouse test that asks for a year of prices in every large metropolitan area leaves them out by name.
 - **HUD** fair market rents and income limits are published by HUD area; the HUD area to metro map is committed from the HUD area definition file of the latest year (`data/hud_area_map.csv`).
 
 ## Tests
