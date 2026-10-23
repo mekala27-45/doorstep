@@ -1,29 +1,41 @@
 -- Renter cost burden by household income group (table B25074): seven income groups, each with the renters whose
 -- rent takes thirty percent or more and fifty percent or more of income, over renters with a computed share.
-{% set groups = [
-    ('g_under_10k', 2), ('g_10k_to_20k', 11), ('g_20k_to_35k', 20), ('g_35k_to_50k', 29), ('g_50k_to_75k', 38), ('g_75k_to_100k', 47), ('g_100k_plus', 56)
-] %}
+-- The table carried five rent bands (seven cells per group, fifty in all) through 2014 and seven bands (nine cells
+-- per group, sixty four in all) from 2015; the fifty percent band exists only from 2015, so the severe count is
+-- null before that and the chart that crosses it says so.
+{% set groups = ['under_10k', '10k_to_20k', '20k_to_35k', '35k_to_50k', '50k_to_75k', '75k_to_100k', '100k_plus'] %}
 with long as (
-    select year, cbsa_code, variable, estimate from {{ ref('stg_acs') }} where "table" = 'B25074' and not is_national
+    select year, cbsa_code, cast(substr(variable, 8, 3) as integer) as cell, estimate
+    from {{ ref('stg_acs') }} where "table" = 'B25074' and not is_national
+),
+cells as (
+    select year, cbsa_code, cell, estimate,
+           case when year <= 2014 then 7 else 9 end as per_group,
+           (cell - 2) // case when year <= 2014 then 7 else 9 end as group_index,
+           (cell - 2) % case when year <= 2014 then 7 else 9 end as cell_offset
+    from long where cell >= 2
 ),
 pivoted as (
-    select year, cbsa_code,
-        {% for name, start in groups %}
-        max(case when variable = 'B25074_{{ '%03d' % start }}' then estimate end) as {{ name }}_total,
-        max(case when variable = 'B25074_{{ '%03d' % (start + 4) }}' then estimate end) as {{ name }}_30_35,
-        max(case when variable = 'B25074_{{ '%03d' % (start + 5) }}' then estimate end) as {{ name }}_35_40,
-        max(case when variable = 'B25074_{{ '%03d' % (start + 6) }}' then estimate end) as {{ name }}_40_50,
-        max(case when variable = 'B25074_{{ '%03d' % (start + 7) }}' then estimate end) as {{ name }}_50_plus,
-        max(case when variable = 'B25074_{{ '%03d' % (start + 8) }}' then estimate end) as {{ name }}_not_computed{% if not loop.last %},{% endif %}
-        {% endfor %}
-    from long
-    group by year, cbsa_code
+    select year, cbsa_code, group_index, max(per_group) as per_group,
+           max(case when cell_offset = 0 then estimate end) as total,
+           max(case when cell_offset = per_group - 1 then estimate end) as not_computed,
+           sum(case when per_group = 7 and cell_offset in (4, 5) then estimate end) as burdened_old,
+           sum(case when per_group = 9 and cell_offset in (4, 5, 6, 7) then estimate end) as burdened_new,
+           max(case when per_group = 9 and cell_offset = 7 then estimate end) as severe_new
+    from cells
+    group by year, cbsa_code, group_index
 )
-{% for name, start in groups %}
-select year, cbsa_code, '{{ name[2:] }}' as income_group, {{ loop.index }} as group_order,
-       {{ name }}_total - coalesce({{ name }}_not_computed, 0) as renters_with_share,
-       coalesce({{ name }}_30_35, 0) + coalesce({{ name }}_35_40, 0) + coalesce({{ name }}_40_50, 0) + coalesce({{ name }}_50_plus, 0) as renters_burdened,
-       coalesce({{ name }}_50_plus, 0) as renters_severe
+select
+    year,
+    cbsa_code,
+    case group_index
+        {% for name in groups %}
+        when {{ loop.index0 }} then '{{ name }}'
+        {% endfor %}
+    end as income_group,
+    group_index + 1 as group_order,
+    total - coalesce(not_computed, 0) as renters_with_share,
+    coalesce(burdened_new, burdened_old, 0) as renters_burdened,
+    case when per_group = 9 then coalesce(severe_new, 0) end as renters_severe
 from pivoted
-{% if not loop.last %}union all{% endif %}
-{% endfor %}
+where group_index between 0 and 6

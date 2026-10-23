@@ -26,8 +26,11 @@ SHIPPED: dict[str, tuple[str, ...]] = {
     "mart_rent_burden_by_income": ("year", "cbsa_code", "group_order"),
     "mart_national_year": ("year",),
     "mart_quarantine": ("source", "rule", "year"),
+    "mart_borrowers_income": ("year", "cbsa_code", "lei", "income_bin"),
+    "mart_borrowers_vti": ("year", "lei", "vti_bin"),
+    "mart_borrowers_spread": ("year", "spread_bin"),
     "fct_metro_year": ("cbsa_code", "year"),
-    "grain_acs": ("year", "cbsa_code", "\"table\"", "variable"),
+    "grain_acs": ("year", "cbsa_code", '"table"', "variable"),
     "grain_counties": ("year", "county_fips"),
     "grain_loans": ("year", "cbsa_code", "loan_purpose", "interest_rate"),
 }

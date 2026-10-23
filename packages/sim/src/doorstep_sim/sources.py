@@ -128,19 +128,26 @@ def _acs_rows(w: World) -> pl.DataFrame:
                 br["households"],
                 None if br["households"] is None else float(br["households"]) * 0.1,
             )
-        # burden by income group: seven groups, spread by the renter income distribution
-        starts = (2, 11, 20, 29, 38, 47, 56)
+        # burden by income group: seven groups, spread by the renter income distribution, in the layout the
+        # census used that year (seven cells per group with five rent bands through 2014, nine from 2015)
         shares = (0.08, 0.17, 0.22, 0.17, 0.18, 0.09, 0.09)
         burden_by_group = (0.95, 0.85, 0.6, 0.35, 0.15, 0.05, 0.02)
         severe_by_group = (0.75, 0.5, 0.25, 0.08, 0.02, 0.0, 0.0)
-        for start, share, bg, sg in zip(starts, shares, burden_by_group, severe_by_group, strict=True):
+        per_group = 7 if y <= 2014 else 9
+        for g, (share, bg, sg) in enumerate(zip(shares, burden_by_group, severe_by_group, strict=True)):
+            start = 2 + g * per_group
             total = renters * share
             put(y, code, name, "B25074", f"B25074_{start:03d}", total, total * 0.05)
-            put(y, code, name, "B25074", f"B25074_{start + 4:03d}", total * (bg - sg) * 0.4, None)
-            put(y, code, name, "B25074", f"B25074_{start + 5:03d}", total * (bg - sg) * 0.3, None)
-            put(y, code, name, "B25074", f"B25074_{start + 6:03d}", total * (bg - sg) * 0.3, None)
-            put(y, code, name, "B25074", f"B25074_{start + 7:03d}", total * sg, None)
-            put(y, code, name, "B25074", f"B25074_{start + 8:03d}", 0.0, None)
+            if per_group == 9:
+                put(y, code, name, "B25074", f"B25074_{start + 4:03d}", total * (bg - sg) * 0.4, None)
+                put(y, code, name, "B25074", f"B25074_{start + 5:03d}", total * (bg - sg) * 0.3, None)
+                put(y, code, name, "B25074", f"B25074_{start + 6:03d}", total * (bg - sg) * 0.3, None)
+                put(y, code, name, "B25074", f"B25074_{start + 7:03d}", total * sg, None)
+                put(y, code, name, "B25074", f"B25074_{start + 8:03d}", 0.0, None)
+            else:
+                put(y, code, name, "B25074", f"B25074_{start + 4:03d}", total * bg * 0.4, None)
+                put(y, code, name, "B25074", f"B25074_{start + 5:03d}", total * bg * 0.6, None)
+                put(y, code, name, "B25074", f"B25074_{start + 6:03d}", 0.0, None)
     # national rows: the household weighted sums and medians
     for y in sorted(set(my["year"].to_list())):
         if y == 2020:
