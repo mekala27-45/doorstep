@@ -84,6 +84,10 @@ make rederive     # everything again from the raw files in a worktree, and a dif
 
 The raw files are fetched on a machine that can reach the hosts (`deploy/fetch-data.ps1`, with a free Census API key); `docs/runbook.md` has the order, what each step writes and what to do when one stops.
 
+## How this was built
+
+Built with Claude as a pair programmer, over one long working session. The design, the scope and every call about method and trade off are mine; Claude wrote most of the implementation and the tests, and the commit history is left as it happened, trailers included. `DECISIONS.md` records what was challenged along the way and what changed because of it, including the two reversals the simulator forced and the two defects the warehouse tests caught in the first real build.
+
 ## Data and licenses
 
 Code: Apache 2.0. Data: the Federal Housing Finance Agency house price index, the Census Bureau's American Community Survey, Building Permits Survey, population estimates and delineation files, the Department of Housing and Urban Development's fair market rents and income limits and the Consumer Financial Protection Bureau's mortgage disclosure extract are U.S. government works in the public domain; the Freddie Mac Primary Mortgage Market Survey is free with attribution under its terms of use, attributed in `data/PROVENANCE.md` and on every page that shows a rate. `data/PROVENANCE.md` lists every file with its source and its checksum. The derived race and ethnicity fields of the loan extract are not loaded. This is a portfolio analysis and a demonstration API with a token gate on writes and no other authentication; it is not financial advice, not a forecast and not a fair lending finding.
