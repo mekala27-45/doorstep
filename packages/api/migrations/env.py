@@ -6,13 +6,16 @@ import os
 
 import doorstep_api.db  # noqa: F401  (registers the tables on SQLModel.metadata)
 from alembic import context
+from doorstep_api.settings import normalize_database_url
 from sqlalchemy import engine_from_config, pool, text
 from sqlmodel import SQLModel
 
 config = context.config
 config.set_main_option(
     "sqlalchemy.url",
-    os.environ.get("DATABASE_URL", "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/doorstep"),
+    normalize_database_url(
+        os.environ.get("DATABASE_URL", "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/doorstep")
+    ),
 )
 target_metadata = SQLModel.metadata
 SCHEMA = os.environ.get("DOORSTEP_DB_SCHEMA", "").strip()

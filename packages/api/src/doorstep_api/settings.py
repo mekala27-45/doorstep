@@ -23,11 +23,22 @@ class Settings:
         return bool(self.write_token)
 
 
+def normalize_database_url(url: str) -> str:
+    """The connection string as a host hands it over (`postgres://` or `postgresql://`, which is what
+    Neon and Vercel show) becomes the SQLAlchemy form with the psycopg driver named, so nobody has to
+    edit a secret by hand to deploy; a URL that already names a driver is returned unchanged."""
+    url = url.strip()
+    for prefix in ("postgresql://", "postgres://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix) :]
+    return url
+
+
 def load_settings() -> Settings:
     root = Path(os.environ.get("DOORSTEP_ROOT", Path(__file__).resolve().parents[4]))
     return Settings(
-        database_url=os.environ.get(
-            "DATABASE_URL", "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/doorstep"
+        database_url=normalize_database_url(
+            os.environ.get("DATABASE_URL", "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/doorstep")
         ),
         write_token=os.environ.get("DOORSTEP_WRITE_TOKEN", ""),
         marts=Path(os.environ.get("DOORSTEP_MARTS", root / "results" / "marts")),
