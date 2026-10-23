@@ -49,6 +49,12 @@ class DemoPaths(Paths):
     def scratch(self) -> Path:
         return self.home / "scratch"
 
+    @property
+    def exports(self) -> Path:
+        # The demonstration run writes its workbook and bundle under the temp root too; the first version
+        # wrote them into the repository's exports/ and a test run overwrote the real bundle in the tree.
+        return self.home / "exports"
+
 
 @pytest.fixture(scope="module")
 def demo(tmp_path_factory: pytest.TempPathFactory) -> Iterator[DemoPaths]:

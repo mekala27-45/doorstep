@@ -56,7 +56,7 @@ def _partials(p: Paths) -> Manifest:
 
 def run(p: Paths) -> Manifest:
     source = _partials(p)
-    out = p.root / "exports"
+    out = p.exports
     metros = pl.read_parquet(p.marts / "calc_metros.parquet")
     meta = json.loads((p.marts / "calc_meta.json").read_text(encoding="utf-8"))
     built = workbook.build(
