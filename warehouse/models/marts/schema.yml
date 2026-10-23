@@ -1,0 +1,187 @@
+version: 2
+
+models:
+  - name: fct_metro_year
+    description: The grain, one row per area and year.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [cbsa_code, year]
+      - sums_match:
+          column_name: households
+          compare_model: grain_acs
+          compare_expression: "sum(estimate) filter (where variable = 'B11001_001')"
+      - sums_match:
+          column_name: permits
+          compare_model: grain_counties
+          compare_expression: "sum(permits)"
+      - sums_match:
+          column_name: population
+          compare_model: grain_counties
+          compare_expression: "sum(population)"
+      - sums_match:
+          column_name: purchase_loans
+          compare_model: grain_loans
+          compare_expression: "count(*) filter (where loan_purpose = 1)"
+    columns:
+      - name: cbsa_code
+        data_tests: [not_null]
+      - name: year
+        data_tests: [not_null]
+      - name: kind
+        data_tests:
+          - accepted_values: {values: ['metropolitan', 'micropolitan']}
+      - name: households
+        data_tests: [non_negative]
+      - name: owner_households
+        data_tests: [non_negative]
+      - name: renter_households
+        data_tests: [non_negative]
+      - name: median_income
+        data_tests: [non_negative]
+      - name: median_value_reported
+        data_tests: [non_negative]
+      - name: median_rent
+        data_tests: [non_negative]
+      - name: permits
+        data_tests: [non_negative]
+      - name: population
+        data_tests: [non_negative]
+      - name: value_anchored
+        data_tests: [non_negative]
+      - name: renter_burdened_share
+        data_tests:
+          - between: {min_value: 0, max_value: 1}
+      - name: renter_severe_share
+        data_tests:
+          - between: {min_value: 0, max_value: 1}
+      - name: rate
+        data_tests:
+          - between: {min_value: 2, max_value: 20}
+      - name: purchase_loans
+        data_tests: [non_negative]
+      - name: refinance_loans
+        data_tests: [non_negative]
+      - name: low_rate_originations
+        data_tests: [non_negative]
+      - name: index_at
+        data_tests: [non_negative]
+      - name: fmr_2
+        data_tests: [non_negative]
+      - name: hud_median_family_income
+        data_tests: [non_negative]
+  - name: mart_metro_year
+    description: The shipped metro by year mart with the derived measures.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [cbsa_code, year]
+      - sums_match:
+          column_name: renters_burdened
+          compare_model: fct_metro_year
+          compare_expression: "sum(renters_burdened)"
+      - sums_match:
+          column_name: low_rate_originations
+          compare_model: fct_metro_year
+          compare_expression: "sum(low_rate_originations)"
+    columns:
+      - name: payment
+        data_tests: [non_negative]
+      - name: payment_share
+        data_tests:
+          - between: {min_value: 0, max_value: 5}
+      - name: price_to_income
+        data_tests:
+          - between: {min_value: 0, max_value: 40}
+      - name: rent_to_price
+        data_tests:
+          - between: {min_value: 0, max_value: 1}
+      - name: turnover_per_100_owners
+        data_tests:
+          - between: {min_value: 0, max_value: 100}
+      - name: purchase_under_35_share
+        data_tests:
+          - between: {min_value: 0, max_value: 1}
+      - name: borrower_income_ratio
+        data_tests:
+          - between: {min_value: 0, max_value: 20}
+      - name: domestic_migration_per_100
+        data_tests:
+          - between: {min_value: -50, max_value: 50}
+      - name: payment
+        data_tests:
+          - expression_is_true:
+              expression: "payment is null or rate is null or value_anchored is null or payment > 0"
+  - name: mart_metro_quarter
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [cbsa_code, year, quarter]
+    columns:
+      - name: index_nsa
+        data_tests: [not_null, non_negative]
+      - name: value_anchored
+        data_tests: [non_negative]
+      - name: payment_share
+        data_tests:
+          - between: {min_value: 0, max_value: 5}
+      - name: rate
+        data_tests:
+          - between: {min_value: 2, max_value: 20}
+  - name: mart_income_brackets
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, cbsa_code, bracket]
+    columns:
+      - name: bracket
+        data_tests:
+          - between: {min_value: 0, max_value: 15}
+      - name: households
+        data_tests: [non_negative]
+  - name: mart_rent_burden_by_income
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, cbsa_code, income_group]
+    columns:
+      - name: renters_burdened
+        data_tests:
+          - non_negative
+          - expression_is_true:
+              expression: "renters_burdened <= renters_with_share + 1"
+      - name: renters_severe
+        data_tests:
+          - expression_is_true:
+              expression: "renters_severe <= renters_burdened + 1"
+      - name: group_order
+        data_tests:
+          - between: {min_value: 1, max_value: 7}
+  - name: mart_national_year
+    data_tests:
+      - not_empty
+    columns:
+      - name: year
+        data_tests: [not_null, unique]
+      - name: renter_burdened_share
+        data_tests:
+          - between: {min_value: 0, max_value: 1}
+  - name: mart_quarantine
+    data_tests: [not_empty]
+    columns:
+      - name: flagged
+        data_tests: [non_negative]
+      - name: rows
+        data_tests: [non_negative]
+  - name: grain_acs
+    data_tests: [not_empty]
+  - name: grain_counties
+    data_tests: [not_empty]
+    columns:
+      - name: cbsa_code
+        data_tests: [not_null]
+  - name: grain_loans
+    data_tests: [not_empty]
+    columns:
+      - name: cbsa_code
+        data_tests: [not_null]

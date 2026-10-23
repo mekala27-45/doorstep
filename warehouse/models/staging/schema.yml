@@ -1,0 +1,92 @@
+version: 2
+
+models:
+  - name: stg_fhfa
+    description: The FHFA quarterly metro index rows with their quarantine flag.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [flavor, place_id, year, quarter]
+    columns:
+      - name: place_id
+        data_tests: [not_null]
+      - name: index_nsa
+        data_tests: [not_null, non_negative]
+      - name: quarter
+        data_tests:
+          - between: {min_value: 1, max_value: 4}
+  - name: stg_rates
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, quarter]
+    columns:
+      - name: rate
+        data_tests:
+          - not_null
+          - between: {min_value: 2, max_value: 20}
+  - name: stg_acs
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, cbsa_code, variable]
+    columns:
+      - name: variable
+        data_tests: [not_null]
+      - name: cbsa_code
+        data_tests: [not_null]
+  - name: stg_delineations
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [vintage, county_fips]
+    columns:
+      - name: cbsa_code
+        data_tests: [not_null]
+      - name: kind
+        data_tests:
+          - accepted_values: {values: ['metropolitan', 'micropolitan']}
+  - name: stg_permits
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, partial_through_month, county_fips]
+    columns:
+      - name: units_total
+        data_tests: [not_null, non_negative]
+  - name: stg_population
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [county_fips, year]
+    columns:
+      - name: population
+        data_tests: [not_null, non_negative]
+  - name: stg_fmr
+    data_tests: [not_empty]
+    columns:
+      - name: fmr_2
+        data_tests: [non_negative]
+  - name: stg_income_limits
+    data_tests: [not_empty]
+    columns:
+      - name: median_family_income
+        data_tests: [non_negative]
+  - name: stg_gazetteer
+    data_tests: [not_empty]
+    columns:
+      - name: cbsa_code
+        data_tests: [not_null, unique]
+      - name: latitude
+        data_tests:
+          - between: {min_value: -15, max_value: 72}
+  - name: stg_loans
+    data_tests: [not_empty]
+    columns:
+      - name: year
+        data_tests: [not_null]
+      - name: loan_purpose
+        data_tests:
+          - accepted_values: {values: [1, 31, 32]}
+      - name: loan_amount
+        data_tests: [non_negative]

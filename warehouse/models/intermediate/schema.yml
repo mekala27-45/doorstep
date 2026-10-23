@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: int_metro_dim
+    description: Every area in the latest vintage with its kind, counties, states and centroid.
+    data_tests:
+      - not_empty
+    columns:
+      - name: cbsa_code
+        data_tests: [not_null, unique]
+      - name: counties
+        data_tests:
+          - between: {min_value: 1, max_value: 40}
+      - name: kind
+        data_tests:
+          - accepted_values: {values: ['metropolitan', 'micropolitan']}
+  - name: int_county_vintage_map
+    description: County to area per publication year through the vintage in force.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, county_fips]
+    columns:
+      - name: vintage
+        data_tests: [not_null]
+  - name: int_fhfa_area
+    description: The index per area and quarter, divisions rolled up to their area.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [cbsa_code, flavor, year, quarter]
+    columns:
+      - name: index_nsa
+        data_tests: [not_null, non_negative]
+  - name: int_acs_metro_year
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, cbsa_code]
+    columns:
+      - name: renter_burdened_share
+        data_tests:
+          - between: {min_value: 0, max_value: 1}
+      - name: renter_severe_share
+        data_tests:
+          - between: {min_value: 0, max_value: 1}
+      - name: owner_mortgage_burdened_share
+        data_tests:
+          - between: {min_value: 0, max_value: 1}
+      - name: renters_severe
+        data_tests:
+          - expression_is_true:
+              expression: "renters_severe <= renters_burdened + 1"
+  - name: int_county_year
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, county_fips]
+  - name: int_loans_metro_year
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [cbsa_code, year]
+    columns:
+      - name: purchase_loans
+        data_tests: [non_negative]
+      - name: low_rate_originations
+        data_tests:
+          - expression_is_true:
+              expression: "low_rate_originations <= thirty_year_originations"
+      - name: purchase_under_35
+        data_tests:
+          - expression_is_true:
+              expression: "purchase_under_35 is null or purchase_with_age is null or purchase_under_35 <= purchase_with_age"
