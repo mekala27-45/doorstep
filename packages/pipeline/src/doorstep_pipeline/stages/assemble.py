@@ -13,7 +13,16 @@ import json
 import subprocess
 from pathlib import Path
 
-from doorstep_core.config import POLICY
+from doorstep_core.config import (
+    AFFORDABLE_LINES,
+    ANCHOR_YEARS,
+    DOWN_PAYMENT_SHARES,
+    LOCK_IN_THRESHOLDS,
+    POLICY,
+    SAVING_RATES,
+    SEVERE_LINES,
+    SUPPLY_WINDOWS,
+)
 from doorstep_core.manifest import Manifest, Scribe
 from doorstep_core.paths import Paths
 
@@ -23,7 +32,7 @@ from doorstep_pipeline.common import DEMONSTRATION_SEED, as_of
 ORDER = ("data", "simulate", "recovery", "warehouse", "metrics", "chapters", "exports")
 """The stage order the pipeline runs in. The Makefile's pipeline target and the rederive follow it."""
 
-STORY_CHAPTERS = ("definition", "padding", "line", "inherited", "ranking", "causes", "meltdowns", "decision")
+STORY_CHAPTERS = ("definition", "rate_shock", "burden", "supply", "ranking", "buyers", "migration", "decision")
 
 
 def run(p: Paths) -> Manifest:
@@ -70,24 +79,66 @@ def _policy(manifest: Manifest) -> None:
     w = Scribe(
         manifest, source="static", population="the analysis policy", origin="doorstep_core.config.POLICY"
     )
-    w.put("policy.window_start", POLICY.window_start, "text")
+    w.put("policy.window_start_year", str(POLICY.window_start_year), "text")
+    w.put("policy.acs_first_year", str(POLICY.acs_first_year), "text")
+    w.put("policy.hmda_first_year", str(POLICY.hmda_first_year), "text")
     w.put("policy.fit_years", f"{POLICY.fit_first_year} to {POLICY.fit_last_year}", "text")
     w.put("policy.test_first_year", str(POLICY.test_first_year), "text")
-    w.put("policy.on_time_minutes", POLICY.on_time_minutes, "min0")
-    w.put("policy.unimpeded_percentile", POLICY.unimpeded_percentile, "pct0")
-    w.put("policy.padding_min_flights", POLICY.padding_min_flights, "int")
-    w.put("policy.rotation_gap_hours", POLICY.rotation_gap_hours, "hours0")
-    w.put("policy.elapsed_tolerance", POLICY.elapsed_tolerance_minutes, "min0")
-    w.put("policy.cause_tolerance", POLICY.cause_tolerance_minutes, "min0")
+    w.put("policy.anchor_year", str(POLICY.anchor_year), "text")
+    w.put("policy.affordable_line", POLICY.affordable_line, "pct0")
+    w.put("policy.affordable_sensitivity", POLICY.affordable_sensitivity, "pct0")
+    w.put("policy.severe_line", POLICY.severe_line, "pct0")
+    w.put("policy.severe_share_line", POLICY.severe_share_line, "pct0")
+    w.put("policy.down_payment_share", POLICY.down_payment_share, "pct0")
+    w.put("policy.loan_term_years", POLICY.loan_term_years, "int")
+    w.put("policy.saving_rate", POLICY.saving_rate, "pct0")
+    w.put("policy.lock_in_threshold", POLICY.lock_in_threshold, "rate2")
+    w.put("policy.lock_in_years", f"{POLICY.lock_in_years[0]} to {POLICY.lock_in_years[1]}", "text")
+    w.put(
+        "policy.turnover_base_years",
+        f"{POLICY.turnover_base_years[0]} and {POLICY.turnover_base_years[1]}",
+        "text",
+    )
+    w.put("policy.turnover_test_first_year", str(POLICY.turnover_test_first_year), "text")
+    w.put("policy.supply_window_years", POLICY.supply_window_years, "int")
+    w.put("policy.migration_years", f"{POLICY.migration_years[0]} and {POLICY.migration_years[1]}", "text")
+    w.put(
+        "policy.migration_pre_years",
+        f"{POLICY.migration_pre_years[0]} and {POLICY.migration_pre_years[1]}",
+        "text",
+    )
+    w.put("policy.migration_window", f"{POLICY.migration_window[0]} to {POLICY.migration_window[1]}", "text")
+    w.put(
+        "policy.migration_placebo_window",
+        f"{POLICY.migration_placebo_window[0]} to {POLICY.migration_placebo_window[1]}",
+        "text",
+    )
+    w.put("policy.synthetic_control_first_period", POLICY.synthetic_control_first_period, "text")
+    w.put("policy.synthetic_control_metros", POLICY.synthetic_control_metros, "int")
+    w.put("policy.breakeven_horizon_years", POLICY.breakeven_horizon_years, "int")
+    for key, value in POLICY.breakeven_cost_model.items():
+        w.put(f"policy.cost.{key}", value, "pct1" if key != "rent_to_price_default" else "pct1")
     w.put("policy.bootstrap_replicates", POLICY.bootstrap_replicates, "int")
+    w.put("policy.monte_carlo_draws", POLICY.monte_carlo_draws, "int")
     w.put("policy.bh_q", POLICY.bh_q, "float2")
     w.put("policy.interval_level", POLICY.interval_level, "pct0")
-    w.put("policy.hub_count", POLICY.hub_count, "int")
-    w.put("policy.misconnect_line", POLICY.misconnect_line, "pct0")
-    w.put("policy.min_connection", POLICY.min_connection_minutes, "min0")
+    w.put("policy.min_metro_households", POLICY.min_metro_households, "int")
+    w.put("policy.largest_metros", POLICY.largest_metros, "int")
     w.put("policy.seed", str(POLICY.seed), "text")
-    w.put("policy.core30_count", len(CORE30), "int")
-    w.put("policy.core30", ", ".join(CORE30), "text")
+    w.put("policy.anchor_years", _listed([str(y) for y in ANCHOR_YEARS]), "text")
+    w.put("policy.affordable_lines", _listed([f"{x:.0%}" for x in AFFORDABLE_LINES]), "text")
+    w.put("policy.down_payment_shares", _listed([f"{x:.0%}" for x in DOWN_PAYMENT_SHARES]), "text")
+    w.put("policy.lock_in_thresholds", _listed([f"{x:.1f}%" for x in LOCK_IN_THRESHOLDS]), "text")
+    w.put("policy.supply_windows", _listed([str(x) for x in SUPPLY_WINDOWS]), "text")
+    w.put("policy.saving_rates", _listed([f"{x:.0%}" for x in SAVING_RATES]), "text")
+    w.put("policy.severe_lines", _listed([f"{x:.0%}" for x in SEVERE_LINES]), "text")
+
+
+def _listed(items: list[str]) -> str:
+    """Items joined the way prose lists them: a, b and c."""
+    if len(items) <= 1:
+        return "".join(items)
+    return ", ".join(items[:-1]) + " and " + items[-1]
 
 
 def _palette(manifest: Manifest, root: Path) -> None:
@@ -144,21 +195,28 @@ def _deploy(manifest: Manifest, path: Path, replay: Path) -> None:
         return
     seen = json.loads(path.read_text(encoding="utf-8-sig"))
     w.put("deploy.status", "deployed and verified" if seen.get("passed") else "verification failed", "text")
-    for key in ("base_url", "client", "checked_at", "check_id", "connection", "travel_month"):
+    for key in ("base_url", "client", "checked_at", "check_id", "metro", "cbsa_code", "quarter"):
         w.put(f"deploy.{key}", str(seen.get(key, "")), "text")
     health = seen.get("health", {})
     w.put("deploy.health_status", str(health.get("status", "")), "text")
     w.put("deploy.health_database", str(health.get("database", "")), "text")
     w.put("deploy.model_version", str(health.get("model_version", "")), "text")
-    w.put("deploy.hubs", int(health.get("hubs", 0) or 0), "int")
-    w.put("deploy.buffer", int(seen.get("buffer_minutes", 0) or 0), "min0")
-    w.put("deploy.probability", float(seen.get("probability", 0.0)), "pct1")
-    w.put("deploy.low", float(seen.get("low", 0.0)), "pct1")
-    w.put("deploy.high", float(seen.get("high", 0.0)), "pct1")
-    w.put("deploy.flights", int(seen.get("flights", 0) or 0), "int")
+    w.put("deploy.metros", int(health.get("metros", 0) or 0), "int")
+    w.put("deploy.latest_period", str(health.get("latest_period", "")), "text")
+    rate = health.get("rate_default")
+    w.put("deploy.rate_default", float(rate) if rate is not None else None, "rate2")
+    w.put("deploy.income", float(seen.get("income", 0.0) or 0.0), "usd0")
+    w.put("deploy.payment_share", float(seen.get("payment_share", 0.0) or 0.0), "pct1")
+    w.put("deploy.affordable_price", float(seen.get("affordable_price", 0.0) or 0.0), "usd0")
+    share = seen.get("affordable_share")
+    w.put("deploy.affordable_share", float(share) if share is not None else None, "pct0")
+    years = seen.get("breakeven_years")
+    w.put("deploy.breakeven_years", float(years) if years is not None else None, "years1")
     score = seen.get("score") or {}
-    w.put("deploy.realized", float(score["realized_rate"]) if score else None, "pct1")
-    w.put("deploy.pairs", int(score["pairs"]) if score else None, "int")
+    realized = score.get("realized_payment_share") if score else None
+    w.put("deploy.realized_payment_share", float(realized) if realized is not None else None, "pct1")
+    error = score.get("absolute_error") if score else None
+    w.put("deploy.absolute_error", float(error) if error is not None else None, "pts1")
     w.put("deploy.audit_before_response", "yes" if seen.get("audit_before_response") else "no", "text")
     w.put("deploy.statement_present", "yes" if seen.get("statement_present") else "no", "text")
     w.put("deploy.passed", "yes" if seen.get("passed") else "no", "text")
@@ -168,9 +226,9 @@ def _deploy(manifest: Manifest, path: Path, replay: Path) -> None:
         card = r.get("scorecard", {})
         w.put("deploy.demo_scored", int(card.get("scored", 0) or 0), "int")
         mae = card.get("mean_absolute_error")
-        w.put("deploy.demo_mae", float(mae) if mae is not None else None, "apts1")
-        cover = card.get("interval_coverage")
-        w.put("deploy.demo_coverage", float(cover) if cover is not None else None, "pct0")
+        w.put("deploy.demo_mae", float(mae) if mae is not None else None, "pts1")
+        price_move = card.get("mean_price_move")
+        w.put("deploy.demo_price_move", float(price_move) if price_move is not None else None, "pct1")
 
 
 def _latency(manifest: Manifest, folder: Path) -> None:
@@ -193,6 +251,7 @@ def _latency(manifest: Manifest, folder: Path) -> None:
         w.put(f"latency.{label}.measured_at", str(seen["measured_at"]), "text")
         w.put(f"latency.{label}.requests", int(seen["requests"]), "int")
         w.put(f"latency.{label}.concurrency", int(seen["concurrency"]), "int")
+        w.put(f"latency.{label}.metros", int(seen.get("metros", 0) or 0), "int")
         w.put(f"latency.{label}.first_request_ms", float(seen["first_request_ms"]), "ms")
         for kind in ("check", "read"):
             for stat in ("p50_ms", "p99_ms", "max_ms"):

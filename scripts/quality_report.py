@@ -74,6 +74,7 @@ def python_quality() -> dict[str, Any]:
         cases = junit_cases(junit) if junit.exists() else []
         coverage = json.loads(cov.read_text())["totals"]["percent_covered"] if cov.exists() else None
     api = [c for c in cases if c["file"].startswith("tests.api")]
+    finance = [c for c in cases if c["file"].startswith("tests.finance")]
     recalc = [c for c in cases if c["name"] == RECALC_TEST]
     return {
         "measured_at": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -90,6 +91,10 @@ def python_quality() -> dict[str, Any]:
             "passed": sum(c["outcome"] == "passed" for c in api),
             "failed": sum(c["outcome"] == "failed" for c in api),
             "names": sorted(c["name"] for c in api),
+        },
+        "finance_tests": {
+            "passed": sum(c["outcome"] == "passed" for c in finance),
+            "failed": sum(c["outcome"] == "failed" for c in finance),
         },
         "libreoffice_recalc": recalc[0]["outcome"] if recalc else "not collected",
         "skips": [

@@ -18,24 +18,24 @@ from typing import Any
 from doorstep_core.manifest import Manifest
 
 LINES: tuple[str, ...] = (
-    "Every monthly file from January 2015 to the latest ingested, the quarantine report published, the registry join rate stated, airports and weather committed with attribution, provenance and licenses recorded",
+    "Every source ingested for the whole window from the fetched files, the quarantine report published, the delineation crosswalk tested, the HMDA extract filter and the ACS gap stated in the README first paragraph, provenance and licenses recorded",
     "Warehouse with dbt tests and exposures; the metric layer reconciled across grains",
-    "Simulator with known padding, propagation, carrier effects, planted bunching and a planted meltdown; the recovery study on every condition with at least twenty seeds",
-    "Chapters 1 and 2 with plan hashes, simulator recovery, results on the test years with intervals, the changepoints named",
-    "Chapter 4: rotations with integrity rules and their counts; the inherited share with its interval; the buffer curve",
-    "Chapter 5: the fair ranking with cluster robust intervals beside the raw ranking, the rank changes named, the simulator recovery",
-    "API deployed on Fly with Neon; live URL in the README; verified from a separate client, with the client's response printed",
+    "Simulator with known incomes, distributions, elasticities, demand shocks, rates, lock in and planted misreporting; the recovery study on every condition with at least twenty seeds; the finance engine tested to the cent",
+    "Chapters 1 and 2 with plan hashes, simulator recovery, results on the test years with intervals, the anchor sensitivity table, the overtaking quarter named, the lock in regression with its placebo",
+    "Chapter 3: the burden shares by metro, year and income bracket with intervals; the changepoints named",
+    "Chapter 5: the fair ranking with Monte Carlo intervals beside the raw ranking, the rank changes named, the simulator recovery",
+    "API deployed on Fly with Neon; live URL in the README; verified from a separate client, with the client response printed",
     "Checks and scores observed from an independent connection; audit before response; the out of process check",
-    "Chapter 3: the density test with placebos and correction, published either way; chapter 6: causes reported and estimated side by side",
-    "Chapter 7: the known events table with citations and detection days; the operating point with its interior test; the two event studies with recovery times",
-    "Chapter 8: the traveler's tables; the misconnect curves for the twenty hubs with the chosen buffer and its interior test; the airline's buffer trade",
+    "Chapter 4: the supply elasticity under both specifications with intervals and the recovery study beside it; chapter 7: the migration regression with its placebo and three synthetic controls with placebo inference",
+    "Chapter 6: the borrower pool measures by year and metro with intervals",
+    "Chapter 8: the affordable price by decile, the affordable share, the down payment years, the breakeven horizons with intervals, every interior test",
     "Exports: the workbook with live formulas and its recalculation test, the Tableau extract and specification, the Power BI specification with measures, the CSV bundle with its dictionary",
     "The story live on GitHub Pages with sticky charts, method notes, the SQL behind every chart, the corrections section and the print stylesheet",
-    "Explore, rank, rotations, events, planner, data and report pages live, working from the recorded session when the API is asleep; the test server refuses what the host refuses",
+    "Explore, rank, buyers, shocks, planner, data and report pages live, working from the recorded session when the API is asleep; the test server refuses what the host refuses",
     "Latency published; the live check in a real browser recorded in results/live_check.json",
     "RESULTS.md with every figure re-derived by the gate and a specific limitations section",
     "README with the matrix and this checklist; DECISIONS.md with at least ten dated entries, two reversals and the corrections; three executed notebooks with a dead end each; the pushback paragraph on every chapter and page",
-    "Coverage at or above 80 percent, mypy strict clean, ruff clean, zero em dashes, zero banned vocabulary, palette validator green including the dark card run, forty to sixty commits, the rederive run in a worktree before the tag, v0.1.0 pushed after the commits, Apache 2.0 for code with the four data sources' terms declared, repo described, topics set",
+    "Coverage at or above 80 percent, mypy strict clean, ruff clean, zero em dashes, zero banned vocabulary, palette validator green including the dark card run, forty to sixty commits, the rederive run in a worktree before the tag, v0.1.0 pushed after the commits, Apache 2.0 for code with every data source terms declared, repo described, topics set",
 )
 
 
@@ -117,15 +117,13 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
         items.append(Item(len(items) + 1, LINES[len(items)], bool(done), evidence))
 
     add(
-        has(
-            "data.months", "quarantine.by_rule", "registry.flight_join_rate", "airports.count", "weather.rows"
-        )
-        and raw("data.gaps") == "none"
+        has("data.fhfa.rows", "data.acs.rows", "data.hmda.rows_in_analysis", "data.quarantine.by_rule", "data.omb.vintages")
+        and raw("data.acs.gap_year") == "2020"
         and facts["provenance"],
-        f"{v('data.months')} monthly files from {v('data.first_month')} to {v('data.last_month')} "
-        f"(missing: {v('data.gaps')}), {v('data.rows')} rows; "
-        f"quarantine by rule and by carrier and month on the data page; registry join {v('registry.flight_join_rate')} of flights; "
-        f"{v('airports.count')} airports; {v('weather.rows')} hourly weather rows; data/PROVENANCE.md.",
+        f"FHFA {v('data.fhfa.rows')} index rows to {v('data.fhfa.latest_period')}; ACS {v('data.acs.rows')} estimates over {v('data.acs.years')} releases "
+        f"({v('data.acs.first_year')} to {v('data.acs.last_year')}, gap {v('data.acs.gap_year')}); HMDA {v('data.hmda.rows_in_analysis')} loans in the analysis "
+        f"from {v('data.hmda.rows_in_source_files')} source rows ({v('data.hmda.first_year')} to {v('data.hmda.last_year')}); {v('data.omb.vintages')} delineation vintages; "
+        f"{v('data.quarantine.rules')} quarantine rules on the data page; data/PROVENANCE.md.",
     )
     add(
         has("warehouse.tests", "metrics.disagreements")
@@ -136,36 +134,37 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
         f"{v('metrics.count')} metrics reconciled at {v('metrics.grains')} grains over {v('metrics.cells')} cells with "
         f"{v('metrics.disagreements')} disagreements.",
     )
+    finance = q.get("finance_tests", {})
     add(
-        has("recovery.seeds", "recovery.conditions") and (raw("recovery.seeds") or 0) >= 20,
-        f"{v('recovery.conditions')} conditions times {v('recovery.seeds')} seeds, {v('recovery.runs')} runs; results/recovery.",
+        has("recovery.seeds", "recovery.conditions", "sim.metros")
+        and (raw("recovery.seeds") or 0) >= 20
+        and bool(finance.get("passed"))
+        and not finance.get("failed"),
+        f"{v('sim.metros')} simulated metros over {v('sim.years')} years; {v('recovery.conditions')} conditions times {v('recovery.seeds')} seeds, "
+        f"{v('recovery.grades')} grades across {v('recovery.estimators')} estimators; finance tests {finance.get('passed', 0)} passed "
+        f"({finance.get('failed', 0)} failed); results/recovery.",
     )
     add(
-        has(
-            "plan.1.hash",
-            "plan.2.hash",
-            "ch1.on_time.change",
-            "ch2.padding.change",
-            "ch2.changepoints",
-            "recovery.definition.seeds",
-        ),
-        f"plans {v('plan.1.hash')} and {v('plan.2.hash')}; on time change {v('ch1.on_time.change')}, padding change "
-        f"{v('ch2.padding.change')} with intervals; {v('ch2.changepoints')} changepoints dated.",
+        has("ch1.plan_hash", "ch2.plan_hash", "ch1.diff", "ch1.anchor_sensitivity", "ch2.overtaking_quarter", "ch2.lock_in.coef", "ch2.placebo.coef"),
+        f"plans {v('ch1.plan_hash')} and {v('ch2.plan_hash')}; payment share {v('ch1.diff')} against the peak ({v('ch1.diff.low')} to {v('ch1.diff.high')}); "
+        f"anchor sensitivity table ch1.anchor_sensitivity ({v('ch1.anchor_degenerate')}); overtaking quarter {v('ch2.overtaking_quarter')}; "
+        f"lock in {v('ch2.lock_in.coef')} ({v('ch2.lock_in.low')} to {v('ch2.lock_in.high')}) against a placebo of {v('ch2.placebo.coef')}.",
     )
     add(
-        has("plan.4.hash", "ch4.share", "ch4.buffer_curve", "ch4.rotations"),
-        f"{v('ch4.rotations')} rotations, {v('ch4.broken_chain')} broken chains, {v('ch4.impossible')} impossible sequences; "
-        f"inherited share {v('ch4.share')} ({v('ch4.share.low')} to {v('ch4.share.high')}); buffer curve table ch4.buffer_curve.",
+        has("ch3.plan_hash", "ch3.severe.share", "ch3.by_income_group", "ch3.changepoints"),
+        f"plan {v('ch3.plan_hash')}; burdened {v('ch3.burdened.share')} ({v('ch3.burdened.low')} to {v('ch3.burdened.high')}), severe {v('ch3.severe.share')} "
+        f"({v('ch3.severe.low')} to {v('ch3.severe.high')}) over {v('ch3.metros')} metros; by income group in ch3.by_income_group; changepoints {v('ch3.changepoints')}.",
     )
     add(
-        has("plan.5.hash", "ch5.ranking", "recovery.rank_adjusted.strong"),
-        f"{v('ch5.carriers')} carriers raw and adjusted with day clustered intervals; {v('ch5.moved')} change places; "
-        f"simulator rank correlation {v('recovery.rank_adjusted.strong')} adjusted against {v('recovery.rank_raw.strong')} raw.",
+        has("ch5.plan_hash", "ch5.largest", "recovery.ranking.adjusted"),
+        f"plan {v('ch5.plan_hash')}; {v('ch5.metros_ranked')} metros ranked with {v('ch5.draws')} draws; rank correlation {v('ch5.spearman')}, "
+        f"{v('ch5.movers')} of the {v('ch5.largest')} largest move beyond their intervals; simulator rank correlation {v('recovery.ranking.adjusted')} adjusted "
+        f"against {v('recovery.ranking.raw')} raw.",
     )
     add(
         raw("deploy.passed") == "yes",
         f"{v('deploy.base_url')}: {v('deploy.status')} from {v('deploy.client') if has('deploy.client') else 'no client yet'}; "
-        f"probability {v('deploy.probability') if has('deploy.probability') else 'not measured'} read back; results/deploy/verification.json.",
+        f"payment share {v('deploy.payment_share') if has('deploy.payment_share') else 'not measured'} read back; results/deploy/verification.json.",
     )
     api = q.get("api_tests", {})
     add(
@@ -174,27 +173,29 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
         "test_audit_precedes_response, the out of process scripts/check_persistence.py).",
     )
     add(
-        has("plan.3.hash", "ch3.by_carrier", "plan.6.hash", "ch6.weather_share"),
-        f"{v('ch3.flagged')} of {v('ch3.carriers')} carriers flagged after Benjamini-Hochberg; weather share {v('ch6.weather_share')} "
-        f"against {v('ch6.reported_weather_share')} reported.",
+        has("ch4.plan_hash", "ch4.controlled.coef", "ch4.uncontrolled.coef", "ch7.plan_hash", "ch7.coef", "ch7.placebo.coef", "ch7.synthetic_controls")
+        and (raw("ch7.sc.count") or 0) >= 3,
+        f"supply {v('ch4.controlled.per_window')} per window with the demand control ({v('ch4.controlled.per_window.low')} to {v('ch4.controlled.per_window.high')}), "
+        f"{v('ch4.uncontrolled.per_window')} without; simulator bias {v('recovery.supply_controlled.mean_bias')} against {v('recovery.supply_uncontrolled.mean_bias')}; "
+        f"migration {v('ch7.coef')} ({v('ch7.low')} to {v('ch7.high')}) with placebo {v('ch7.placebo.coef')}; {v('ch7.sc.count')} synthetic controls with permutation p values.",
     )
     add(
-        has("plan.7.hash", "ch7.events", "ch7.threshold"),
-        f"threshold {v('ch7.threshold')} {v('ch7.interior')}; {v('ch7.test.detected')} of {v('ch7.test.events')} reporting year "
-        f"events flagged; recovery {v('ch7.study.WN.recovery_days') if has('ch7.study.WN.recovery_days') else 'not measured'} "
-        f"and {v('ch7.study.DL.recovery_days') if has('ch7.study.DL.recovery_days') else 'not measured'} days.",
+        has("ch6.plan_hash", "ch6.by_year", "ch6.largest_metros", "ch6.ratio_diff"),
+        f"plan {v('ch6.plan_hash')}; borrower ratio {v('ch6.base.ratio')} to {v('ch6.latest.ratio')} ({v('ch6.ratio_diff')}, {v('ch6.ratio_diff.low')} to {v('ch6.ratio_diff.high')}); "
+        f"under 35 share moved {v('ch6.under_35_diff')}; by year in ch6.by_year and by metro in ch6.largest_metros.",
     )
     add(
-        has("plan.8.hash", "ch8.hubs", "ch8.by_hour") and (raw("ch8.hubs") or 0) >= 20,
-        f"{v('ch8.hubs')} hub curves, {v('ch8.hubs_interior')} with an interior crossing; first leg on time "
-        f"{v('ch8.first_on_time')} against {v('ch8.later_on_time')}; buffer trade {v('ch8.trade_overall')} minutes per minute.",
+        has("ch8.plan_hash", "ch8.largest", "ch8.line_interior", "ch8.down_interior", "ch8.saving_interior", "ch8.breakeven.median"),
+        f"plan {v('ch8.plan_hash')}; median breakeven {v('ch8.breakeven.median')} ({v('ch8.breakeven.low')} to {v('ch8.breakeven.high')}); "
+        f"the median household can afford the median home in {v('ch8.median_can_afford.metros')} of {v('ch8.metros')} metros; down payment years {v('ch8.down_payment_years.median')}; "
+        f"interior tests: line {v('ch8.line_degenerate')}, down payment {v('ch8.down_degenerate')}.",
     )
     workbook_recalc = q.get("libreoffice_recalc")
     add(
         has("exports.workbook.formulas", "exports.powerbi.measures", "exports.csv.files")
         and workbook_recalc == "passed",
-        f"workbook {v('exports.workbook.sheets')} sheets, {v('exports.workbook.formulas')} summary formulas, recalculation test "
-        f"{workbook_recalc or 'not run'}; {v('exports.powerbi.measures')} DAX measures; {v('exports.csv.files')} CSV files with a dictionary.",
+        f"workbook {v('exports.workbook.sheets')} sheets, {v('exports.workbook.formulas')} live formulas, recalculation test "
+        f"{workbook_recalc or 'not run'}; {v('exports.tableau.views')} Tableau views; {v('exports.powerbi.measures')} DAX measures; {v('exports.csv.files')} CSV files with a dictionary.",
     )
     add(
         raw("live.status") == "passed",
@@ -238,7 +239,7 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
         f"coverage {coverage if coverage is not None else 'not measured'} percent; mypy {q.get('mypy', 'not run')}; ruff {q.get('ruff', 'not run')}; "
         f"palette {v('palette.validated')}; {commits} commits; rederive {rederive.get('status', 'not run')}"
         f"{' in a worktree' if str(rederive.get('where', 'in place')) != 'in place' else ''}; "
-        f"tag {'pushed' if release.get('tag_pushed') else 'not pushed'}; Apache 2.0 with the four data sources' terms.",
+        f"tag {'pushed' if release.get('tag_pushed') else 'not pushed'}; Apache 2.0 with every data source's terms declared.",
     )
     return items
 

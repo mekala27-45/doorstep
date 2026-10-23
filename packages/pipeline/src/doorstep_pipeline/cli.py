@@ -6,7 +6,7 @@ import typer
 from doorstep_core.log import configure
 from doorstep_core.paths import paths
 
-app = typer.Typer(add_completion=False, help="doorstep: why your flight is late, in eight chapters")
+app = typer.Typer(add_completion=False, help="doorstep: can anyone still afford a home, in eight chapters")
 
 
 @app.callback()
@@ -16,7 +16,7 @@ def main() -> None:
 
 @app.command()
 def data() -> None:
-    """Every monthly file into typed, flagged parquet; airports, aircraft and weather beside them."""
+    """Every source into typed, flagged parquet: the index, the census tables, rents, rates, permits, people, loans, the crosswalk."""
     from doorstep_pipeline.stages import data as stage
 
     manifest = stage.run(paths())
@@ -25,7 +25,7 @@ def data() -> None:
 
 @app.command()
 def simulate() -> None:
-    """The demonstration network with its truth tables, committed under data/sim."""
+    """The demonstration country with its truth tables, under data/sim."""
     from doorstep_pipeline.stages import simulate as stage
 
     manifest = stage.run(paths())
@@ -38,7 +38,7 @@ def recovery(
     workers: int = typer.Option(2, help="worker processes"),
     no_cache: bool = typer.Option(False, help="run every seed again; the rederive passes this"),
 ) -> None:
-    """Every estimator graded on simulated networks with known truth, every condition and seed."""
+    """Every estimator graded on simulated countries with known truth, every condition and seed."""
     from doorstep_pipeline.stages import recovery as stage
 
     manifest = stage.run(paths(), seeds=seeds, workers=workers, use_cache=not no_cache)
@@ -55,23 +55,23 @@ def warehouse() -> None:
 
 
 @app.command()
-def metrics(chapters: bool = typer.Option(False, help="also the metrics a chapter writes")) -> None:
+def metrics() -> None:
     """The metric layer reconciled across four grains."""
     from doorstep_pipeline.stages import metrics as stage
 
-    manifest = stage.run(paths(), stages=("warehouse", "chapters") if chapters else ("warehouse",))
+    manifest = stage.run(paths())
     typer.echo(f"metrics: {manifest.counts()}")
 
 
 @app.command()
 def chapters(
     replicates: int = typer.Option(0, help="bootstrap replicates; 0 means the policy's"),
-    hubs: int = typer.Option(0, help="hubs for the misconnect curves; 0 means the policy's twenty"),
+    draws: int = typer.Option(0, help="Monte Carlo draws over the census margins; 0 means the policy's"),
 ) -> None:
-    """The eight chapters: plans registered first, then every estimate, its chart and its marts."""
+    """The eight chapters: plans registered first, then every estimate, its chart, its marts and the calculator marts."""
     from doorstep_pipeline.stages import chapters as stage
 
-    manifest = stage.run(paths(), replicates=replicates or None, hubs=hubs or None)
+    manifest = stage.run(paths(), replicates=replicates or None, draws=draws or None)
     typer.echo(f"chapters: {manifest.counts()}")
 
 

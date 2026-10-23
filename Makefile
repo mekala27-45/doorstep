@@ -4,7 +4,7 @@
 PY := uv run python
 T := uv run doorstep
 
-.PHONY: help setup data warehouse metrics simulate recovery chapters metrics-chapters exports manifest render marts pipeline gates lint types test check rederive web deploy verify-api load-test live-check demo clean
+.PHONY: help setup data warehouse metrics simulate recovery chapters exports manifest render marts pipeline gates lint types test check rederive web deploy verify-api load-test live-check demo clean
 
 help:
 	@grep -E '^[a-z-]+:' Makefile | sed 's/:.*//' | tr '\n' ' '; echo
@@ -13,9 +13,8 @@ setup:
 	uv sync
 	npm --prefix web ci
 
-# The four public sources. This machine may not reach the hosts: run deploy/fetch-data.ps1 on one
-# that can and place the files under data/external; the target prints the expected paths and
-# verifies what it finds either way.
+# The public sources. This machine may not reach the government hosts: run deploy/fetch-data.ps1 on one
+# that can and place the files under data/external; the stage verifies what it finds.
 data:
 	$(T) data
 
@@ -32,13 +31,10 @@ simulate:
 recovery:
 	$(T) recovery
 
-# The eight chapters, the events and the misconnect curves; then the metric layer again with the
-# metrics a chapter writes (the inherited share).
+# The eight chapters: plans registered first, then every estimate, its chart, its marts and the
+# calculator marts the API reads.
 chapters:
 	$(T) chapters
-
-metrics-chapters:
-	$(T) metrics --chapters
 
 exports:
 	$(T) exports
@@ -52,7 +48,7 @@ render:
 marts:
 	$(T) marts
 
-pipeline: data warehouse metrics simulate recovery chapters metrics-chapters exports manifest render marts
+pipeline: data warehouse metrics simulate recovery chapters exports manifest render marts
 
 gates:
 	$(PY) scripts/check_no_em_dash.py
