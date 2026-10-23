@@ -113,6 +113,12 @@ def close(a: float | None, b: float | None) -> bool:
     return math.isclose(a, b, rel_tol=RELATIVE_TOLERANCE, abs_tol=ABSOLUTE_TOLERANCE)
 
 
+def grain_table(source: str) -> str:
+    """The grain side of a metric reads the warehouse, the mart side reads the shipped parquet; a table that
+    serves as both (a mart checked against itself as shipped) needs two names in one connection."""
+    return f"grain__{source}"
+
+
 def _mart_sql(metric: Metric, dims: tuple[str, ...]) -> str:
     select_dims = ", ".join(dims)
     group = f" group by {select_dims}" if dims else ""
@@ -124,7 +130,7 @@ def _grain_sql(metric: Metric, dims: tuple[str, ...]) -> str:
     select_dims = ", ".join(dims)
     prefix = f"{select_dims}, " if dims else ""
     group = f" group by {select_dims}" if dims else ""
-    return f"select {prefix}{metric.grain} as value from {metric.grain_source}{group}"
+    return f"select {prefix}{metric.grain} as value from {grain_table(metric.grain_source)}{group}"
 
 
 def reconcile_metric(con: duckdb.DuckDBPyConnection, metric: Metric) -> tuple[int, list[Disagreement]]:

@@ -127,3 +127,59 @@ metrics:
     grain: 100.0 * sum(purchase_loans) / sum(owner_households)
     grain_source: fct_metro_year
     mart: 100.0 * sum(purchase_loans) / sum(owner_households)
+
+  - name: lock_in_per_100_owners
+    kind: ratio
+    fmt: float2
+    description: Originations under the lock in threshold per hundred owner households, the lock in intensity of chapter 2.
+    grain: 100.0 * sum(low_rate_originations) / sum(owner_households)
+    grain_source: fct_metro_year
+    mart: 100.0 * sum(low_rate_originations) / sum(owner_households)
+
+  - name: permits_per_100_households
+    kind: ratio
+    fmt: float2
+    description: Units permitted per hundred households, the building rate of chapter 4.
+    grain: 100.0 * sum(permits) / sum(households)
+    grain_source: fct_metro_year
+    mart: 100.0 * sum(permits) / sum(households)
+
+  - name: domestic_migration_per_100
+    kind: ratio
+    fmt: float2
+    description: Net domestic migration per hundred residents, the demand shock of chapter 7.
+    grain: 100.0 * sum(domestic_migration) / sum(population)
+    grain_source: fct_metro_year
+    mart: 100.0 * sum(domestic_migration) / sum(population)
+
+  - name: purchase_under_35_share
+    kind: proportion
+    fmt: pct1
+    description: Purchase loans to borrowers under 35 over purchase loans with a reported age, chapter 6.
+    grain: sum(purchase_under_35) / sum(purchase_with_age)
+    grain_source: fct_metro_year
+    mart: sum(purchase_under_35) / sum(purchase_with_age)
+
+  - name: owner_mortgage_burdened_share
+    kind: proportion
+    fmt: pct1
+    description: Owners with a mortgage paying thirty percent or more of income in owner costs, census table B25091, over owners with a computed share.
+    grain: sum(owners_mortgage_burdened) / sum(owners_mortgage_with_share)
+    grain_source: fct_metro_year
+    mart: sum(owners_mortgage_burdened) / sum(owners_mortgage_with_share)
+
+  - name: payment_share_ratio_of_sums
+    kind: ratio
+    fmt: pct1
+    description: Twelve payments on the anchored median home summed over metro years, over the median incomes summed the same way; the metric layer's check on the payment columns (the chapters weight metros by owner households).
+    grain: 12.0 * sum(payment) / sum(median_income)
+    grain_source: mart_metro_year
+    mart: 12.0 * sum(payment) / sum(median_income)
+
+  - name: price_to_income_ratio_of_sums
+    kind: ratio
+    fmt: ratio2
+    description: Anchored values summed over metro years over median incomes summed the same way; the check on the anchored value column.
+    grain: sum(value_anchored) / sum(median_income)
+    grain_source: fct_metro_year
+    mart: sum(value_anchored) / sum(median_income)

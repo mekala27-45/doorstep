@@ -1,8 +1,8 @@
 """The metric layer's reconcile over the warehouse, and the headline values of every metric.
 
-Run after the warehouse for the data metrics and again after the chapters for the ones a model
-produces (stage: chapters in metrics/metrics.yml). Any disagreement fails the stage; the counts and
-each metric's overall value go into the manifest.
+Run after the warehouse: every metric in metrics/metrics.yml is evaluated over its grain table and
+over the shipped mart at four grains and the two are diffed. Any disagreement fails the stage; the
+counts and each metric's overall value go into the manifest.
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ from doorstep_core.manifest import Manifest, Scribe
 from doorstep_core.paths import Paths
 
 from doorstep_pipeline.common import new_partial, save_partial
-from doorstep_pipeline.metric_layer import Metric, MetricError, load, reconcile
+from doorstep_pipeline.metric_layer import Metric, MetricError, load, reconcile, grain_table
 
 
 def shipped_connection(p: Paths, metrics: list[Metric]) -> duckdb.DuckDBPyConnection:
@@ -24,7 +24,7 @@ def shipped_connection(p: Paths, metrics: list[Metric]) -> duckdb.DuckDBPyConnec
     con.execute("set enable_progress_bar = false")
     con.execute(f"attach '{p.warehouse_db.as_posix()}' as wh (read_only)")
     for source in sorted({m.grain_source for m in metrics}):
-        con.execute(f"create view {source} as select * from wh.{source}")
+        con.execute(f"create view {grain_table(source)} as select * from wh.{source}")
     for source in sorted({m.mart_source for m in metrics}):
         shipped = p.marts / f"{source}.parquet"
         if not shipped.exists():
@@ -33,7 +33,7 @@ def shipped_connection(p: Paths, metrics: list[Metric]) -> duckdb.DuckDBPyConnec
     return con
 
 
-def run(p: Paths, *, stages: tuple[str, ...] = ("warehouse", "chapters")) -> Manifest:
+def run(p: Paths, *, stages: tuple[str, ...] = ("warehouse",)) -> Manifest:
     metrics = [m for m in load(p.root / "metrics" / "metrics.yml") if m.stage in stages]
     con = shipped_connection(p, metrics)
     report = reconcile(con, metrics)
@@ -45,7 +45,7 @@ def run(p: Paths, *, stages: tuple[str, ...] = ("warehouse", "chapters")) -> Man
         raise MetricError("the metric layer does not reconcile:\n" + "\n".join(lines))
     values = {}
     for metric in metrics:
-        sql = f"select {metric.grain} from {metric.grain_source}"
+        sql = f"select {metric.grain} from {grain_table(metric.grain_source)}"
         row = con.execute(sql).fetchone()
         values[metric.name] = None if not row or row[0] is None else float(row[0])
     # The workbook's summary opens on the latest full year; these are the values it must compute.
@@ -55,7 +55,7 @@ def run(p: Paths, *, stages: tuple[str, ...] = ("warehouse", "chapters")) -> Man
     if summary_year is not None:
         for metric in metrics:
             row = con.execute(
-                f"select {metric.grain} from {metric.grain_source} where year = {summary_year}"
+                f"select {metric.grain} from {grain_table(metric.grain_source)} where year = {summary_year}"
             ).fetchone()
             year_values[metric.name] = None if not row or row[0] is None else float(row[0])
     con.close()
