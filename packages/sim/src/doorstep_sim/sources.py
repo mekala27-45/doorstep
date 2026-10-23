@@ -131,11 +131,11 @@ def _acs_rows(w: World) -> pl.DataFrame:
                 None if br["households"] is None else float(br["households"]) * 0.1,
             )
         # burden by income group: seven groups, spread by the renter income distribution, in the layout the
-        # census used that year (seven cells per group with five rent bands through 2014, nine from 2015)
+        # census used that year (seven cells per group with five rent bands through the 2013 release, nine from 2014)
         shares = (0.08, 0.17, 0.22, 0.17, 0.18, 0.09, 0.09)
         burden_by_group = (0.95, 0.85, 0.6, 0.35, 0.15, 0.05, 0.02)
         severe_by_group = (0.75, 0.5, 0.25, 0.08, 0.02, 0.0, 0.0)
-        per_group = 7 if y <= 2014 else 9
+        per_group = 7 if y <= 2013 else 9
         for g, (share, bg, sg) in enumerate(zip(shares, burden_by_group, severe_by_group, strict=True)):
             start = 2 + g * per_group
             total = renters * share
@@ -443,6 +443,7 @@ def export(w: World, external: Path, derived: Path, hmda: Path, *, loan_scale: f
                 "q_negative_units": False,
                 "q_imputed_share_high": False,
                 "q_malformed_fips": False,
+                "q_county_listed_twice": False,
                 "quarantined": False,
             }
         )
@@ -473,9 +474,24 @@ def export(w: World, external: Path, derived: Path, hmda: Path, *, loan_scale: f
                 "quarantined": False,
             }
         )
-    pl.DataFrame(pop_rows, schema_overrides={"intercensal_population": pl.Float64}).write_parquet(
-        derived / "popest_county.parquet"
-    )
+    pop_frame = pl.DataFrame(pop_rows, schema_overrides={"intercensal_population": pl.Float64})
+    pop_frame.write_parquet(derived / "popest_county.parquet")
+    # The Bureau's published metro totals: in the demonstration every metro is one county, so they are the county rows
+    county_to_code = {_county(i): code for i, code in enumerate(codes)}
+    pop_frame.with_columns(
+        pl.col("county_fips").replace_strict(county_to_code).alias("cbsa_code"),
+        pl.col("year").cast(pl.Int32),
+        pl.col("vintage").cast(pl.Int32),
+    ).select(
+        "cbsa_code",
+        "year",
+        "vintage",
+        "population",
+        "births",
+        "deaths",
+        "international_migration",
+        "domestic_migration",
+    ).write_parquet(derived / "popest_metro_published.parquet")
     pl.DataFrame(permit_rows, schema_overrides={"partial_through_month": pl.Int64}).write_parquet(
         derived / "bps_county.parquet"
     )

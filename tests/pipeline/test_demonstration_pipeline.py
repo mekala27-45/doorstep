@@ -70,6 +70,17 @@ def demo(tmp_path_factory: pytest.TempPathFactory) -> Iterator[DemoPaths]:
 
         world = generate(DEMONSTRATION, 20261022, n_metros=24)
         export(world, p.external, p.derived, p.hmda, loan_scale=0.2)
+        # the data stage never runs here, so the quarantine report the warehouse ships as a mart is the one the
+        # geography rules write over the exported delineations (every rule, nothing flagged)
+        import polars as pl
+        from doorstep_contracts import geography
+
+        delineations = pl.read_parquet(p.derived / "delineations.parquet").drop(
+            "q_county_in_two_areas", "q_malformed_fips", "quarantined"
+        )
+        _, report = geography.quarantine(delineations.with_columns(pl.lit(1).alias("areas_for_county")))
+        (p.results / "data").mkdir(parents=True, exist_ok=True)
+        report.write_parquet(p.results / "data" / "quarantine.parquet")
         warehouse.run(p)
         metrics.run(p)
         chapters.run(p, replicates=40, draws=200)
@@ -117,14 +128,14 @@ def test_every_chapter_wrote_its_plan_its_values_and_its_chart(demo: DemoPaths) 
 
 
 def test_every_template_resolves_and_every_story_chart_exists(demo: DemoPaths, tmp_path: Path) -> None:
-    """Assemble with the real data, recovery and exports manifests beside the demonstration's own (the data stage
+    """Assemble with the real data, simulate and recovery manifests beside the demonstration's own (the data stage
     reads the raw files, which the demonstration does not have), then render every template and parse the story."""
     from doorstep_pipeline.stages import assemble
     from doorstep_render.render import Renderer
     from doorstep_render.story import chart_ids, parse
     from doorstep_render.targets import discover, template_roots
 
-    for stage in ("data", "recovery"):
+    for stage in ("data", "simulate", "recovery"):
         src = ROOT / "results" / stage / "manifest.json"
         if not src.exists():
             pytest.skip(f"results/{stage}/manifest.json is not built in this checkout")
