@@ -2,7 +2,7 @@
 
 Authored files are everything tracked or trackable in the repository except
 data, third party code and build output. Source text quoted from the public files
-(airport names, carrier names) lives under data and results and is outside the
+(metro names, lender identifiers) lives under data and results and is outside the
 authored gates on purpose; it is covered by the identifier scan instead.
 """
 

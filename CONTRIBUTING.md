@@ -18,7 +18,7 @@ tests that need it skip with a named reason).
   under `docs/templates`, `report/templates` or `story/templates`, run `make render`, commit both.
 - **Every gate has three tests**: it passes clean input, it fails on the defect it exists for, and
   it refuses to report a pass on nothing.
-- **Every estimator is proven on the simulator before it touches real flights.** A new estimator
+- **Every estimator is proven on the simulator before it touches real metros.** A new estimator
   arrives with its recovery result in `packages/evaluation`.
 - **Every chapter's plan is registered before its estimate runs.** Change a plan and its hash
   changes; the gate notices.

@@ -53,139 +53,118 @@ def table(key):
 
 
 MARTS = ROOT / "results" / "marts"
-print("manifest as of", manifest["as_of"], "with", len(values), "values;", "window", v("data.first_month"), "to", v("data.last_month"))"""
+print("manifest as of", manifest["as_of"], "with", len(values), "values; prices to", v("data.fhfa.latest_period"), "and the census to", v("data.acs.last_year"))"""
 
 
 def nb1() -> list[tuple[str, str]]:
     return [
         (
             "markdown",
-            """# 01. Padding and the fifteen minute line
+            """# 01. The anchor
 
-Two questions from the first half of the story. How much of a flight's scheduled time is there to
-absorb delay, and has that grown? And do carriers' arrivals pile up just under the fifteen minute
-line that decides what counts as on time?
+The regulator publishes how prices moved; the census publishes what owners say their homes are worth.
+Every dollar in the story is the census median value in one anchor year moved by the index. This
+notebook shows why the anchor year is a decision and keeps the dead end: the first version anchored
+every metro in the latest release, which made the self report bias of one survey year the level of
+every year before it, and moved every headline when the anchor was moved.
 
-The dead end is kept in the middle: a padding reference recomputed every year. It looks more
-careful and it hides the very growth the chapter measures. The simulator shows why, with the truth
-known; then the real flights, read from the committed marts and the manifest.""",
+First on the simulator, where the true value and the planted self report bias are known; then the real
+metros from the committed marts and the manifest.""",
         ),
         ("code", PRELUDE),
         (
             "markdown",
-            """## The reference that drifted with congestion: a dead end, kept
+            """## On the simulator
 
-Padding is scheduled block time minus unimpeded block time, the gate to gate time beaten by only a
-tenth of flights on the same route, in the same three hour block and season. The question is which
-years the tenth percentile is taken over.
-
-Taking it over each year's own flights is the obvious choice and the wrong one. When congestion
-slows every flight, the tenth percentile rises with it, and padding measured against a floor that
-rises with the delay cannot show the schedule growing to cover that delay. Below, two simulated
-years with known padding; in the second year every flight takes six minutes longer and every
-schedule grows by the same six minutes, the way a carrier rebuilds its timetable. The truth is that
-the schedule grew by six minutes plus whatever padding the carriers added.""",
+Each simulated metro reports its value with a known factor over the true one. Anchoring in any one
+year carries that factor into every year, so the anchored series is the true series times the metro's
+bias; the census value over the transaction values in the loan extract bounds the factor without
+removing it.""",
         ),
         (
             "code",
-            """from doorstep_chapters import padding
-from doorstep_sim.network import SimSpec, simulate
+            """from doorstep_sim.metros import DEMONSTRATION, generate
 
-CONGESTION = 6.0
-sim = simulate(SimSpec(seed=11, days=730, start="2022-01-01", meltdown_day=600))
-slower = pl.when(pl.col("year") == 2023).then(CONGESTION).otherwise(0.0)
-flights = sim.flights.with_columns(
-    (pl.col("actual_elapsed").cast(pl.Float64) + slower).alias("actual_elapsed"),
-    (pl.col("crs_elapsed").cast(pl.Float64) + slower).alias("crs_elapsed"),
+world = generate(DEMONSTRATION, 7)
+my = world.metro_year
+truth = world.truth.metros.select("metro_id", "value_bias")
+reported = (
+    my.filter(pl.col("year").is_in([2015, 2019, 2023]))
+    .select("metro_id", "year", "median_value_reported", "median_value_true")
+    .with_columns((pl.col("median_value_reported") / pl.col("median_value_true")).alias("reported_over_true"))
+    .join(truth, on="metro_id")
 )
-con = duckdb.connect()
-con.register("flights", flights.to_arrow())
-true_padding = dict(con.execute("select year, avg(true_padding) from flights where not cancelled group by 1").fetchall())
-truth = CONGESTION + true_padding[2023] - true_padding[2022]
+reported.group_by("year").agg(
+    pl.col("reported_over_true").mean().alias("mean reported over true"),
+    (pl.col("reported_over_true") - pl.col("value_bias")).abs().mean().alias("mean gap to the planted factor"),
+).sort("year")""",
+        ),
+        (
+            "markdown",
+            """The gap to the planted factor is the survey's own sampling noise; the factor itself is what the
+anchor inherits. The chapter's self report correction estimates it from the loan extract and the
+recovery study grades it.""",
+        ),
+        (
+            "markdown",
+            """## The dead end: anchoring in the latest year
 
-padding.build_unimpeded(con, "flights", where_fit="year = 2022", percentile=0.10, min_flights=30, target="fixed")
-fixed = dict(con.execute(f"select year, avg(padding) from ({padding.padded_flights_sql('flights', 'fixed')}) group by 1").fetchall())
-yearly = {}
-for year in (2022, 2023):
-    padding.build_unimpeded(con, "flights", where_fit=f"year = {year}", percentile=0.10, min_flights=30, target=f"ref_{year}")
-    yearly[year] = con.execute(
-        f"select avg(padding) from ({padding.padded_flights_sql('flights', f'ref_{year}')}) where year = {year}"
-    ).fetchone()[0]
-pl.DataFrame(
-    {
-        "": ["the truth: schedule growth over the first year's unimpeded time", "reference fixed on the first year", "reference recomputed every year"],
-        "change in padding, minutes": [truth, fixed[2023] - fixed[2022], yearly[2023] - yearly[2022]],
-    }
+The first version anchored in the latest release. Every headline then rested on one survey year that
+had not finished revising, and when the anchor was moved to 2019 the national payment share moved
+with it. The sensitivity table in the manifest prints the headline under every anchor; the policy
+anchor is 2019, the last full response year before the pandemic.""",
+        ),
+        ("code", """table("ch1.anchor_sensitivity")"""),
+        (
+            "markdown",
+            """## The real metros
+
+The national series from the chapter, and the same series re-anchored in each year of the table above,
+computed here from the marts so the arithmetic is visible: value in the anchor year times the index
+ratio, the payment at the quarterly rate on ninety percent of it, twelve payments over the median
+income, weighted by owner households.""",
+        ),
+        (
+            "code",
+            """from doorstep_finance.mortgage import payment_share
+
+metro_year = pl.read_parquet(MARTS / "mart_metro_year.parquet").filter(pl.col("kind") == "metropolitan")
+
+
+def national_payment_share(frame, anchor_year):
+    base = frame.filter((pl.col("year") == anchor_year) & pl.col("median_value_reported").is_not_null() & pl.col("index_at").is_not_null()).select(
+        "cbsa_code", pl.col("median_value_reported").alias("anchor_value"), pl.col("index_at").alias("anchor_index")
+    )
+    rows = (
+        frame.join(base, on="cbsa_code")
+        .filter(pl.col("index_at").is_not_null() & (pl.col("median_income") > 0) & pl.col("rate").is_not_null() & pl.col("owner_households").is_not_null())
+        .with_columns((pl.col("anchor_value") * pl.col("index_at") / pl.col("anchor_index")).alias("value"))
+    )
+    out = []
+    for year, group in sorted(rows.group_by("year"), key=lambda kv: kv[0][0]):
+        w = group["owner_households"].to_numpy()
+        shares = np.array([payment_share(v, i, r, 0.10, 30) for v, i, r in zip(group["value"], group["median_income"], group["rate"])])
+        out.append({"year": year[0], "anchor": anchor_year, "payment_share": float(np.average(shares, weights=w)), "metros": group.height})
+    return pl.DataFrame(out)
+
+
+series = pl.concat([national_payment_share(metro_year, a) for a in (2015, 2017, 2019, 2023)])
+series.pivot(on="anchor", index="year", values="payment_share").sort("year")""",
+        ),
+        (
+            "code",
+            """latest = series.filter(pl.col("year") == series["year"].max())
+peak = series.filter(pl.col("year") == 2006)
+latest.join(peak, on="anchor", suffix="_2006").select(
+    "anchor", pl.col("payment_share").alias("latest"), pl.col("payment_share_2006").alias("in 2006"), (pl.col("payment_share") - pl.col("payment_share_2006")).alias("difference")
 )""",
         ),
         (
             "markdown",
-            """The fixed reference recovers the schedule's growth; the yearly one reports only the padding the
-carriers added on top and loses the six minutes the schedule grew to absorb the congestion. That is
-the growth chapter 2 is about, so the reference is fixed on the fitting years, 2015 to 2022, and
-held there (`packages/chapters/src/doorstep_chapters/padding.py`). The cost is stated in the
-chapter's pushback: a fixed reference treats a route that genuinely got slower to fly, a new
-approach procedure or a longer taxi, as if the airline had padded it.""",
+            """The difference against 2006 is the headline of chapter 1. It is read on the anchor the policy fixed
+before the data; the table shows what each other anchor would have said, and the chapter prints the
+word stable or degenerate depending on whether the sign survives the first neighbour.""",
         ),
-        ("markdown", "## Padding on the real flights"),
-        (
-            "code",
-            """route_month = pl.read_parquet(MARTS / "mart_route_month.parquet")
-by_year = (
-    route_month.group_by("year")
-    .agg(
-        pl.col("padding_flights").sum().alias("flights with a reference"),
-        (pl.col("padding_sum").sum() / pl.col("padding_flights").sum()).alias("mean padding, min"),
-        (pl.col("crs_elapsed_sum").sum() / pl.col("flown").sum()).alias("mean scheduled block, min"),
-        (pl.col("actual_elapsed_sum").sum() / pl.col("flown").sum()).alias("mean actual block, min"),
-    )
-    .sort("year")
-)
-print("padding change on matched cells:", t("ch2.padding.change"), "from", v("ch2.first_year"), "to", v("ch2.last_year"))
-by_year""",
-        ),
-        (
-            "code",
-            """import matplotlib.pyplot as plt
-
-fig, ax = plt.subplots(figsize=(7, 3.2))
-ax.plot(by_year["year"], by_year["mean padding, min"], color="#C8552B", marker="o")
-ax.set_ylabel("Mean padding, minutes")
-ax.set_title("Scheduled block time over the unimpeded reference, all flights", loc="left", fontsize=10)
-ax.spines[["top", "right"]].set_visible(False)
-plt.show()""",
-        ),
-        (
-            "markdown",
-            """The yearly means above mix routes; the chapter's own estimate holds the route, hour and month
-fixed (matched cells), which is the number printed above the table and in the story.
-
-## The fifteen minute line
-
-Every flight under fifteen minutes late counts as on time. If schedules or gate procedures aim at
-the line, arrivals pile up just under it and thin out just over it. The density test compares the
-bunching at fifteen with the same statistic at placebo thresholds where nothing is at stake.""",
-        ),
-        (
-            "code",
-            """from doorstep_stats.density import density_test
-
-histogram = pl.read_parquet(MARTS / "mart_delay_histogram.parquet")
-first_test_year = int(v("policy.test_first_year"))
-pooled = (
-    histogram.filter(pl.col("year") >= first_test_year)
-    .group_by("minute").agg(pl.col("flights").sum()).sort("minute")
-)
-test = density_test(pooled["minute"].to_numpy().astype(np.int64), pooled["flights"].to_numpy().astype(np.float64))
-print(f"pooled over carriers, {first_test_year} onward: statistic {test.statistic:.4f}, z against {test.placebos_evaluated} placebos {test.z:.2f}, rank p {test.rank_p_value:.3f}")
-pooled.filter(pl.col("minute").is_between(8, 22))""",
-        ),
-        (
-            "markdown",
-            """The chapter runs the same test per carrier with Benjamini-Hochberg across carriers; its verdict,
-either way, is in the story and in `results/manifest.json` under `ch3`.""",
-        ),
-        ("code", """table("ch3.by_carrier")"""),
     ]
 
 
@@ -193,113 +172,83 @@ def nb2() -> list[tuple[str, str]]:
     return [
         (
             "markdown",
-            """# 02. Rotations and inherited delay
+            """# 02. The lock in
 
-How much of a flight's delay arrived with the aircraft? The answer needs the aircraft's day rebuilt
-from tail numbers, and the propagation coefficient: the minutes of departure delay passed on per
-minute the inbound flight was late beyond its scheduled turn less a minimum turn.
+Owners who hold a mortgage far below the market rate do not sell. The chapter measures that from the
+loans themselves: originations in 2019 to 2021 under four percent, per hundred owner households, metro
+by metro, and then asks what happened to turnover after the rate shock. This notebook keeps the dead
+end: the first version of the measure counted every origination, so a metro whose owners refinanced
+twice at the bottom counted each refinance, and the intensity measured how often a metro refinanced
+rather than how much of it held a low rate.
 
-The dead end is kept here: keying rotations on the tail number and the date, the way the monthly
-files are laid out. It splits every overnight.""",
+First on the simulator, where the lock in response is planted; then the real metros.""",
         ),
         ("code", PRELUDE),
         (
             "markdown",
-            """## On the simulator, where the coefficient is known
+            """## On the simulator
 
-Two simulated years: the minimum turn is chosen on the first, the coefficient and the inherited
-share are reported on the second, and the truth is the simulator's own inherited minutes, capped
-at each leg's departure delay as the estimator caps them.""",
+The simulator plants a turnover response of 0.04 purchases per hundred owners lost per point of lock in
+after the shock. The regression with metro and year fixed effects recovers it from the all origination
+measure; the purchase only measure (the dead end's alternative) carries the same information with less
+of it.""",
         ),
         (
             "code",
-            """from doorstep_chapters import ch04_inherited, padding
-from doorstep_core.config import POLICY, TURN_BINS
-from doorstep_rotations import reconstruct
-from doorstep_sim.network import SimSpec, simulate
+            """from doorstep_chapters import c2_rate_shock
+from doorstep_chapters.panel import from_world
+from doorstep_sim.metros import DEMONSTRATION, LOCK_IN_RESPONSE, generate
 
-sim = simulate(SimSpec(seed=11, days=730, start="2022-01-01", meltdown_day=600))
-con = duckdb.connect()
-con.register("sim", sim.flights.to_arrow())
-con.execute("create table raw as select * from sim")
-padding.build_unimpeded(con, "raw", where_fit="year = 2022", percentile=0.10, min_flights=20)
-con.execute(f"create table fct_flights as {padding.padded_flights_sql('raw')}")
-con.execute(f"create table int_legs as {reconstruct.full_sql('fct_flights', POLICY.rotation_gap_hours)}")
-counts = reconstruct.counts(con, "int_legs")
-r = ch04_inherited.estimate(con, legs="int_legs", flights="fct_flights", fit_year=2022, test_first=2023, test_last=2023, bins=TURN_BINS)
-truth_share = con.execute(
-    "select sum(least(true_inherited, greatest(dep_delay, 0))) / sum(greatest(arr_delay, 0)) "
-    "from fct_flights where year = 2023 and not cancelled and not diverted"
-).fetchone()[0]
-print(counts)
-print(f"rho {r.estimate.rho:.3f} (truth {sim.truth.propagation}), minimum turn {r.estimate.min_turn} (truth {sim.truth.min_turn})")
-print(f"inherited share {r.share:.3f} (interval {r.share_low:.3f} to {r.share_high:.3f}); truth {truth_share:.3f}")""",
+rows = []
+for seed in range(4):
+    world = generate(DEMONSTRATION, seed)
+    panel = from_world(world, with_loans=True)
+    for column, label in (("low_rate_originations", "all originations under 4%"), ("under_3_5_originations", "originations under 3.5%")):
+        head, placebo, metros, clusters = c2_rate_shock.lock_in_regression(panel, column=column)
+        rows.append({"seed": seed, "measure": label, "estimate": head.estimate, "low": head.low, "high": head.high, "placebo": placebo.estimate})
+pl.DataFrame(rows).group_by("measure").agg(
+    pl.col("estimate").mean().alias("mean estimate"), pl.col("placebo").mean().alias("mean placebo"), pl.lit(-LOCK_IN_RESPONSE).alias("truth")
+)""",
         ),
         (
             "markdown",
-            """## Keying rotations on the date: a dead end, kept
+            """## The dead end on the real loans
 
-The files give each flight a date, the local date of its scheduled departure, and grouping an
-aircraft's legs by tail number and date is the first thing anyone writes. It cuts every chain at
-midnight: the red eye that lands at dawn and turns forty minutes later, the island night that is
-shorter than a long sit at a hub. Those links are exactly where a late arrival is passed to the
-morning. The reconstruction instead orders each tail's legs in UTC and starts a new rotation only
-after a sit longer than the stated gap.
-
-Below, the same simulated legs with every link that crosses a local date cut, and what that
-changes.""",
+Every origination under four percent, purchase and refinance alike, against purchase originations
+alone, per hundred owner households in 2021. The two intensities rank the metros almost the same
+way; what the all origination measure adds is the refinancing wave, which is where the lock in lives,
+so the chapter keeps it and says in its pushback that it is an intensity rather than a count of
+owners.""",
         ),
         (
             "code",
-            """con.execute(
-    "create table legs_by_date as "
-    "select l.* replace (case when l.link_status = 'linked' and p.flight_date <> l.flight_date then 'gap' else l.link_status end as link_status) "
-    "from int_legs l left join int_legs p on p.flight_id = l.prev_flight_id"
+            """metro_year = pl.read_parquet(MARTS / "mart_metro_year.parquet").filter(pl.col("kind") == "metropolitan")
+lock = (
+    metro_year.filter(pl.col("year").is_between(2019, 2021))
+    .group_by("cbsa_code", "cbsa_title")
+    .agg(pl.col("low_rate_originations").sum().alias("all_under_4"), pl.col("purchase_loans").sum().alias("purchases"))
+    .join(metro_year.filter(pl.col("year") == 2021).select("cbsa_code", "owner_households"), on="cbsa_code")
+    .filter(pl.col("owner_households") > 0)
+    .with_columns(
+        (100.0 * pl.col("all_under_4") / pl.col("owner_households")).alias("lock_in_all"),
+        (100.0 * pl.col("purchases") / pl.col("owner_households")).alias("purchases_per_100"),
+    )
 )
-by_date = ch04_inherited.estimate(con, legs="legs_by_date", flights="fct_flights", fit_year=2022, test_first=2023, test_last=2023, bins=TURN_BINS)
-cut, carried = ch04_inherited.across_dates(con, legs="int_legs", legs_where="year(flight_date) = 2023", rho=r.estimate.rho, min_turn=r.estimate.min_turn)
-pl.DataFrame(
-    [
-        {"rule": "UTC order, new rotation after a long sit", "links in the reporting year": r.test_links,
-         "links cut at midnight": 0, "inherited minutes lost": 0.0, "inherited share": r.share},
-        {"rule": "tail number and local date", "links in the reporting year": by_date.test_links,
-         "links cut at midnight": cut, "inherited minutes lost": carried, "inherited share": by_date.share},
-    ]
-)""",
+print("metros", lock.height, "rank correlation", round(float(np.corrcoef(lock["lock_in_all"].rank(), lock["purchases_per_100"].rank())[0, 1]), 3))
+lock.sort("lock_in_all", descending=True).select("cbsa_title", "lock_in_all", "purchases_per_100").head(10)""",
         ),
         (
             "markdown",
-            """The simulator's nights are long: its last arrivals land late in the evening and its first
-departures leave hours later, so the links the date rule cuts carry almost nothing and the share
-barely moves. That is the simulator's limit, not a defence of the rule. The real network flies red
-eyes into the morning banks and short nights in Hawaii, and the cell below reads what the date rule
-would have cut there, counted by the chapters stage on the reporting years.""",
-        ),
-        (
-            "code",
-            """print("linked legs whose previous leg is on another local date:", v("ch4.across_dates"))
-print("their share of all inherited minutes:", t("ch4.across_dates_share"))
-print("rotations", v("ch4.rotations"), "from", v("ch4.legs"), "legs on", v("ch4.tails"), "tails;",
-      "broken chains", v("ch4.broken_chain"), "impossible sequences", v("ch4.impossible"))
-table("ch4.buffer_curve")""",
-        ),
-        (
-            "markdown",
-            """## The first flight of the aircraft's day
+            """## The regression on the real metros
 
-The traveler's version of the same mechanism: a first departure has no inbound flight to inherit
-from. The leg position mart counts on time arrivals by the leg's place in the aircraft's local day.""",
+The headline and the placebo from the manifest, with the threshold interior test beside them.""",
         ),
         (
             "code",
-            """legs = pl.read_parquet(MARTS / "mart_leg_position.parquet")
-(
-    legs.filter(pl.col("year") >= int(v("policy.test_first_year")))
-    .group_by("leg_position")
-    .agg(pl.col("flown").sum(), (pl.col("on_time").sum() / pl.col("flown").sum()).alias("on time rate"))
-    .sort("leg_position")
-    .head(8)
-)""",
+            """print("lock in per point:", t("ch2.lock_in.coef"), "interval", t("ch2.lock_in.low"), "to", t("ch2.lock_in.high"), "p", t("ch2.lock_in.p"))
+print("placebo on the base years:", t("ch2.placebo.coef"), "interval", t("ch2.placebo.low"), "to", t("ch2.placebo.high"))
+print("turnover before", t("ch2.turnover.before"), "after", t("ch2.turnover.after"), "per 100 owner households")
+table("ch2.threshold_interior")""",
         ),
     ]
 
@@ -308,91 +257,89 @@ def nb3() -> list[tuple[str, str]]:
     return [
         (
             "markdown",
-            """# 03. The fair ranking
+            """# 03. Supply and demand
 
-A carrier's average delay mixes how well it runs with where and when it flies. The fair ranking
-regresses arrival delay on carrier with fixed effects for route, month, scheduled hour and aircraft
-type, fit on weighted cells. The simulator plants carrier effects on routes of known difficulty
-and makes the hardest routes belong to some carriers more than others, so the raw ranking is
-confounded by design and the true ranking is known.
+Where builders kept pace, prices rose less. The regression that says so has one objection built
+into it: builders build where people are arriving, and a regression that cannot see the arrivals
+credits the building with what the demand did. This notebook keeps the dead end: the specification
+that put the demand shock in the wrong fixed effect. It averaged each metro's migration over the
+whole window set and entered that as the control, which the metro fixed effect absorbs entirely, so
+the controlled and the uncontrolled estimates came out identical and the control did nothing.
 
-The dead end is kept: a model with fixed effects for the origin airport instead of the route. It
-puts each carrier's hub in a fixed effect that the carrier owns, and the hub soaks up the carrier.""",
+First on the simulator, where the elasticity is planted; then the real cells.""",
         ),
         ("code", PRELUDE),
         (
+            "markdown",
+            """## On the simulator
+
+Three specifications on the same cells: no demand control, the dead end (a metro level mean of
+migration, absorbed by the metro effect), and the kept one (migration over the window and the two
+years before it, which varies within the metro).""",
+        ),
+        (
             "code",
-            """from doorstep_chapters.ranking import estimate, spearman
-from doorstep_sim.network import SimSpec, simulate
-from doorstep_stats.fe import contrasts_to_mean, dummies, fit
+            """from doorstep_chapters import c4_supply
+from doorstep_chapters.panel import from_world
+from doorstep_sim.metros import BETA_SUPPLY, Condition, generate
+from doorstep_stats.regression import first, regress
 
-
-def ranked(con, keys):
-    \"\"\"Carriers ordered by their effect under the fixed effects named in keys.\"\"\"
-    cells = con.execute(
-        f"select carrier, {', '.join(keys)}, count(*) as flights, avg(arr_delay) as arr_delay from f "
-        "where not cancelled and not diverted and arr_delay is not null group by all order by all"
-    ).pl()
-    carriers = sorted(cells["carrier"].unique().to_list())
-    index = {c: i for i, c in enumerate(carriers)}
-    idx = np.array([index[c] for c in cells["carrier"].to_list()])
-    w = cells["flights"].to_numpy().astype(float)
-    result = fit(cells["arr_delay"].to_numpy().astype(float), dummies(idx, len(carriers)), w, [cells[k].to_numpy() for k in keys], carriers[1:])
-    effects, _ = contrasts_to_mean(result.coef, None, np.bincount(idx, weights=w))
-    return [c for _, c in sorted(zip(effects, carriers))]
-
-
+strong = Condition(name="strong", demand_strength="strong", supply_dispersion="narrow", reverse_causality="none", noise="low")
 rows = []
-for seed in (1, 2, 3):
-    sim = simulate(SimSpec(seed=seed, days=365, start="2022-01-01", confounding=0.9))
-    con = duckdb.connect()
-    con.register("sim", sim.flights.to_arrow())
-    con.execute("create view f as select *, year * 100 + month as period from sim")
-    truth = sim.truth.carrier_effect_ranking
-    final = estimate(con, "f")
-    rows.append(
-        {
-            "seed": seed,
-            "raw": spearman(final.order("raw"), truth),
-            "origin airport fixed effect (dead end)": spearman(ranked(con, ["origin", "period", "dep_hour"]), truth),
-            "both airports": spearman(ranked(con, ["origin", "dest", "period", "dep_hour"]), truth),
-            "route, month, hour, type (shipped)": spearman(final.order("adjusted"), truth),
-        }
-    )
-print("rank correlation with the true ranking, strong confounding")
-pl.DataFrame(rows)""",
+for seed in range(4):
+    world = generate(strong, seed)
+    cells = c4_supply.cells(from_world(world), 5)
+    y = cells["annual_growth"].to_numpy()
+    w = cells["population"].to_numpy()
+    fe = [cells["cbsa_code"].to_numpy(), cells["window_id"].to_numpy()]
+    cl = cells["state"].to_numpy()
+    metro_mean = cells.join(cells.group_by("cbsa_code").agg(pl.col("migration_rate").mean().alias("metro_mean")), on="cbsa_code")["metro_mean"].to_numpy()
+    none = first(regress(y, cells["permits_rate"].to_numpy()[:, None], ["permits_rate"], weights=w, fixed_effects=fe, cluster=cl), "permits_rate")
+    try:
+        dead_end = first(regress(y, np.column_stack([cells["permits_rate"].to_numpy(), metro_mean]), ["permits_rate", "metro_mean"], weights=w, fixed_effects=fe, cluster=cl), "permits_rate")
+        dead_end_estimate = dead_end.estimate
+    except Exception as err:  # the solver refuses a control the fixed effects absorb
+        dead_end_estimate = float("nan")
+        if seed == 0:
+            print("dead end:", err)
+    kept, _ = c4_supply.fit_both(cells)
+    rows.append({"seed": seed, "no control": none.estimate, "dead end": dead_end_estimate, "kept": kept.estimate})
+frame = pl.DataFrame(rows)
+print("planted elasticity", -BETA_SUPPLY)
+frame.select(pl.all().exclude("seed").mean())""",
         ),
         (
             "markdown",
-            """The origin airport model is barely better than the raw ranking. Every carrier in the simulator
-has a hub, and nearly every departure from that hub is the carrier's own, so the hub's fixed
-effect and the carrier's effect are the same variable on half the carrier's flights: the model
-credits the hub with the carrier's punctuality and the carrier with whatever is left. Holding both
-ends fixed recovers most of the ranking; the route, which holds the pair and its difficulty,
-recovers it best and is what ships. The recovery study runs this across every condition; its
-summary is in the manifest.""",
+            """The dead end does not even run: a control that does not vary within the metro is collinear with the
+metro effect, and the solver refuses it rather than returning the uncontrolled estimate under a
+different name, which is what the first version of this chapter had silently done. The kept
+specification moves toward the planted value under strong demand; the recovery study on the data
+page reports the remaining attenuation by condition.""",
         ),
+        (
+            "markdown",
+            """## The real cells
+
+Both specifications from the manifest, the window interior test, and the cells themselves.""",
+        ),
+        ("code", """table("ch4.specifications")"""),
+        ("code", """table("ch4.window_interior")"""),
         (
             "code",
-            """print("rank correlation, adjusted against raw, over the recovery study:",
-      "strong confounding", t("recovery.rank_adjusted.strong"), "against", t("recovery.rank_raw.strong"), ";",
-      "no confounding", t("recovery.rank_adjusted.none"), "against", t("recovery.rank_raw.none"))""",
+            """cells = pl.read_parquet(MARTS / "ch4_cells.parquet")
+print(cells.height, "cells over", cells["cbsa_code"].n_unique(), "metros and", cells["window_id"].n_unique(), "windows")
+cells.group_by("window_id").agg(
+    pl.col("first_year").min(), pl.col("last_year").max(), pl.col("permits_rate").mean().alias("mean building rate"),
+    pl.col("annual_growth").mean().alias("mean annual growth"), pl.col("migration_rate").mean().alias("mean migration per 100"),
+).sort("window_id")""",
         ),
-        (
-            "markdown",
-            """## The ranking on the real flights
-
-Raw beside adjusted, with day clustered intervals, from the committed manifest. A carrier that moves
-down once adjusted was flying easier routes and hours than its raw rank credited.""",
-        ),
-        ("code", """table("ch5.ranking")"""),
     ]
 
 
 NOTEBOOKS = {
-    "01_padding_and_the_line.ipynb": nb1,
-    "02_rotations_and_inherited_delay.ipynb": nb2,
-    "03_the_fair_ranking.ipynb": nb3,
+    "01_the_anchor.ipynb": nb1,
+    "02_the_lock_in.ipynb": nb2,
+    "03_supply_and_demand.ipynb": nb3,
 }
 
 

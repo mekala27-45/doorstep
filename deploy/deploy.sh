@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 if [ -f .env ]; then
   set -a; . ./.env; set +a
 fi
-APP="${DOORSTEP_FLY_APP_NAME:-doorstep-flights-api}"
+APP="${DOORSTEP_FLY_APP_NAME:-doorstep-housing-api}"
 SCHEMA=""
 if [ -n "${DOORSTEP_DATABASE_URL:-}" ]; then
   URL="$DOORSTEP_DATABASE_URL"

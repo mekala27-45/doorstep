@@ -67,10 +67,10 @@ def _files(pattern: str, what: str) -> Callable[[], tuple[bool, str]]:
     return probe
 
 
-def _weather() -> tuple[bool, str]:
-    folder = ROOT / "data" / "weather"
-    ok = (folder / "hourly.parquet").exists() and (folder / "ATTRIBUTION.md").exists()
-    return ok, "hourly.parquet with its attribution" if ok else "missing or written without its attribution"
+def _census_cache() -> tuple[bool, str]:
+    folder = ROOT / "data" / "external" / "acs"
+    files = sorted(folder.glob("*/*.json")) if folder.exists() else []
+    return bool(files), f"{len(files)} cached census responses" if files else "no cached census responses"
 
 
 PROBES: dict[str, Callable[[], tuple[bool, str]]] = {
@@ -79,9 +79,9 @@ PROBES: dict[str, Callable[[], tuple[bool, str]]] = {
     "dbt": _command("dbt"),
     "node": _command("node"),
     "duckdb": _module("duckdb"),
-    "external": _files("data/external/bts/*.zip", "monthly files"),
-    "derived": _files("data/flights/flights_*.parquet", "derived months"),
-    "weather": _weather,
+    "external": _files("data/external/hmda/*/lar_part*.csv.gz", "loan extract parts"),
+    "derived": _files("data/hmda/lar_*.parquet", "derived loan years"),
+    "census": _census_cache,
 }
 
 

@@ -1,12 +1,14 @@
 """Scan everything published for an identity or a raw row that should not be there.
 
 What counts here: a Luhn valid card number, a Social Security number pattern, an email
-address, a raw row of the BTS monthly files (recognised by their header, because the raw
-files are never committed, only derived tables), the raw FAA registry header (the registry
-carries registrant names and street addresses, and only the aircraft columns are kept), any
-registrant column name in a committed table, or any token on the planted list in
-data/planted_identifiers.txt. The planted list is what the test plants and then expects the
-scan to find, including a traveler name and a booking reference in a check log row.
+address, a raw row of the loan extract (recognised by its header, because the raw parts are
+never committed, only the derived parquet with the contract's columns), the raw header of a
+census API response carried whole into a published table, any loan level column that could
+identify a borrower or a property (the census tract, the legal entity identifier of the lender
+beside a loan amount, the derived race, ethnicity and sex fields that are never loaded) in a
+committed table, or any token on the planted list in data/planted_identifiers.txt. The planted
+list is what the test plants and then expects the scan to find, including a household name and
+an email in a check log row.
 """
 
 from __future__ import annotations
@@ -27,13 +29,23 @@ EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 # character, a dot or a hyphen is part of an identifier or a number, not a card.
 PAN = re.compile(r"(?<![\w.-])(?:\d[ -]?){13,19}(?![\w-])")
 RAW_HEADERS = {
-    "bts raw header": '"Year","Quarter","Month","DayofMonth","DayOfWeek","FlightDate"',
-    "bts raw header (unquoted)": "Year,Quarter,Month,DayofMonth,DayOfWeek,FlightDate,Reporting_Airline",
-    "faa registry raw header": "N-NUMBER,SERIAL NUMBER,MFR MDL CODE",
+    "hmda raw header": "activity_year,lei,derived_msa-md,state_code,county_code,census_tract",
+    "hmda snapshot header": "activity_year,lei,derived_msa_md,state_code,county_code,census_tract",
 }
-# Registrant columns of the FAA registry. A committed table that carries one of these names
-# carries a person's name or address.
-REGISTRANT_COLUMNS = ("street", "street2", "registrant_name", "zip_code", "other_names", "name_other")
+# Loan level columns that locate a borrower or a property, or that the build does not load at all. A
+# committed table that carries one of these names carries more than the grain the story uses.
+REGISTRANT_COLUMNS = (
+    "census_tract",
+    "derived_race",
+    "derived_ethnicity",
+    "derived_sex",
+    "applicant_race_1",
+    "street",
+    "street2",
+    "registrant_name",
+    "email",
+    "household_name",
+)
 SCAN_GLOBS = (
     "results/**/*.json",
     "results/**/*.csv",
@@ -161,7 +173,7 @@ def targets(root: Path) -> list[Path]:
             if p.is_file()
             and "node_modules" not in p.parts
             and "external" not in p.parts
-            and "flights" not in p.parts
+            and "hmda" not in p.parts
         )
     return sorted(set(found))
 
@@ -186,5 +198,5 @@ if __name__ == "__main__":
     count = check(Path(__file__).resolve().parents[1])
     print(
         f"identifier scan: {count} files, no card numbers, SSN patterns, addresses, raw rows, "
-        "registrant columns or planted tokens"
+        "borrower columns or planted tokens"
     )

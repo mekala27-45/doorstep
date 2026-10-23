@@ -29,7 +29,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "results" / "live_check.json"
-ROUTES = ("/", "/explore/", "/rank/", "/rotations/", "/events/", "/planner/", "/data/", "/report/")
+ROUTES = ("/", "/explore/", "/rank/", "/buyers/", "/shocks/", "/planner/", "/data/", "/report/")
 ASLEEP_OUTCOMES = ("answered on the second probe", "showed the recorded session, labeled")
 
 

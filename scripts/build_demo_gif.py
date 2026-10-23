@@ -1,9 +1,9 @@
-"""The demo recording: the story's opening, one chapter's sticky chart advancing through its states as
-the text scrolls, the slope chart of the fair ranking, an aircraft's day on the rotation timeline,
-and a check saved through the planner with its id. About fifteen seconds, tight crop, written to
-docs/demo.gif from frames captured with Playwright against the test server, which serves the build
-made with `npm run build:e2e`, so the check is saved against the mock API and the recording leaves
-no row in the live log.
+"""The demo recording: the story's opening, the first chapter's sticky chart advancing through its states
+as the text scrolls, the slope chart of the fair ranking, the shocks page with the overtaking quarter
+annotated, and a check saved through the planner with its payment share, breakeven and id. About ten
+seconds, tight crop, written to docs/demo.gif from frames captured with Playwright against the test
+server, which serves the build made with `npm run build:e2e`, so the check is saved against the mock
+API and the recording leaves no row in the live log.
 
     npm --prefix web run build:e2e && node web/scripts/serve.mjs &
     uv run python scripts/build_demo_gif.py --base http://127.0.0.1:4173/doorstep
@@ -31,8 +31,8 @@ def story_chapter(name: str | None) -> dict[str, Any]:
         for chapter in chapters:
             if chapter["id"] == name:
                 return chapter
-    # The chapter with the most chart states shows the scroll mechanics best.
-    return max(chapters, key=lambda c: len(c.get("steps", [])))
+    # The first chapter opens the story, and its chart has three states.
+    return chapters[0]
 
 
 def main() -> int:
@@ -73,24 +73,23 @@ def main() -> int:
             page.wait_for_timeout(700)
             shot(page, 1300)
         open_route(page, "/rank/")
-        page.get_by_test_id("chart-ranking").scroll_into_view_if_needed()
+        page.get_by_test_id("rank-slope").scroll_into_view_if_needed()
         page.wait_for_timeout(400)
-        shot(page, 1800)
-        open_route(page, "/rotations/")
-        page.get_by_test_id("timeline").locator("[data-leg]").first.wait_for(timeout=30_000)
-        page.get_by_test_id("rotation-timeline").scroll_into_view_if_needed()
+        shot(page, 1600)
+        open_route(page, "/shocks/")
+        page.get_by_test_id("shock-decomposition").scroll_into_view_if_needed()
         page.wait_for_timeout(400)
-        shot(page, 1800)
+        shot(page, 1600)
         open_route(page, "/planner/")
-        page.get_by_test_id("probability").wait_for(timeout=45_000)
+        page.get_by_test_id("answer-share").wait_for(timeout=45_000)
         page.wait_for_timeout(300)
-        shot(page, 1300)
+        shot(page, 1200)
         page.get_by_test_id("token").fill("demo-token")
         page.get_by_test_id("save").click()
-        page.get_by_test_id("check-id").wait_for(timeout=45_000)
-        page.get_by_test_id("check-id").evaluate("el => el.scrollIntoView({block: 'center'})")
+        page.get_by_test_id("saved").wait_for(timeout=45_000)
+        page.get_by_test_id("saved").evaluate("el => el.scrollIntoView({block: 'center'})")
         page.wait_for_timeout(400)
-        shot(page, 2000)
+        shot(page, 1800)
         browser.close()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     frames[0].save(OUT, save_all=True, append_images=frames[1:], duration=durations, loop=0, optimize=True)
