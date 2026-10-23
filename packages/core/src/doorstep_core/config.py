@@ -54,8 +54,9 @@ class Policy(StrictModel):
     turnover_test_first_year: int = 2023
     supply_window_years: int = 5
     migration_years: tuple[int, int] = (2020, 2021)
-    migration_pre_years: tuple[int, int] = (2017, 2018)
+    migration_pre_years: tuple[int, int] = (2018, 2019)
     migration_window: tuple[str, str] = ("2019Q4", "2021Q4")
+    migration_placebo_years: tuple[int, int] = (2017, 2018)
     migration_placebo_window: tuple[str, str] = ("2016Q4", "2018Q4")
     synthetic_control_first_period: str = "2015Q1"
     synthetic_control_metros: int = 3

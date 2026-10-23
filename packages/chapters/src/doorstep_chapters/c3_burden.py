@@ -244,7 +244,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
         message=branch.text,
         reported_years=[latest],
     )
-    r.put("ch3.latest_year", latest, "int")
+    r.put("ch3.latest_year", latest, "year")
     r.put("ch3.metros", int(latest_rows.height), "int")
     r.put("ch3.severe.share", severe.estimate, "pct1", model="bootstrap")
     r.put("ch3.severe.low", severe.low, "pct1", model="bootstrap")
@@ -279,7 +279,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
     )
     first = series.row(0, named=True)
     last = series.row(series.height - 1, named=True)
-    r.put("ch3.national.first_year", int(first["year"]), "int")
+    r.put("ch3.national.first_year", int(first["year"]), "year")
     r.put("ch3.national.severe.first", float(first["renter_severe_share"]), "pct1", model="burden")
     r.put("ch3.national.severe.latest", float(last["renter_severe_share"]), "pct1", model="burden")
     r.put("ch3.national.burdened.latest", float(last["renter_burdened_share"]), "pct1", model="burden")
@@ -344,7 +344,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
                     float(x["renters_severe"]) / den if den else None,
                 ]
             )
-        r.put("ch3.groups.year", g_latest, "int")
+        r.put("ch3.groups.year", g_latest, "year")
         lowest = group_rows[0]
         highest = group_rows[-1]
         r.put("ch3.groups.lowest.severe", lowest[3], "pct0", model="burden")
@@ -363,7 +363,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
             .sort(["year", "group_order"])
         )
     else:
-        r.put("ch3.groups.year", None, "int")
+        r.put("ch3.groups.year", None, "year")
         r.put("ch3.groups.lowest.severe", None, "pct0")
         r.put("ch3.groups.highest.severe", None, "pct0")
     if group_rows:

@@ -368,8 +368,8 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
         message=branch.text,
         reported_years=[latest],
     )
-    r.put("ch6.base_year", BASE_YEAR, "int")
-    r.put("ch6.latest_year", latest, "int")
+    r.put("ch6.base_year", BASE_YEAR, "year")
+    r.put("ch6.latest_year", latest, "year")
     r.put("ch6.replicates", ratio_diff.replicates, "int")
     for y in (BASE_YEAR, latest):
         tag = "base" if y == BASE_YEAR else "latest"

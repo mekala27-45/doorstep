@@ -264,9 +264,9 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
         reported_years=[h["latest_year"]],
     )
     series: pl.DataFrame = h["series"]
-    r.put("ch1.latest_year", h["latest_year"], "int")
-    r.put("ch1.first_year", h["first_year"], "int")
-    r.put("ch1.peak_year", h["peak_year"], "int")
+    r.put("ch1.latest_year", h["latest_year"], "year")
+    r.put("ch1.first_year", h["first_year"], "year")
+    r.put("ch1.peak_year", h["peak_year"], "year")
     r.put("ch1.latest.payment_share", h["latest_share"], "pct1", model="monte_carlo")
     r.put("ch1.peak.payment_share", h["peak_share"], "pct1", model="monte_carlo")
     r.put("ch1.first.payment_share", h["first_share"], "pct1", model="monte_carlo")

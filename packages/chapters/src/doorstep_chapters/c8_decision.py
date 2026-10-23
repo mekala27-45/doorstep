@@ -84,7 +84,7 @@ def message_rule(
     rate_move: float,
     biggest: list[tuple[str, float]],
 ) -> Branch:
-    named = "; ".join(f"{name} {format_value(y, 'years0')}" for name, y in biggest[:3])
+    named = "; ".join(f"{name} {format_value(y, 'beyond0')}" for name, y in biggest[:3])
     tail = f" Longest to break even among the largest metros: {named}." if named else ""
     if never_share > 0.5:
         return Branch(
@@ -96,14 +96,14 @@ def message_rule(
     if median_years <= 2.0:
         return Branch(
             "immediate",
-            f"Buying beats renting almost at once: the median breakeven is {format_value(median_years, 'years1')} (interval {format_value(low, 'years1')} to "
-            f"{format_value(high, 'years1')}), and one point of rate moves it by {format_value(rate_move, 'sfloat1')} years."
+            f"Buying beats renting almost at once: the median breakeven is {format_value(median_years, 'beyond1')} (interval {format_value(low, 'beyond1')} to "
+            f"{format_value(high, 'beyond1')}), and one point of rate moves it by {format_value(rate_move, 'sfloat1')} years."
             + tail,
         )
     return Branch(
         "years",
-        f"Buying beats renting only after {format_value(median_years, 'years1')} in the typical metro (interval {format_value(low, 'years1')} to "
-        f"{format_value(high, 'years1')}), and one point of rate moves the breakeven by {format_value(rate_move, 'sfloat1')} years."
+        f"Buying beats renting only after {format_value(median_years, 'beyond1')} in the typical metro (interval {format_value(low, 'beyond1')} to "
+        f"{format_value(high, 'beyond1')}), and one point of rate moves the breakeven by {format_value(rate_move, 'sfloat1')} years."
         + tail,
     )
 
@@ -338,14 +338,14 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
         message=branch.text,
         reported_years=[year],
     )
-    r.put("ch8.year", year, "int")
+    r.put("ch8.year", year, "year")
     r.put("ch8.rate", rate, "rate2")
     r.put("ch8.metros", int(table.height), "int")
     r.put("ch8.metros_with_breakeven", int(with_be.height), "int")
     r.put("ch8.draws", draws or policy.bootstrap_replicates, "int")
-    r.put("ch8.breakeven.median", med, "years1", model="breakeven")
-    r.put("ch8.breakeven.low", low, "years1", model="breakeven")
-    r.put("ch8.breakeven.high", high, "years1", model="breakeven")
+    r.put("ch8.breakeven.median", med, "beyond1", model="breakeven")
+    r.put("ch8.breakeven.low", low, "beyond1", model="breakeven")
+    r.put("ch8.breakeven.high", high, "beyond1", model="breakeven")
     r.put("ch8.breakeven.never_share", never_share, "pct0", model="breakeven")
     r.put("ch8.breakeven.rate_move", rate_move, "sfloat1", model="breakeven")
     r.put("ch8.horizon", policy.breakeven_horizon_years, "int")
@@ -371,11 +371,11 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
     r.put("ch8.down_payment_years.max_metro", str(worst["cbsa_title"]), "text")
     for i, (name, years) in enumerate(biggest[:3], start=1):
         r.put(f"ch8.longest.{i}.metro", name, "text")
-        r.put(f"ch8.longest.{i}.years", years, "years0", model="breakeven")
+        r.put(f"ch8.longest.{i}.years", years, "beyond0", model="breakeven")
     quickest = sorted(biggest, key=lambda kv: kv[1])[:3]
     for i, (name, years) in enumerate(quickest, start=1):
         r.put(f"ch8.quickest.{i}.metro", name, "text")
-        r.put(f"ch8.quickest.{i}.years", years, "years0", model="breakeven")
+        r.put(f"ch8.quickest.{i}.years", years, "beyond0", model="breakeven")
     r.put("ch8.branch", branch.name, "text")
     r.put("ch8.message", branch.text, "text")
 
@@ -447,7 +447,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
     r.put_table(
         "ch8.down_interior",
         ["Down payment", "Median breakeven", "Median down payment years", "Note"],
-        ["pct0", "years1", "years1", "text"],
+        ["pct0", "beyond1", "years1", "text"],
         down_rows,
         model="breakeven",
     )
@@ -474,7 +474,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
             "Low",
             "High",
         ],
-        ["text", "usd0", "usd0", "text", "pct0", "years1", "years1", "years1", "years1"],
+        ["text", "usd0", "usd0", "text", "pct0", "years1", "beyond1", "beyond1", "beyond1"],
         [
             [
                 str(x["cbsa_title"]),
@@ -518,7 +518,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
     r.put(
         "ch8.curve.breakeven",
         breakeven_year(curve, policy.breakeven_horizon_years),
-        "years0",
+        "beyond0",
         model="breakeven",
     )
     r.marts["ch8_metros"] = table
@@ -543,7 +543,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
             ),
         },
         model="breakeven",
-        callout=f"median breakeven {format_value(med, 'years1')}; the median household can afford the median home in {can.height} of {table.height} metros",
+        callout=f"median breakeven {format_value(med, 'beyond1')}; the median household can afford the median home in {can.height} of {table.height} metros",
     )
     r.method = {
         "estimator": "closed form payment arithmetic; bracket interpolation; breakeven under the cost model on bootstrap paths",

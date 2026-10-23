@@ -165,6 +165,20 @@ def fmt_years0(value: float | int | str | None) -> str:
     return f"{round(v):,} years" if round(v) != 1 else "1 year"
 
 
+def _beyond(decimals: int) -> FormatFn:
+    """A breakeven in years, where one past the horizon is the engine's sentinel for owning never catching up."""
+
+    def fmt(value: float | int | str | None) -> str:
+        from doorstep_core.config import POLICY
+
+        v = _num(value)
+        if v > POLICY.breakeven_horizon_years:
+            return f"beyond {POLICY.breakeven_horizon_years} years"
+        return fmt_years1(v) if decimals else fmt_years0(v)
+
+    return fmt
+
+
 def fmt_ratio2(value: float | int | str | None) -> str:
     return f"{_plain(_num(value), 2)}x"
 
@@ -188,6 +202,13 @@ def fmt_quarter(value: float | int | str | None) -> str:
     return str(value)
 
 
+def fmt_year(value: float | int | str | None) -> str:
+    """A calendar year: four digits, no separator."""
+    if value is None:
+        return "not available"
+    return str(int(round(_num(value))))
+
+
 FORMATS: dict[str, FormatFn] = {
     "int": fmt_int,
     "float1": _fixed(1),
@@ -201,6 +222,7 @@ FORMATS: dict[str, FormatFn] = {
     "pct0": _pct(0),
     "pct1": _pct(1),
     "pct2": _pct(2),
+    "spct0": _signed_pct(0),
     "spct1": _signed_pct(1),
     "spct2": _signed_pct(2),
     "pts1": _points(1),
@@ -224,11 +246,14 @@ FORMATS: dict[str, FormatFn] = {
     "usdb1": fmt_usd_b1,
     "years1": fmt_years1,
     "years0": fmt_years0,
+    "beyond1": _beyond(1),
+    "beyond0": _beyond(0),
     "ratio1": fmt_ratio1,
     "ratio2": fmt_ratio2,
     "rate2": fmt_rate2,
     "srate2": fmt_srate2,
     "quarter": fmt_quarter,
+    "year": fmt_year,
     "text": fmt_text,
 }
 

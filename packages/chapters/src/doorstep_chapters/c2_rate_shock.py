@@ -277,6 +277,8 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     r.put("ch2.overtaking_quarter", overtaking or "never", "quarter", model="decomposition")
     r.put("ch2.latest_period", str(latest["period"]), "quarter")
     r.put("ch2.base_payment", float(latest["base_payment"]), "usd0", model="decomposition")
+    r.put("ch2.base_period", f"{EVENT_FIRST_YEAR}Q1", "quarter")
+    r.put("ch2.base_year", EVENT_FIRST_YEAR, "year")
     r.put("ch2.latest_payment", float(latest["payment"]), "usd0", model="decomposition")
     r.put("ch2.latest_price_part", float(latest["price_part"]), "susd0", model="decomposition")
     r.put("ch2.latest_rate_part", float(latest["rate_part"]), "susd0", model="decomposition")

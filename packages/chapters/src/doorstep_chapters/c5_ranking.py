@@ -232,7 +232,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
         message=branch.text,
         reported_years=[year],
     )
-    r.put("ch5.year", year, "int")
+    r.put("ch5.year", year, "year")
     r.put("ch5.metros_ranked", int(table.height), "int")
     r.put(
         "ch5.micropolitan_excluded",

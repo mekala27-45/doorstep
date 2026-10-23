@@ -2,12 +2,16 @@
 the pre trend test says whether that is cause.
 
 Price growth from the end of 2019 to the end of 2021 is regressed across metros on the pandemic migration
-shock, domestic migration per hundred residents over 2020 and 2021 less the same measure over 2017 and
-2018, with the pre pandemic migration as a control, population weighted, state clustered. Migration is
-persistent, so the level alone would credit the pandemic with what a metro had been gaining every year;
-the shock is the part the pandemic added. The placebo regresses growth from the end of 2016 to the end of
-2018 on the same shock: if the metros that gained people in the pandemic were already rising before it,
-the placebo moves and the headline is an upper bound.
+shock, domestic migration per hundred residents over 2020 and 2021 less the same measure over the two
+years before the pandemic (2018 and 2019), with that pre pandemic level as a control, one observation per
+metro, state clustered. Migration is persistent, so the level alone would credit the pandemic with what a metro
+had been gaining every year; the shock is the part the pandemic added. The placebo regresses growth from
+the end of 2016 to the end of 2018 on the same shock, with the migration of those same years (2017 and
+2018) as its control, so what the placebo asks is whether the pandemic gainers were already rising for
+reasons beyond the people they were gaining then: if they were, the placebo moves and the headline is an
+upper bound. Metros are weighted equally: with population weights a third of the weight sits on four
+metros and the recovery study put the placebo's false flag rate under the simulator's null at about one
+world in four with high noise, against one in fourteen unweighted; the decision is in DECISIONS.md.
 Synthetic control for the three metros with the largest migration gains per capita, with every other
 metro searched as a donor and treated in turn as a placebo, shows the gap and its post 2022 reversal.
 
@@ -43,9 +47,10 @@ SQL = """
 with migration as (
     select cbsa_code,
            100.0 * sum(case when year in (2020, 2021) then domestic_migration end) / avg(case when year in (2020, 2021) then population end)
-           - 100.0 * sum(case when year in (2017, 2018) then domestic_migration end) / avg(case when year in (2017, 2018) then population end) as migration_shock,
-           100.0 * sum(case when year in (2017, 2018) then domestic_migration end) / avg(case when year in (2017, 2018) then population end) as migration_pre
-    from mart_metro_year where year in (2017, 2018, 2020, 2021) group by cbsa_code
+           - 100.0 * sum(case when year in (2018, 2019) then domestic_migration end) / avg(case when year in (2018, 2019) then population end) as migration_shock,
+           100.0 * sum(case when year in (2018, 2019) then domestic_migration end) / avg(case when year in (2018, 2019) then population end) as migration_pre,
+           100.0 * sum(case when year in (2017, 2018) then domestic_migration end) / avg(case when year in (2017, 2018) then population end) as migration_placebo_level
+    from mart_metro_year where year in (2017, 2018, 2019, 2020, 2021) group by cbsa_code
 ),
 growth as (
     select a.cbsa_code,
@@ -57,7 +62,7 @@ growth as (
     join mart_metro_quarter d on d.cbsa_code = a.cbsa_code and d.period = '2018Q4'
     where a.period = '2019Q4'
 )
-select m.cbsa_code, d.cbsa_title, d.states, m.migration_shock, m.migration_pre, g.growth, g.placebo_growth, p.population
+select m.cbsa_code, d.cbsa_title, d.states, m.migration_shock, m.migration_pre, m.migration_placebo_level, g.growth, g.placebo_growth, p.population
 from migration m
 join growth g using (cbsa_code)
 join (select cbsa_code, cbsa_title, states, population from mart_metro_year where year = 2021 and kind = 'metropolitan') d using (cbsa_code)
@@ -74,7 +79,8 @@ def plan(policy: Policy = POLICY) -> dict[str, Any]:
         "saw prices rise more, and the pre trend placebo decides whether the gain caused the rise.",
         "estimator": "log price growth over the window regressed across metros on the migration shock (domestic migration per "
         "hundred residents over the migration years less the pre pandemic years) with the pre pandemic migration as a "
-        "control, population weighted, state clustered; the same regression on the placebo window; synthetic control on the "
+        "control, one observation per metro, state clustered; the same regression on the placebo window with that window's own "
+        "migration as the control; synthetic control on the "
         "quarterly log index for the largest gainers against donors with small shocks, every donor treated in turn as a placebo",
         "interval": "cluster robust (CR1) by state; permutation p value over donors for the synthetic controls",
         "split": {
@@ -82,6 +88,7 @@ def plan(policy: Policy = POLICY) -> dict[str, Any]:
             "placebo_window": list(policy.migration_placebo_window),
             "migration_years": list(policy.migration_years),
             "pre_years": list(policy.migration_pre_years),
+            "placebo_years": list(policy.migration_placebo_years),
         },
         "family": "headline and placebo reported separately; three synthetic controls each with its own permutation p value; no correction",
         "operating_points": {
@@ -89,18 +96,21 @@ def plan(policy: Policy = POLICY) -> dict[str, Any]:
             "synthetic_control_first_period": policy.synthetic_control_first_period,
         },
         "message_rule": "prices_followed: placebo interval includes zero and the headline excludes it; already_rising: the placebo "
-        "excludes zero; null: the headline includes zero",
+        "excludes zero (the sign of the placebo says whether the headline is an upper or a lower bound); null: the headline "
+        "includes zero",
     }
 
 
 def message_rule(main: Coefficient, placebo: Coefficient) -> Branch:
     size = f"{format_value(main.estimate, 'spct1')} price growth over the window per person gained per hundred residents beyond the pre pandemic pace"
     if not placebo.covers(0.0):
+        path = "already rising" if placebo.estimate > 0 else "already lagging"
+        bound = "an upper bound" if placebo.estimate > 0 else "a lower bound"
         return Branch(
             "already_rising",
-            f"The metros that gained people were already rising: the placebo on the years before the pandemic is "
+            f"The metros that gained people were {path} before the pandemic: the placebo on the years before it is "
             f"{format_value(placebo.estimate, 'spct1')} (interval {format_value(placebo.low, 'spct1')} to {format_value(placebo.high, 'spct1')}), so the "
-            f"headline of {size} is an upper bound on what the migration itself did.",
+            f"headline of {size} is {bound} on what the migration itself did.",
         )
     if main.excludes_zero:
         return Branch(
@@ -146,10 +156,14 @@ def cross_section(panel: Panel, policy: Policy = POLICY) -> pl.DataFrame:
     my = panel.metropolitan()
     pandemic = _migration_per_100(my, policy.migration_years, "migration_pandemic")
     pre = _migration_per_100(my, policy.migration_pre_years, "migration_pre").drop("population")
+    placebo_level = _migration_per_100(my, policy.migration_placebo_years, "migration_placebo_level").drop(
+        "population"
+    )
     a, b = policy.migration_window
     c, d = policy.migration_placebo_window
     frame = (
         pandemic.join(pre, on="cbsa_code", how="inner")
+        .join(placebo_level, on="cbsa_code", how="inner")
         .with_columns((pl.col("migration_pandemic") - pl.col("migration_pre")).alias("migration_shock"))
         .join(_index_at(panel, a), on="cbsa_code", how="inner")
         .join(_index_at(panel, b), on="cbsa_code", how="inner")
@@ -172,6 +186,7 @@ def cross_section(panel: Panel, policy: Policy = POLICY) -> pl.DataFrame:
             "population",
             "migration_pandemic",
             "migration_pre",
+            "migration_placebo_level",
             "migration_shock",
             "growth",
             "placebo_growth",
@@ -183,15 +198,32 @@ def cross_section(panel: Panel, policy: Policy = POLICY) -> pl.DataFrame:
 
 
 def fit(frame: pl.DataFrame) -> tuple[Coefficient, Coefficient]:
+    """(headline, placebo): the headline regresses the pandemic window's growth on the shock with the pre pandemic
+    level as the control; the placebo regresses the pre pandemic window's growth on the same shock with that
+    window's own migration as the control."""
     x = np.column_stack([frame["migration_shock"].to_numpy(), frame["migration_pre"].to_numpy()])
     names = ["migration_shock", "migration_pre"]
-    w = frame["population"].to_numpy()
+    xp = np.column_stack([frame["migration_shock"].to_numpy(), frame["migration_placebo_level"].to_numpy()])
+    names_p = ["migration_shock", "migration_placebo_level"]
     cl = frame["state"].to_numpy()
-    main = first(regress(frame["growth"].to_numpy(), x, names, weights=w, cluster=cl), "migration_shock")
-    placebo = first(
-        regress(frame["placebo_growth"].to_numpy(), x, names, weights=w, cluster=cl), "migration_shock"
-    )
+    main = first(regress(frame["growth"].to_numpy(), x, names, cluster=cl), "migration_shock")
+    placebo = first(regress(frame["placebo_growth"].to_numpy(), xp, names_p, cluster=cl), "migration_shock")
     return main, placebo
+
+
+def fit_naive(frame: pl.DataFrame) -> Coefficient:
+    """The regression a reader would run first: growth on the pandemic migration level alone, no pre pandemic
+    control. Published beside the headline because the simulator shows what the control removes."""
+    cl = frame["state"].to_numpy()
+    return first(
+        regress(
+            frame["growth"].to_numpy(),
+            frame["migration_pandemic"].to_numpy()[:, None],
+            ["migration_pandemic"],
+            cluster=cl,
+        ),
+        "migration_pandemic",
+    )
 
 
 def synthetic_controls(panel: Panel, frame: pl.DataFrame, policy: Policy = POLICY) -> list[SyntheticControl]:
@@ -234,6 +266,7 @@ def synthetic_controls(panel: Panel, frame: pl.DataFrame, policy: Policy = POLIC
 def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     frame = cross_section(panel, policy)
     main, placebo = fit(frame)
+    naive = fit_naive(frame)
     branch = message_rule(main, placebo)
     controls = synthetic_controls(panel, frame, policy)
     a, b = policy.migration_window
@@ -302,9 +335,13 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
                 placebo.p_value,
                 placebo.clusters,
             ],
+            [f"{a} to {b} (level alone, no pre pandemic control)", naive.estimate, naive.low, naive.high, naive.p_value, naive.clusters],
         ],
         model="migration",
     )
+    r.put("ch7.naive.coef", naive.estimate, "spct2", model="migration")
+    r.put("ch7.naive.low", naive.low, "spct2", model="migration")
+    r.put("ch7.naive.high", naive.high, "spct2", model="migration")
     sc_rows: list[list[Any]] = []
     sc_frames: list[pl.DataFrame] = []
     q_periods = sorted(
@@ -390,17 +427,19 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
         callout=f"placebo {format_value(placebo.estimate, 'spct2')} against headline {format_value(main.estimate, 'spct2')} per person per hundred",
     )
     r.method = {
-        "estimator": "population weighted cross section on the migration shock with the pre pandemic migration as a control, state clusters; synthetic control on the simplex with every donor searched",
+        "estimator": "cross section of metros on the migration shock with the pre pandemic migration as a control, one observation per metro, state clusters; synthetic control on the simplex with every donor searched",
         "split": f"window {a} to {b}; placebo {policy.migration_placebo_window[0]} to {policy.migration_placebo_window[1]}",
         "interval": f"cluster robust by state, {main.clusters} clusters; permutation p values over {controls[0].donors_searched if controls else 0} donors",
         "family": "headline and placebo reported separately",
     }
     r.pushback = (
-        "Migration follows affordability: people move to the metros they can afford, which pulls the coefficient toward "
-        "zero or past it, and the recovery study shows the estimator failing under strong reverse causality while the "
-        "placebo flags it only part of the time; that is the limit this chapter admits in print. The population estimates "
-        "count domestic migration from July to June, so the migration years and the price window overlap by two quarters "
-        "and not four. Remote work moved demand without moving many people, and that part is not in the migration series."
+        "Migration follows affordability: people move to the metros they can afford, and a metro that was already cheap "
+        "for its incomes was already on a different price path. On the simulator the regression on the migration level "
+        "alone carries that bias and the pre pandemic control removes most of it, but the simulator's households move "
+        "for one reason with one lag, and the placebo flags the planted reverse causality only part of the time; that is "
+        "the limit this chapter admits in print. The population estimates count domestic migration from July to June, so "
+        "the migration years and the price window overlap by two quarters and not four. Remote work moved demand without "
+        "moving many people, and that part is not in the migration series."
     )
     return r
 
@@ -412,9 +451,18 @@ def simulate_estimate(world: World, policy: Policy = POLICY) -> list[Grade]:
     panel = from_world(world, policy)
     frame = cross_section(panel, policy)
     main, placebo = fit(frame)
+    naive = fit_naive(frame)
     truth = world.truth.beta_demand
     flagged = float(not placebo.covers(0.0))
     return [
+        Grade(
+            "migration_naive",
+            naive.estimate,
+            truth,
+            naive.low,
+            naive.high,
+            detail="growth on the pandemic migration level with no pre pandemic control",
+        ),
         Grade(
             "migration_effect",
             main.estimate,

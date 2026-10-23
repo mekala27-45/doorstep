@@ -66,6 +66,7 @@ ESTIMATOR_NOTES: dict[str, str] = {
     "under_35_shift": "the under 35 share shift after the shock with its lender bootstrap interval",
     "migration_effect": "the price response to the migration shock; the flag is the placebo excluding zero",
     "migration_placebo": "the pre trend placebo of the migration regression against zero",
+    "migration_naive": "growth on the pandemic migration level with no pre pandemic control, against the same truth",
     "breakeven_horizon": "mean absolute error of the breakeven year against the realised path; the flag is the interval coverage",
 }
 
