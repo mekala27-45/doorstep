@@ -1,11 +1,11 @@
 // Serves the static export the way GitHub Pages does, and refuses what the host refuses.
 //
-// Two refusals on purpose, carried from Day 12's live URL: HEAD requests get a 405 (Pages answers
-// them with an error), so the data layer sizes a mart from the bundle and never from HEAD; and the
-// mock API under /mock-api answers its first request with a 503, the way the Fly machine answers
-// while it wakes, so the site's client has to probe twice. After the first 503 the mock answers
-// every /v1 route from the recorded session in out/data. Byte ranges are honored because the
-// parquet reader reads the footer first.
+// Two refusals on purpose, carried from the series' live URLs: HEAD requests get a 405 (Pages
+// answers them with an error), so the data layer sizes a mart from the bundle and never from HEAD;
+// and the mock API under /mock-api answers its first request with a 503, the way the Fly machine
+// answers while it wakes, so the site's client has to probe twice. After the first 503 the mock
+// answers every /v1 route from the recorded session in out/data. Byte ranges are honored because
+// the parquet reader reads the footer first.
 import { createReadStream, existsSync, readFileSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { dirname, extname, join, normalize, sep } from "node:path";
@@ -46,8 +46,8 @@ function recorded() {
 }
 
 // The mock API: the first request of the server's life is a 503 (the machine is waking); then each
-// route is answered from the recorded session: GET by its path and query, POST /v1/checks by the hub
-// in the body (and only with a token, as the API does), POST /v1/score by name.
+// route is answered from the recorded session: GET by its path and query, POST /v1/checks by the
+// metro code in the body (and only with a token, as the API does), POST /v1/score by name.
 let firstApiRequest = true;
 function mockApi(req, res, pathAndQuery) {
   const answer = (status, body) => {
@@ -76,13 +76,13 @@ function mockApi(req, res, pathAndQuery) {
     let name = null;
     if (req.method === "POST" && path === "/v1/checks") {
       if (!req.headers.authorization) return answer(401, { error: "writes need the token", statement: "", served_at: "" });
-      let hub = null;
+      let metro = null;
       try {
-        hub = JSON.parse(chunks || "{}").connection ?? null;
+        metro = JSON.parse(chunks || "{}").cbsa_code ?? null;
       } catch {
-        hub = null;
+        metro = null;
       }
-      name = hub ? `check_${hub}` : null;
+      name = metro ? `check_${metro}` : null;
     } else if (req.method === "POST" && path === "/v1/score") name = "score";
     else if (req.method === "GET") {
       const hit = Object.entries(responses).find(([, r]) => r.method === "GET" && r.path === pathAndQuery);

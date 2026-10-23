@@ -8,9 +8,12 @@ export const FORMATS = [
   "float2",
   "float3",
   "float4",
+  "sfloat1",
   "sfloat2",
   "sfloat3",
+  "sfloat4",
   "pct0",
+  "spct0",
   "pct1",
   "pct2",
   "spct1",
@@ -29,12 +32,29 @@ export const FORMATS = [
   "hours1",
   "days1",
   "ms",
+  "usd0",
+  "susd0",
+  "usdk",
+  "usdm1",
+  "usdb1",
+  "years1",
+  "years0",
+  "beyond1",
+  "beyond0",
+  "ratio1",
+  "ratio2",
+  "rate2",
+  "srate2",
+  "quarter",
   "year",
   "month",
   "date",
   "text",
 ] as const;
 export type Fmt = (typeof FORMATS)[number];
+
+/** The breakeven engine's horizon; one past it is its sentinel for owning never catching up (policy.breakeven_horizon_years). */
+export const BREAKEVEN_HORIZON_YEARS = 30;
 
 /**
  * Fixed decimals with thousands separators, rounded the way Python's format() rounds: on the
@@ -85,6 +105,16 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
  * three (year, month, date) are for chart axes, whose x values arrive as numbers. */
 export function formatValue(value: Scalar | undefined, fmt: string): string {
   if (fmt === "text") return value === null || value === undefined ? "not available" : String(value);
+  if (fmt === "quarter") {
+    if (value === null || value === undefined) return "not available";
+    if (typeof value === "number") {
+      // A quarter on an axis is the year plus the quarter's fraction; a tick between quarters prints the year.
+      const year = Math.floor(value + 1e-9);
+      const q = Math.round((value - year) * 4) + 1;
+      return Math.abs((value - year) * 4 - Math.round((value - year) * 4)) < 1e-6 ? `${year}Q${q}` : String(year);
+    }
+    return String(value);
+  }
   if (value === null || value === undefined) return "not applicable";
   if (fmt === "date" || fmt === "month") {
     const d = typeof value === "number" ? new Date(value) : new Date(String(value));
@@ -106,16 +136,22 @@ export function formatValue(value: Scalar | undefined, fmt: string): string {
       return plain(n, 3);
     case "float4":
       return plain(n, 4);
+    case "sfloat1":
+      return signed(n, 1);
     case "sfloat2":
       return signed(n, 2);
     case "sfloat3":
       return signed(n, 3);
+    case "sfloat4":
+      return signed(n, 4);
     case "pct0":
       return `${plain(n * 100, 0)}%`;
     case "pct1":
       return `${plain(n * 100, 1)}%`;
     case "pct2":
       return `${plain(n * 100, 2)}%`;
+    case "spct0":
+      return `${signed(n * 100, 0)}%`;
     case "spct1":
       return `${signed(n * 100, 1)}%`;
     case "spct2":
@@ -148,6 +184,32 @@ export function formatValue(value: Scalar | undefined, fmt: string): string {
       return `${plain(n, 1)} days`;
     case "ms":
       return `${plain(Math.round(n), 0)} ms`;
+    case "usd0":
+      return `${n < 0 && Math.round(n) !== 0 ? "-" : ""}$${plain(Math.abs(n), 0)}`;
+    case "susd0":
+      return Math.round(n) === 0 ? "$0" : `${n > 0 ? "+" : "-"}$${plain(Math.abs(n), 0)}`;
+    case "usdk":
+      return `$${plain(n / 1000, 1)}k`;
+    case "usdm1":
+      return `$${plain(n / 1_000_000, 1)} million`;
+    case "usdb1":
+      return `$${plain(n / 1_000_000_000, 1)} billion`;
+    case "years1":
+      return `${plain(n, 1)} years`;
+    case "years0":
+      return Math.round(n) === 1 ? "1 year" : `${plain(Math.round(n), 0)} years`;
+    case "beyond1":
+      return n > BREAKEVEN_HORIZON_YEARS ? `beyond ${BREAKEVEN_HORIZON_YEARS} years` : `${plain(n, 1)} years`;
+    case "beyond0":
+      return n > BREAKEVEN_HORIZON_YEARS ? `beyond ${BREAKEVEN_HORIZON_YEARS} years` : Math.round(n) === 1 ? "1 year" : `${plain(Math.round(n), 0)} years`;
+    case "ratio1":
+      return `${plain(n, 1)}x`;
+    case "ratio2":
+      return `${plain(n, 2)}x`;
+    case "rate2":
+      return `${plain(n, 2)}%`;
+    case "srate2":
+      return `${signed(n, 2)} pts`;
     default:
       throw new Error(`unknown format ${fmt}`);
   }

@@ -27,12 +27,12 @@ export function Grid({ children }: { children: ReactNode }) {
   return <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">{children}</div>;
 }
 
-/** Every page ends here: the objection an operations director would raise, and what the build did about it. */
+/** Every page ends here: the objection a housing economist would raise, and what the build did about it. */
 export function Pushback({ children }: { children: ReactNode }) {
   return (
     <section className="mt-14 pt-6 border-t border-hairline" aria-labelledby="pushback" data-testid="pushback">
       <h2 id="pushback" className="text-[1.6rem] leading-tight mb-3">
-        What the ops director would push back on
+        What the housing economist would push back on
       </h2>
       <div className="prose text-[1.02rem] leading-relaxed space-y-3">{children}</div>
     </section>

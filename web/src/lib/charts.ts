@@ -4,7 +4,7 @@
 // through, and the table the table toggle shows.
 import type { Scalar } from "./format";
 
-export type Role = "ink" | "delay" | "early" | "adjusted" | "control" | "cat4" | "cat5" | "cat6" | "cat7" | "cat8";
+export type Role = "ink" | "owning" | "renting" | "adjusted" | "control" | "burden" | "rate" | "supply" | "people" | "borrowers";
 
 export interface SpecSeries {
   name: string;
@@ -51,7 +51,7 @@ export interface SpecState {
 }
 export interface ChartSpec {
   id: string;
-  kind: "multiples" | "line" | "histogram" | "slope" | "bars" | "event" | "curves";
+  kind: "multiples" | "line" | "histogram" | "slope" | "bars" | "area" | "scatter" | "curves";
   message: string;
   subtitle: string;
   source: string;
@@ -67,28 +67,50 @@ export interface ChartSpec {
   notes: string[];
 }
 
-/** The CSS color of a role, from the palette tokens. */
+/** The CSS color of a role, from the palette tokens. Slot one is owning, the price and the payment;
+ * two is renting and the rent; three is the adjusted measure; four the burden bands; five the rate;
+ * six supply and permits; seven population and migration; eight the borrowers. */
 export function roleColor(role: Role): string {
   switch (role) {
     case "ink":
       return "var(--ink)";
-    case "delay":
+    case "owning":
       return "var(--cat-1)";
-    case "early":
+    case "renting":
       return "var(--cat-2)";
     case "adjusted":
       return "var(--cat-3)";
     case "control":
       return "var(--control)";
+    case "burden":
+      return "var(--cat-4)";
+    case "rate":
+      return "var(--cat-5)";
+    case "supply":
+      return "var(--cat-6)";
+    case "people":
+      return "var(--cat-7)";
+    case "borrowers":
+      return "var(--cat-8)";
     default:
-      return `var(--cat-${role.slice(3)})`;
+      return "var(--control)";
   }
 }
 
-/** An x value from a spec as a number: years and minutes pass through, ISO dates become epoch ms. */
+/** A quarter label from its number on the axis. */
+export function quarterLabel(x: number): string {
+  const year = Math.floor(x + 1e-9);
+  const q = Math.round((x - year) * 4) + 1;
+  return `${year}Q${q}`;
+}
+
+/** An x value from a spec as a number: years pass through, a quarter such as 2019Q1 becomes the year
+ * plus the quarter's fraction, ISO dates become epoch ms. */
 export function xNumber(x: Scalar): number {
   if (typeof x === "number") return x;
   if (typeof x === "string") {
+    const q = /^(\d{4})Q([1-4])$/.exec(x);
+    if (q) return Number(q[1]) + (Number(q[2]) - 1) / 4;
     const t = Date.parse(x.length === 10 ? `${x}T00:00:00Z` : x);
     if (!Number.isNaN(t)) return t;
     const n = Number(x);

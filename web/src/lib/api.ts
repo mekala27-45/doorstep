@@ -8,6 +8,7 @@ export type Source = "live" | "recorded";
 
 export interface Envelope {
   statement: string;
+  rate_attribution: string;
   served_at: string;
 }
 export interface HealthResponse extends Envelope {
@@ -15,80 +16,79 @@ export interface HealthResponse extends Envelope {
   environment: string;
   database: string;
   model_version: string;
-  hubs: number;
-  outcome_month: string | null;
-  min_connection_minutes: number;
+  metros: number;
+  latest_period: string;
+  rate_default: number | null;
+  income_year: number | null;
   writes: string;
 }
-export interface HubEntry {
-  hub: string;
-  origins: string[];
-  destinations: string[];
-  // The busiest route each way in the outcome month, when the server names them.
-  busiest_origin?: string | null;
-  busiest_destination?: string | null;
+export interface MetroEntry {
+  cbsa_code: string;
+  cbsa_title: string;
+  households: number;
+  median_income: number;
+  median_rent: number;
+  latest_period: string;
+  value_latest: number;
+  rate_latest: number;
+  income_year: number;
 }
-export interface HubsResponse extends Envelope {
-  hubs: HubEntry[];
+export interface MetrosResponse extends Envelope {
+  metros: MetroEntry[];
+  rate_default: number;
   model_version: string;
 }
-export interface Estimate {
-  probability: number;
-  low: number;
-  high: number;
-  flights: number;
-  inbound_flights: number;
-  outbound_flights: number;
-  level: string;
-  correlation_ratio: number;
-  lost_share: number;
+export interface Inputs {
+  cbsa_code: string;
+  income: number;
+  down_share: number;
+  rate: number | null;
+  horizon_years: number;
 }
-export interface CurvePoint extends Estimate {
-  buffer: number;
+export interface AnswerBody {
+  cbsa_code: string;
+  cbsa_title?: string;
+  quarter: string;
+  income: number;
+  down_share: number;
+  rate: number;
+  horizon_years: number;
+  median_home: number;
+  payment: number;
+  payment_share: number;
+  affordable_price: number;
+  affordable_share: number | null;
+  households_can_afford?: number | null;
+  breakeven_years: number | null;
+  breakeven_low: number | null;
+  breakeven_high: number | null;
+  never_share?: number | null;
+  median_income?: number;
+  income_year?: number;
+  expected_next_payment_share: number;
 }
-export interface CurveResponse extends Envelope {
-  origin: string;
-  connection: string;
-  destination: string;
-  travel_month: string;
-  inbound_hour: number;
-  outbound_hour: number;
-  line: number;
-  crossing: number | null;
+export interface CurvePoint {
+  year: number;
+  difference: number;
+  owner_equity: number;
+  renter_wealth: number;
+  home_value: number;
+}
+export interface CurveResponse extends Envelope, AnswerBody {
   points: CurvePoint[];
   model_version: string;
 }
-export interface Connection {
-  origin: string;
-  connection: string;
-  destination: string;
-  travel_month: string;
-  inbound_hour: number;
-  outbound_hour: number;
-}
-export interface CheckOut extends Envelope, Partial<Estimate> {
+export interface CheckOut extends Envelope, AnswerBody {
   check_id: string;
-  origin: string;
-  connection: string;
-  destination: string;
-  travel_month: string;
-  inbound_hour: number;
-  outbound_hour: number;
-  buffer_minutes: number;
-  probability: number;
-  low: number;
-  high: number;
-  flights: number;
-  level: string;
   model_version: string;
   note: string;
   created_at: string;
   score?: {
-    outcome_month: string;
-    realized_rate: number;
-    pairs: number;
+    scored_quarter: string;
+    realized_payment_share: number;
     absolute_error: number;
-    inside_interval: boolean;
+    price_moved: number;
+    rate_moved: number;
     scored_at: string;
   } | null;
 }
@@ -103,7 +103,7 @@ export interface RecordedSession {
   recorded: boolean;
   recorded_at: string;
   base_url: string;
-  connections: Connection[];
+  inputs: Inputs[];
   responses: Record<string, RecordedResponse>;
 }
 
@@ -170,7 +170,7 @@ export function recordedSession(): Promise<RecordedSession> {
 async function fromRecording<T>(name: string, reason?: string): Promise<Answer<T>> {
   const s = await recordedSession();
   const hit = s.responses[name];
-  if (!hit) throw new Error(`the recorded session has no answer for this connection; pick one of the recorded connections`);
+  if (!hit) throw new Error("the recorded session has no answer for these inputs; pick one of the recorded metros at its recorded inputs");
   return { source: "recorded", status: hit.status, body: hit.body as T, reason };
 }
 
@@ -199,35 +199,37 @@ export async function read<T>(path: string, recordedName: string): Promise<Answe
   return fromRecording<T>(recordedName);
 }
 
-export function curveName(c: Connection): string {
-  return `curve_${c.origin}_${c.connection}_${c.destination}_${c.travel_month}_${c.inbound_hour}_${c.outbound_hour}`;
+/** The recorded name of a curve: the inputs, with the rate as given or "default". */
+export function curveName(i: Inputs): string {
+  return `curve_${i.cbsa_code}_${i.income}_${i.down_share}_${i.rate ?? "default"}_${i.horizon_years}`;
 }
 
-export function curvePath(c: Connection): string {
+export function curvePath(i: Inputs): string {
   const q = new URLSearchParams({
-    origin: c.origin,
-    connection: c.connection,
-    destination: c.destination,
-    travel_month: c.travel_month,
-    inbound_hour: String(c.inbound_hour),
-    outbound_hour: String(c.outbound_hour),
+    cbsa_code: i.cbsa_code,
+    income: String(i.income),
+    down_share: String(i.down_share),
+    horizon_years: String(i.horizon_years),
   });
+  if (i.rate !== null) q.set("rate", String(i.rate));
   return `/v1/curve?${q.toString()}`;
 }
 
-export function getCurve(c: Connection): Promise<Answer<CurveResponse>> {
-  return read<CurveResponse>(curvePath(c), curveName(c));
+export function getCurve(i: Inputs): Promise<Answer<CurveResponse>> {
+  return read<CurveResponse>(curvePath(i), curveName(i));
 }
 
 /** Save a check. Writes need the token and a live API; without either, the answer is the check the
- * recording made at that hub, labelled as recorded. */
-export async function saveCheck(c: Connection, buffer: number, token: string): Promise<Answer<CheckOut>> {
-  const name = `check_${c.connection}`;
+ * recording made for that metro, labelled as recorded. */
+export async function saveCheck(i: Inputs, token: string): Promise<Answer<CheckOut>> {
+  const name = `check_${i.cbsa_code}`;
   if ((await apiSource()) !== "live") return fromRecording<CheckOut>(name);
   if (!token.trim()) return fromRecording<CheckOut>(name, "no write token was given");
+  const payload: Record<string, unknown> = { cbsa_code: i.cbsa_code, income: i.income, down_share: i.down_share, horizon_years: i.horizon_years, note: "saved from the planner" };
+  if (i.rate !== null) payload.rate = i.rate;
   const { status, body } = await send<CheckOut>("/v1/checks", {
     method: "POST",
-    body: JSON.stringify({ ...c, buffer_minutes: buffer, note: "saved from the planner" }),
+    body: JSON.stringify(payload),
     headers: { Authorization: `Bearer ${token.trim()}` },
   });
   return { source: "live", status, body };

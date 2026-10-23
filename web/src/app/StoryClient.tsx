@@ -72,7 +72,10 @@ function Chapter({ chapter, spec, callout, stacked }: { chapter: StoryChapter; s
             <summary className="cursor-pointer font-sans text-sm font-semibold text-ink">Method note: plan hash, estimator, split, interval, recovery</summary>
             <div className="mt-2 text-[0.95rem]" dangerouslySetInnerHTML={{ __html: chapter.method_html }} />
           </details>
-          <div className="mt-6 text-[1rem]" data-testid="chapter-pushback" dangerouslySetInnerHTML={{ __html: chapter.pushback_html }} />
+          <div className="mt-6 text-[1rem]" data-testid="chapter-pushback">
+            <h3 className="font-sans text-sm font-semibold text-ink2 mb-1">What the housing economist would push back on</h3>
+            <div dangerouslySetInnerHTML={{ __html: chapter.pushback_html }} />
+          </div>
         </div>
         <div className="story-sticky" data-testid={`sticky-${chapter.id}`} data-state={stacked ? "all" : active}>
           <Figure message={spec.message} subtitle={spec.subtitle} source={spec.source} sql={spec.sql} table={specTable(spec)} callout={callout}>

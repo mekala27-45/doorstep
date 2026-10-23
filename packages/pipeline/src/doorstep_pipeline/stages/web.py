@@ -2,9 +2,9 @@
 
 The site is static. Everything it draws comes from files written here from the results the earlier
 stages produced: the merged manifest, the story parsed into story.json, every chart specification,
-the marts the explorer queries with DuckDB in the browser, the hub curves, and bundle.json (the file
-list with byte sizes, so the browser never needs a HEAD request, which the host and the test server
-both refuse). No row about a traveler exists to copy, and the identifier scan reads this folder.
+the marts the explorer queries with DuckDB in the browser, and bundle.json (the file list with byte
+sizes, so the browser never needs a HEAD request, which the host and the test server both refuse).
+No row about a household or a borrower exists to copy, and the identifier scan reads this folder.
 """
 
 from __future__ import annotations
@@ -20,17 +20,29 @@ from doorstep_core.statements import STATEMENT
 from doorstep_render.story import write_story_json
 
 EXPLORER_MARTS = (
-    "mart_route_month",
-    "mart_carrier_month",
-    "mart_delay_histogram",
-    "mart_hour_profile",
-    "mart_leg_position",
+    "mart_metro_year",
+    "mart_metro_quarter",
+    "mart_national_year",
     "mart_quarantine",
-    "mart_carrier_day",
-    "mart_airport_day",
-    "mart_inherited_month",
-    "rotation_samples",
-    "rotation_worst_days",
+    "mart_income_brackets",
+    "mart_rent_burden_by_income",
+    "ch1_national_series",
+    "ch1_self_report",
+    "ch2_decomposition",
+    "ch2_lock_in_metros",
+    "ch3_metro_shares",
+    "ch3_national_bands",
+    "ch3_burden_by_income",
+    "ch4_cells",
+    "ch5_ranking",
+    "ch6_by_year",
+    "ch6_largest_metros",
+    "ch7_cross_section",
+    "ch7_synthetic_controls",
+    "ch8_metros",
+    "ch8_curve",
+    "calc_metros",
+    "calc_quarters",
 )
 
 
@@ -105,8 +117,8 @@ def run(p: Paths) -> dict[str, int]:
             dst = out / "marts" / f"{name}.parquet"
             shutil.copy(src, dst)
             files[f"marts/{name}.parquet"] = dst.stat().st_size
-    for extra in ("hub_curves.json",):
-        src = p.results / "chapters" / extra
+    for extra in ("live_check.json",):
+        src = p.results / extra
         if src.exists():
             shutil.copy(src, out / extra)
     for path in sorted(out.rglob("*")):

@@ -6,35 +6,31 @@ import { chart, manifest } from "@/lib/load";
 
 import { PlannerClient } from "./PlannerClient";
 
-export const metadata: Metadata = { title: "The misconnect calculator" };
+export const metadata: Metadata = { title: "The affordability calculator" };
 
 export default function PlannerPage() {
   const m = manifest();
   return (
     <>
-      <PageHeader kicker="The misconnect calculator" question="How long a connection should you leave?">
+      <PageHeader kicker="The affordability calculator" question="What can a household afford here, and when does buying beat renting?">
         <p>
-          Pick a connection at one of the {m.vOr("ch8.hubs", "busiest")} busiest airports: where the first flight starts, where you change, where
-          the second flight goes, the month, and the two scheduled hours. The calculator answers with the historical chance of missing the
-          connection at every buffer, with an interval and the flights it rests on. A connection is missed when the inbound is cancelled or
-          diverted, or lands too late to leave {m.vOr("policy.min_connection", "the minimum connection time")} to change planes.
+          Pick a metro, type an income, choose a down payment, a rate and a horizon. The calculator answers with the payment on the median home as a
+          share of that income, the price the income can carry at the {m.vOr("policy.affordable_line", "thirty percent")} line, the share of households
+          in the metro that can afford the median home, and the rent or buy breakeven with the interval the metro&apos;s own history gives it. The
+          rate defaults to the latest Freddie Mac week ({m.vOr("calculator.rate_default", "")}, {m.vOr("calculator.rate_default_source", "")}); prices rest
+          on {m.vOr("calculator.latest_period", "the latest quarter")} and incomes on the {m.vOr("calculator.income_year", "latest")} census release.
         </p>
         <p className="text-sm text-ink2">
           The answers come from the live API on Fly. Its machine sleeps when idle; the page asks twice, and if it is still asleep it answers from a
           session recorded against the live API and says so.
         </p>
       </PageHeader>
-      <PlannerClient line={m.has("ch8.line") ? m.num("ch8.line") : 0.1} />
-      <Section title="The busiest hubs, day by day" id="hubs">
-        <SpecFigure spec={chart("decision")} callout={m.figure("chart.decision").callout} testId="hub-curves" />
+      <PlannerClient line={m.has("policy.affordable_line") ? m.num("policy.affordable_line") : 0.3} />
+      <Section title="The rent or buy decision across metros" id="decision">
+        <SpecFigure spec={chart("decision")} callout={m.figure("chart.decision").callout} testId="decision-chart" />
       </Section>
       <Pushback>
-        <p>
-          A connection on one ticket is protected: the airline holds the outbound for a late inbound with many connecting passengers and rebooks the
-          rest. The curve counts a missed connection the way the schedule would, so it overstates misconnects for well protected connections and
-          understates the cost of the ones missed on the last flight of the night. The calculator also works from the hub's cells shifted by each
-          route's own average, so a route whose delays have a different shape from its hub's is answered with the hub's shape.
-        </p>
+        <p>{m.vOr("ch8.pushback", "")}</p>
       </Pushback>
     </>
   );

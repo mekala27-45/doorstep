@@ -19,11 +19,11 @@ export const manifest: ManifestFile = data("manifest.json");
 export const bundle: { statement: string; charts: string[] } = data("bundle.json");
 export const story: { chapters: { id: string; chart: string; steps: { state: string }[] }[] } = data("story.json");
 export const recorded: {
-  connections: { origin: string; connection: string; destination: string }[];
+  inputs: { cbsa_code: string; income: number; down_share: number; rate: number | null; horizon_years: number }[];
   responses: Record<string, { body: { check_id?: string } }>;
 } = data("recorded_session.json");
 
-export const ROUTES = ["/", "/explore/", "/rank/", "/rotations/", "/events/", "/planner/", "/data/", "/report/"];
+export const ROUTES = ["/", "/explore/", "/rank/", "/buyers/", "/shocks/", "/planner/", "/data/", "/report/"];
 
 /** Open a route; the mock API is the only API the build can reach. */
 export async function open(page: Page, route: string): Promise<void> {

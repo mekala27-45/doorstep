@@ -42,24 +42,6 @@ export function chart(id: string): ChartSpec {
   return readJson<ChartSpec>(`charts/${id}.json`);
 }
 
-export interface HubCurve {
-  hub: string;
-  buffers: number[];
-  probability: number[];
-  low: number[];
-  high: number[];
-  crossing: number | null;
-  crossing_low: number | null;
-  crossing_high: number | null;
-  interior: boolean;
-  days: number;
-  inbound: number;
-}
-
-export function hubCurves(): HubCurve[] {
-  return existsSync(join(DATA, "hub_curves.json")) ? readJson<HubCurve[]>("hub_curves.json") : [];
-}
-
 export interface LiveCheck {
   checked_at: string;
   browser: string;

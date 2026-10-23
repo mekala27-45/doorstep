@@ -8,7 +8,7 @@ for (const route of ROUTES) {
     await open(page, route);
     await ready(page);
     await expect(page.getByTestId("footer")).toContainText(bundle.statement);
-    await expect(page.getByText("What the ops director would push back on").first()).toBeVisible();
+    await expect(page.getByText("What the housing economist would push back on").first()).toBeVisible();
     expect(errors).toEqual([]);
   });
 }
@@ -34,7 +34,7 @@ test("the method note expands inline with the plan hash, and the SQL toggle show
   const chapter = page.getByTestId(`chapter-${story.chapters[0]?.id}`);
   const note = chapter.getByTestId("method-note");
   await note.locator("summary").click();
-  await expect(note).toContainText(String(manifest.values["plan.1.hash"]?.value));
+  await expect(note).toContainText(String(manifest.values["ch1.plan_hash"]?.value));
   await chapter.getByTestId("sql-toggle").click();
   await expect(chapter.getByTestId("sql")).toContainText("select");
   await chapter.getByTestId("table-toggle").click();
@@ -48,21 +48,20 @@ test("the story prints its reading time and ends with the corrections section", 
   for (const c of story.chapters) await expect(page.getByTestId(`chapter-${c.id}`).getByTestId("chapter-pushback")).toContainText("push back");
 });
 
-test("a selection in the explorer changes every chart", async ({ page }) => {
+test("a metro picked in the explorer changes every chart", async ({ page }) => {
   await open(page, "/explore/");
   await ready(page);
-  const flights = page.getByTestId("selection-flights");
-  await expect(flights).toContainText("flights flown");
-  const before = await flights.textContent();
-  const ontime = page.getByTestId("explore-ontime").getByTestId("chart-message");
-  const ontimeBefore = await ontime.textContent();
-  const carrier = page.getByTestId("pick-carrier");
-  const options = await carrier.locator("option").allTextContents();
-  await carrier.selectOption({ label: options[1] ?? "" });
-  await expect(flights).not.toHaveText(before ?? "");
-  await expect(ontime).not.toHaveText(ontimeBefore ?? "");
-  const causes = page.getByTestId("explore-causes").getByTestId("chart-message");
-  await expect(causes).toContainText("largest reported cause");
+  const price = page.getByTestId("explore-price").getByTestId("chart-message");
+  await expect(price).toContainText("median home", { timeout: 30_000 });
+  const priceBefore = await price.textContent();
+  const payment = page.getByTestId("explore-payment").getByTestId("chart-message");
+  const paymentBefore = await payment.textContent();
+  const metro = page.getByTestId("pick-metro");
+  const options = await metro.locator("option").allTextContents();
+  await metro.selectOption({ label: options[1] ?? "" });
+  await expect(price).not.toHaveText(priceBefore ?? "");
+  await expect(payment).not.toHaveText(paymentBefore ?? "");
+  await expect(page.getByTestId("explore-rent").getByTestId("chart-message")).toContainText(/rent|renters/i);
 });
 
 test("the SQL box runs a query over the marts in the browser", async ({ page }) => {
@@ -72,39 +71,43 @@ test("the SQL box runs a query over the marts in the browser", async ({ page }) 
   await expect(page.getByTestId("sql-result").getByRole("table")).toBeVisible({ timeout: 30_000 });
 });
 
-test("the ranking page draws the slope chart with every carrier named at both ends", async ({ page }) => {
+test("the ranking page draws the slope chart with every metro named at both ends", async ({ page }) => {
   await open(page, "/rank/");
-  const rows = manifest.tables["ch5.ranking"]?.rows ?? [];
-  const slope = page.getByTestId("chart-ranking");
-  await expect(slope.locator("[data-carrier]")).toHaveCount(rows.length);
+  const rows = manifest.tables["ch5.largest"]?.rows ?? [];
+  const slope = page.getByTestId("rank-slope");
+  await expect(slope.locator("[data-metro]")).toHaveCount(rows.length);
   await expect(page.getByTestId("rank-table").getByRole("table")).toBeVisible();
 });
 
-test("the rotation timeline draws the aircraft's day and marks the leg that inherited the most", async ({ page }) => {
-  await open(page, "/rotations/");
-  await ready(page);
-  const timeline = page.getByTestId("timeline");
-  await expect(timeline.locator("[data-leg]").first()).toBeVisible({ timeout: 30_000 });
-  await expect(page.getByTestId("rotation-timeline").getByTestId("chart-message")).toContainText(/inherited|leg by leg/);
+test("the buyers page draws the borrower pool and the shocks page its three figures", async ({ page }) => {
+  await open(page, "/buyers/");
+  await expect(page.getByTestId("buyers-chart").locator("svg").first()).toBeVisible();
+  await expect(page.getByTestId("buyers-table").getByRole("table")).toBeVisible();
+  await open(page, "/shocks/");
+  for (const id of ["shock-decomposition", "shock-lock-in", "shock-migration"]) {
+    await expect(page.getByTestId(id).locator("svg").first()).toBeVisible();
+  }
+  await expect(page.getByTestId("migration-synthetic").getByRole("table")).toBeVisible();
 });
 
 test("the planner saves a check through the API once the mock wakes, and shows its id", async ({ page }) => {
   await open(page, "/planner/");
-  await expect(page.getByTestId("probability")).toBeVisible({ timeout: 45_000 });
+  await expect(page.getByTestId("answer-share")).toBeVisible({ timeout: 45_000 });
   await page.getByTestId("token").fill("test-token");
   await page.getByTestId("save").click();
-  const hub = recorded.connections[0]?.connection ?? "";
-  const id = recorded.responses[`check_${hub}`]?.body.check_id ?? "";
-  await expect(page.getByTestId("check-id")).toContainText(id);
-  await expect(page.getByTestId("check-id")).toContainText("(live)");
+  const metro = recorded.inputs[0]?.cbsa_code ?? "";
+  const id = recorded.responses[`check_${metro}`]?.body.check_id ?? "";
+  await expect(page.getByTestId("saved")).toContainText(id);
+  await expect(page.getByTestId("saved")).toContainText("Saved check");
 });
 
 test("with the API asleep the planner answers from the recorded session and says so", async ({ page }) => {
   await openAsleep(page, "/planner/");
   await expect(page.getByTestId("recorded-label")).toBeVisible({ timeout: 45_000 });
-  await expect(page.getByTestId("probability")).toContainText("Recorded session");
+  await expect(page.getByTestId("pick-preset")).toBeVisible();
+  await expect(page.getByTestId("answer-share")).toBeVisible();
   await page.getByTestId("save").click();
-  await expect(page.getByTestId("check-id")).toContainText("recorded session");
+  await expect(page.getByTestId("saved")).toContainText("Recorded check");
 });
 
 test("the test server refuses HEAD, as the host does", async ({ request }) => {
@@ -112,7 +115,7 @@ test("the test server refuses HEAD, as the host does", async ({ request }) => {
   expect(response.status()).toBe(405);
 });
 
-test("the data page shows the quarantine report, the reconciliation and the recovery small multiples", async ({ page }) => {
+test("the data page shows the quarantine report, the metric layer and the recovery small multiples", async ({ page }) => {
   await open(page, "/data/");
   await ready(page);
   await expect(page.getByTestId("quarantine-table").getByRole("table")).toBeVisible();

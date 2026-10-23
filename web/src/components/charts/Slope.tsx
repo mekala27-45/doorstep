@@ -14,9 +14,10 @@ export interface SlopeLine {
 }
 
 /**
- * A slope chart: rank on the left, rank on the right, a line per carrier, named at both ends. Rank 1
- * is at the top. Lines that do not move are drawn in the control gray; risers in blue, fallers in
- * vermilion, so the direction reads without a legend.
+ * A slope chart: rank on the left, rank on the right, a line per metro, named at both ends. Rank 1
+ * is at the top. Lines that do not move are drawn in the control gray; metros that look more
+ * affordable once income is counted in green, less affordable in clay, so the direction reads
+ * without a legend.
  */
 export function Slope({
   lines,
@@ -59,7 +60,7 @@ export function Slope({
             <g
               key={l.key}
               opacity={dim ? 0.28 : 1}
-              data-carrier={l.key}
+              data-metro={l.key}
               tabIndex={0}
               onMouseMove={(e) => {
                 const at = pointIn(ref.current, e);

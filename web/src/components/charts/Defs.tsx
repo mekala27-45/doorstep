@@ -2,14 +2,16 @@
 // texture everywhere. Texture carries the difference as well as hue, so a series survives
 // greyscale printing and color vision deficiency.
 export const PATTERN = {
-  /** The baseline and last year's mix: the control gray, hatched. */
+  /** The raw measure beside the adjusted one: the control gray, hatched. */
   baseline: "url(#pat-baseline)",
-  /** Laid over a channel's own color to mark an attribution rule rather than a measurement. */
+  /** Laid over a series' own color to mark a stated rule rather than a measurement. */
   rule: "url(#pat-rule)",
   /** The placebo distribution: control gray with a finer hatch. */
   placebo: "url(#pat-placebo)",
-  /** A shaded window, such as the weeks a lift test ran. */
+  /** A shaded window, such as the quarters of the rate shock. */
   window: "url(#pat-window)",
+  /** A hatch laid over a series' own color, for the control or the band a placebo fills. */
+  hatch: "url(#pat-hatch)",
 };
 
 export function ChartDefs() {
@@ -26,6 +28,9 @@ export function ChartDefs() {
         <pattern id="pat-placebo" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <rect width="4" height="4" fill="var(--control)" opacity="0.35" />
           <line x1="0" y1="0" x2="0" y2="4" stroke="var(--control)" strokeWidth="1.2" opacity="0.8" />
+        </pattern>
+        <pattern id="pat-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="5" stroke="var(--raised)" strokeWidth="1.4" opacity="0.7" />
         </pattern>
         <pattern id="pat-window" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <rect width="8" height="8" fill="var(--seq-1)" opacity="0.14" />

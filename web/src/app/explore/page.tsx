@@ -11,23 +11,24 @@ export default function ExplorePage() {
   const m = manifest();
   return (
     <>
-      <PageHeader kicker="The explorer" question="Pick a carrier, a route and a month, and see what the flights did.">
+      <PageHeader kicker="The explorer" question="Pick a metro and see what its prices, incomes, rents, permits, people and buyers did.">
         <p>
-          Every chart on this page is a query over the marts the warehouse published, run in your browser with DuckDB. Change a picker and every
+          Every chart on this page is a query over the marts the warehouse published, run in your browser with DuckDB. Change the metro and every
           chart reruns; the SQL behind each one is under its button, and the box at the bottom takes your own.
         </p>
         <p className="text-ink2 text-sm">
-          The window is {m.vOr("data.first_month", "the first month")} to {m.vOr("data.last_month", "the latest month")}. The delay distribution and
-          the hour profile come from marts kept by carrier and by month, so the route pickers narrow the other charts only.
+          Prices run from {m.vOr("data.window.start_year", "2000")} to {m.vOr("data.fhfa.latest_period", "the latest quarter")}; the census measures from{" "}
+          {m.vOr("data.acs.first_year", "2005")} to {m.vOr("data.acs.last_year", "the latest release")} with no 2020 release, so every line breaks there; loans from{" "}
+          {m.vOr("data.hmda.first_year", "2018")}. Micropolitan areas are in the marts and in the SQL box; the picker lists the metropolitan areas.
         </p>
       </PageHeader>
-      <ExploreClient />
+      <ExploreClient line={m.has("policy.affordable_line") ? m.num("policy.affordable_line") : 0.3} />
       <Pushback>
         <p>
-          A route chart is only as good as the flights behind it, and a thin route in a quiet month swings on a handful of bad days. The table toggle
-          under every chart gives the flights behind each point, so a reader can see when a number rests on twenty flights rather than twenty
-          thousand. Averages here are raw: they describe what passengers on that selection sat through, not how well the carrier ran it, which is
-          what the ranking page adjusts for.
+          A metro chart is only as good as the survey behind it, and a small metro in the one year release carries a wide margin; the table toggle
+          under every chart gives the numbers behind each point, and the manifest carries the margins the chapters propagate. The anchored price is
+          the regulator&apos;s index moved from the census median value of {m.vOr("chapters.anchor_year", "the anchor year")}, so a metro whose owners
+          report their homes high in that year sits high in every year, which is why the anchor sensitivity table is on the data page.
         </p>
       </Pushback>
     </>
