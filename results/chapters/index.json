@@ -1,0 +1,86 @@
+{
+ "chapters": [
+  {
+   "branch": "fails_year",
+   "chart": "definition",
+   "message": "The payment share of 2024 does not exceed 2023; the payment story is not yet the largest the window has seen. It sits +1.1 pts above 2006 (interval +1.0 pts to +1.3 pts), so the 2006 peak is passed, and the window's own peak is 2023.",
+   "number": 1,
+   "plan_hash": "ac7975b9fb0c601f",
+   "slug": "definition",
+   "title": "Affordable is a decision"
+  },
+  {
+   "branch": "froze",
+   "chart": "rate_shock",
+   "message": "The rate part of the payment overtook the price part in 2023Q3. The rate shock froze turnover where owners had the most to lose: 0.06 fewer purchases per 100 owner households per point of lock in (interval -0.08 to -0.03), and the placebo on the years before the shock sits at 0.00 with an interval that includes zero.",
+   "number": 2,
+   "plan_hash": "dc55265cae0a0e21",
+   "slug": "rate_shock",
+   "title": "The rate shock and the lock in"
+  },
+  {
+   "branch": "median_burdened",
+   "chart": "burden",
+   "message": "The median renter is burdened in 51% of metros in 2024, so the median hides nothing; the problem is the whole distribution, with 26.5% of renters paying half or more (interval 25.7% to 27.2%). The national series moved and stayed moved in 2009, 2015, 2021.",
+   "number": 3,
+   "plan_hash": "a2850a134d98e2a1",
+   "slug": "burden",
+   "title": "The rent burden is a distribution problem"
+  },
+  {
+   "branch": "kept_pace",
+   "chart": "supply",
+   "message": "Where builders kept pace, prices rose less: 8.0% less price growth over 5 years per extra permit per hundred households (interval -14.3% to -1.7%); without the demand control the estimate is -0.4%. The estimate does not survive the window test: over 3 years 0.0%, 7 years +1.1% per window, with intervals that include zero, so this is a 5 year statement and the interior table says so.",
+   "number": 4,
+   "plan_hash": "a1d050c1b22c5986",
+   "slug": "supply",
+   "title": "Where builders kept pace, prices rose less"
+  },
+  {
+   "branch": "changes",
+   "chart": "ranking",
+   "message": "The ranking changes when you hold constant what people earn there: 17 of the 20 largest metros move beyond their intervals. Less affordable than their price says: Tampa-St. Petersburg-Clearwater from 106 to 90; Miami-Fort Lauderdale-West Palm Beach from 33 to 22; Los Angeles-Long Beach-Anaheim from 7 to 2. More affordable: St. Louis from 223 to 307; Minneapolis-St. Paul-Bloomington from 114 to 195; Washington-Arlington-Alexandria from 25 to 102.",
+   "number": 5,
+   "plan_hash": "e23fc6df73f96272",
+   "slug": "ranking",
+   "title": "The fair ranking"
+  },
+  {
+   "branch": "richer_younger",
+   "chart": "buyers",
+   "message": "The buyer is richer than in 2019 by +0.15 of the local median income (interval +0.12 to +0.19) and, against the claim, slightly younger: the under 35 share rose +1.2 pts (interval +0.1 pts to +2.3 pts) by 2025. The ratio moved most in Los Angeles-Long Beach-Anaheim +0.44; Miami-Fort Lauderdale-West Palm Beach +0.37; New York-Newark-Jersey City +0.30.",
+   "number": 6,
+   "plan_hash": "5714fb93ae481cb1",
+   "slug": "buyers",
+   "title": "Who still buys"
+  },
+  {
+   "branch": "already_rising",
+   "chart": "migration",
+   "message": "The metros that gained people were already lagging before the pandemic: the placebo on the years before it is -0.8% (interval -1.4% to -0.2%), so the headline of +1.5% price growth over the window per person gained per hundred residents beyond the pre pandemic pace is a lower bound on what the migration itself did.",
+   "number": 7,
+   "plan_hash": "b2cbe5f6a4559c90",
+   "slug": "migration",
+   "title": "The migration shock"
+  },
+  {
+   "branch": "years",
+   "chart": "decision",
+   "message": "Buying beats renting only after 10.0 years in the typical metro (interval 1.0 years to beyond 30 years), and one point of rate moves the breakeven by +4.5 years. Longest to break even among the largest metros: Boston-Cambridge-Newton 21 years; Chicago-Naperville-Elgin 20 years; San Francisco-Oakland-Fremont 18 years.",
+   "number": 8,
+   "plan_hash": "10988e362f89ee23",
+   "slug": "decision",
+   "title": "The reader decision"
+  }
+ ],
+ "timings": {
+  "burden": 0.031080245971679688,
+  "buyers": 88.450115442276,
+  "decision": 7.866116046905518,
+  "definition": 5.7538161277771,
+  "migration": 984.3549072742462,
+  "ranking": 0.9840927124023438,
+  "rate_shock": 0.1371927261352539,
+  "supply": 1.2530543804168701
+ }
+}

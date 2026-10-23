@@ -1,0 +1,18 @@
+Estimator,Mean bias,Mean RMSE,Mean coverage,Mean flag rate,Worst bias under,Lowest coverage,Lowest coverage under
+anchored_level,-0.001429702598,0.01350537434,,,weak_demand/narrow_supply/none_reverse/high_noise,,
+anchored_payment_share,-0.0001703444834,0.003774224136,0.4333333333,,weak_demand/narrow_supply/none_reverse/low_noise,0.35,weak_demand/narrow_supply/mild_reverse/high_noise
+borrower_ratio_shift,-0.001079972899,0.005765499968,0.75625,,strong_demand/narrow_supply/strong_reverse/high_noise,0.55,weak_demand/wide_supply/mild_reverse/low_noise
+bracket_interpolation,0.003703763945,0.003902372615,,,weak_demand/narrow_supply/strong_reverse/high_noise,,
+breakeven_horizon,4.416763117,4.441535459,,0.6977623457,weak_demand/narrow_supply/strong_reverse/low_noise,,
+burden_changepoint,0.004166666667,0.01863389981,,1.0,strong_demand/narrow_supply/strong_reverse/low_noise,,
+lock_in_did,0.001489173048,0.005533991818,0.9416666667,0.85,weak_demand/narrow_supply/none_reverse/high_noise,0.85,weak_demand/narrow_supply/strong_reverse/high_noise
+lock_in_placebo,-7.022244281e-05,0.008653080467,0.85,,strong_demand/narrow_supply/none_reverse/high_noise,0.8,strong_demand/narrow_supply/mild_reverse/high_noise
+migration_effect,-0.0002313428835,0.002673117058,0.975,0.1833333333,strong_demand/wide_supply/strong_reverse/low_noise,0.95,strong_demand/narrow_supply/none_reverse/low_noise
+migration_naive,-0.003562545728,0.004259004548,0.6083333333,,strong_demand/wide_supply/strong_reverse/low_noise,0.05,strong_demand/narrow_supply/strong_reverse/low_noise
+migration_placebo,-0.00268790715,0.004274246277,0.8166666667,,strong_demand/wide_supply/strong_reverse/high_noise,0.15,strong_demand/narrow_supply/strong_reverse/high_noise
+ranking_adjusted,-0.04367019249,0.04747848723,,0.8896137475,strong_demand/narrow_supply/strong_reverse/low_noise,,
+self_report_correction,-0.001510450617,0.003356648954,,0.01732116645,weak_demand/wide_supply/mild_reverse/low_noise,,
+severe_share,-4.163336342e-18,1.145960627e-16,1.0,,strong_demand/narrow_supply/none_reverse/low_noise,1.0,strong_demand/narrow_supply/mild_reverse/high_noise
+supply_controlled,0.002647646643,0.004282434093,0.8479166667,,strong_demand/narrow_supply/strong_reverse/high_noise,0.7,strong_demand/wide_supply/strong_reverse/high_noise
+supply_uncontrolled,0.005848543766,0.006991462305,0.7020833333,,strong_demand/narrow_supply/strong_reverse/high_noise,0.3,strong_demand/narrow_supply/strong_reverse/high_noise
+under_35_shift,-0.0001647416806,0.001775376764,0.8541666667,,strong_demand/wide_supply/mild_reverse/high_noise,0.6,strong_demand/wide_supply/mild_reverse/high_noise

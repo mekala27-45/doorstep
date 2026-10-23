@@ -1,0 +1,45 @@
+{
+ "statement": "Public data from the Federal Housing Finance Agency, the Census Bureau (American Community Survey, Building Permits Survey, Population Estimates), the Department of Housing and Urban Development and the Consumer Financial Protection Bureau (HMDA), with mortgage rates from Freddie Mac under its terms of use. Metros are real and appear as they do in the public record; no household, borrower or address appears. The findings are a portfolio analysis, not financial advice, not a market forecast and not a fair lending finding.",
+ "rate_attribution": "Mortgage rates: Freddie Mac Primary Mortgage Market Survey, used under its terms of use.",
+ "extracts": {
+  "metro_year": "metro_year.csv",
+  "metro_quarter": "metro_quarter.csv",
+  "national_year": "national_year.csv",
+  "ranking": "ranking.csv",
+  "burden_bands": "burden_bands.csv",
+  "supply_cells": "supply_cells.csv"
+ },
+ "views": [
+  {
+   "name": "Payment share over time",
+   "extract": "metro_year",
+   "marks": "line by cbsa_title, year on columns, payment_share on rows",
+   "reference": "constant line at 0.30, the HUD standard"
+  },
+  {
+   "name": "Price against income",
+   "extract": "metro_year",
+   "marks": "scatter of median_income (columns) against value_anchored (rows) for the latest year, size by households, color by payment_share",
+   "reference": "diagonal at price to income 4"
+  },
+  {
+   "name": "Rank slope",
+   "extract": "ranking",
+   "marks": "slope chart from raw_rank to adjusted_rank for the twenty largest metros, color by moves",
+   "reference": "rank 1 at the top"
+  },
+  {
+   "name": "Rent burden bars",
+   "extract": "burden_bands",
+   "marks": "stacked bars by year of under_30, from_30_to_50 and over_50",
+   "reference": "lines at 30 and 50 percent"
+  },
+  {
+   "name": "Permits against price growth",
+   "extract": "supply_cells",
+   "marks": "scatter of permits_rate (columns) against annual_growth (rows), trend line with confidence band",
+   "reference": "the controlled slope from the manifest"
+  }
+ ],
+ "companion": "Open the extracts in Tableau Public, build the five views as listed, publish, and put the link on the data page. The companion reads the same marts the site reads; the manifest holds every headline."
+}

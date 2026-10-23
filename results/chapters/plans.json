@@ -1,0 +1,297 @@
+{
+ "plans": [
+  {
+   "hash": "ac7975b9fb0c601f",
+   "number": 1,
+   "plan": {
+    "chapter": 1,
+    "claim": "The payment share of income in the latest year exceeds every earlier year including 2006, while the price to income ratio took the whole window to move as far.",
+    "estimator": "FHFA all transactions index anchored to the ACS median value in the anchor year; payment at the quarterly PMMS rate on ninety percent of the value over thirty years; twelve payments over the median household income; owner household weighted national aggregate",
+    "family": "one comparison, the latest year against 2006; no correction",
+    "interval": "percentile interval of 10000 Monte Carlo draws over the ACS margins of error (income and anchor value), index held fixed",
+    "message_rule": "exceeds: the interval of (latest minus 2006) lies above zero and the latest point estimate exceeds every earlier year; fails_year: a named earlier year is not exceeded; null: the interval includes zero",
+    "operating_points": {
+     "affordable_line": 0.3,
+     "anchor_neighbours": [
+      2015,
+      2017,
+      2019,
+      2023
+     ],
+     "anchor_year": 2019,
+     "down_payment_share": 0.1,
+     "line_neighbours": [
+      0.25,
+      0.28,
+      0.3,
+      0.35
+     ],
+     "loan_term_years": 30
+    },
+    "slug": "definition",
+    "split": {
+     "choose_on": [
+      2005,
+      2019
+     ],
+     "note": "the baseline years are the fitting years; the headline is the latest year",
+     "report_on": [
+      2021,
+      "latest"
+     ]
+    }
+   },
+   "slug": "definition",
+   "title": "Affordable is a decision"
+  },
+  {
+   "hash": "dc55265cae0a0e21",
+   "number": 2,
+   "plan": {
+    "chapter": 2,
+    "claim": "The rate shock of 2022 moved the payment more than the price did, and it froze turnover where owners held the cheapest mortgages.",
+    "estimator": {
+     "decomposition": "payment at the current price and the base rate (2019Q1) less the base payment is the price part; the remainder is the rate part; owner weighted across metros",
+     "lock_in": "originations of 2019 to 2021 with a rate under the threshold per 100 owner households of 2021; turnover regressed on lock in times post with metro and year fixed effects on owner weighted cells",
+     "placebo": "the same regression on 2018 and 2019 with 2019 as the post year"
+    },
+    "family": "two coefficients (headline and placebo), reported separately; no correction",
+    "interval": "cluster robust (CR1) by state, normal critical value",
+    "message_rule": "froze: headline interval below zero and placebo interval includes zero; pre_trend: both exclude zero; null: headline interval includes zero",
+    "operating_points": {
+     "lock_in_threshold": 4.0,
+     "lock_in_years": [
+      2019,
+      2021
+     ],
+     "threshold_neighbours": [
+      3.0,
+      3.5,
+      4.0
+     ]
+    },
+    "slug": "rate_shock",
+    "split": {
+     "base_years": [
+      2018,
+      2019
+     ],
+     "event_window": [
+      2019,
+      "latest"
+     ],
+     "test_from": 2023
+    }
+   },
+   "slug": "rate_shock",
+   "title": "The rate shock and the lock in"
+  },
+  {
+   "hash": "a2850a134d98e2a1",
+   "number": 3,
+   "plan": {
+    "chapter": 3,
+    "claim": "The median renter is not cost burdened in most metros while a stated share of renters pays half their income in rent; the median hides a distribution problem.",
+    "estimator": "renters paying thirty and fifty percent or more over renters with a computed share, by metro, year and income group; PELT changepoints under a BIC penalty on the national severely burdened series",
+    "family": "one comparison against the stated line; no correction",
+    "interval": "block bootstrap over metros with 400 replicates for the aggregates; the census ratio margin of error for each metro",
+    "message_rule": "median_hides: the median renter is under the line in most metros and the severe interval clears the stated share; median_burdened: the median renter is burdened in most metros; at_line: the severe interval includes the stated share; below_line: the severe interval sits below it",
+    "operating_points": {
+     "burden_line": 0.3,
+     "pelt_min_size": 3,
+     "pelt_penalty": "BIC with two parameters per changepoint and the MAD noise scale",
+     "severe_line": 0.5,
+     "severe_share_line": 0.2,
+     "severe_share_neighbours": [
+      0.15,
+      0.2,
+      0.25
+     ]
+    },
+    "slug": "burden",
+    "split": {
+     "choose_on": [
+      2005,
+      2019
+     ],
+     "note": "the BIC penalty and the stated line are fixed before the data; the headline is the latest release",
+     "report_on": [
+      2021,
+      "latest"
+     ]
+    }
+   },
+   "slug": "burden",
+   "title": "The rent burden is a distribution problem"
+  },
+  {
+   "hash": "a1d050c1b22c5986",
+   "number": 4,
+   "plan": {
+    "chapter": 4,
+    "claim": "Metros that permitted more homes per hundred households saw prices rise less over the following years, by a measured amount per permit, once the demand shock is held constant.",
+    "estimator": "mean annual log price growth over non overlapping windows on the mean building rate (permits per hundred households) over the same window shifted back one year, metro and period fixed effects on population weighted cells; with and without domestic migration per hundred residents over the window and the two years before it",
+    "family": "two specifications reported side by side; no correction",
+    "interval": "cluster robust (CR1) by state",
+    "message_rule": "kept_pace: the controlled interval lies below zero; null: it includes zero; demand_dominates: it lies above zero",
+    "operating_points": {
+     "lag_years": 1,
+     "window_neighbours": [
+      3,
+      5,
+      7
+     ],
+     "window_years": 5
+    },
+    "slug": "supply",
+    "split": {
+     "report": "every window; the recovery study is the check",
+     "windows": "non overlapping 5 year windows from 2001"
+    }
+   },
+   "slug": "supply",
+   "title": "Where builders kept pace, prices rose less"
+  },
+  {
+   "hash": "e23fc6df73f96272",
+   "number": 5,
+   "plan": {
+    "chapter": 5,
+    "claim": "Ranking metros by the payment share of local income, not by price, changes the order, and the largest moves are named.",
+    "estimator": "payment share at the local median income and the affordable share from the income brackets with a Pareto top bracket, in the latest census year; ranks over every metropolitan area present in both the index and the survey; the twenty largest metros drawn as a slope chart",
+    "family": "one ranking; the movers are those whose adjusted rank interval excludes their raw rank; no correction",
+    "interval": "percentile rank interval over 10000 Monte Carlo draws of income and anchor value, index held fixed",
+    "message_rule": "changes: at least one of the largest metros moves beyond its interval; unchanged: none does",
+    "operating_points": {
+     "affordable_line": 0.3,
+     "largest_metros": 20,
+     "micropolitan": "excluded",
+     "pareto_shape": "fitted from the mean where known, else 2.5"
+    },
+    "slug": "ranking",
+    "split": {
+     "note": "descriptive ranking in the latest release; no fitted parameter"
+    }
+   },
+   "slug": "ranking",
+   "title": "The fair ranking"
+  },
+  {
+   "hash": "5714fb93ae481cb1",
+   "number": 6,
+   "plan": {
+    "chapter": 6,
+    "claim": "The purchase borrower of the latest year is richer relative to the local median and older than the borrower of 2019.",
+    "estimator": "purchase loans (purpose 1) on principal residences; borrower income over the metro median household income of the nearest census year, median across loans from five thousand dollar bins; shares under 35 and above twice the median; median property value to income from quarter point bins; rate spread deciles",
+    "family": "two differences (ratio and under 35 share), each on its own interval; no correction",
+    "interval": "bootstrap over lenders, 400 replicates, within year",
+    "message_rule": "richer_older: both difference intervals exclude zero in the stated direction; richer: only the ratio does; older: only the under 35 share does, downward; richer_younger and younger: the under 35 share rose beyond its interval, against the claim; null: neither",
+    "operating_points": {
+     "base_year": 2019,
+     "income_bin_thousands": 5,
+     "largest_metros": 20
+    },
+    "slug": "buyers",
+    "split": {
+     "base_year": 2019,
+     "report_on": "the latest published HMDA year"
+    }
+   },
+   "slug": "buyers",
+   "title": "Who still buys"
+  },
+  {
+   "hash": "b2cbe5f6a4559c90",
+   "number": 7,
+   "plan": {
+    "chapter": 7,
+    "claim": "Metros that gained more people per hundred residents in the pandemic, beyond what they had been gaining, saw prices rise more, and the pre trend placebo decides whether the gain caused the rise.",
+    "estimator": "log price growth over the window regressed across metros on the migration shock (domestic migration per hundred residents over the migration years less the pre pandemic years) with the pre pandemic migration as a control, one observation per metro, state clustered; the same regression on the placebo window with that window's own migration as the control; synthetic control on the quarterly log index for the largest gainers against donors with small shocks, every donor treated in turn as a placebo",
+    "family": "headline and placebo reported separately; three synthetic controls each with its own permutation p value; no correction",
+    "interval": "cluster robust (CR1) by state; permutation p value over donors for the synthetic controls",
+    "message_rule": "prices_followed: placebo interval includes zero and the headline excludes it; already_rising: the placebo excludes zero (the sign of the placebo says whether the headline is an upper or a lower bound); null: the headline includes zero",
+    "operating_points": {
+     "synthetic_control_first_period": "2015Q1",
+     "synthetic_control_metros": 3
+    },
+    "slug": "migration",
+    "split": {
+     "migration_years": [
+      2020,
+      2021
+     ],
+     "placebo_window": [
+      "2016Q4",
+      "2018Q4"
+     ],
+     "placebo_years": [
+      2017,
+      2018
+     ],
+     "pre_years": [
+      2018,
+      2019
+     ],
+     "window": [
+      "2019Q4",
+      "2021Q4"
+     ]
+    }
+   },
+   "slug": "migration",
+   "title": "The migration shock"
+  },
+  {
+   "hash": "10988e362f89ee23",
+   "number": 8,
+   "plan": {
+    "chapter": 8,
+    "claim": "In most metros buying beats renting only after a stated number of years at the latest rate, and one point of rate moves that horizon by a stated amount.",
+    "estimator": "affordable price as the inverse of the payment share at the line; decile incomes from the brackets with a Pareto top bracket; down payment years at the renter median income and the saving rate; breakeven under the cost model with appreciation and rent growth paths drawn by block bootstrap from the metro's own annual history",
+    "family": "one headline (the owner weighted median breakeven); the rate sensitivity is a recomputation; no correction",
+    "interval": "percentile interval of the breakeven year over 400 bootstrap paths with blocks of 3 years",
+    "message_rule": "years: the national median breakeven lies inside the horizon; never: owning does not catch up inside the horizon in most metros; immediate: the median breakeven is two years or under",
+    "operating_points": {
+     "affordable_line": 0.3,
+     "block_years": 3,
+     "cost_model": {
+      "buy_closing_share": 0.03,
+      "insurance_share": 0.004,
+      "investment_return": 0.045,
+      "maintenance_share": 0.01,
+      "pmi_rate_under_20": 0.006,
+      "property_tax_share": 0.011,
+      "rent_to_price_default": 0.06,
+      "sell_closing_share": 0.06
+     },
+     "down_neighbours": [
+      0.05,
+      0.1,
+      0.2
+     ],
+     "down_payment_share": 0.1,
+     "horizon_years": 30,
+     "line_neighbours": [
+      0.25,
+      0.28,
+      0.3,
+      0.35
+     ],
+     "saving_neighbours": [
+      0.05,
+      0.1,
+      0.15
+     ],
+     "saving_rate": 0.1
+    },
+    "slug": "decision",
+    "split": {
+     "history": "2005 to the latest year for the paths",
+     "report_on": "the latest census year at the latest quarterly rate"
+    }
+   },
+   "slug": "decision",
+   "title": "The reader decision"
+  }
+ ]
+}

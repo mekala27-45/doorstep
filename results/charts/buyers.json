@@ -1,0 +1,269 @@
+{
+ "id": "buyers",
+ "kind": "multiples",
+ "message": "The buyer is richer than in 2019 by +0.15 of the local median income (interval +0.12 to +0.19) and, against the claim, slightly younger: the under 35 share rose +1.2 pts (interval +0.1 pts to +2.3 pts) by 2025. The ratio moved most in Los Angeles-Long Beach-Anaheim +0.44; Miami-Fort Lauderdale-West Palm Beach +0.37; New York-Newark-Jersey City +0.30.",
+ "notes": [],
+ "panels": [
+  {
+   "annotations": [],
+   "bands": [],
+   "rules": [],
+   "series": [
+    {
+     "dashed": false,
+     "high": [
+      1.31514,
+      1.26688,
+      1.28001,
+      1.26065,
+      1.35183,
+      1.40231,
+      1.38055,
+      1.41458
+     ],
+     "label": "income ratio",
+     "low": [
+      1.2478,
+      1.20439,
+      1.22464,
+      1.21708,
+      1.29826,
+      1.34947,
+      1.33487,
+      1.36751
+     ],
+     "name": "Borrower income over the local median",
+     "points": [
+      [
+       2018,
+       1.28052
+      ],
+      [
+       2019,
+       1.23297
+      ],
+      [
+       2020,
+       1.24431
+      ],
+      [
+       2021,
+       1.23701
+      ],
+      [
+       2022,
+       1.32223
+      ],
+      [
+       2023,
+       1.37698
+      ],
+      [
+       2024,
+       1.3591
+      ],
+      [
+       2025,
+       1.38618
+      ]
+     ],
+     "role": "borrowers"
+    }
+   ],
+   "title": "Borrower income over the metro median",
+   "y_format": "ratio2",
+   "y_label": "ratio"
+  },
+  {
+   "annotations": [],
+   "bands": [],
+   "rules": [],
+   "series": [
+    {
+     "dashed": false,
+     "high": [
+      0.391045,
+      0.389218,
+      0.414009,
+      0.39669,
+      0.395542,
+      0.404386,
+      0.403587,
+      0.4006
+     ],
+     "label": "under 35",
+     "low": [
+      0.376221,
+      0.374308,
+      0.399544,
+      0.384084,
+      0.381031,
+      0.390649,
+      0.39051,
+      0.387057
+     ],
+     "name": "Share of buyers under 35",
+     "points": [
+      [
+       2018,
+       0.383681
+      ],
+      [
+       2019,
+       0.382706
+      ],
+      [
+       2020,
+       0.407082
+      ],
+      [
+       2021,
+       0.390099
+      ],
+      [
+       2022,
+       0.38878
+      ],
+      [
+       2023,
+       0.39771
+      ],
+      [
+       2024,
+       0.397047
+      ],
+      [
+       2025,
+       0.394384
+      ]
+     ],
+     "role": "adjusted"
+    }
+   ],
+   "title": "Buyers under 35",
+   "y_format": "pct0",
+   "y_label": "share of purchase loans"
+  }
+ ],
+ "source": "real:hmda+acs",
+ "sql": "select year,\n       sum(loans) as purchase_loans,\n       sum(under_35) * 1.0 / sum(loans) as under_35_share,\n       sum(over_2x) * 1.0 / sum(loans) as over_2x_share\nfrom mart_borrowers_income\ngroup by year\norder by year",
+ "states": [
+  {
+   "caption": "The median purchase borrower earns this multiple of the local median household income.",
+   "highlight": [
+    "Borrower income over the local median"
+   ],
+   "id": "ratio",
+   "show": [
+    "Borrower income over the local median"
+   ]
+  },
+  {
+   "caption": "The share of purchase loans to borrowers under 35.",
+   "highlight": [
+    "Share of buyers under 35"
+   ],
+   "id": "age",
+   "show": [
+    "Share of buyers under 35"
+   ]
+  }
+ ],
+ "subtitle": "Purchase borrower income over the local median, and the share of buyers under 35, by year, with lender bootstrap intervals",
+ "table_columns": [
+  "Year",
+  "Loans",
+  "Income ratio",
+  "Low",
+  "High",
+  "Under 35",
+  "Above twice the median",
+  "Value to income"
+ ],
+ "table_rows": [
+  [
+   2018,
+   3389103,
+   1.28052,
+   1.2478,
+   1.31514,
+   0.383681,
+   0.227261,
+   3.375
+  ],
+  [
+   2019,
+   3533474,
+   1.23297,
+   1.20439,
+   1.26688,
+   0.382706,
+   0.20887,
+   3.375
+  ],
+  [
+   2020,
+   3861776,
+   1.24431,
+   1.22464,
+   1.28001,
+   0.407082,
+   0.214112,
+   3.625
+  ],
+  [
+   2021,
+   4097757,
+   1.23701,
+   1.21708,
+   1.26065,
+   0.390099,
+   0.212024,
+   3.875
+  ],
+  [
+   2022,
+   3317262,
+   1.32223,
+   1.29826,
+   1.35183,
+   0.38878,
+   0.238087,
+   3.625
+  ],
+  [
+   2023,
+   2664039,
+   1.37698,
+   1.34947,
+   1.40231,
+   0.39771,
+   0.254624,
+   3.375
+  ],
+  [
+   2024,
+   2695601,
+   1.3591,
+   1.33487,
+   1.38055,
+   0.397047,
+   0.251127,
+   3.375
+  ],
+  [
+   2025,
+   2722577,
+   1.38618,
+   1.36751,
+   1.41458,
+   0.394384,
+   0.266985,
+   3.375
+  ]
+ ],
+ "x_format": "int",
+ "x_label": "year",
+ "y_format": "",
+ "y_label": ""
+}

@@ -1,0 +1,701 @@
+{
+ "id": "decision",
+ "kind": "curves",
+ "message": "Buying beats renting only after 10.0 years in the typical metro (interval 1.0 years to beyond 30 years), and one point of rate moves the breakeven by +4.5 years. Longest to break even among the largest metros: Boston-Cambridge-Newton 21 years; Chicago-Naperville-Elgin 20 years; San Francisco-Oakland-Fremont 18 years.",
+ "notes": [
+  "median breakeven 10.0 years across metros"
+ ],
+ "panels": [
+  {
+   "annotations": [],
+   "bands": [
+    {
+     "from": 1,
+     "label": "interval across metros",
+     "to": 30
+    }
+   ],
+   "rules": [
+    {
+     "label": "owning catches up",
+     "role": "owning",
+     "y": 0.0
+    }
+   ],
+   "series": [
+    {
+     "dashed": false,
+     "high": null,
+     "label": "difference",
+     "low": null,
+     "name": "Renter wealth less owner equity",
+     "points": [
+      [
+       1,
+       83100.8
+      ],
+      [
+       2,
+       103066.0
+      ],
+      [
+       3,
+       120061.0
+      ],
+      [
+       4,
+       137691.0
+      ],
+      [
+       5,
+       155978.0
+      ],
+      [
+       6,
+       174945.0
+      ],
+      [
+       7,
+       194615.0
+      ],
+      [
+       8,
+       215012.0
+      ],
+      [
+       9,
+       236159.0
+      ],
+      [
+       10,
+       258081.0
+      ],
+      [
+       11,
+       280802.0
+      ],
+      [
+       12,
+       304349.0
+      ],
+      [
+       13,
+       328745.0
+      ],
+      [
+       14,
+       354017.0
+      ],
+      [
+       15,
+       380191.0
+      ],
+      [
+       16,
+       407293.0
+      ],
+      [
+       17,
+       435348.0
+      ],
+      [
+       18,
+       464382.0
+      ],
+      [
+       19,
+       494421.0
+      ],
+      [
+       20,
+       525491.0
+      ],
+      [
+       21,
+       557616.0
+      ],
+      [
+       22,
+       590820.0
+      ],
+      [
+       23,
+       625128.0
+      ],
+      [
+       24,
+       660562.0
+      ],
+      [
+       25,
+       697144.0
+      ],
+      [
+       26,
+       734893.0
+      ],
+      [
+       27,
+       773830.0
+      ],
+      [
+       28,
+       813970.0
+      ],
+      [
+       29,
+       855329.0
+      ],
+      [
+       30,
+       897919.0
+      ]
+     ],
+     "role": "renting"
+    }
+   ],
+   "title": "Rent or buy in New York-Newark-Jersey City, NY-NJ",
+   "y_format": "susd0",
+   "y_label": "dollars, positive means renting is ahead"
+  }
+ ],
+ "source": "real:fhfa+acs+pmms",
+ "sql": "select cbsa_code, cbsa_title, year, rate, value_anchored, median_income, renter_median_income, median_rent, payment_share\nfrom mart_metro_year\nwhere kind = 'metropolitan' and year = (select max(year) from mart_metro_year where median_income is not null)\n  and value_anchored is not null and median_income is not null and median_rent is not null\norder by payment_share desc",
+ "states": [
+  {
+   "caption": "Each year, what the renter holds less what the owner would net on selling, under the median path for the largest metro.",
+   "highlight": [],
+   "id": "curve",
+   "show": [
+    "Renter wealth less owner equity"
+   ]
+  },
+  {
+   "caption": "The year owning catches up, and the interval of that year across metros.",
+   "highlight": [
+    "Renter wealth less owner equity"
+   ],
+   "id": "breakeven",
+   "show": [
+    "Renter wealth less owner equity"
+   ]
+  }
+ ],
+ "subtitle": "Renter wealth less owner equity by horizon for the largest metro at 6.72%, with the breakeven marked and its interval across metros",
+ "table_columns": [
+  "Metro",
+  "Median home",
+  "Affordable price",
+  "Affordable share",
+  "Down payment years",
+  "Breakeven",
+  "Low",
+  "High"
+ ],
+ "table_rows": [
+  [
+   "New York-Newark-Jersey City, NY-NJ",
+   709339.0,
+   428907.0,
+   0.299753,
+   10.5898,
+   16.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Los Angeles-Long Beach-Anaheim, CA",
+   984121.0,
+   414101.0,
+   0.140479,
+   13.6114,
+   6.5,
+   1.0,
+   31.0
+  ],
+  [
+   "Chicago-Naperville-Elgin, IL-IN",
+   365617.0,
+   389896.0,
+   0.531249,
+   6.51758,
+   19.5,
+   2.0,
+   31.0
+  ],
+  [
+   "Dallas-Fort Worth-Arlington, TX",
+   393024.0,
+   398328.0,
+   0.511005,
+   6.22149,
+   6.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Houston-Pasadena-The Woodlands, TX",
+   313177.0,
+   349721.0,
+   0.551513,
+   6.00254,
+   8.0,
+   2.0,
+   24.0
+  ],
+  [
+   "Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",
+   402523.0,
+   390240.0,
+   0.489932,
+   7.34732,
+   8.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Washington-Arlington-Alexandria, DC-VA-MD-WV",
+   619214.0,
+   542273.0,
+   0.442138,
+   7.63576,
+   11.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Atlanta-Sandy Springs-Roswell, GA",
+   409790.0,
+   396657.0,
+   0.488469,
+   6.64338,
+   6.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Miami-Fort Lauderdale-West Palm Beach, FL",
+   570254.0,
+   346319.0,
+   0.277887,
+   9.41323,
+   3.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Boston-Cambridge-Newton, MA-NH",
+   724836.0,
+   506109.0,
+   0.343988,
+   9.88539,
+   21.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Phoenix-Mesa-Chandler, AZ",
+   482839.0,
+   387160.0,
+   0.392166,
+   7.28022,
+   4.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Detroit-Warren-Dearborn, MI",
+   284812.0,
+   328184.0,
+   0.559176,
+   6.28364,
+   11.0,
+   2.0,
+   31.0
+  ],
+  [
+   "San Francisco-Oakland-Fremont, CA",
+   1161940.0,
+   582418.0,
+   0.159993,
+   12.3773,
+   18.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Seattle-Tacoma-Bellevue, WA",
+   747400.0,
+   482755.0,
+   0.321108,
+   9.37755,
+   6.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Minneapolis-St. Paul-Bloomington, MN-WI",
+   391204.0,
+   420643.0,
+   0.536915,
+   6.85481,
+   18.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Riverside-San Bernardino-Ontario, CA",
+   601161.0,
+   390940.0,
+   0.291725,
+   9.42924,
+   3.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Tampa-St. Petersburg-Clearwater, FL",
+   400907.0,
+   336225.0,
+   0.427884,
+   7.16301,
+   3.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Denver-Aurora-Centennial, CO",
+   625144.0,
+   464104.0,
+   0.360453,
+   8.62029,
+   12.0,
+   2.0,
+   31.0
+  ],
+  [
+   "San Diego-Chula Vista-Carlsbad, CA",
+   985575.0,
+   468769.0,
+   0.162512,
+   12.0898,
+   7.0,
+   1.0,
+   31.0
+  ],
+  [
+   "St. Louis, MO-IL",
+   271172.0,
+   350847.0,
+   0.612365,
+   5.56958,
+   17.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Baltimore-Columbia-Towson, MD",
+   439116.0,
+   423813.0,
+   0.485819,
+   7.33192,
+   10.5,
+   1.0,
+   31.0
+  ],
+  [
+   "Charlotte-Concord-Gastonia, NC-SC",
+   401988.0,
+   369141.0,
+   0.465954,
+   6.79286,
+   10.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Orlando-Kissimmee-Sanford, FL",
+   425472.0,
+   348119.0,
+   0.397382,
+   6.93493,
+   3.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Pittsburgh, PA",
+   239277.0,
+   331668.0,
+   0.631078,
+   5.30195,
+   13.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Austin-Round Rock-San Marcos, TX",
+   474770.0,
+   429101.0,
+   0.458711,
+   6.78166,
+   6.0,
+   1.0,
+   28.05
+  ],
+  [
+   "Portland-Vancouver-Hillsboro, OR-WA",
+   560267.0,
+   425222.0,
+   0.359362,
+   8.19643,
+   6.0,
+   1.0,
+   31.0
+  ],
+  [
+   "San Antonio-New Braunfels, TX",
+   290547.0,
+   335525.0,
+   0.566947,
+   5.69376,
+   5.0,
+   1.0,
+   18.025
+  ],
+  [
+   "Cleveland, OH",
+   250805.0,
+   311556.0,
+   0.594312,
+   5.90505,
+   31.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Cincinnati, OH-KY-IN",
+   298576.0,
+   350030.0,
+   0.574329,
+   6.26116,
+   23.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Kansas City, MO-KS",
+   329620.0,
+   359893.0,
+   0.546201,
+   6.28206,
+   15.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Sacramento-Roseville-Folsom, CA",
+   614869.0,
+   424281.0,
+   0.322033,
+   9.40426,
+   4.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Las Vegas-Henderson-North Las Vegas, NV",
+   491437.0,
+   343755.0,
+   0.330123,
+   8.74226,
+   3.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Columbus, OH",
+   340108.0,
+   356255.0,
+   0.528104,
+   6.53112,
+   13.5,
+   1.0,
+   31.0
+  ],
+  [
+   "Indianapolis-Carmel-Greenwood, IN",
+   290616.0,
+   344661.0,
+   0.583191,
+   5.65302,
+   16.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Nashville-Davidson--Murfreesboro--Franklin, TN",
+   472350.0,
+   381434.0,
+   0.40272,
+   7.81895,
+   9.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Virginia Beach-Chesapeake-Norfolk, VA-NC",
+   387111.0,
+   353952.0,
+   0.463093,
+   7.10817,
+   8.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Jacksonville, FL",
+   379647.0,
+   352453.0,
+   0.474806,
+   6.74377,
+   4.0,
+   1.0,
+   31.0
+  ],
+  [
+   "San Jose-Sunnyvale-Santa Clara, CA",
+   1484140.0,
+   707892.0,
+   0.108571,
+   12.0992,
+   31.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Providence-Warwick, RI-MA",
+   483818.0,
+   355962.0,
+   0.373911,
+   9.86035,
+   9.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Milwaukee-Waukesha, WI",
+   356921.0,
+   334696.0,
+   0.475043,
+   7.32506,
+   31.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Raleigh-Cary, NC",
+   471872.0,
+   438753.0,
+   0.468028,
+   7.26539,
+   14.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Oklahoma City, OK",
+   249318.0,
+   313266.0,
+   0.60708,
+   5.23447,
+   11.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Louisville/Jefferson County, KY-IN",
+   277187.0,
+   319172.0,
+   0.567326,
+   6.16082,
+   22.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Richmond, VA",
+   399496.0,
+   358497.0,
+   0.460344,
+   7.30233,
+   9.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Memphis, TN-MS-AR",
+   255887.0,
+   292622.0,
+   0.558766,
+   5.59952,
+   11.5,
+   1.0,
+   31.0
+  ],
+  [
+   "Buffalo-Cheektowaga, NY",
+   257684.0,
+   310560.0,
+   0.58441,
+   5.92308,
+   11.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Birmingham, AL",
+   265411.0,
+   321960.0,
+   0.585661,
+   5.81557,
+   10.0,
+   1.0,
+   31.0
+  ],
+  [
+   "Salt Lake City-Murray, UT",
+   570743.0,
+   431897.0,
+   0.346433,
+   8.72549,
+   7.5,
+   1.0,
+   31.0
+  ],
+  [
+   "Hartford-West Hartford-East Hartford, CT",
+   406437.0,
+   405570.0,
+   0.501188,
+   7.88753,
+   17.0,
+   2.0,
+   31.0
+  ],
+  [
+   "Tucson, AZ",
+   353838.0,
+   309559.0,
+   0.443654,
+   7.16373,
+   6.0,
+   1.0,
+   31.0
+  ]
+ ],
+ "x_format": "int",
+ "x_label": "years of ownership",
+ "y_format": "susd0",
+ "y_label": "dollars"
+}

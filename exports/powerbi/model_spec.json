@@ -1,0 +1,140 @@
+{
+ "statement": "Public data from the Federal Housing Finance Agency, the Census Bureau (American Community Survey, Building Permits Survey, Population Estimates), the Department of Housing and Urban Development and the Consumer Financial Protection Bureau (HMDA), with mortgage rates from Freddie Mac under its terms of use. Metros are real and appear as they do in the public record; no household, borrower or address appears. The findings are a portfolio analysis, not financial advice, not a market forecast and not a fair lending finding.",
+ "rate_attribution": "Mortgage rates: Freddie Mac Primary Mortgage Market Survey, used under its terms of use.",
+ "tables": {
+  "metro_year": {
+   "source": "tableau/metro_year.csv",
+   "key": [
+    "cbsa_code",
+    "year"
+   ],
+   "columns": "every column of mart_metro_year"
+  },
+  "metro_quarter": {
+   "source": "tableau/metro_quarter.csv",
+   "key": [
+    "cbsa_code",
+    "period"
+   ],
+   "columns": "index, anchored value, rate, payment, payment share"
+  },
+  "ranking": {
+   "source": "tableau/ranking.csv",
+   "key": [
+    "cbsa_code"
+   ],
+   "columns": "the raw and adjusted ranks of 20 metros with intervals"
+  },
+  "metros": {
+   "source": "tableau/metro_year.csv (distinct cbsa_code, cbsa_title, kind, states)",
+   "key": [
+    "cbsa_code"
+   ],
+   "columns": "the dimension"
+  },
+  "years": {
+   "source": "generated",
+   "key": [
+    "year"
+   ],
+   "columns": "a date table from 2000"
+  }
+ },
+ "relationships": [
+  {
+   "from": "metro_year[cbsa_code]",
+   "to": "metros[cbsa_code]",
+   "cardinality": "many to one"
+  },
+  {
+   "from": "metro_quarter[cbsa_code]",
+   "to": "metros[cbsa_code]",
+   "cardinality": "many to one"
+  },
+  {
+   "from": "ranking[cbsa_code]",
+   "to": "metros[cbsa_code]",
+   "cardinality": "one to one"
+  },
+  {
+   "from": "metro_year[year]",
+   "to": "years[year]",
+   "cardinality": "many to one"
+  }
+ ],
+ "measures": [
+  {
+   "name": "Payment share",
+   "dax": "DIVIDE(12 * SUM(metro_year[payment]), SUM(metro_year[median_income]))",
+   "format": "pct"
+  },
+  {
+   "name": "Price to income",
+   "dax": "DIVIDE(SUM(metro_year[value_anchored]), SUM(metro_year[median_income]))",
+   "format": "ratio"
+  },
+  {
+   "name": "Affordable share",
+   "dax": "AVERAGE(ranking[affordable_share])",
+   "format": "pct"
+  },
+  {
+   "name": "Cost burdened share",
+   "dax": "DIVIDE(SUM(metro_year[renters_burdened]), SUM(metro_year[renters_with_share]))",
+   "format": "pct"
+  },
+  {
+   "name": "Severely burdened share",
+   "dax": "DIVIDE(SUM(metro_year[renters_severe]), SUM(metro_year[renters_with_share]))",
+   "format": "pct"
+  },
+  {
+   "name": "Permits per 100 households",
+   "dax": "DIVIDE(100 * SUM(metro_year[permits]), SUM(metro_year[households]))",
+   "format": "ratio"
+  },
+  {
+   "name": "Lock in share",
+   "dax": "DIVIDE(100 * CALCULATE(SUM(metro_year[low_rate_originations]), metro_year[year] IN {2019, 2020, 2021}), CALCULATE(SUM(metro_year[owner_households]), metro_year[year] = 2021))",
+   "format": "ratio"
+  },
+  {
+   "name": "Turnover per 100 owners",
+   "dax": "DIVIDE(100 * SUM(metro_year[purchase_loans]), SUM(metro_year[owner_households]))",
+   "format": "ratio"
+  },
+  {
+   "name": "Borrower income ratio",
+   "dax": "DIVIDE(SUM(metro_year[purchase_median_income]), SUM(metro_year[median_income]))",
+   "format": "ratio"
+  },
+  {
+   "name": "Domestic migration per 100",
+   "dax": "DIVIDE(100 * SUM(metro_year[domestic_migration]), SUM(metro_year[population]))",
+   "format": "ratio"
+  }
+ ],
+ "metric_layer": [
+  "households",
+  "owner_households",
+  "renter_households",
+  "renters_burdened",
+  "renters_severe",
+  "renter_burdened_share",
+  "housing_units",
+  "permits",
+  "population",
+  "domestic_migration",
+  "purchase_loans",
+  "refinance_loans",
+  "low_rate_originations",
+  "turnover_per_100_owners",
+  "lock_in_per_100_owners",
+  "permits_per_100_households",
+  "domestic_migration_per_100",
+  "purchase_under_35_share",
+  "owner_mortgage_burdened_share",
+  "payment_share_ratio_of_sums",
+  "price_to_income_ratio_of_sums"
+ ]
+}

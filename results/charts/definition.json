@@ -1,0 +1,440 @@
+{
+ "id": "definition",
+ "kind": "multiples",
+ "message": "The payment share of 2024 does not exceed 2023; the payment story is not yet the largest the window has seen. It sits +1.1 pts above 2006 (interval +1.0 pts to +1.3 pts), so the 2006 peak is passed, and the window's own peak is 2023.",
+ "notes": [
+  "The 2020 census release does not exist; the line breaks there."
+ ],
+ "panels": [
+  {
+   "annotations": [],
+   "bands": [],
+   "rules": [],
+   "series": [
+    {
+     "dashed": false,
+     "high": null,
+     "label": "price to income",
+     "low": null,
+     "name": "Price to income",
+     "points": [
+      [
+       2005,
+       4.83032
+      ],
+      [
+       2006,
+       4.98361
+      ],
+      [
+       2007,
+       4.74872
+      ],
+      [
+       2008,
+       4.20829
+      ],
+      [
+       2009,
+       4.05594
+      ],
+      [
+       2010,
+       3.94415
+      ],
+      [
+       2011,
+       3.75525
+      ],
+      [
+       2012,
+       3.6589
+      ],
+      [
+       2013,
+       3.75582
+      ],
+      [
+       2014,
+       3.87875
+      ],
+      [
+       2015,
+       3.95182
+      ],
+      [
+       2016,
+       4.00947
+      ],
+      [
+       2017,
+       4.06643
+      ],
+      [
+       2018,
+       4.15207
+      ],
+      [
+       2019,
+       4.07356
+      ],
+      [
+       2021,
+       4.58831
+      ],
+      [
+       2022,
+       4.95735
+      ],
+      [
+       2023,
+       4.98135
+      ],
+      [
+       2024,
+       4.99349
+      ]
+     ],
+     "role": "adjusted"
+    }
+   ],
+   "title": "The price story",
+   "y_format": "ratio1",
+   "y_label": "median home over median income"
+  },
+  {
+   "annotations": [
+    {
+     "state": "peak",
+     "text": "2006",
+     "x": 2006,
+     "y": 0.337134
+    },
+    {
+     "state": "peak",
+     "text": "2024",
+     "x": 2024,
+     "y": 0.348753
+    }
+   ],
+   "bands": [],
+   "rules": [
+    {
+     "label": "30 percent line",
+     "role": "renting",
+     "y": 0.3
+    }
+   ],
+   "series": [
+    {
+     "dashed": false,
+     "high": [
+      0.309282,
+      0.338091,
+      0.319657,
+      0.274195,
+      0.23693,
+      0.221591,
+      0.204875,
+      0.181471,
+      0.193644,
+      0.204769,
+      0.200644,
+      0.198759,
+      0.210037,
+      0.229109,
+      0.209084,
+      0.208469,
+      0.299719,
+      0.352133,
+      0.349897
+     ],
+     "label": "payment share",
+     "low": [
+      0.307571,
+      0.336416,
+      0.318005,
+      0.272793,
+      0.235661,
+      0.220441,
+      0.203782,
+      0.180525,
+      0.192677,
+      0.203769,
+      0.199568,
+      0.197771,
+      0.208947,
+      0.227887,
+      0.207946,
+      0.207339,
+      0.298125,
+      0.350221,
+      0.347978
+     ],
+     "name": "Payment share of income",
+     "points": [
+      [
+       2005,
+       0.308315
+      ],
+      [
+       2006,
+       0.337134
+      ],
+      [
+       2007,
+       0.318696
+      ],
+      [
+       2008,
+       0.273392
+      ],
+      [
+       2009,
+       0.236201
+      ],
+      [
+       2010,
+       0.220932
+      ],
+      [
+       2011,
+       0.204241
+      ],
+      [
+       2012,
+       0.180937
+      ],
+      [
+       2013,
+       0.193082
+      ],
+      [
+       2014,
+       0.204188
+      ],
+      [
+       2015,
+       0.200015
+      ],
+      [
+       2016,
+       0.198189
+      ],
+      [
+       2017,
+       0.20941
+      ],
+      [
+       2018,
+       0.2284
+      ],
+      [
+       2019,
+       0.20841
+      ],
+      [
+       2021,
+       0.207793
+      ],
+      [
+       2022,
+       0.298773
+      ],
+      [
+       2023,
+       0.350968
+      ],
+      [
+       2024,
+       0.348753
+      ]
+     ],
+     "role": "owning"
+    }
+   ],
+   "title": "The payment story",
+   "y_format": "pct0",
+   "y_label": "share of median income"
+  }
+ ],
+ "source": "real:fhfa+acs+pmms",
+ "sql": "select year,\n       sum(value_anchored * owner_households) / sum(owner_households) as median_home,\n       sum(price_to_income * owner_households) / sum(owner_households) as price_to_income,\n       sum(payment_share * owner_households) / sum(owner_households) as payment_share\nfrom mart_metro_year\nwhere kind = 'metropolitan' and payment_share is not null and owner_households > 0\ngroup by year\norder by year",
+ "states": [
+  {
+   "caption": "Price to income: the median home as a multiple of the median income, every year the census reports one.",
+   "highlight": [],
+   "id": "price",
+   "show": [
+    "Price to income"
+   ]
+  },
+  {
+   "caption": "The payment share: twelve payments on the median home over the median income, at each year's rate.",
+   "highlight": [
+    "Payment share of income"
+   ],
+   "id": "payment",
+   "show": [
+    "Payment share of income"
+   ]
+  },
+  {
+   "caption": "The latest year against 2006, the peak of the last cycle, with the Monte Carlo interval.",
+   "highlight": [
+    "Payment share of income"
+   ],
+   "id": "peak",
+   "show": [
+    "Payment share of income"
+   ]
+  }
+ ],
+ "subtitle": "Price to income and the payment share of income on the median home, owner weighted across metros, 2005 to 2024",
+ "table_columns": [
+  "Year",
+  "Price to income",
+  "Payment share",
+  "Low",
+  "High"
+ ],
+ "table_rows": [
+  [
+   2005,
+   4.83032,
+   0.308315,
+   0.307571,
+   0.309282
+  ],
+  [
+   2006,
+   4.98361,
+   0.337134,
+   0.336416,
+   0.338091
+  ],
+  [
+   2007,
+   4.74872,
+   0.318696,
+   0.318005,
+   0.319657
+  ],
+  [
+   2008,
+   4.20829,
+   0.273392,
+   0.272793,
+   0.274195
+  ],
+  [
+   2009,
+   4.05594,
+   0.236201,
+   0.235661,
+   0.23693
+  ],
+  [
+   2010,
+   3.94415,
+   0.220932,
+   0.220441,
+   0.221591
+  ],
+  [
+   2011,
+   3.75525,
+   0.204241,
+   0.203782,
+   0.204875
+  ],
+  [
+   2012,
+   3.6589,
+   0.180937,
+   0.180525,
+   0.181471
+  ],
+  [
+   2013,
+   3.75582,
+   0.193082,
+   0.192677,
+   0.193644
+  ],
+  [
+   2014,
+   3.87875,
+   0.204188,
+   0.203769,
+   0.204769
+  ],
+  [
+   2015,
+   3.95182,
+   0.200015,
+   0.199568,
+   0.200644
+  ],
+  [
+   2016,
+   4.00947,
+   0.198189,
+   0.197771,
+   0.198759
+  ],
+  [
+   2017,
+   4.06643,
+   0.20941,
+   0.208947,
+   0.210037
+  ],
+  [
+   2018,
+   4.15207,
+   0.2284,
+   0.227887,
+   0.229109
+  ],
+  [
+   2019,
+   4.07356,
+   0.20841,
+   0.207946,
+   0.209084
+  ],
+  [
+   2021,
+   4.58831,
+   0.207793,
+   0.207339,
+   0.208469
+  ],
+  [
+   2022,
+   4.95735,
+   0.298773,
+   0.298125,
+   0.299719
+  ],
+  [
+   2023,
+   4.98135,
+   0.350968,
+   0.350221,
+   0.352133
+  ],
+  [
+   2024,
+   4.99349,
+   0.348753,
+   0.347978,
+   0.349897
+  ]
+ ],
+ "x_format": "int",
+ "x_label": "year",
+ "y_format": "",
+ "y_label": ""
+}

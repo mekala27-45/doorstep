@@ -1,0 +1,21 @@
+{
+ "affordable_line": 0.3,
+ "anchor_year": 2019,
+ "cost_model": {
+  "buy_closing_share": 0.03,
+  "insurance_share": 0.004,
+  "investment_return": 0.045,
+  "maintenance_share": 0.01,
+  "pmi_rate_under_20": 0.006,
+  "property_tax_share": 0.011,
+  "rent_to_price_default": 0.06,
+  "sell_closing_share": 0.06
+ },
+ "down_payment_share": 0.1,
+ "income_year": 2024,
+ "latest_period": "2026Q2",
+ "loan_term_years": 30,
+ "metros": 382,
+ "rate_default": 7.32,
+ "rate_default_source": "week of 2026-10-22"
+}

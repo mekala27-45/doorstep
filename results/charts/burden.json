@@ -1,0 +1,462 @@
+{
+ "id": "burden",
+ "kind": "bars",
+ "message": "The median renter is burdened in 51% of metros in 2024, so the median hides nothing; the problem is the whole distribution, with 26.5% of renters paying half or more (interval 25.7% to 27.2%). The national series moved and stayed moved in 2009, 2015, 2021.",
+ "notes": [
+  "Shares are of renters with a computed rent share; the 2020 release does not exist."
+ ],
+ "panels": [
+  {
+   "annotations": [
+    {
+     "state": "changepoints",
+     "text": "changepoint 2009",
+     "x": 2009,
+     "y": null
+    },
+    {
+     "state": "changepoints",
+     "text": "changepoint 2015",
+     "x": 2015,
+     "y": null
+    },
+    {
+     "state": "changepoints",
+     "text": "changepoint 2021",
+     "x": 2021,
+     "y": null
+    }
+   ],
+   "bands": [],
+   "rules": [],
+   "series": [
+    {
+     "dashed": false,
+     "high": null,
+     "label": "under 30",
+     "low": null,
+     "name": "Under 30 percent",
+     "points": [
+      [
+       2005,
+       0.505207
+      ],
+      [
+       2006,
+       0.502267
+      ],
+      [
+       2007,
+       0.506854
+      ],
+      [
+       2008,
+       0.502183
+      ],
+      [
+       2009,
+       0.484597
+      ],
+      [
+       2010,
+       0.470173
+      ],
+      [
+       2011,
+       0.465879
+      ],
+      [
+       2012,
+       0.479884
+      ],
+      [
+       2013,
+       0.484706
+      ],
+      [
+       2014,
+       0.482342
+      ],
+      [
+       2015,
+       0.494146
+      ],
+      [
+       2016,
+       0.502695
+      ],
+      [
+       2017,
+       0.504606
+      ],
+      [
+       2018,
+       0.503099
+      ],
+      [
+       2019,
+       0.51566
+      ],
+      [
+       2021,
+       0.489463
+      ],
+      [
+       2022,
+       0.481102
+      ],
+      [
+       2023,
+       0.482333
+      ],
+      [
+       2024,
+       0.482306
+      ]
+     ],
+     "role": "control"
+    },
+    {
+     "dashed": false,
+     "high": null,
+     "label": "30 to 50",
+     "low": null,
+     "name": "30 to 50 percent",
+     "points": [
+      [
+       2005,
+       0.243515
+      ],
+      [
+       2006,
+       0.246298
+      ],
+      [
+       2007,
+       0.247537
+      ],
+      [
+       2008,
+       0.246841
+      ],
+      [
+       2009,
+       0.251581
+      ],
+      [
+       2010,
+       0.255473
+      ],
+      [
+       2011,
+       0.254448
+      ],
+      [
+       2012,
+       0.249849
+      ],
+      [
+       2013,
+       0.250669
+      ],
+      [
+       2014,
+       0.254399
+      ],
+      [
+       2015,
+       0.251348
+      ],
+      [
+       2016,
+       0.247796
+      ],
+      [
+       2017,
+       0.248742
+      ],
+      [
+       2018,
+       0.249135
+      ],
+      [
+       2019,
+       0.247232
+      ],
+      [
+       2021,
+       0.249288
+      ],
+      [
+       2022,
+       0.252378
+      ],
+      [
+       2023,
+       0.253495
+      ],
+      [
+       2024,
+       0.25693
+      ]
+     ],
+     "role": "renting"
+    },
+    {
+     "dashed": false,
+     "high": null,
+     "label": "50 and over",
+     "low": null,
+     "name": "50 percent and over",
+     "points": [
+      [
+       2005,
+       0.251278
+      ],
+      [
+       2006,
+       0.251434
+      ],
+      [
+       2007,
+       0.245609
+      ],
+      [
+       2008,
+       0.250976
+      ],
+      [
+       2009,
+       0.263822
+      ],
+      [
+       2010,
+       0.274354
+      ],
+      [
+       2011,
+       0.279673
+      ],
+      [
+       2012,
+       0.270267
+      ],
+      [
+       2013,
+       0.264625
+      ],
+      [
+       2014,
+       0.263259
+      ],
+      [
+       2015,
+       0.254507
+      ],
+      [
+       2016,
+       0.249509
+      ],
+      [
+       2017,
+       0.246652
+      ],
+      [
+       2018,
+       0.247766
+      ],
+      [
+       2019,
+       0.237108
+      ],
+      [
+       2021,
+       0.261249
+      ],
+      [
+       2022,
+       0.26652
+      ],
+      [
+       2023,
+       0.264172
+      ],
+      [
+       2024,
+       0.260764
+      ]
+     ],
+     "role": "burden"
+    }
+   ],
+   "title": "Renter households by the share of income the rent takes",
+   "y_format": "pct0",
+   "y_label": "share of renters"
+  }
+ ],
+ "source": "real:acs",
+ "sql": "select year,\n       sum(renters_burdened) / sum(renters_with_share) as burdened_share,\n       sum(renters_severe) / sum(renters_with_share) as severe_share,\n       sum(owners_mortgage_burdened) / sum(owners_mortgage_with_share) as owner_mortgage_burdened_share,\n       sum(case when median_rent_share < 0.30 then 1 else 0 end) as metros_median_under_30,\n       count(*) as metros\nfrom mart_metro_year\nwhere kind = 'metropolitan' and renters_with_share > 0\ngroup by year\norder by year",
+ "states": [
+  {
+   "caption": "Every renter household in one of three bands: under thirty percent of income, thirty to fifty, fifty and over.",
+   "highlight": [],
+   "id": "bands",
+   "show": [
+    "Under 30 percent",
+    "30 to 50 percent",
+    "50 percent and over"
+   ]
+  },
+  {
+   "caption": "The severely burdened share, fifty percent and over, with its interval in the latest year.",
+   "highlight": [
+    "50 percent and over"
+   ],
+   "id": "severe",
+   "show": [
+    "Under 30 percent",
+    "30 to 50 percent",
+    "50 percent and over"
+   ]
+  },
+  {
+   "caption": "Where the national series moved and stayed moved, by PELT.",
+   "highlight": [
+    "50 percent and over"
+   ],
+   "id": "changepoints",
+   "show": [
+    "Under 30 percent",
+    "30 to 50 percent",
+    "50 percent and over"
+   ]
+  }
+ ],
+ "subtitle": "Renter households by the share of income their rent takes, nationally by year, with the thirty and fifty percent lines",
+ "table_columns": [
+  "Year",
+  "Under 30 percent",
+  "30 to 50 percent",
+  "50 percent and over"
+ ],
+ "table_rows": [
+  [
+   2005,
+   0.505207,
+   0.243515,
+   0.251278
+  ],
+  [
+   2006,
+   0.502267,
+   0.246298,
+   0.251434
+  ],
+  [
+   2007,
+   0.506854,
+   0.247537,
+   0.245609
+  ],
+  [
+   2008,
+   0.502183,
+   0.246841,
+   0.250976
+  ],
+  [
+   2009,
+   0.484597,
+   0.251581,
+   0.263822
+  ],
+  [
+   2010,
+   0.470173,
+   0.255473,
+   0.274354
+  ],
+  [
+   2011,
+   0.465879,
+   0.254448,
+   0.279673
+  ],
+  [
+   2012,
+   0.479884,
+   0.249849,
+   0.270267
+  ],
+  [
+   2013,
+   0.484706,
+   0.250669,
+   0.264625
+  ],
+  [
+   2014,
+   0.482342,
+   0.254399,
+   0.263259
+  ],
+  [
+   2015,
+   0.494146,
+   0.251348,
+   0.254507
+  ],
+  [
+   2016,
+   0.502695,
+   0.247796,
+   0.249509
+  ],
+  [
+   2017,
+   0.504606,
+   0.248742,
+   0.246652
+  ],
+  [
+   2018,
+   0.503099,
+   0.249135,
+   0.247766
+  ],
+  [
+   2019,
+   0.51566,
+   0.247232,
+   0.237108
+  ],
+  [
+   2021,
+   0.489463,
+   0.249288,
+   0.261249
+  ],
+  [
+   2022,
+   0.481102,
+   0.252378,
+   0.26652
+  ],
+  [
+   2023,
+   0.482333,
+   0.253495,
+   0.264172
+  ],
+  [
+   2024,
+   0.482306,
+   0.25693,
+   0.260764
+  ]
+ ],
+ "x_format": "int",
+ "x_label": "year",
+ "y_format": "pct0",
+ "y_label": "share of renters"
+}

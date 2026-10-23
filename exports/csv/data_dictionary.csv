@@ -1,0 +1,295 @@
+file,column,format,source,population
+ch1_series.csv,Year,year,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_series.csv,Metros,int,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_series.csv,Rate,rate2,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_series.csv,Median home,usd0,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_series.csv,Price to income,ratio2,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_series.csv,Payment share,pct1,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_series.csv,Low,pct1,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_series.csv,High,pct1,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_anchor_sensitivity.csv,Anchor year,int,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_anchor_sensitivity.csv,Latest payment share,pct1,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_anchor_sensitivity.csv,2006 payment share,pct1,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_anchor_sensitivity.csv,Difference,pts1,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_anchor_sensitivity.csv,Metros above 2006,int,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_anchor_sensitivity.csv,Note,text,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_line_interior.csv,Line,pct0,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_line_interior.csv,Metros above,int,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch1_line_interior.csv,Share,pct0,real:fhfa+acs+pmms,"every metropolitan area with a census income and an anchored value, 2005 to 2024"
+ch2_decomposition.csv,Quarter,quarter,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_decomposition.csv,Rate,rate2,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_decomposition.csv,Payment,usd0,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_decomposition.csv,Price part,susd0,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_decomposition.csv,Rate part,susd0,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_threshold_interior.csv,Threshold,rate2,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_threshold_interior.csv,Coefficient,sfloat3,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_threshold_interior.csv,Low,sfloat3,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_threshold_interior.csv,High,sfloat3,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_threshold_interior.csv,Placebo,sfloat3,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch2_threshold_interior.csv,Note,text,real:hmda,"every metropolitan area with quarterly prices from 2019Q1 and loans in the base and test years (388 metros, 86 states)"
+ch3_bands.csv,Year,year,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_bands.csv,Under 30 percent,pct1,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_bands.csv,30 to 50 percent,pct1,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_bands.csv,50 percent and over,pct1,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_by_income_group.csv,Income group,text,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_by_income_group.csv,Renters,int,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_by_income_group.csv,Burdened,pct1,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_by_income_group.csv,Severely burdened,pct1,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_line_interior.csv,Stated line,pct0,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_line_interior.csv,Severe share,pct1,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_line_interior.csv,Interval against the line,text,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch3_line_interior.csv,Note,text,real:acs,"every metropolitan area with renters in the census tables, 2005 to 2024 (392 metros in 2024)"
+ch4_specifications.csv,Specification,text,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_specifications.csv,Annual growth per permit per 100 households,sfloat4,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_specifications.csv,Low,sfloat4,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_specifications.csv,High,sfloat4,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_specifications.csv,Over the window,spct1,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_specifications.csv,Clusters,int,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_window_interior.csv,Window years,int,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_window_interior.csv,Controlled,sfloat4,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_window_interior.csv,Low,sfloat4,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_window_interior.csv,High,sfloat4,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_window_interior.csv,Uncontrolled,sfloat4,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch4_window_interior.csv,Note,text,real:bps+fhfa,"385 metropolitan areas over 5 windows of 5 years (1925 cells, 85 states)"
+ch5_largest.csv,Metro,text,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Households,int,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Median home,usd0,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Median income,usd0,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Payment share,pct1,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Low,pct1,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,High,pct1,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Raw rank,int,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Adjusted rank,int,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Interval,text,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch5_largest.csv,Moves,text,real:fhfa+acs+pmms,every metropolitan area present in both the index and the census release of 2024 (382 metros); micropolitan areas excluded
+ch6_by_year.csv,Year,year,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,Loans,int,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,Lenders,int,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,Income ratio,ratio2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,Low,ratio2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,High,ratio2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,Under 35,pct1,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,Above twice the median,pct1,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,Value to income,ratio2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_by_year.csv,Spread p50,rate2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_largest_metros.csv,Metro,text,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_largest_metros.csv,Ratio 2019,ratio2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_largest_metros.csv,Ratio 2025,ratio2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_largest_metros.csv,Low,ratio2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_largest_metros.csv,High,ratio2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_largest_metros.csv,Change,sfloat2,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch6_largest_metros.csv,Under 35 2025,pct1,real:hmda+acs,"every purchase loan on a principal residence in the extract, 2018 to 2025 (2,722,577 loans from 4,341 lenders in 2025)"
+ch7_regression.csv,Window,text,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_regression.csv,Growth per person per 100 residents of shock,spct2,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_regression.csv,Low,spct2,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_regression.csv,High,spct2,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_regression.csv,p,float3,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_regression.csv,Clusters,int,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Metro,text,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Mean post gap,spct1,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Peak gap,spct1,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Peak quarter,quarter,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Latest gap,spct1,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Reversal since peak,pts1,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Permutation p,float3,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Donors searched,int,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch7_synthetic_controls.csv,Top weights,text,real:popest+fhfa,385 metropolitan areas with migration over 2020 and 2021 and the index in both windows (85 states)
+ch8_largest.csv,Metro,text,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_largest.csv,Median home,usd0,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_largest.csv,Affordable price,usd0,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_largest.csv,Can afford,text,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_largest.csv,Affordable share,pct0,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_largest.csv,Down payment years,years1,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_largest.csv,Breakeven,beyond1,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_largest.csv,Low,beyond1,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_largest.csv,High,beyond1,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_line_interior.csv,Line,pct0,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_line_interior.csv,Metros where the median household can afford the median home,int,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_line_interior.csv,Share,pct0,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_line_interior.csv,Note,text,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_down_interior.csv,Down payment,pct0,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_down_interior.csv,Median breakeven,beyond1,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_down_interior.csv,Median down payment years,years1,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_down_interior.csv,Note,text,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_saving_interior.csv,Saving rate,pct0,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_saving_interior.csv,Median down payment years,years1,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+ch8_saving_interior.csv,Note,text,real:fhfa+acs+pmms,"every metropolitan area with an anchored value, a census income and rent in 2024 (382 metros; 382 with enough history for the breakeven)"
+recovery_by_estimator.csv,Estimator,text,simulated,"the recovery study, every condition and seed"
+recovery_by_estimator.csv,Mean bias,sfloat4,simulated,"the recovery study, every condition and seed"
+recovery_by_estimator.csv,Mean RMSE,float4,simulated,"the recovery study, every condition and seed"
+recovery_by_estimator.csv,Mean coverage,pct0,simulated,"the recovery study, every condition and seed"
+recovery_by_estimator.csv,Mean flag rate,pct0,simulated,"the recovery study, every condition and seed"
+recovery_by_estimator.csv,Worst bias under,text,simulated,"the recovery study, every condition and seed"
+recovery_by_estimator.csv,Lowest coverage,pct0,simulated,"the recovery study, every condition and seed"
+recovery_by_estimator.csv,Lowest coverage under,text,simulated,"the recovery study, every condition and seed"
+recovery_by_condition.csv,Estimator,text,simulated,"the recovery study, every condition and seed"
+recovery_by_condition.csv,Condition,text,simulated,"the recovery study, every condition and seed"
+recovery_by_condition.csv,Seeds,int,simulated,"the recovery study, every condition and seed"
+recovery_by_condition.csv,Bias,sfloat4,simulated,"the recovery study, every condition and seed"
+recovery_by_condition.csv,RMSE,float4,simulated,"the recovery study, every condition and seed"
+recovery_by_condition.csv,Coverage,pct0,simulated,"the recovery study, every condition and seed"
+recovery_by_condition.csv,Flag rate,pct0,simulated,"the recovery study, every condition and seed"
+metrics_definitions.csv,Metric,text,mixed,"every metro and year in the window, through the metric layer"
+metrics_definitions.csv,Over the grain,text,mixed,"every metro and year in the window, through the metric layer"
+metrics_definitions.csv,Over the mart,text,mixed,"every metro and year in the window, through the metric layer"
+mart_metro_year.csv,cbsa_code,String,mart,the shipped mart
+mart_metro_year.csv,cbsa_title,String,mart,the shipped mart
+mart_metro_year.csv,kind,String,mart,the shipped mart
+mart_metro_year.csv,states,String,mart,the shipped mart
+mart_metro_year.csv,year,Int64,mart,the shipped mart
+mart_metro_year.csv,acs_year_complete,Boolean,mart,the shipped mart
+mart_metro_year.csv,households,Float64,mart,the shipped mart
+mart_metro_year.csv,households_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,owner_households,Float64,mart,the shipped mart
+mart_metro_year.csv,owner_households_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,renter_households,Float64,mart,the shipped mart
+mart_metro_year.csv,renter_households_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,median_income,Float64,mart,the shipped mart
+mart_metro_year.csv,median_income_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,owner_median_income,Float64,mart,the shipped mart
+mart_metro_year.csv,owner_median_income_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,renter_median_income,Float64,mart,the shipped mart
+mart_metro_year.csv,renter_median_income_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,median_value_reported,Float64,mart,the shipped mart
+mart_metro_year.csv,median_value_reported_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,median_rent,Float64,mart,the shipped mart
+mart_metro_year.csv,median_rent_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,median_rent_share,Float64,mart,the shipped mart
+mart_metro_year.csv,housing_units,Float64,mart,the shipped mart
+mart_metro_year.csv,vacant_units,Float64,mart,the shipped mart
+mart_metro_year.csv,vacant_for_rent,Float64,mart,the shipped mart
+mart_metro_year.csv,vacant_for_sale,Float64,mart,the shipped mart
+mart_metro_year.csv,vacant_seasonal,Float64,mart,the shipped mart
+mart_metro_year.csv,renters_burdened,Float64,mart,the shipped mart
+mart_metro_year.csv,renters_severe,Float64,mart,the shipped mart
+mart_metro_year.csv,renters_with_share,Float64,mart,the shipped mart
+mart_metro_year.csv,renters_burdened_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,renters_severe_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,renters_with_share_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,renter_burdened_share,Float64,mart,the shipped mart
+mart_metro_year.csv,renter_severe_share,Float64,mart,the shipped mart
+mart_metro_year.csv,owners_mortgage_burdened,Float64,mart,the shipped mart
+mart_metro_year.csv,owners_mortgage_with_share,Float64,mart,the shipped mart
+mart_metro_year.csv,owner_mortgage_burdened_share,Float64,mart,the shipped mart
+mart_metro_year.csv,owners_with_mortgage,Float64,mart,the shipped mart
+mart_metro_year.csv,owners_without_mortgage,Float64,mart,the shipped mart
+mart_metro_year.csv,owners_under_35,Float64,mart,the shipped mart
+mart_metro_year.csv,renters_under_35,Float64,mart,the shipped mart
+mart_metro_year.csv,units_single_family,Float64,mart,the shipped mart
+mart_metro_year.csv,units_5_plus,Float64,mart,the shipped mart
+mart_metro_year.csv,median_real_estate_tax_mortgaged,Float64,mart,the shipped mart
+mart_metro_year.csv,permits,Float64,mart,the shipped mart
+mart_metro_year.csv,permits_single_family,Float64,mart,the shipped mart
+mart_metro_year.csv,permits_5_plus,Float64,mart,the shipped mart
+mart_metro_year.csv,permit_value,Float64,mart,the shipped mart
+mart_metro_year.csv,permits_partial_through_month,Int64,mart,the shipped mart
+mart_metro_year.csv,population,Float64,mart,the shipped mart
+mart_metro_year.csv,births,Float64,mart,the shipped mart
+mart_metro_year.csv,deaths,Float64,mart,the shipped mart
+mart_metro_year.csv,international_migration,Float64,mart,the shipped mart
+mart_metro_year.csv,domestic_migration,Float64,mart,the shipped mart
+mart_metro_year.csv,counties_mapped,Int64,mart,the shipped mart
+mart_metro_year.csv,rate,Float64,mart,the shipped mart
+mart_metro_year.csv,rate_quarters,Int64,mart,the shipped mart
+mart_metro_year.csv,index_at,Float64,mart,the shipped mart
+mart_metro_year.csv,index_po,Float64,mart,the shipped mart
+mart_metro_year.csv,quarters_at,Int64,mart,the shipped mart
+mart_metro_year.csv,index_rolled_up,Boolean,mart,the shipped mart
+mart_metro_year.csv,anchor_value,Float64,mart,the shipped mart
+mart_metro_year.csv,anchor_value_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,value_anchored,Float64,mart,the shipped mart
+mart_metro_year.csv,value_anchored_moe,Float64,mart,the shipped mart
+mart_metro_year.csv,value_anchored_po,Float64,mart,the shipped mart
+mart_metro_year.csv,fmr_2,Float64,mart,the shipped mart
+mart_metro_year.csv,hud_median_family_income,Float64,mart,the shipped mart
+mart_metro_year.csv,hud_low_income_limit_4,Float64,mart,the shipped mart
+mart_metro_year.csv,originations,Int64,mart,the shipped mart
+mart_metro_year.csv,thirty_year_originations,Int64,mart,the shipped mart
+mart_metro_year.csv,low_rate_originations,Int64,mart,the shipped mart
+mart_metro_year.csv,under_3_originations,Int64,mart,the shipped mart
+mart_metro_year.csv,under_3_5_originations,Int64,mart,the shipped mart
+mart_metro_year.csv,purchase_loans,Int64,mart,the shipped mart
+mart_metro_year.csv,refinance_loans,Int64,mart,the shipped mart
+mart_metro_year.csv,cash_out_loans,Int64,mart,the shipped mart
+mart_metro_year.csv,purchase_median_income,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_median_value,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_median_value_to_income,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_median_loan,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_median_rate,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_median_rate_spread,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_p90_rate_spread,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_median_ltv,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_under_35,Int64,mart,the shipped mart
+mart_metro_year.csv,purchase_with_age,Int64,mart,the shipped mart
+mart_metro_year.csv,purchase_with_income,Int64,mart,the shipped mart
+mart_metro_year.csv,purchase_ltv_over_95,Int64,mart,the shipped mart
+mart_metro_year.csv,purchase_lenders,Int64,mart,the shipped mart
+mart_metro_year.csv,refinance_median_rate,Float64,mart,the shipped mart
+mart_metro_year.csv,payment,Float64,mart,the shipped mart
+mart_metro_year.csv,payment_share,Float64,mart,the shipped mart
+mart_metro_year.csv,price_to_income,Float64,mart,the shipped mart
+mart_metro_year.csv,rent_share_of_median_income,Float64,mart,the shipped mart
+mart_metro_year.csv,rent_to_price,Float64,mart,the shipped mart
+mart_metro_year.csv,domestic_migration_per_100,Float64,mart,the shipped mart
+mart_metro_year.csv,permits_per_1000_residents,Float64,mart,the shipped mart
+mart_metro_year.csv,turnover_per_100_owners,Float64,mart,the shipped mart
+mart_metro_year.csv,purchase_under_35_share,Float64,mart,the shipped mart
+mart_metro_year.csv,borrower_income_ratio,Float64,mart,the shipped mart
+ch5_ranking.csv,cbsa_code,String,mart,the shipped mart
+ch5_ranking.csv,cbsa_title,String,mart,the shipped mart
+ch5_ranking.csv,households,Float64,mart,the shipped mart
+ch5_ranking.csv,owner_households,Float64,mart,the shipped mart
+ch5_ranking.csv,value_anchored,Float64,mart,the shipped mart
+ch5_ranking.csv,median_income,Float64,mart,the shipped mart
+ch5_ranking.csv,year,Int32,mart,the shipped mart
+ch5_ranking.csv,rate,Float64,mart,the shipped mart
+ch5_ranking.csv,payment_share,Float64,mart,the shipped mart
+ch5_ranking.csv,payment_share_low,Float64,mart,the shipped mart
+ch5_ranking.csv,payment_share_high,Float64,mart,the shipped mart
+ch5_ranking.csv,affordable_share,Float64,mart,the shipped mart
+ch5_ranking.csv,raw_rank,Int64,mart,the shipped mart
+ch5_ranking.csv,raw_rank_low,Int64,mart,the shipped mart
+ch5_ranking.csv,raw_rank_high,Int64,mart,the shipped mart
+ch5_ranking.csv,adjusted_rank,Int64,mart,the shipped mart
+ch5_ranking.csv,adjusted_rank_low,Int64,mart,the shipped mart
+ch5_ranking.csv,adjusted_rank_high,Int64,mart,the shipped mart
+ch5_ranking.csv,affordable_rank,Int64,mart,the shipped mart
+ch5_ranking.csv,rank_change,Int64,mart,the shipped mart
+ch5_ranking.csv,moves,Boolean,mart,the shipped mart
+ch8_metros.csv,cbsa_code,String,mart,the shipped mart
+ch8_metros.csv,cbsa_title,String,mart,the shipped mart
+ch8_metros.csv,year,Int64,mart,the shipped mart
+ch8_metros.csv,rate,Float64,mart,the shipped mart
+ch8_metros.csv,households,Float64,mart,the shipped mart
+ch8_metros.csv,owner_households,Float64,mart,the shipped mart
+ch8_metros.csv,median_home,Float64,mart,the shipped mart
+ch8_metros.csv,median_income,Float64,mart,the shipped mart
+ch8_metros.csv,annual_rent,Float64,mart,the shipped mart
+ch8_metros.csv,affordable_price,Float64,mart,the shipped mart
+ch8_metros.csv,affordable_gap,Float64,mart,the shipped mart
+ch8_metros.csv,median_can_afford,Boolean,mart,the shipped mart
+ch8_metros.csv,income_needed,Float64,mart,the shipped mart
+ch8_metros.csv,affordable_share,Float64,mart,the shipped mart
+ch8_metros.csv,down_payment_years,Float64,mart,the shipped mart
+ch8_metros.csv,breakeven_years,Float64,mart,the shipped mart
+ch8_metros.csv,breakeven_low,Float64,mart,the shipped mart
+ch8_metros.csv,breakeven_high,Float64,mart,the shipped mart
+ch8_metros.csv,never_share,Float64,mart,the shipped mart
+ch8_metros.csv,decile_1_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_1_price,Float64,mart,the shipped mart
+ch8_metros.csv,decile_2_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_2_price,Float64,mart,the shipped mart
+ch8_metros.csv,decile_3_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_3_price,Float64,mart,the shipped mart
+ch8_metros.csv,decile_4_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_4_price,Float64,mart,the shipped mart
+ch8_metros.csv,decile_5_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_5_price,Float64,mart,the shipped mart
+ch8_metros.csv,decile_6_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_6_price,Float64,mart,the shipped mart
+ch8_metros.csv,decile_7_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_7_price,Float64,mart,the shipped mart
+ch8_metros.csv,decile_8_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_8_price,Float64,mart,the shipped mart
+ch8_metros.csv,decile_9_income,Float64,mart,the shipped mart
+ch8_metros.csv,decile_9_price,Float64,mart,the shipped mart

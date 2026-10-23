@@ -1,0 +1,550 @@
+{
+ "id": "rate_shock",
+ "kind": "area",
+ "message": "The rate part of the payment overtook the price part in 2023Q3. The rate shock froze turnover where owners had the most to lose: 0.06 fewer purchases per 100 owner households per point of lock in (interval -0.08 to -0.03), and the placebo on the years before the shock sits at 0.00 with an interval that includes zero.",
+ "notes": [],
+ "panels": [
+  {
+   "annotations": [
+    {
+     "state": "overtaking",
+     "text": "rate part overtakes in 2023Q3",
+     "x": "2023Q3",
+     "y": 659.719
+    }
+   ],
+   "bands": [],
+   "rules": [
+    {
+     "faint": true,
+     "y": 0.0
+    }
+   ],
+   "series": [
+    {
+     "dashed": false,
+     "high": null,
+     "label": "price",
+     "low": null,
+     "name": "Price part",
+     "points": [
+      [
+       "2019Q1",
+       0.0
+      ],
+      [
+       "2019Q2",
+       19.3766
+      ],
+      [
+       "2019Q3",
+       34.7407
+      ],
+      [
+       "2019Q4",
+       45.2915
+      ],
+      [
+       "2020Q1",
+       59.6314
+      ],
+      [
+       "2020Q2",
+       73.2674
+      ],
+      [
+       "2020Q3",
+       95.0962
+      ],
+      [
+       "2020Q4",
+       124.598
+      ],
+      [
+       "2021Q1",
+       159.556
+      ],
+      [
+       "2021Q2",
+       240.477
+      ],
+      [
+       "2021Q3",
+       322.954
+      ],
+      [
+       "2021Q4",
+       377.64
+      ],
+      [
+       "2022Q1",
+       439.749
+      ],
+      [
+       "2022Q2",
+       556.001
+      ],
+      [
+       "2022Q3",
+       571.108
+      ],
+      [
+       "2022Q4",
+       544.424
+      ],
+      [
+       "2023Q1",
+       550.42
+      ],
+      [
+       "2023Q2",
+       606.633
+      ],
+      [
+       "2023Q3",
+       635.448
+      ],
+      [
+       "2023Q4",
+       636.765
+      ],
+      [
+       "2024Q1",
+       666.467
+      ],
+      [
+       "2024Q2",
+       712.341
+      ],
+      [
+       "2024Q3",
+       731.55
+      ],
+      [
+       "2024Q4",
+       741.165
+      ],
+      [
+       "2025Q1",
+       755.02
+      ],
+      [
+       "2025Q2",
+       783.982
+      ],
+      [
+       "2025Q3",
+       792.85
+      ],
+      [
+       "2025Q4",
+       805.396
+      ],
+      [
+       "2026Q1",
+       821.266
+      ],
+      [
+       "2026Q2",
+       838.644
+      ]
+     ],
+     "role": "owning"
+    },
+    {
+     "dashed": false,
+     "high": null,
+     "label": "rate",
+     "low": null,
+     "name": "Rate part",
+     "points": [
+      [
+       "2019Q1",
+       0.0
+      ],
+      [
+       "2019Q2",
+       -56.655
+      ],
+      [
+       "2019Q3",
+       -111.688
+      ],
+      [
+       "2019Q4",
+       -106.163
+      ],
+      [
+       "2020Q1",
+       -134.933
+      ],
+      [
+       "2020Q2",
+       -179.772
+      ],
+      [
+       "2020Q3",
+       -226.631
+      ],
+      [
+       "2020Q4",
+       -260.882
+      ],
+      [
+       "2021Q1",
+       -249.1
+      ],
+      [
+       "2021Q2",
+       -241.329
+      ],
+      [
+       "2021Q3",
+       -277.333
+      ],
+      [
+       "2021Q4",
+       -248.763
+      ],
+      [
+       "2022Q1",
+       -112.502
+      ],
+      [
+       "2022Q2",
+       202.44
+      ],
+      [
+       "2022Q3",
+       288.482
+      ],
+      [
+       "2022Q4",
+       535.599
+      ],
+      [
+       "2023Q1",
+       465.395
+      ],
+      [
+       "2023Q2",
+       514.36
+      ],
+      [
+       "2023Q3",
+       659.719
+      ],
+      [
+       "2023Q4",
+       729.952
+      ],
+      [
+       "2024Q1",
+       592.79
+      ],
+      [
+       "2024Q2",
+       673.533
+      ],
+      [
+       "2024Q3",
+       547.157
+      ],
+      [
+       "2024Q4",
+       583.391
+      ],
+      [
+       "2025Q1",
+       641.153
+      ],
+      [
+       "2025Q2",
+       639.123
+      ],
+      [
+       "2025Q3",
+       579.592
+      ],
+      [
+       "2025Q4",
+       488.536
+      ],
+      [
+       "2026Q1",
+       459.663
+      ],
+      [
+       "2026Q2",
+       549.184
+      ]
+     ],
+     "role": "rate"
+    }
+   ],
+   "title": "Change in the monthly payment on the median home since 2019Q1",
+   "y_format": "susd0",
+   "y_label": "dollars per month"
+  }
+ ],
+ "source": "real:hmda",
+ "sql": "with base as (\n    select cbsa_code, payment as base_payment, value_anchored as base_value, rate as base_rate\n    from mart_metro_quarter where period = '2019Q1'\n)\nselect q.period,\n       sum(q.payment * w.owner_households) / sum(w.owner_households) as payment,\n       sum(b.base_payment * w.owner_households) / sum(w.owner_households) as base_payment\nfrom mart_metro_quarter q\njoin base b using (cbsa_code)\njoin (select cbsa_code, owner_households from mart_metro_year where year = 2019) w using (cbsa_code)\nwhere q.year >= 2019 and q.kind = 'metropolitan'\ngroup by q.period\norder by q.period",
+ "states": [
+  {
+   "caption": "The price part: what the payment would have done had the rate stayed where it was in 2019.",
+   "highlight": [
+    "Price part"
+   ],
+   "id": "price",
+   "show": [
+    "Price part"
+   ]
+  },
+  {
+   "caption": "The rate part: the rest of the change, from the rate alone.",
+   "highlight": [
+    "Rate part"
+   ],
+   "id": "rate",
+   "show": [
+    "Price part",
+    "Rate part"
+   ]
+  },
+  {
+   "caption": "The quarter the rate part overtook the price part.",
+   "highlight": [
+    "Rate part"
+   ],
+   "id": "overtaking",
+   "show": [
+    "Price part",
+    "Rate part"
+   ]
+  }
+ ],
+ "subtitle": "The monthly payment on the median home from 2019Q1: the part from the price and the part from the rate",
+ "table_columns": [
+  "Quarter",
+  "Rate",
+  "Payment",
+  "Price part",
+  "Rate part"
+ ],
+ "table_rows": [
+  [
+   "2019Q1",
+   4.37385,
+   1315.94,
+   0.0,
+   0.0
+  ],
+  [
+   "2019Q2",
+   4.01077,
+   1278.66,
+   19.3766,
+   -56.655
+  ],
+  [
+   "2019Q3",
+   3.65846,
+   1238.99,
+   34.7407,
+   -111.688
+  ],
+  [
+   "2019Q4",
+   3.7,
+   1255.07,
+   45.2915,
+   -106.163
+  ],
+  [
+   "2020Q1",
+   3.52154,
+   1240.64,
+   59.6314,
+   -134.933
+  ],
+  [
+   "2020Q2",
+   3.23923,
+   1209.44,
+   73.2674,
+   -179.772
+  ],
+  [
+   "2020Q3",
+   2.95231,
+   1184.41,
+   95.0962,
+   -226.631
+  ],
+  [
+   "2020Q4",
+   2.76071,
+   1179.66,
+   124.598,
+   -260.882
+  ],
+  [
+   "2021Q1",
+   2.87583,
+   1226.4,
+   159.556,
+   -249.1
+  ],
+  [
+   "2021Q2",
+   3.00385,
+   1315.09,
+   240.477,
+   -241.329
+  ],
+  [
+   "2021Q3",
+   2.87214,
+   1361.56,
+   322.954,
+   -277.333
+  ],
+  [
+   "2021Q4",
+   3.07923,
+   1444.82,
+   377.64,
+   -248.763
+  ],
+  [
+   "2022Q1",
+   3.82231,
+   1643.19,
+   439.749,
+   -112.502
+  ],
+  [
+   "2022Q2",
+   5.26615,
+   2074.38,
+   556.001,
+   202.44
+  ],
+  [
+   "2022Q3",
+   5.62308,
+   2175.53,
+   571.108,
+   288.482
+  ],
+  [
+   "2022Q4",
+   6.66462,
+   2396.08,
+   544.424,
+   535.599
+  ],
+  [
+   "2023Q1",
+   6.37231,
+   2331.87,
+   550.42,
+   465.395
+  ],
+  [
+   "2023Q2",
+   6.51077,
+   2436.93,
+   606.633,
+   514.36
+  ],
+  [
+   "2023Q3",
+   7.04,
+   2611.11,
+   635.448,
+   659.719
+  ],
+  [
+   "2023Q4",
+   7.30385,
+   2682.66,
+   636.765,
+   729.952
+  ],
+  [
+   "2024Q1",
+   6.74846,
+   2575.2,
+   666.467,
+   592.79
+  ],
+  [
+   "2024Q2",
+   6.99538,
+   2701.81,
+   712.341,
+   673.533
+  ],
+  [
+   "2024Q3",
+   6.50846,
+   2594.65,
+   731.55,
+   547.157
+  ],
+  [
+   "2024Q4",
+   6.63231,
+   2640.5,
+   741.165,
+   583.391
+  ],
+  [
+   "2025Q1",
+   6.82769,
+   2712.11,
+   755.02,
+   641.153
+  ],
+  [
+   "2025Q2",
+   6.78846,
+   2739.05,
+   783.982,
+   639.123
+  ],
+  [
+   "2025Q3",
+   6.56615,
+   2688.38,
+   792.85,
+   579.592
+  ],
+  [
+   "2025Q4",
+   6.22643,
+   2609.87,
+   805.396,
+   488.536
+  ],
+  [
+   "2026Q1",
+   6.10917,
+   2596.87,
+   821.266,
+   459.663
+  ],
+  [
+   "2026Q2",
+   6.41462,
+   2703.77,
+   838.644,
+   549.184
+  ]
+ ],
+ "x_format": "quarter",
+ "x_label": "quarter",
+ "y_format": "susd0",
+ "y_label": "dollars per month"
+}
