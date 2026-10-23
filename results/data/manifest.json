@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-22",
+ "as_of": "2026-10-23",
  "figures": {},
  "seed": 20261022,
  "tables": {
@@ -17,7 +17,7 @@
     "int"
    ],
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -31,37 +31,43 @@
      "acs",
      "jam_value",
      7,
-     2408576
+     2415786
     ],
     [
      "acs",
      "moe_exceeds_estimate",
-     107965,
-     2408576
+     108627,
+     2415786
     ],
     [
      "acs",
      "negative_moe",
      0,
-     2408576
+     2415786
+    ],
+    [
+     "bps",
+     "county_listed_twice",
+     10,
+     81768
     ],
     [
      "bps",
      "imputed_share_high",
-     1154,
-     9067
+     8045,
+     81768
     ],
     [
      "bps",
      "malformed_fips",
      0,
-     9067
+     81768
     ],
     [
      "bps",
      "negative_units",
      0,
-     9067
+     81768
     ],
     [
      "fhfa",
@@ -84,44 +90,44 @@
     [
      "hmda",
      "income_exempt_or_missing",
-     4363109,
-     59155832
+     4893629,
+     64743292
     ],
     [
      "hmda",
      "metro_unresolved",
-     2063526,
-     59155832
+     2310292,
+     64743292
     ],
     [
      "hmda",
      "not_principal_residence",
-     6030142,
-     59155832
+     6717971,
+     64743292
     ],
     [
      "hmda",
      "rate_missing",
-     1884980,
-     59155832
+     2083671,
+     64743292
     ],
     [
      "hmda",
      "reverse_open_or_business",
-     2830277,
-     59155832
+     3275856,
+     64743292
     ],
     [
      "hmda",
      "term_not_30_years",
-     12806394,
-     59155832
+     13859990,
+     64743292
     ],
     [
      "hmda",
      "value_below_loan",
-     886852,
-     59155832
+     984896,
+     64743292
     ],
     [
      "hud_fmr",
@@ -190,7 +196,7 @@
   "data.acs.areas_latest": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -204,7 +210,7 @@
   "data.acs.contract_digest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -218,7 +224,7 @@
   "data.acs.first_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -232,7 +238,7 @@
   "data.acs.gap_2020": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -246,7 +252,7 @@
   "data.acs.gap_year": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -260,7 +266,7 @@
   "data.acs.gap_years": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -274,7 +280,7 @@
   "data.acs.last_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -288,7 +294,7 @@
   "data.acs.rows": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -297,12 +303,12 @@
     "seeds": null,
     "source": "real:acs"
    },
-   "value": 2408576
+   "value": 2415786
   },
   "data.acs.tables": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -316,7 +322,7 @@
   "data.acs.years": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.acs",
@@ -330,7 +336,7 @@
   "data.bps.contract_digest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.bps",
@@ -339,12 +345,12 @@
     "seeds": null,
     "source": "real:bps"
    },
-   "value": "163504b4b91c7f03"
+   "value": "14aadced3de52be7"
   },
   "data.bps.first_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.bps",
@@ -358,7 +364,7 @@
   "data.bps.last_full_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.bps",
@@ -372,7 +378,7 @@
   "data.bps.rows": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.bps",
@@ -381,12 +387,12 @@
     "seeds": null,
     "source": "real:bps"
    },
-   "value": 9067
+   "value": 81768
   },
   "data.bps.ytd_month": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.bps",
@@ -400,7 +406,7 @@
   "data.bps.ytd_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.bps",
@@ -414,7 +420,7 @@
   "data.fetch.status_files": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -423,12 +429,12 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 2
+   "value": 3
   },
   "data.fhfa.areas_all_transactions": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.fhfa",
@@ -442,7 +448,7 @@
   "data.fhfa.areas_purchase_only": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.fhfa",
@@ -456,7 +462,7 @@
   "data.fhfa.contract_digest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.fhfa",
@@ -470,7 +476,7 @@
   "data.fhfa.divisions": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.fhfa",
@@ -484,7 +490,7 @@
   "data.fhfa.first_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.fhfa",
@@ -498,7 +504,7 @@
   "data.fhfa.latest_period": {
    "fmt": "quarter",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.fhfa",
@@ -512,7 +518,7 @@
   "data.fhfa.rows": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.fhfa",
@@ -526,7 +532,7 @@
   "data.hmda.contract_digest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -535,12 +541,12 @@
     "seeds": null,
     "source": "real:hmda"
    },
-   "value": "b04b6198c8a3342d"
+   "value": "111789025205cb23"
   },
   "data.hmda.filter_fetch": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -554,7 +560,7 @@
   "data.hmda.filter_ingest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -568,7 +574,7 @@
   "data.hmda.first_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -582,7 +588,7 @@
   "data.hmda.last_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -591,12 +597,12 @@
     "seeds": null,
     "source": "real:hmda"
    },
-   "value": 2024
+   "value": 2025
   },
   "data.hmda.rows_after_fetch_filter": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -605,12 +611,12 @@
     "seeds": null,
     "source": "real:hmda"
    },
-   "value": 59155832
+   "value": 64743292
   },
   "data.hmda.rows_in_analysis": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -619,12 +625,12 @@
     "seeds": null,
     "source": "real:hmda"
    },
-   "value": 51151132
+   "value": 55817457
   },
   "data.hmda.rows_in_source_files": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -633,12 +639,12 @@
     "seeds": null,
     "source": "real:hmda"
    },
-   "value": 124134925
+   "value": 137678531
   },
   "data.hmda.years": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hmda",
@@ -647,12 +653,12 @@
     "seeds": null,
     "source": "real:hmda"
    },
-   "value": 7
+   "value": 8
   },
   "data.hud.contract_digest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hud",
@@ -666,7 +672,7 @@
   "data.hud.fmr_counties": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hud",
@@ -680,7 +686,7 @@
   "data.hud.fmr_fiscal_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hud",
@@ -694,7 +700,7 @@
   "data.hud.fmr_history_years": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hud",
@@ -708,7 +714,7 @@
   "data.hud.fmr_metros": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hud",
@@ -722,7 +728,7 @@
   "data.hud.income_limit_first_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hud",
@@ -736,7 +742,7 @@
   "data.hud.income_limit_last_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hud",
@@ -750,7 +756,7 @@
   "data.hud.income_limit_years": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.hud",
@@ -764,7 +770,7 @@
   "data.latest.acs": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -778,7 +784,7 @@
   "data.latest.bps": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -792,7 +798,7 @@
   "data.latest.fhfa": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -806,7 +812,7 @@
   "data.latest.hmda": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -815,12 +821,12 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "2024"
+   "value": "2025"
   },
   "data.latest.hud_fmr": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -834,7 +840,7 @@
   "data.latest.hud_il": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -848,7 +854,7 @@
   "data.latest.pmms": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -862,7 +868,7 @@
   "data.latest.popest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -876,7 +882,7 @@
   "data.ledger.bytes": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -885,12 +891,12 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 2350425234
+   "value": 2573273827
   },
   "data.ledger.files": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -899,12 +905,12 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 548
+   "value": 575
   },
   "data.omb.contract_digest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.omb",
@@ -915,10 +921,24 @@
    },
    "value": "0688c94ab90f33a8"
   },
+  "data.omb.earlier_codes": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 123
+  },
   "data.omb.latest_vintage": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.omb",
@@ -929,10 +949,24 @@
    },
    "value": 2023
   },
+  "data.omb.merged": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 51
+  },
   "data.omb.metropolitan_areas": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.omb",
@@ -946,7 +980,7 @@
   "data.omb.micropolitan_areas": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.omb",
@@ -957,10 +991,24 @@
    },
    "value": 542
   },
+  "data.omb.recoded": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 31
+  },
   "data.omb.vintages": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.omb",
@@ -971,10 +1019,38 @@
    },
    "value": 7
   },
+  "data.omb.with_alias": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 81
+  },
+  "data.omb.without_alias": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "data.omb",
+    "population": "every county in every delineation vintage the window crosses",
+    "seed": null,
+    "seeds": null,
+    "source": "real:omb"
+   },
+   "value": 42
+  },
   "data.pmms.contract_digest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.pmms",
@@ -988,7 +1064,7 @@
   "data.pmms.latest_rate": {
    "fmt": "rate2",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.pmms",
@@ -1002,7 +1078,7 @@
   "data.pmms.latest_week": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.pmms",
@@ -1016,7 +1092,7 @@
   "data.pmms.weeks": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.pmms",
@@ -1030,7 +1106,7 @@
   "data.popest.contract_digest": {
    "fmt": "text",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.popest",
@@ -1044,7 +1120,7 @@
   "data.popest.first_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.popest",
@@ -1058,7 +1134,7 @@
   "data.popest.last_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.popest",
@@ -1072,7 +1148,7 @@
   "data.popest.rows": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.popest",
@@ -1086,7 +1162,7 @@
   "data.popest.vintages": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.popest",
@@ -1100,7 +1176,7 @@
   "data.quarantine.flagged_total": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -1109,12 +1185,12 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 30974482
+   "value": 34243070
   },
   "data.quarantine.rules": {
    "fmt": "int",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
@@ -1123,12 +1199,12 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 26
+   "value": 27
   },
   "data.window.start_year": {
    "fmt": "year",
    "provenance": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-10-23",
     "condition": null,
     "model": "none",
     "origin": "data.quarantine",
