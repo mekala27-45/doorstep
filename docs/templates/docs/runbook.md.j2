@@ -35,7 +35,7 @@ Each stage writes its own partial manifest, so a stage can be rerun alone; `make
 
 ## Deploy
 
-`deploy/deploy.ps1` builds and deploys the API image to Fly and runs the migration; `deploy/verify.ps1` checks it from a separate client and writes `results/deploy/verification.json`; `deploy/replay.ps1` preloads the demo queue; `scripts/load_test.py --base-url ...` measures latency into `results/latency`; `scripts/live_check.py` records the browser check into `results/live_check.json`. Then `make manifest render` and commit.
+`deploy/deploy.ps1` builds and deploys the API image to Fly and runs the migration, or the `space` workflow publishes the same image to a Hugging Face Docker Space (the free route, no card: an `HF_TOKEN` secret and an `HF_SPACE` variable on the repository, the Space's own secrets for the database and the write token); either way `deploy/live-url.txt` holds the base URL the other scripts read; `deploy/verify.ps1` checks it from a separate client and writes `results/deploy/verification.json`; `deploy/replay.ps1` preloads the demo queue; `scripts/load_test.py --base-url ...` measures latency into `results/latency`; `scripts/live_check.py` records the browser check into `results/live_check.json`. Then `make manifest render` and commit.
 
 ## Rederive
 

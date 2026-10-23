@@ -1,0 +1,48 @@
+name: space
+
+# Publishes the API to a Hugging Face Docker Space (free, no card) when the repository holds an HF_TOKEN
+# secret and an HF_SPACE variable (owner/name). The Space's git history is the build's own: the workflow
+# writes the API's files into a fresh repository and pushes it over whatever the Space held. Run by hand
+# from the Actions tab, or on a release tag.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ vars.HF_SPACE != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble the Space (the API image's context and nothing else)
+        run: |
+          set -eu
+          out=$(mktemp -d)
+          cp Dockerfile.api "$out/Dockerfile"
+          cp deploy/space/README.md "$out/README.md"
+          cp pyproject.toml uv.lock "$out/"
+          rsync -a --exclude '__pycache__' --exclude '*.pyc' --exclude '.pytest_cache' packages "$out/"
+          mkdir -p "$out/results/marts"
+          cp results/marts/calc_metros.parquet results/marts/calc_quarters.parquet results/marts/calc_meta.json "$out/results/marts/"
+          printf '.git\n__pycache__\n' > "$out/.dockerignore"
+          echo "SPACE_DIR=$out" >> "$GITHUB_ENV"
+          du -sh "$out"
+      - name: Push to the Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE: ${{ vars.HF_SPACE }}
+        run: |
+          set -eu
+          test -n "$HF_TOKEN" || { echo "HF_TOKEN secret is not set"; exit 1; }
+          cd "$SPACE_DIR"
+          git init -q -b main
+          git config user.name "Ajay Mekala"
+          git config user.email "mekalaajayk@gmail.com"
+          git add -A
+          git commit -q -m "doorstep API from ${GITHUB_SHA::7}"
+          git push -q --force "https://user:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE}" main
+          echo "pushed to https://huggingface.co/spaces/${HF_SPACE}"
