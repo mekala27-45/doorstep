@@ -18,6 +18,7 @@ import numpy as np
 import polars as pl
 from doorstep_core.config import POLICY, Policy
 from doorstep_core.formats import format_value
+from doorstep_core.scalars import integer
 from doorstep_sim.lenders import UNDER_35_SHIFT
 from doorstep_sim.metros import World
 from doorstep_stats.bootstrap import Interval, percentile_interval, resample_blocks
@@ -493,7 +494,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
 
 def simulate_estimate(world: World, policy: Policy = POLICY, *, replicates: int = 100) -> list[Grade]:
     panel = from_world(world, policy, with_loans=True)
-    latest = int(panel.metro_year.filter(pl.col("purchase_loans").is_not_null())["year"].max())
+    latest = integer(panel.metro_year.filter(pl.col("purchase_loans").is_not_null())["year"].max())
     ratio_now, dn = ratio_interval(panel, latest, policy, replicates=replicates)
     ratio_base, db = ratio_interval(panel, BASE_YEAR, policy, replicates=replicates)
     diff = _difference(ratio_now, dn, ratio_base, db, policy.interval_level)

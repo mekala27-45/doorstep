@@ -19,6 +19,7 @@ import numpy as np
 import polars as pl
 from doorstep_core.config import INCOME_BRACKETS, POLICY, Policy
 from doorstep_core.formats import format_value
+from doorstep_core.scalars import integer, num
 from doorstep_finance.brackets import exact_share_above_lognormal, share_above
 from doorstep_finance.mortgage import income_needed, payment_on_price
 from doorstep_sim.metros import World
@@ -249,8 +250,8 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
     r.put("ch5.largest", int(largest.height), "int")
     r.put("ch5.movers", int(movers.height), "int", model="monte_carlo")
     r.put("ch5.spearman", rho, "float2", model="monte_carlo")
-    r.put("ch5.mean_abs_rank_change", float(table["rank_change"].abs().mean()), "float1", model="monte_carlo")
-    r.put("ch5.max_rank_change", int(table["rank_change"].abs().max()), "int", model="monte_carlo")
+    r.put("ch5.mean_abs_rank_change", num(table["rank_change"].abs().mean()), "float1", model="monte_carlo")
+    r.put("ch5.max_rank_change", integer(table["rank_change"].abs().max()), "int", model="monte_carlo")
     biggest = table.sort(pl.col("rank_change").abs(), descending=True).row(0, named=True)
     r.put("ch5.biggest_mover", str(biggest["cbsa_title"]), "text")
     r.put("ch5.biggest_mover.raw_rank", int(biggest["raw_rank"]), "int")
@@ -279,19 +280,19 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
     r.put("ch5.affordable_share.metros", int(with_aff.height), "int", model="bracket")
     r.put(
         "ch5.affordable_share.median",
-        float(with_aff["affordable_share"].median()) if with_aff.height else None,
+        num(with_aff["affordable_share"].median()) if with_aff.height else None,
         "pct0",
         model="bracket",
     )
     r.put(
         "ch5.affordable_share.min",
-        float(with_aff["affordable_share"].min()) if with_aff.height else None,
+        num(with_aff["affordable_share"].min()) if with_aff.height else None,
         "pct0",
         model="bracket",
     )
     r.put(
         "ch5.affordable_share.max",
-        float(with_aff["affordable_share"].max()) if with_aff.height else None,
+        num(with_aff["affordable_share"].max()) if with_aff.height else None,
         "pct0",
         model="bracket",
     )

@@ -96,7 +96,7 @@ def _paths(history: np.ndarray, horizon: int, draws: int, seed: int, label: str)
     blocks_needed = int(np.ceil(horizon / BLOCK_YEARS))
     starts = g.integers(0, max(n - BLOCK_YEARS + 1, 1), size=(draws, blocks_needed))
     idx = (starts[:, :, None] + np.arange(BLOCK_YEARS)[None, None, :]).reshape(draws, -1)[:, :horizon]
-    return history[np.minimum(idx, n - 1)]
+    return np.asarray(history[np.minimum(idx, n - 1)], dtype=np.float64)
 
 
 class Calculator:
@@ -205,7 +205,7 @@ class Calculator:
         if app is not None and rg is not None and len(app) >= 3 and len(rg) >= 3:
             a = _paths(np.asarray(app, dtype=np.float64), horizon_years, paths, policy.seed, f"{code}-app")
             r = _paths(np.asarray(rg, dtype=np.float64), horizon_years, paths, policy.seed, f"{code}-rent")
-            years = np.array(
+            years: np.ndarray = np.array(
                 breakeven_years_vectorised(
                     median_home,
                     float(m["median_rent"]) * 12.0,

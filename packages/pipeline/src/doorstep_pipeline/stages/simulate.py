@@ -7,6 +7,7 @@ import json
 import polars as pl
 from doorstep_core.manifest import Manifest, Scribe
 from doorstep_core.paths import Paths
+from doorstep_core.scalars import num
 from doorstep_sim.lenders import lender_loans
 from doorstep_sim.metros import DEMONSTRATION, burden_by_income, generate
 
@@ -86,6 +87,6 @@ def run(p: Paths) -> Manifest:
     s.put("sim.loans", int(loans.height), "int")
     s.put("sim.lenders", int(loans["lei"].n_unique()), "int")
     s.put("sim.suppressed_cells", int(world.brackets["households"].null_count()), "int")
-    s.put("sim.value_bias_sd", float(world.truth.metros["value_bias"].log().std()), "float3")
+    s.put("sim.value_bias_sd", num(world.truth.metros["value_bias"].log().std()), "float3")
     save_partial(p, "simulate", manifest)
     return manifest

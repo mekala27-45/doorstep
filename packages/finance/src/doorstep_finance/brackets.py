@@ -101,7 +101,7 @@ def quantile_from_brackets(
         return edges[-1]
     tail_share_above = 1.0 - remaining / top
     tail_share_above = min(max(tail_share_above, 1e-9), 1.0)
-    return edges[-1] * tail_share_above ** (-1.0 / pareto_shape)
+    return float(edges[-1] * tail_share_above ** (-1.0 / pareto_shape))
 
 
 def decile_incomes(

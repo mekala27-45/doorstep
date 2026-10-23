@@ -66,7 +66,13 @@ def test_the_reading_time_counts_visible_words_only() -> None:
         (STORY.replace("<!-- method -->\nPlan `abc`.\n", ""), "no method"),
         (STORY.replace("<!-- pushback -->\nThe objection.\n", ""), "no pushback"),
         (STORY.replace("<!-- /chapter -->", ""), "never closed"),
-        (STORY.replace("<!-- step: price -->\nFirst paragraph with `code`.\n<!-- step: payment -->\nSecond paragraph.\n", ""), "no steps"),
+        (
+            STORY.replace(
+                "<!-- step: price -->\nFirst paragraph with `code`.\n<!-- step: payment -->\nSecond paragraph.\n",
+                "",
+            ),
+            "no steps",
+        ),
     ],
 )
 def test_a_malformed_chapter_is_refused(broken: str, message: str) -> None:
@@ -101,4 +107,6 @@ def test_every_story_template_field_resolves_and_every_chart_exists(tmp_path: Pa
     """The committed chapter templates against the manifest keys the chapters write: rendered on the
     demonstration world through the real stages, every field resolves and every declared chart was written."""
     pytest.importorskip("dbt.cli.main", reason="dbt is needed to build the demonstration warehouse")
-    pytest.skip("covered by tests/pipeline/test_simtest_pipeline.py when the demonstration warehouse is built")
+    pytest.skip(
+        "covered by tests/pipeline/test_simtest_pipeline.py when the demonstration warehouse is built"
+    )

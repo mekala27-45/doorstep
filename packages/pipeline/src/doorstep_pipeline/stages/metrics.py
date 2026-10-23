@@ -14,7 +14,7 @@ from doorstep_core.manifest import Manifest, Scribe
 from doorstep_core.paths import Paths
 
 from doorstep_pipeline.common import new_partial, save_partial
-from doorstep_pipeline.metric_layer import Metric, MetricError, load, reconcile, grain_table
+from doorstep_pipeline.metric_layer import Metric, MetricError, grain_table, load, reconcile
 
 
 def shipped_connection(p: Paths, metrics: list[Metric]) -> duckdb.DuckDBPyConnection:

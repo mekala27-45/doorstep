@@ -31,16 +31,29 @@ def default_rate(derived: Path, panel: Panel) -> tuple[float, str]:
     return float(q["rate"][-1]), f"quarter {q['period'][-1]}"
 
 
-def build(panel: Panel, derived: Path, policy: Policy = POLICY) -> tuple[pl.DataFrame, pl.DataFrame, dict[str, object]]:
+def build(
+    panel: Panel, derived: Path, policy: Policy = POLICY
+) -> tuple[pl.DataFrame, pl.DataFrame, dict[str, object]]:
     year = panel.latest_acs_year
-    my = panel.metropolitan().filter(
-        (pl.col("year") == year) & pl.col("median_income").is_not_null() & pl.col("median_rent").is_not_null() & pl.col("value_anchored").is_not_null()
-    ).sort("cbsa_code")
+    my = (
+        panel.metropolitan()
+        .filter(
+            (pl.col("year") == year)
+            & pl.col("median_income").is_not_null()
+            & pl.col("median_rent").is_not_null()
+            & pl.col("value_anchored").is_not_null()
+        )
+        .sort("cbsa_code")
+    )
     latest_q = (
         panel.metro_quarter.filter(pl.col("value_anchored").is_not_null() & pl.col("rate").is_not_null())
         .sort(["cbsa_code", "year", "quarter"])
         .group_by("cbsa_code", maintain_order=True)
-        .agg(pl.col("period").last().alias("latest_period"), pl.col("value_anchored").last().alias("value_latest"), pl.col("rate").last().alias("rate_latest"))
+        .agg(
+            pl.col("period").last().alias("latest_period"),
+            pl.col("value_anchored").last().alias("value_latest"),
+            pl.col("rate").last().alias("rate_latest"),
+        )
     )
     rate, rate_source = default_rate(derived, panel)
     hist = histories(panel)
@@ -70,12 +83,27 @@ def build(panel: Panel, derived: Path, policy: Policy = POLICY) -> tuple[pl.Data
         pl.lit(rate).alias("rate_default"),
         pl.lit(rate_source).alias("rate_default_source"),
     ).with_columns(
-        pl.Series("brackets", [counts.get(c) for c in rows["cbsa_code"].to_list()], dtype=pl.List(pl.Float64)),
-        pl.Series("appreciation", [list(map(float, hist[c][0])) if c in hist else None for c in rows["cbsa_code"].to_list()], dtype=pl.List(pl.Float64)),
-        pl.Series("rent_growth", [list(map(float, hist[c][1])) if c in hist else None for c in rows["cbsa_code"].to_list()], dtype=pl.List(pl.Float64)),
+        pl.Series(
+            "brackets", [counts.get(c) for c in rows["cbsa_code"].to_list()], dtype=pl.List(pl.Float64)
+        ),
+        pl.Series(
+            "appreciation",
+            [list(map(float, hist[c][0])) if c in hist else None for c in rows["cbsa_code"].to_list()],
+            dtype=pl.List(pl.Float64),
+        ),
+        pl.Series(
+            "rent_growth",
+            [list(map(float, hist[c][1])) if c in hist else None for c in rows["cbsa_code"].to_list()],
+            dtype=pl.List(pl.Float64),
+        ),
     )
     quarters = (
-        panel.metro_quarter.filter((pl.col("year") >= FIRST_QUARTER_YEAR) & pl.col("value_anchored").is_not_null() & pl.col("rate").is_not_null() & pl.col("cbsa_code").is_in(metros["cbsa_code"].to_list()))
+        panel.metro_quarter.filter(
+            (pl.col("year") >= FIRST_QUARTER_YEAR)
+            & pl.col("value_anchored").is_not_null()
+            & pl.col("rate").is_not_null()
+            & pl.col("cbsa_code").is_in(metros["cbsa_code"].to_list())
+        )
         .select("cbsa_code", "year", "quarter", "period", "value_anchored", "rate")
         .sort(["cbsa_code", "year", "quarter"])
     )

@@ -75,10 +75,16 @@ def test_supply_estimator_attenuates_when_builders_answer_the_growth_they_are_re
     """The caveat the chapter prints: permits respond to price growth inside the window, so under price noise the
     coefficient is pulled toward zero. The recovery study quantifies it by condition; this test pins the direction."""
     noisy = Condition(
-        name="noisy", demand_strength="strong", supply_dispersion="narrow", reverse_causality="none", noise="high"
+        name="noisy",
+        demand_strength="strong",
+        supply_dispersion="narrow",
+        reverse_causality="none",
+        noise="high",
     )
     errors = [
-        {g.estimator: g for g in c4_supply.simulate_estimate(generate(noisy, seed))}["supply_controlled"].error
+        {g.estimator: g for g in c4_supply.simulate_estimate(generate(noisy, seed))}[
+            "supply_controlled"
+        ].error
         for seed in range(4)
     ]
     assert np.mean(errors) > 0.0  # toward zero from a negative truth

@@ -20,6 +20,7 @@ import numpy as np
 import polars as pl
 from doorstep_core.config import AFFORDABLE_LINES, DOWN_PAYMENT_SHARES, POLICY, SAVING_RATES, Policy
 from doorstep_core.formats import format_value
+from doorstep_core.scalars import num
 from doorstep_core.seeds import rng
 from doorstep_finance.brackets import decile_incomes, share_above
 from doorstep_finance.breakeven import CostModel, breakeven, breakeven_year, breakeven_years_vectorised
@@ -154,7 +155,7 @@ def bootstrap_paths(
     offsets = np.arange(block)
     idx = (starts[:, :, None] + offsets[None, None, :]).reshape(draws, -1)[:, :horizon]
     idx = np.minimum(idx, n - 1)
-    return history[idx]
+    return np.asarray(history[idx], dtype=np.float64)
 
 
 def breakeven_for_metro(
@@ -176,7 +177,7 @@ def breakeven_for_metro(
     rg = bootstrap_paths(
         hist[1], horizon=policy.breakeven_horizon_years, draws=draws, seed=seed, label=label + "-rent"
     )
-    years = np.array(
+    years: np.ndarray = np.array(
         breakeven_years_vectorised(
             price,
             annual_rent,
@@ -352,21 +353,21 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
     can = table.filter(pl.col("median_can_afford"))
     r.put("ch8.median_can_afford.metros", int(can.height), "int", model="payment")
     r.put("ch8.median_can_afford.share", can.height / table.height, "pct0", model="payment")
-    r.put("ch8.affordable_gap.median", float(table["affordable_gap"].median()), "susd0", model="payment")
+    r.put("ch8.affordable_gap.median", num(table["affordable_gap"].median()), "susd0", model="payment")
     with_share = table.filter(pl.col("affordable_share").is_not_null())
     r.put(
         "ch8.affordable_share.median",
-        float(with_share["affordable_share"].median()) if with_share.height else None,
+        num(with_share["affordable_share"].median()) if with_share.height else None,
         "pct0",
         model="bracket",
     )
     r.put(
         "ch8.down_payment_years.median",
-        float(table["down_payment_years"].median()),
+        num(table["down_payment_years"].median()),
         "years1",
         model="payment",
     )
-    r.put("ch8.down_payment_years.max", float(table["down_payment_years"].max()), "years1", model="payment")
+    r.put("ch8.down_payment_years.max", num(table["down_payment_years"].max()), "years1", model="payment")
     worst = table.sort("down_payment_years", descending=True).row(0, named=True)
     r.put("ch8.down_payment_years.max_metro", str(worst["cbsa_title"]), "text")
     for i, (name, years) in enumerate(biggest[:3], start=1):
@@ -402,7 +403,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
             [
                 d,
                 m,
-                float(t["down_payment_years"].median()),
+                num(t["down_payment_years"].median()),
                 "chosen" if d == policy.down_payment_share else "",
             ]
         )
@@ -417,7 +418,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
             _latest_rows(panel)["median_income"] * 0.6
         )
         years_s = table["median_home"] * policy.down_payment_share / (renter_income * s)
-        saving_rows.append([s, float(years_s.median()), "chosen" if s == policy.saving_rate else ""])
+        saving_rows.append([s, num(years_s.median()), "chosen" if s == policy.saving_rate else ""])
         del dp
     chosen = policy.affordable_line
     neighbour = min((x for x in AFFORDABLE_LINES if x != chosen), key=lambda x: abs(x - chosen))
@@ -587,7 +588,7 @@ def simulate_estimate(
         rg = bootstrap_paths(
             hist[code][1], horizon=horizon, draws=draws, seed=world.seed, label=f"{code}-rent"
         )
-        years = np.array(
+        years: np.ndarray = np.array(
             breakeven_years_vectorised(
                 price, rent, rate, policy.down_payment_share, policy.loan_term_years, app, rg, cost
             )

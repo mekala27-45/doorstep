@@ -114,7 +114,9 @@ def run(p: Paths, *, seeds: int = SEEDS, workers: int = 2, use_cache: bool = Tru
     naive = summary.filter(pl.col("estimator") == "migration_naive")
     for level in ("none", "mild", "strong"):
         sub = naive.filter(pl.col("reverse_causality") == level)
-        s.put(f"recovery.migration_naive.{level}.bias", num(sub["bias"].mean()) if sub.height else None, "spct2")
+        s.put(
+            f"recovery.migration_naive.{level}.bias", num(sub["bias"].mean()) if sub.height else None, "spct2"
+        )
         s.put(
             f"recovery.migration_naive.{level}.coverage",
             num(sub["coverage"].mean()) if sub.height else None,

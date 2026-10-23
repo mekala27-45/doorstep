@@ -120,8 +120,12 @@ LAST_YEAR = 2024
 RATE_SHOCK_YEAR = 2022
 LOCK_IN_RESPONSE = 0.04  # purchases per 100 owner households lost per point of lock in share after the shock
 BETA_SUPPLY = 0.025  # log price growth per permit per hundred households, lagged one year
-PERMIT_RESPONSE_MIGRATION = 0.30  # building rate response per person per hundred residents arrived last year, at unit elasticity
-PERMIT_RESPONSE_GROWTH = 0.40  # the growth surprise that moves the building rate by its elasticity (ten percent per four points)
+PERMIT_RESPONSE_MIGRATION = (
+    0.30  # building rate response per person per hundred residents arrived last year, at unit elasticity
+)
+PERMIT_RESPONSE_GROWTH = (
+    0.40  # the growth surprise that moves the building rate by its elasticity (ten percent per four points)
+)
 BURDEN_STEP_YEAR = 2013
 BURDEN_STEP_SIZE = 0.03
 BORROWER_RATIO_BASE = 1.35

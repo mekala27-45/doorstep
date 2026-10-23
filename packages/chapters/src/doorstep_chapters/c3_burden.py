@@ -17,6 +17,7 @@ import numpy as np
 import polars as pl
 from doorstep_core.config import POLICY, SEVERE_LINES, Policy
 from doorstep_core.formats import format_value
+from doorstep_core.scalars import integer, num
 from doorstep_sim.metros import World
 from doorstep_stats.bootstrap import Interval, block_bootstrap, ratio
 from doorstep_stats.pelt import bic_penalty, estimate_sigma, pelt
@@ -187,7 +188,9 @@ def ratio_moe(num: np.ndarray, num_moe: np.ndarray, den: np.ndarray, den_moe: np
     p = num / den
     inside = num_moe**2 - (p**2) * den_moe**2
     alt = num_moe**2 + (p**2) * den_moe**2
-    return np.where(inside >= 0, np.sqrt(np.maximum(inside, 0.0)), np.sqrt(alt)) / den
+    return np.asarray(
+        np.where(inside >= 0, np.sqrt(np.maximum(inside, 0.0)), np.sqrt(alt)) / den, dtype=np.float64
+    )
 
 
 def metro_shares(panel: Panel) -> pl.DataFrame:
@@ -220,7 +223,7 @@ def metro_shares(panel: Panel) -> pl.DataFrame:
 def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = None) -> ChapterResult:
     rows = _metro_rows(panel)
     ensure(rows.height > 0, "chapter 3 has no renter burden rows")
-    latest = int(rows["year"].max())
+    latest = integer(rows["year"].max())
     latest_rows = rows.filter(pl.col("year") == latest)
     severe = aggregate_interval(latest_rows, "renters_severe", policy, f"ch3-severe-{latest}", replicates)
     burdened = aggregate_interval(
@@ -228,9 +231,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
     )
     with_median = latest_rows.filter(pl.col("median_rent_share").is_not_null())
     median_under = (
-        float((with_median["median_rent_share"] < policy.affordable_line).mean())
-        if with_median.height
-        else 0.0
+        num((with_median["median_rent_share"] < policy.affordable_line).mean()) if with_median.height else 0.0
     )
     series = national_series(panel)
     cps = changepoints(series)
@@ -268,10 +269,8 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
     owners = latest_rows.filter(pl.col("owner_mortgage_burdened_share").is_not_null())
     r.put(
         "ch3.owner_mortgage_burdened_share",
-        float(
-            (owners["owner_mortgage_burdened_share"] * owners["renters_with_share"]).sum()
-            / owners["renters_with_share"].sum()
-        )
+        num((owners["owner_mortgage_burdened_share"] * owners["renters_with_share"]).sum())
+        / num(owners["renters_with_share"].sum())
         if owners.height
         else None,
         "pct1",
@@ -323,7 +322,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
     groups = panel.burden_by_income
     group_rows: list[list[Any]] = []
     if groups is not None and groups.height:
-        g_latest = int(groups["year"].max())
+        g_latest = integer(groups["year"].max())
         g = (
             groups.filter(pl.col("year") == g_latest)
             .group_by("income_group", "group_order")
@@ -431,13 +430,12 @@ def simulate_estimate(world: World, policy: Policy = POLICY) -> list[Grade]:
     nearest = float(min(cps, key=lambda c: abs(c - world.truth.burden_step_year))) if cps else float("nan")
     hit = float(any(abs(c - world.truth.burden_step_year) <= 1 for c in cps))
     rows = _metro_rows(panel)
-    latest = int(rows["year"].max())
+    latest = integer(rows["year"].max())
     latest_rows = rows.filter(pl.col("year") == latest)
     severe = aggregate_interval(latest_rows, "renters_severe", policy, f"ch3-severe-{latest}", 200)
     truth_rows = world.metro_year.filter((pl.col("year") == latest) & (pl.col("kind") == "metropolitan"))
-    truth_severe = float(
-        (truth_rows["rent_severe_share"] * truth_rows["renter_households"]).sum()
-        / truth_rows["renter_households"].sum()
+    truth_severe = num((truth_rows["rent_severe_share"] * truth_rows["renter_households"]).sum()) / num(
+        truth_rows["renter_households"].sum()
     )
     return [
         Grade(

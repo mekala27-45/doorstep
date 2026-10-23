@@ -32,7 +32,16 @@ from doorstep_pipeline.common import DEMONSTRATION_SEED, as_of
 ORDER = ("data", "simulate", "recovery", "warehouse", "metrics", "chapters", "exports")
 """The stage order the pipeline runs in. The Makefile's pipeline target and the rederive follow it."""
 
-STORY_CHAPTERS = ("definition", "rate_shock", "burden", "supply", "ranking", "buyers", "migration", "decision")
+STORY_CHAPTERS = (
+    "definition",
+    "rate_shock",
+    "burden",
+    "supply",
+    "ranking",
+    "buyers",
+    "migration",
+    "decision",
+)
 
 
 def run(p: Paths) -> Manifest:

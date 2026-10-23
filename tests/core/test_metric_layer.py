@@ -13,7 +13,17 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def _metric(mart_expr: str = "sum(permits)") -> Metric:
-    return Metric("permits", "sum", "int", "units permitted", "sum(permits)", mart_expr, "grain_counties", "mart_metro_year", "warehouse")
+    return Metric(
+        "permits",
+        "sum",
+        "int",
+        "units permitted",
+        "sum(permits)",
+        mart_expr,
+        "grain_counties",
+        "mart_metro_year",
+        "warehouse",
+    )
 
 
 def _connection(mart_rows: str = "select * from counties") -> duckdb.DuckDBPyConnection:

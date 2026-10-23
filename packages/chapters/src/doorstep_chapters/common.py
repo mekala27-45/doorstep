@@ -22,6 +22,7 @@ from doorstep_core.config import POLICY, Policy
 from doorstep_core.formats import format_value
 from doorstep_core.hashing import design_hash
 from doorstep_core.manifest import Scalar
+from doorstep_core.scalars import num
 
 Row = Sequence[Scalar]
 
@@ -178,7 +179,7 @@ def weighted_mean(frame: pl.DataFrame, value: str, weight: str) -> float | None:
     if sub.height == 0:
         return None
     w = sub[weight].sum()
-    return float((sub[value] * sub[weight]).sum() / w) if w else None
+    return num((sub[value] * sub[weight]).sum()) / num(w) if w else None
 
 
 def ensure(condition: bool, message: str) -> None:

@@ -14,6 +14,7 @@ from pathlib import Path
 
 import polars as pl
 from doorstep_core.config import POLICY, Policy
+from doorstep_core.scalars import integer
 from doorstep_finance.mortgage import payment_on_price
 from doorstep_sim.lenders import lender_loans
 from doorstep_sim.metros import World, burden_by_income
@@ -91,7 +92,7 @@ class Panel:
     @property
     def latest_acs_year(self) -> int:
         with_income = self.metro_year.filter(pl.col("median_income").is_not_null())
-        return int(with_income["year"].max()) if with_income.height else self.latest_year
+        return integer(with_income["year"].max()) if with_income.height else self.latest_year
 
     @property
     def latest_period(self) -> str:

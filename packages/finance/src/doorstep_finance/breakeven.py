@@ -15,6 +15,9 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 
+import numpy as np
+import numpy.typing as npt
+
 from doorstep_finance.mortgage import FinanceError, balance_after, payment
 
 
@@ -131,8 +134,8 @@ def breakeven_years_vectorised(
     annual_rate_pct: float,
     down_share: float,
     term_years: int,
-    appreciation: Sequence[Sequence[float]],
-    rent_growth: Sequence[Sequence[float]],
+    appreciation: Sequence[Sequence[float]] | npt.NDArray[np.float64],
+    rent_growth: Sequence[Sequence[float]] | npt.NDArray[np.float64],
     cost: CostModel,
 ) -> list[float]:
     """The breakeven year for many appreciation and rent growth paths at once (one row per path), with the

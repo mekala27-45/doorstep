@@ -10,8 +10,9 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from scripts import check_no_em_dash, check_statement, check_vocabulary, scan_for_planted_identifiers  # noqa: E402
 from doorstep_core.statements import STATEMENT  # noqa: E402
+
+from scripts import check_no_em_dash, check_statement, check_vocabulary, scan_for_planted_identifiers  # noqa: E402
 
 
 def _write(tmp_path: Path, name: str, text: str) -> Path:
@@ -103,7 +104,11 @@ def test_identifier_scan_finds_a_planted_household_and_an_email(tmp_path: Path) 
 def test_identifier_scan_finds_a_raw_loan_row_and_a_tract_column(tmp_path: Path) -> None:
     import polars as pl
 
-    raw = _write(tmp_path, "rows.csv", "activity_year,lei,derived_msa-md,state_code,county_code,census_tract\n2024,X,,PA,42057,42057960300\n")
+    raw = _write(
+        tmp_path,
+        "rows.csv",
+        "activity_year,lei,derived_msa-md,state_code,county_code,census_tract\n2024,X,,PA,42057,42057960300\n",
+    )
     with pytest.raises(ValueError, match="hmda raw header"):
         scan_for_planted_identifiers.check(tmp_path, [raw], planted=set())
     table = tmp_path / "loans.parquet"
@@ -118,6 +123,8 @@ def test_identifier_scan_refuses_nothing(tmp_path: Path) -> None:
 
 
 def test_card_numbers_need_luhn_and_a_clean_boundary() -> None:
-    assert scan_for_planted_identifiers.find_card_numbers("card 4111 1111 1111 1111 here") == ["4111111111111111"]
+    assert scan_for_planted_identifiers.find_card_numbers("card 4111 1111 1111 1111 here") == [
+        "4111111111111111"
+    ]
     assert scan_for_planted_identifiers.find_card_numbers("id 4111111111111111a") == []
     assert scan_for_planted_identifiers.find_card_numbers("not valid 4111 1111 1111 1112") == []

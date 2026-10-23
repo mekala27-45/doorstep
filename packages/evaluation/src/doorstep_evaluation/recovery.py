@@ -33,6 +33,7 @@ from doorstep_chapters import (
     c8_decision,
 )
 from doorstep_chapters.common import Grade
+from doorstep_core.scalars import num
 from doorstep_sim import metros as sim_metros
 from doorstep_sim.metros import Condition, World, conditions, generate
 
@@ -85,7 +86,7 @@ def _code_digest() -> str:
         c7_migration,
         c8_decision,
     ):
-        h.update(Path(module.__file__).read_bytes())
+        h.update(Path(str(module.__file__)).read_bytes())
     return h.hexdigest()[:12]
 
 
@@ -197,10 +198,10 @@ def by_estimator(summary: pl.DataFrame) -> pl.DataFrame:
             {
                 "estimator": str(name[0]),
                 "conditions": sub.height,
-                "mean_bias": float(sub["bias"].mean()),
-                "mean_rmse": float(sub["rmse"].mean()),
-                "mean_coverage": float(with_cov["coverage"].mean()) if with_cov.height else None,
-                "mean_flag_rate": float(sub["flag_rate"].mean())
+                "mean_bias": num(sub["bias"].mean()),
+                "mean_rmse": num(sub["rmse"].mean()),
+                "mean_coverage": num(with_cov["coverage"].mean()) if with_cov.height else None,
+                "mean_flag_rate": num(sub["flag_rate"].mean())
                 if sub["flag_rate"].is_not_null().any()
                 else None,
                 "worst_bias": float(worst_bias["bias"]),

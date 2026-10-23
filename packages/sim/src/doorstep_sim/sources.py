@@ -14,6 +14,7 @@ from pathlib import Path
 import numpy as np
 import polars as pl
 from doorstep_core.config import INCOME_BRACKETS
+from doorstep_core.scalars import num
 from doorstep_core.seeds import rng
 from doorstep_finance.brackets import lognormal_bracket_counts
 
@@ -181,7 +182,7 @@ def _acs_rows(w: World) -> pl.DataFrame:
             "United States",
             "B19013",
             "B19013_001",
-            float(sub["median_income"].median()),
+            num(sub["median_income"].median()),
             300.0,
             True,
         )
@@ -191,18 +192,18 @@ def _acs_rows(w: World) -> pl.DataFrame:
             "United States",
             "B25077",
             "B25077_001",
-            float(sub["median_value_reported"].median()),
+            num(sub["median_value_reported"].median()),
             800.0,
             True,
         )
-        put(y, "US", "United States", "B25064", "B25064_001", float(sub["median_rent"].median()), 5.0, True)
+        put(y, "US", "United States", "B25064", "B25064_001", num(sub["median_rent"].median()), 5.0, True)
         put(
             y,
             "US",
             "United States",
             "B25119",
             "B25119_003",
-            float(sub["renter_median_income"].median()),
+            num(sub["renter_median_income"].median()),
             300.0,
             True,
         )
@@ -212,7 +213,7 @@ def _acs_rows(w: World) -> pl.DataFrame:
             "United States",
             "B25119",
             "B25119_002",
-            float(sub["median_income"].median()) * 1.3,
+            num(sub["median_income"].median()) * 1.3,
             300.0,
             True,
         )

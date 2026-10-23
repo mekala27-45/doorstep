@@ -238,9 +238,9 @@ def csv_bundle(
                 }
             )
     with (out / "data_dictionary.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["file", "column", "format", "source", "population"])
-        writer.writeheader()
-        writer.writerows(dictionary)
+        dict_writer = csv.DictWriter(handle, fieldnames=["file", "column", "format", "source", "population"])
+        dict_writer.writeheader()
+        dict_writer.writerows(dictionary)
     (out / "README.md").write_text(
         "# CSV bundle\n\nEvery chapter table rendered from results/manifest.json, with data_dictionary.csv listing every column.\n\n"
         + STATEMENT

@@ -64,7 +64,13 @@ def test_the_bootstrap_replicated_as_many_times_as_asked(results: dict[int, Chap
 
 
 def test_every_regression_with_a_placebo_evaluated_it(results: dict[int, ChapterResult]) -> None:
-    for key in ("ch2.placebo.coef", "ch2.placebo.low", "ch2.placebo.high", "ch7.placebo.coef", "ch7.placebo.low"):
+    for key in (
+        "ch2.placebo.coef",
+        "ch2.placebo.low",
+        "ch2.placebo.high",
+        "ch7.placebo.coef",
+        "ch7.placebo.low",
+    ):
         number = int(key[2])
         value = results[number].values[key].value
         assert isinstance(value, float) and np.isfinite(value)
@@ -113,7 +119,14 @@ def test_every_interior_test_printed_its_neighbours(results: dict[int, ChapterRe
     assert len(results[8].tables["ch8.line_interior"].rows) == 4
     assert len(results[8].tables["ch8.down_interior"].rows) == 3
     assert len(results[8].tables["ch8.saving_interior"].rows) == 3
-    for number, key in ((1, "ch1.anchor_degenerate"), (2, "ch2.threshold_degenerate"), (3, "ch3.line_degenerate"), (4, "ch4.window_degenerate"), (8, "ch8.line_degenerate"), (8, "ch8.down_degenerate")):
+    for number, key in (
+        (1, "ch1.anchor_degenerate"),
+        (2, "ch2.threshold_degenerate"),
+        (3, "ch3.line_degenerate"),
+        (4, "ch4.window_degenerate"),
+        (8, "ch8.line_degenerate"),
+        (8, "ch8.down_degenerate"),
+    ):
         assert results[number].values[key].value in ("stable", "degenerate")
 
 
@@ -135,6 +148,8 @@ def test_results_are_identical_across_hash_seeds(panel: Panel) -> None:
     outputs = []
     for seed in ("0", "12345"):
         env = {**os.environ, "PYTHONHASHSEED": seed}
-        proc = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env=env, check=True)
+        proc = subprocess.run(
+            [sys.executable, "-c", code], capture_output=True, text=True, env=env, check=True
+        )
         outputs.append(json.loads(proc.stdout.strip().splitlines()[-1]))
     assert outputs[0] == outputs[1]

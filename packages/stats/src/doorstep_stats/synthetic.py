@@ -82,7 +82,7 @@ def simplex_weights(target_pre: Array, donors_pre: Array) -> Array:
     total = w.sum()
     if total <= 0:
         raise SyntheticControlError("the weights collapsed to zero")
-    return w / total
+    return np.asarray(w / total, dtype=np.float64)
 
 
 def _rmspe(actual: Array, synthetic: Array) -> float:

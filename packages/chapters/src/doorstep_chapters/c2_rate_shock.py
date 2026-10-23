@@ -21,6 +21,7 @@ import numpy as np
 import polars as pl
 from doorstep_core.config import LOCK_IN_THRESHOLDS, POLICY, Policy
 from doorstep_core.formats import format_value
+from doorstep_core.scalars import num
 from doorstep_finance.mortgage import payment_on_price
 from doorstep_sim.metros import World
 from doorstep_stats.regression import Coefficient, first, regress
@@ -309,11 +310,11 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     r.put("ch2.message", branch.text, "text")
 
     intensity = lock_in_intensity(panel, policy)
-    r.put("ch2.lock_in.mean", float(intensity["lock_in_per_100"].mean()), "float1", model="lock_in")
-    r.put("ch2.lock_in.p10", float(intensity["lock_in_per_100"].quantile(0.1)), "float1", model="lock_in")
-    r.put("ch2.lock_in.p90", float(intensity["lock_in_per_100"].quantile(0.9)), "float1", model="lock_in")
+    r.put("ch2.lock_in.mean", num(intensity["lock_in_per_100"].mean()), "float1", model="lock_in")
+    r.put("ch2.lock_in.p10", num(intensity["lock_in_per_100"].quantile(0.1)), "float1", model="lock_in")
+    r.put("ch2.lock_in.p90", num(intensity["lock_in_per_100"].quantile(0.9)), "float1", model="lock_in")
     r.put("ch2.low_rate_originations", float(intensity["low_rate"].sum()), "millions1", model="lock_in")
-    spread = float(intensity["lock_in_per_100"].quantile(0.9) - intensity["lock_in_per_100"].quantile(0.1))
+    spread = num(intensity["lock_in_per_100"].quantile(0.9)) - num(intensity["lock_in_per_100"].quantile(0.1))
     r.put("ch2.lock_in.effect_p90_vs_p10", headline.estimate * spread, "sfloat2", model="lock_in")
 
     # Turnover before and after

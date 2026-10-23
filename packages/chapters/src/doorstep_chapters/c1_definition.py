@@ -19,6 +19,7 @@ import numpy as np
 import polars as pl
 from doorstep_core.config import AFFORDABLE_LINES, ANCHOR_YEARS, POLICY, Policy
 from doorstep_core.formats import format_value
+from doorstep_core.scalars import integer, num
 from doorstep_finance.mortgage import payment_on_price
 from doorstep_sim.metros import World
 from doorstep_stats.monte_carlo import draw_inputs
@@ -200,8 +201,8 @@ def headline(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
     """The numbers the message rule and the sensitivity table need, at one anchor."""
     n_draws = draws or policy.monte_carlo_draws
     series = national_series(panel, policy, draws=min(n_draws, 2000))
-    latest = int(series["year"].max())
-    first = int(series["year"].min())
+    latest = integer(series["year"].max())
+    first = integer(series["year"].min())
     by_year = {int(r["year"]): r for r in series.iter_rows(named=True)}
     latest_share = float(by_year[latest]["payment_share"])
     earlier = [y for y in by_year if y < latest]
@@ -437,7 +438,7 @@ def simulate_estimate(world: World, policy: Policy = POLICY, *, draws: int = 100
         .sort("year")
     )
     truth_by_year = {int(r["year"]): float(r["truth"]) for r in truth_rows.iter_rows(named=True)}
-    latest = series.filter(pl.col("year") == int(series["year"].max())).row(0, named=True)
+    latest = series.filter(pl.col("year") == integer(series["year"].max())).row(0, named=True)
     grades = [
         Grade(
             "anchored_payment_share",
@@ -456,10 +457,10 @@ def simulate_estimate(world: World, policy: Policy = POLICY, *, draws: int = 100
         grades.append(
             Grade(
                 "self_report_correction",
-                float(merged["reported_over_transaction"].mean()),
-                float(merged["value_bias"].mean()),
-                detail=f"mean absolute error of the planted factor over {merged.height} metros: {float(err):.4f}",
-                flag=float(err),
+                num(merged["reported_over_transaction"].mean()),
+                num(merged["value_bias"].mean()),
+                detail=f"mean absolute error of the planted factor over {merged.height} metros: {num(err):.4f}",
+                flag=num(err),
             )
         )
     # The anchored level itself against the true level, as a relative error

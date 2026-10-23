@@ -117,7 +117,13 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
         items.append(Item(len(items) + 1, LINES[len(items)], bool(done), evidence))
 
     add(
-        has("data.fhfa.rows", "data.acs.rows", "data.hmda.rows_in_analysis", "data.quarantine.by_rule", "data.omb.vintages")
+        has(
+            "data.fhfa.rows",
+            "data.acs.rows",
+            "data.hmda.rows_in_analysis",
+            "data.quarantine.by_rule",
+            "data.omb.vintages",
+        )
         and raw("data.acs.gap_year") == "2020"
         and facts["provenance"],
         f"FHFA {v('data.fhfa.rows')} index rows to {v('data.fhfa.latest_period')}; ACS {v('data.acs.rows')} estimates over {v('data.acs.years')} releases "
@@ -145,7 +151,15 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
         f"({finance.get('failed', 0)} failed); results/recovery.",
     )
     add(
-        has("ch1.plan_hash", "ch2.plan_hash", "ch1.diff", "ch1.anchor_sensitivity", "ch2.overtaking_quarter", "ch2.lock_in.coef", "ch2.placebo.coef"),
+        has(
+            "ch1.plan_hash",
+            "ch2.plan_hash",
+            "ch1.diff",
+            "ch1.anchor_sensitivity",
+            "ch2.overtaking_quarter",
+            "ch2.lock_in.coef",
+            "ch2.placebo.coef",
+        ),
         f"plans {v('ch1.plan_hash')} and {v('ch2.plan_hash')}; payment share {v('ch1.diff')} against the peak ({v('ch1.diff.low')} to {v('ch1.diff.high')}); "
         f"anchor sensitivity table ch1.anchor_sensitivity ({v('ch1.anchor_degenerate')}); overtaking quarter {v('ch2.overtaking_quarter')}; "
         f"lock in {v('ch2.lock_in.coef')} ({v('ch2.lock_in.low')} to {v('ch2.lock_in.high')}) against a placebo of {v('ch2.placebo.coef')}.",
@@ -173,7 +187,15 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
         "test_audit_precedes_response, the out of process scripts/check_persistence.py).",
     )
     add(
-        has("ch4.plan_hash", "ch4.controlled.coef", "ch4.uncontrolled.coef", "ch7.plan_hash", "ch7.coef", "ch7.placebo.coef", "ch7.synthetic_controls")
+        has(
+            "ch4.plan_hash",
+            "ch4.controlled.coef",
+            "ch4.uncontrolled.coef",
+            "ch7.plan_hash",
+            "ch7.coef",
+            "ch7.placebo.coef",
+            "ch7.synthetic_controls",
+        )
         and (raw("ch7.sc.count") or 0) >= 3,
         f"supply {v('ch4.controlled.per_window')} per window with the demand control ({v('ch4.controlled.per_window.low')} to {v('ch4.controlled.per_window.high')}), "
         f"{v('ch4.uncontrolled.per_window')} without; simulator bias {v('recovery.supply_controlled.mean_bias')} against {v('recovery.supply_uncontrolled.mean_bias')}; "
@@ -185,7 +207,14 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
         f"under 35 share moved {v('ch6.under_35_diff')}; by year in ch6.by_year and by metro in ch6.largest_metros.",
     )
     add(
-        has("ch8.plan_hash", "ch8.largest", "ch8.line_interior", "ch8.down_interior", "ch8.saving_interior", "ch8.breakeven.median"),
+        has(
+            "ch8.plan_hash",
+            "ch8.largest",
+            "ch8.line_interior",
+            "ch8.down_interior",
+            "ch8.saving_interior",
+            "ch8.breakeven.median",
+        ),
         f"plan {v('ch8.plan_hash')}; median breakeven {v('ch8.breakeven.median')} ({v('ch8.breakeven.low')} to {v('ch8.breakeven.high')}); "
         f"the median household can afford the median home in {v('ch8.median_can_afford.metros')} of {v('ch8.metros')} metros; down payment years {v('ch8.down_payment_years.median')}; "
         f"interior tests: line {v('ch8.line_degenerate')}, down payment {v('ch8.down_degenerate')}.",

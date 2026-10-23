@@ -42,8 +42,13 @@ def test_definition_branches() -> None:
 def test_rate_shock_branches() -> None:
     froze = c2_rate_shock.message_rule(coef(-0.05, -0.08, -0.02), coef(0.0, -0.02, 0.02), "2022Q3")
     assert froze.name == "froze" and "2022Q3" in froze.text
-    assert c2_rate_shock.message_rule(coef(-0.05, -0.08, -0.02), coef(0.03, 0.01, 0.05), "2022Q3").name == "pre_trend"
-    assert c2_rate_shock.message_rule(coef(0.05, 0.02, 0.08), coef(0.0, -0.02, 0.02), "2022Q3").name == "reverse"
+    assert (
+        c2_rate_shock.message_rule(coef(-0.05, -0.08, -0.02), coef(0.03, 0.01, 0.05), "2022Q3").name
+        == "pre_trend"
+    )
+    assert (
+        c2_rate_shock.message_rule(coef(0.05, 0.02, 0.08), coef(0.0, -0.02, 0.02), "2022Q3").name == "reverse"
+    )
     null = c2_rate_shock.message_rule(coef(-0.01, -0.05, 0.03), coef(0.0, -0.02, 0.02), None)
     assert null.name == "null" and "never overtook" in null.text
 
@@ -66,7 +71,10 @@ def test_burden_branches() -> None:
 def test_supply_branches() -> None:
     kept = c4_supply.message_rule(coef(-0.02, -0.03, -0.01), coef(-0.015, -0.025, -0.005), 5)
     assert kept.name == "kept_pace" and "without the demand control" in kept.text
-    assert c4_supply.message_rule(coef(0.02, 0.01, 0.03), coef(0.015, 0.005, 0.025), 5).name == "demand_dominates"
+    assert (
+        c4_supply.message_rule(coef(0.02, 0.01, 0.03), coef(0.015, 0.005, 0.025), 5).name
+        == "demand_dominates"
+    )
     assert c4_supply.message_rule(coef(0.0, -0.01, 0.01), coef(0.0, -0.01, 0.01), 5).name == "null"
 
 
@@ -100,7 +108,9 @@ def test_migration_branches() -> None:
     main = coef(0.015, 0.010, 0.020)
     assert c7_migration.message_rule(main, coef(0.0, -0.004, 0.004)).name == "prices_followed"
     rising = c7_migration.message_rule(main, coef(0.006, 0.002, 0.010))
-    assert rising.name == "already_rising" and "upper bound" in rising.text and "already rising" in rising.text
+    assert (
+        rising.name == "already_rising" and "upper bound" in rising.text and "already rising" in rising.text
+    )
     lagging = c7_migration.message_rule(main, coef(-0.006, -0.010, -0.002))
     assert lagging.name == "already_rising" and "lower bound" in lagging.text
     assert c7_migration.message_rule(coef(0.002, -0.004, 0.008), coef(0.0, -0.004, 0.004)).name == "null"

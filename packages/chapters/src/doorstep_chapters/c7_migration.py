@@ -32,6 +32,7 @@ import numpy as np
 import polars as pl
 from doorstep_core.config import POLICY, Policy
 from doorstep_core.formats import format_value
+from doorstep_core.scalars import num
 from doorstep_sim.metros import World
 from doorstep_stats.regression import Coefficient, first, regress
 from doorstep_stats.synthetic import SyntheticControl, placebo_band, synthetic_control
@@ -253,7 +254,7 @@ def synthetic_controls(panel: Panel, frame: pl.DataFrame, policy: Policy = POLIC
         .head(policy.synthetic_control_metros)["cbsa_code"]
         .to_list()
     )
-    cutoff = float(present["migration_shock"].abs().median())
+    cutoff = num(present["migration_shock"].abs().median())
     donors = present.filter(pl.col("migration_shock").abs() <= cutoff)["cbsa_code"].to_list()
     out: list[SyntheticControl] = []
     for code in treated:
@@ -298,8 +299,8 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     r.put("ch7.placebo.low", placebo.low, "spct2", model="migration")
     r.put("ch7.placebo.high", placebo.high, "spct2", model="migration")
     r.put("ch7.placebo.p", placebo.p_value, "float3", model="migration")
-    r.put("ch7.shock.p10", float(frame["migration_shock"].quantile(0.1)), "sfloat2")
-    r.put("ch7.shock.p90", float(frame["migration_shock"].quantile(0.9)), "sfloat2")
+    r.put("ch7.shock.p10", num(frame["migration_shock"].quantile(0.1)), "sfloat2")
+    r.put("ch7.shock.p90", num(frame["migration_shock"].quantile(0.9)), "sfloat2")
     r.put(
         "ch7.pre.mean",
         float(np.average(frame["migration_pre"].to_numpy(), weights=frame["population"].to_numpy())),
@@ -310,7 +311,7 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
         float(np.average(frame["migration_pandemic"].to_numpy(), weights=frame["population"].to_numpy())),
         "sfloat2",
     )
-    spread = float(frame["migration_shock"].quantile(0.9) - frame["migration_shock"].quantile(0.1))
+    spread = num(frame["migration_shock"].quantile(0.9)) - num(frame["migration_shock"].quantile(0.1))
     r.put("ch7.effect_p90_vs_p10", main.estimate * spread, "spct1", model="migration")
     r.put(
         "ch7.growth.mean",
@@ -335,7 +336,14 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
                 placebo.p_value,
                 placebo.clusters,
             ],
-            [f"{a} to {b} (level alone, no pre pandemic control)", naive.estimate, naive.low, naive.high, naive.p_value, naive.clusters],
+            [
+                f"{a} to {b} (level alone, no pre pandemic control)",
+                naive.estimate,
+                naive.low,
+                naive.high,
+                naive.p_value,
+                naive.clusters,
+            ],
         ],
         model="migration",
     )

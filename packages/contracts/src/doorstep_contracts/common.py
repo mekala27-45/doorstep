@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -82,7 +82,7 @@ def apply_rules(
 
 
 def contract_digest(
-    name: str, fields: Sequence[str], rules: Sequence[Rule], extra: dict[str, object] | None = None
+    name: str, fields: Sequence[str], rules: Sequence[Rule], extra: Mapping[str, object] | None = None
 ) -> str:
     """Sixteen hex characters over the field list, the rule names and descriptions, and any stated
     filter, so a change to the contract changes the digest and the derived files are rebuilt."""
@@ -90,7 +90,7 @@ def contract_digest(
         "name": name,
         "fields": list(fields),
         "rules": [{"name": r.name, "description": r.description} for r in rules],
-        "extra": extra or {},
+        "extra": dict(extra or {}),
     }
     return hashlib.sha256(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()[:16]
 

@@ -23,6 +23,7 @@ import numpy as np
 import polars as pl
 from doorstep_core.config import POLICY, SUPPLY_WINDOWS, Policy
 from doorstep_core.formats import format_value
+from doorstep_core.scalars import integer, num
 from doorstep_sim.metros import World
 from doorstep_stats.regression import Coefficient, first, regress
 
@@ -136,7 +137,7 @@ def cells(panel: Panel, window: int, *, first_year: int = 2001) -> pl.DataFrame:
         .otherwise(pl.col("permits_rate"))
         .alias("permits_rate")
     )
-    last_year = int(annual["year"].max())
+    last_year = integer(annual["year"].max())
     rows: list[dict[str, Any]] = []
     by_metro = {k[0]: v.sort("year") for k, v in annual.group_by("cbsa_code")}
     window_id = 0
@@ -239,12 +240,12 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     r.put("ch4.windows", int(frame["window_id"].n_unique()), "int")
     r.put("ch4.cells", int(frame.height), "int")
     r.put("ch4.clusters", controlled.clusters, "int")
-    r.put("ch4.first_year", int(frame["first_year"].min()), "year")
-    r.put("ch4.last_year", int(frame["last_year"].max()), "year")
-    r.put("ch4.permits_rate.mean", float(frame["permits_rate"].mean()), "float2")
-    r.put("ch4.permits_rate.p10", float(frame["permits_rate"].quantile(0.1)), "float2")
-    r.put("ch4.permits_rate.p90", float(frame["permits_rate"].quantile(0.9)), "float2")
-    spread = float(frame["permits_rate"].quantile(0.9) - frame["permits_rate"].quantile(0.1))
+    r.put("ch4.first_year", integer(frame["first_year"].min()), "year")
+    r.put("ch4.last_year", integer(frame["last_year"].max()), "year")
+    r.put("ch4.permits_rate.mean", num(frame["permits_rate"].mean()), "float2")
+    r.put("ch4.permits_rate.p10", num(frame["permits_rate"].quantile(0.1)), "float2")
+    r.put("ch4.permits_rate.p90", num(frame["permits_rate"].quantile(0.9)), "float2")
+    spread = num(frame["permits_rate"].quantile(0.9)) - num(frame["permits_rate"].quantile(0.1))
     r.put("ch4.effect_p90_vs_p10", controlled.estimate * window * spread, "spct1", model="supply_fe")
     r.put("ch4.branch", branch.name, "text")
     r.put("ch4.message", branch.text, "text")
@@ -291,7 +292,7 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     )
     r.put(
         "ch4.permits_per_new_household.median",
-        float((defined["permits"] / defined["new_households"]).median()) if defined.height else None,
+        num((defined["permits"] / defined["new_households"]).median()) if defined.height else None,
         "float2",
     )
 
@@ -336,9 +337,7 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     y_mean = float(
         np.average(latest_window["annual_growth"].to_numpy(), weights=latest_window["population"].to_numpy())
     )
-    xs = np.linspace(
-        float(latest_window["permits_rate"].min()), float(latest_window["permits_rate"].max()), 25
-    )
+    xs = np.linspace(num(latest_window["permits_rate"].min()), num(latest_window["permits_rate"].max()), 25)
     line = pl.DataFrame(
         {
             "permits_rate": xs,
@@ -354,11 +353,11 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
         sql=SQL,
         frames={"cells": latest_window, "line": line, "all_cells": frame},
         model="supply_fe",
-        callout=f"a metro at the 90th percentile of building ({format_value(float(frame['permits_rate'].quantile(0.9)), 'float2')} per 100) against the 10th: {format_value(controlled.estimate * window * spread, 'spct1')} over {window} years",
+        callout=f"a metro at the 90th percentile of building ({format_value(num(frame['permits_rate'].quantile(0.9)), 'float2')} per 100) against the 10th: {format_value(controlled.estimate * window * spread, 'spct1')} over {window} years",
     )
     r.method = {
         "estimator": "fixed effects on population weighted metro by window cells, alternating projections, two specifications",
-        "split": f"non overlapping {window} year windows from {int(frame['first_year'].min())}; permits shifted back one year",
+        "split": f"non overlapping {window} year windows from {integer(frame['first_year'].min())}; permits shifted back one year",
         "interval": f"cluster robust by state, {controlled.clusters} clusters",
         "family": "two specifications reported side by side",
     }

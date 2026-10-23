@@ -5,7 +5,7 @@ continuous in the horizon, and the breakeven year never comes sooner when the ra
 from __future__ import annotations
 
 import numpy as np
-from doorstep_finance.brackets import INCOME_BRACKETS, lognormal_bracket_counts, share_above
+from doorstep_finance.brackets import lognormal_bracket_counts, share_above
 from doorstep_finance.breakeven import CostModel, breakeven, breakeven_year
 from doorstep_finance.mortgage import affordable_price, payment_share
 from doorstep_sim.metros import burden_by_income
@@ -18,8 +18,14 @@ incomes = st.floats(min_value=20_000.0, max_value=500_000.0)
 
 
 @settings(max_examples=60, deadline=None)
-@given(mu=st.floats(min_value=10.0, max_value=12.5), sigma=st.floats(min_value=0.4, max_value=1.0), threshold=st.floats(min_value=1.0, max_value=600_000.0))
-def test_the_affordable_share_is_a_share_and_falls_with_the_threshold(mu: float, sigma: float, threshold: float) -> None:
+@given(
+    mu=st.floats(min_value=10.0, max_value=12.5),
+    sigma=st.floats(min_value=0.4, max_value=1.0),
+    threshold=st.floats(min_value=1.0, max_value=600_000.0),
+)
+def test_the_affordable_share_is_a_share_and_falls_with_the_threshold(
+    mu: float, sigma: float, threshold: float
+) -> None:
     counts = lognormal_bracket_counts(mu, sigma, 50_000.0)
     share = share_above(threshold, counts)
     assert 0.0 <= share <= 1.0
@@ -29,7 +35,9 @@ def test_the_affordable_share_is_a_share_and_falls_with_the_threshold(mu: float,
 
 @settings(max_examples=60, deadline=None)
 @given(price=prices, income=incomes, rate=rates, bump=st.floats(min_value=0.01, max_value=3.0))
-def test_the_payment_share_never_falls_with_the_rate_or_the_price(price: float, income: float, rate: float, bump: float) -> None:
+def test_the_payment_share_never_falls_with_the_rate_or_the_price(
+    price: float, income: float, rate: float, bump: float
+) -> None:
     base = payment_share(price, income, rate, 0.10, 30)
     assert payment_share(price, income, rate + bump, 0.10, 30) >= base
     assert payment_share(price * 1.1, income, rate, 0.10, 30) >= base
@@ -60,8 +68,15 @@ def test_the_burden_shares_sum_to_one_across_the_bands() -> None:
 
 
 @settings(max_examples=25, deadline=None)
-@given(price=prices, rent_yield=st.floats(min_value=0.03, max_value=0.09), rate=rates, bump=st.floats(min_value=0.1, max_value=2.0))
-def test_the_breakeven_difference_is_continuous_and_the_year_never_comes_sooner_with_a_higher_rate(price: float, rent_yield: float, rate: float, bump: float) -> None:
+@given(
+    price=prices,
+    rent_yield=st.floats(min_value=0.03, max_value=0.09),
+    rate=rates,
+    bump=st.floats(min_value=0.1, max_value=2.0),
+)
+def test_the_breakeven_difference_is_continuous_and_the_year_never_comes_sooner_with_a_higher_rate(
+    price: float, rent_yield: float, rate: float, bump: float
+) -> None:
     cost = CostModel()
     first = breakeven(price, price * rent_yield, rate, 0.10, 30, 30, 0.03, 0.03, cost)
     diffs = np.array([y.difference for y in first.years])
