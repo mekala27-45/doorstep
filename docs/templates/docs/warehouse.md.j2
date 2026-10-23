@@ -1,0 +1,21 @@
+# The warehouse
+
+{{ statement() }}
+
+dbt over DuckDB, built by `doorstep warehouse`: {{ v('warehouse.models') }} models, {{ v('warehouse.tests') }} tests, {{ v('warehouse.tests_failed') }} failed in the last build. The external parquet files the data stage writes are the sources; the marts are copied to `results/marts` and the ones the site reads to `web/public/data/marts`.
+
+## Layers
+
+- **Staging** types one source each: `stg_fhfa`, `stg_acs`, `stg_fmr`, `stg_fmr_areas`, `stg_income_limits`, `stg_rates`, `stg_permits`, `stg_population`, `stg_loans`, `stg_delineations`, `stg_gazetteer`.
+- **Intermediate** maps every source to the metro through its delineation vintage and aligns quarters to years: `int_county_vintage_map`, `int_metro_dim`, `int_fhfa_area` (divisions rolled up by owner households), `int_county_year` (permits and population by county, then by area), `int_acs_metro_year` (every census table wide, with margins), `int_loans_metro_year` and `int_purchase_loans`.
+- **Marts** at the grains the story uses: `mart_metro_quarter` ({{ v('warehouse.rows.mart_metro_quarter') }} rows: the index, the anchored value, the rate and the payment), `mart_metro_year` ({{ v('warehouse.rows.mart_metro_year') }} rows: incomes, rents, tenure, burden counts, permits, population, migration, loan counts), `mart_national_year` ({{ v('warehouse.rows.mart_national_year') }}), `mart_income_brackets` ({{ v('warehouse.rows.mart_income_brackets') }}), `mart_rent_burden_by_income` ({{ v('warehouse.rows.mart_rent_burden_by_income') }}), the borrower marts (`mart_borrowers_income`, `mart_borrowers_vti`, `mart_borrowers_spread`), and `mart_quarantine` ({{ v('warehouse.rows.mart_quarantine') }} rows). The grain tables the metric layer reconciles against: `grain_acs` ({{ v('warehouse.rows.grain_acs') }} rows), `grain_counties` ({{ v('warehouse.rows.grain_counties') }}) and `grain_loans` ({{ v('warehouse.rows.grain_loans') }}).
+
+## Quarantine
+
+{{ v('data.quarantine.rules') }} named rules flag {{ v('data.quarantine.flagged_total') }} rows across the sources and delete none; every flagged row keeps its flag through the warehouse, and the chapters filter on the flags they care about. The rules, by source: FHFA, a non positive index value, a missing quarter in a series and an implausible quarter to quarter jump; PMMS, a missing week and an implausible rate; ACS, a margin of error above the estimate, a negative margin, a jam value or a top coded median; HUD, a fair market rent out of bedroom order and income limits out of order; permits, negative units and a units total that does not add up; population, a non positive population and a vintage overlap for the same year; HMDA, an exempt or missing income, a missing rate, a term other than thirty years, a reverse mortgage or an open end or business purpose line, a property value below the loan amount and a metro code that does not resolve through the delineation of its year; the delineations, a county in two areas in one vintage and a malformed FIPS code. The report is `data.quarantine.by_rule` on RESULTS.md and `mart_quarantine` on the data page.
+
+{{ table('data.quarantine.by_rule') }}
+
+## Tests and exposures
+
+Every model has `not_null` and `unique` tests on its grain, accepted value tests on the kinds and sources, relationship tests from every mart to `int_metro_dim`, and the crosswalk tests described in `docs/geography.md`; the exposures name the story, the explorer, the briefing, the workbook and the BI extracts as the consumers of the marts. The metric layer in `metrics/metrics.yml` defines each metric over the finest grain and over the mart, and `doorstep metrics` fails when the two disagree beyond floating point at any of {{ v('metrics.grains') }} grains.

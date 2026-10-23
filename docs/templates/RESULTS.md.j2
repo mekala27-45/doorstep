@@ -1,6 +1,6 @@
 # Results
 
-Every figure on this page is rendered from `results/manifest.json` (as of {{ manifest.as_of }}) by the claim gate, which re-renders the page in CI and fails on any difference. The window is {{ v('data.first_month') }} to {{ v('data.last_month') }}; models choose on {{ v('policy.fit_years') }} and report on {{ v('policy.test_first_year') }} onward.
+Every figure on this page is rendered from `results/manifest.json` (as of {{ manifest.as_of }}) by the claim gate, which re-renders the page in CI and fails on any difference. Prices and rates run from {{ v('data.window.start_year') }} to {{ v('data.fhfa.latest_period') }}, the census releases from {{ v('data.acs.first_year') }} to {{ v('data.acs.last_year') }} with {{ v('data.acs.gap_year') }} carried as a gap, and the loan extract from {{ v('data.hmda.first_year') }} to {{ v('data.hmda.last_year') }}. Chapters that fit anything choose on {{ v('policy.fit_years') }} and report from {{ v('policy.test_first_year') }}.
 
 {{ statement() }}
 
@@ -12,118 +12,113 @@ Every figure on this page is rendered from `results/manifest.json` (as of {{ man
 
 {{ v('checklist.done') }} of {{ v('checklist.total') }} done; not done: {{ v('checklist.missing') }}.
 
-Stretch items, not counted toward the checklist: the long history before the window, fares from the ticket sample, load factors from the segment data, an aircraft chapter, the Newark page and containers built in CI are not done in this release.
+Stretch items, not counted toward the checklist: wages as a second income measure, the vendor cross check, the county view, the owners chapter, household formation and the containers built in CI are not done in this release.
 
 ## The eight chapters
 
 | Chapter | Plan hash | The finding | Headline with interval |
 |---|---|---|---|
-| {{ v('chapter.1.heading') }} | `{{ v('plan.1.hash') }}` | {{ message('definition') }} | on time {{ v('ch1.on_time.change') }} ({{ v('ch1.on_time.change.low') }} to {{ v('ch1.on_time.change.high') }}), scheduled block {{ v('ch1.sched.change') }} ({{ v('ch1.sched.change.low') }} to {{ v('ch1.sched.change.high') }}), actual block {{ v('ch1.actual.change') }} ({{ v('ch1.actual.change.low') }} to {{ v('ch1.actual.change.high') }}) |
-| {{ v('chapter.2.heading') }} | `{{ v('plan.2.hash') }}` | {{ message('padding') }} | padding {{ v('ch2.padding.change') }} ({{ v('ch2.padding.change.low') }} to {{ v('ch2.padding.change.high') }}); {{ v('ch2.changepoints') }} steps |
-| {{ v('chapter.3.heading') }} | `{{ v('plan.3.hash') }}` | {{ message('line') }} | {{ v('ch3.flagged') }} of {{ v('ch3.carriers') }} carriers; pooled z {{ v('ch3.pooled.z') }}, p {{ v('ch3.pooled.p') }} |
-| {{ v('chapter.4.heading') }} | `{{ v('plan.4.hash') }}` | {{ message('inherited') }} | {{ v('ch4.share') }} ({{ v('ch4.share.low') }} to {{ v('ch4.share.high') }}); rho {{ v('ch4.rho') }} ({{ v('ch4.rho.low') }} to {{ v('ch4.rho.high') }}) |
-| {{ v('chapter.5.heading') }} | `{{ v('plan.5.hash') }}` | {{ message('ranking') }} | {{ v('ch5.moved') }} of {{ v('ch5.carriers') }} carriers change places |
-| {{ v('chapter.6.heading') }} | `{{ v('plan.6.hash') }}` | {{ message('causes') }} | {{ v('ch6.weather_share') }} ({{ v('ch6.weather_share.low') }} to {{ v('ch6.weather_share.high') }}) against {{ v('ch6.reported_weather_share') }} reported |
-| {{ v('chapter.7.heading') }} | `{{ v('plan.7.hash') }}` | {{ message('meltdowns') }} | recall {{ v('ch7.test.recall') }} on the reporting years; trait p {{ v('ch7.trait.p') }} |
-| {{ v('chapter.8.heading') }} | `{{ v('plan.8.hash') }}` | {{ message('decision') }} | first leg {{ v('ch8.first_advantage') }} ({{ v('ch8.first_advantage.low') }} to {{ v('ch8.first_advantage.high') }}) more often on time |
+| {{ v('ch1.title') }} | `{{ v('ch1.plan_hash') }}` | {{ message('definition') }} | payment share {{ v('ch1.latest.payment_share') }} ({{ v('ch1.latest.payment_share.low') }} to {{ v('ch1.latest.payment_share.high') }}); {{ v('ch1.diff') }} against {{ v('ch1.peak_year') }} ({{ v('ch1.diff.low') }} to {{ v('ch1.diff.high') }}) |
+| {{ v('ch2.title') }} | `{{ v('ch2.plan_hash') }}` | {{ message('rate_shock') }} | rate part {{ v('ch2.latest_rate_part') }} of {{ v('ch2.latest_change') }}; lock in {{ v('ch2.lock_in.coef') }} ({{ v('ch2.lock_in.low') }} to {{ v('ch2.lock_in.high') }}); placebo {{ v('ch2.placebo.coef') }} ({{ v('ch2.placebo.low') }} to {{ v('ch2.placebo.high') }}) |
+| {{ v('ch3.title') }} | `{{ v('ch3.plan_hash') }}` | {{ message('burden') }} | burdened {{ v('ch3.burdened.share') }} ({{ v('ch3.burdened.low') }} to {{ v('ch3.burdened.high') }}); severe {{ v('ch3.severe.share') }} ({{ v('ch3.severe.low') }} to {{ v('ch3.severe.high') }}) |
+| {{ v('ch4.title') }} | `{{ v('ch4.plan_hash') }}` | {{ message('supply') }} | controlled {{ v('ch4.controlled.coef') }} ({{ v('ch4.controlled.low') }} to {{ v('ch4.controlled.high') }}); uncontrolled {{ v('ch4.uncontrolled.coef') }} ({{ v('ch4.uncontrolled.low') }} to {{ v('ch4.uncontrolled.high') }}) per permit per hundred households per year |
+| {{ v('ch5.title') }} | `{{ v('ch5.plan_hash') }}` | {{ message('ranking') }} | least affordable {{ v('ch5.least_affordable') }} at {{ v('ch5.least_affordable.payment_share') }} ({{ v('ch5.least_affordable.low') }} to {{ v('ch5.least_affordable.high') }}); rank correlation {{ v('ch5.spearman') }} |
+| {{ v('ch6.title') }} | `{{ v('ch6.plan_hash') }}` | {{ message('buyers') }} | ratio shift {{ v('ch6.ratio_diff') }} ({{ v('ch6.ratio_diff.low') }} to {{ v('ch6.ratio_diff.high') }}); under 35 shift {{ v('ch6.under_35_diff') }} ({{ v('ch6.under_35_diff.low') }} to {{ v('ch6.under_35_diff.high') }}) |
+| {{ v('ch7.title') }} | `{{ v('ch7.plan_hash') }}` | {{ message('migration') }} | {{ v('ch7.coef') }} ({{ v('ch7.low') }} to {{ v('ch7.high') }}); placebo {{ v('ch7.placebo.coef') }} ({{ v('ch7.placebo.low') }} to {{ v('ch7.placebo.high') }}) |
+| {{ v('ch8.title') }} | `{{ v('ch8.plan_hash') }}` | {{ message('decision') }} | median breakeven {{ v('ch8.breakeven.median') }} ({{ v('ch8.breakeven.low') }} to {{ v('ch8.breakeven.high') }}); one point of rate moves it {{ v('ch8.breakeven.rate_move') }} years |
 
 ## The recovery study
+
+{{ table('recovery.by_estimator') }}
+
+*{{ label('recovery.by_estimator') }}*
+
+The worst grade in the study is {{ v('recovery.worst.estimator') }} under {{ v('recovery.worst.condition') }}. The supply elasticity (planted at {{ v('recovery.supply_controlled.truth') }}) comes back with a mean bias of {{ v('recovery.supply_controlled.mean_bias') }} with the demand control and {{ v('recovery.supply_uncontrolled.mean_bias') }} without it, {{ v('recovery.supply_controlled.strong_demand.bias') }} against {{ v('recovery.supply_uncontrolled.strong_demand.bias') }} under strong demand. The migration effect comes back with a mean bias of {{ v('recovery.migration_effect.mean_bias') }} and {{ v('recovery.migration_effect.mean_coverage') }} coverage; the regression on the migration level alone carries {{ v('recovery.migration_naive.none.bias') }} with no reverse causality and {{ v('recovery.migration_naive.strong.bias') }} under strong reverse causality, and the placebo flags that condition in {{ v('recovery.migration.strong.flag_rate') }} of worlds against {{ v('recovery.migration.none.flag_rate') }} under none. The lock in difference in differences has a mean bias of {{ v('recovery.lock_in_did.mean_bias') }} with {{ v('recovery.lock_in_did.mean_coverage') }} coverage. The adjusted ranking's rank correlation with the truth is {{ v('recovery.ranking.adjusted') }} against {{ v('recovery.ranking.raw') }} for the price ranking. The breakeven, graded as late arriving truth, misses the realised year by {{ v('recovery.breakeven_horizon.mean_bias') }} years on average, because the simulated decade after the estimate held a boom the history did not.
 
 {{ table('recovery.by_condition') }}
 
 *{{ label('recovery.by_condition') }}*
 
-The padding estimator does worst under {{ v('recovery.worst.padding') }}; the propagation interval covers least under {{ v('recovery.worst.propagation') }}; the raw ranking is most wrong under {{ v('recovery.worst.raw_ranking') }}, where the adjusted ranking still reaches a rank correlation of {{ v('recovery.rank_adjusted.strong') }} on average; the weather interval covers least under {{ v('recovery.worst.weather') }}. The definition chapter's route panel recovered the scheduled change within {{ v('recovery.definition.sched_error') }} over {{ v('recovery.definition.seeds') }} two year simulations.
-
 ## The data
 
-{{ table('data.by_year') }}
+{{ table('data.quarantine.by_rule') }}
 
-*{{ label('data.by_year') }}*
+*{{ label('data.quarantine.by_rule') }}* The report by source and year is `results/marts/mart_quarantine.parquet`, shown on the data page.
 
-{{ table('quarantine.by_rule') }}
-
-*{{ label('quarantine.by_rule') }}* The report by carrier and month is `results/marts/mart_quarantine.parquet`, shown on the data page.
-
-The registry join matched {{ v('registry.tail_join_rate') }} of tail numbers and {{ v('registry.flight_join_rate') }} of flights; {{ v('registry.tails_unmatched') }} tails had no record valid for the dates they flew (foreign registered, retired, reassigned or blanked). Weather: {{ v('weather.rows') }} hourly rows at {{ v('weather.airports') }} airports. {{ weather_attribution }}
+Sources and their latest periods: FHFA {{ v('data.latest.fhfa') }}, PMMS {{ v('data.latest.pmms') }} (latest rate {{ v('data.pmms.latest_rate') }}), ACS {{ v('data.latest.acs') }}, HUD fair market rents {{ v('data.latest.hud_fmr') }}, HUD income limits {{ v('data.latest.hud_il') }}, permits {{ v('data.latest.bps') }}, population {{ v('data.latest.popest') }}, HMDA {{ v('data.latest.hmda') }}. {{ v('data.omb.vintages') }} delineation vintages, the latest {{ v('data.omb.latest_vintage') }} with {{ v('data.omb.metropolitan_areas') }} metropolitan and {{ v('data.omb.micropolitan_areas') }} micropolitan areas. {{ v('data.ledger.files') }} files read, {{ v('data.ledger.bytes') }} bytes, each with its checksum in `data/PROVENANCE.md`. {{ rate_attribution }}
 
 ## The warehouse and the metric layer
 
-{{ v('warehouse.models') }} models, {{ v('warehouse.tests') }} tests, {{ v('warehouse.tests_failed') }} failed. {{ v('metrics.count') }} metrics, each defined over the flights and over the shipped mart, reconciled at {{ v('metrics.grains') }} grains: {{ v('metrics.cells') }} cells compared, {{ v('metrics.disagreements') }} disagreements.
+{{ v('warehouse.models') }} models, {{ v('warehouse.tests') }} tests, {{ v('warehouse.tests_failed') }} failed. {{ v('metrics.count') }} metrics, each defined over the finest grain and over the shipped mart, reconciled at {{ v('metrics.grains') }} grains: {{ v('metrics.cells') }} cells compared, {{ v('metrics.disagreements') }} disagreements.
 
 {{ table('metrics.definitions') }}
 
 ## Chapter tables
 
-### {{ v('chapter.1.heading') }}
+### {{ v('ch1.title') }}
 
-{{ table('ch1.by_year') }}
+{{ table('ch1.anchor_sensitivity') }}
 
-### {{ v('chapter.2.heading') }}
+{{ table('ch1.line_interior') }}
 
-{{ table('ch2.changepoints') }}
+### {{ v('ch2.title') }}
 
-{{ table('ch2.by_carrier') }}
+{{ table('ch2.decomposition') }}
 
-### {{ v('chapter.3.heading') }}
+{{ table('ch2.threshold_interior') }}
 
-{{ table('ch3.by_carrier') }}
+### {{ v('ch3.title') }}
 
-### {{ v('chapter.4.heading') }}
+{{ table('ch3.bands') }}
 
-{{ v('ch4.legs') }} legs, {{ v('ch4.linked') }} linked ({{ v('ch4.linked_share') }}), {{ v('ch4.first') }} first legs, {{ v('ch4.gap') }} gaps, {{ v('ch4.broken_chain') }} broken chains, {{ v('ch4.impossible') }} impossible sequences; {{ v('ch4.rotations') }} rotations on {{ v('ch4.tails') }} tails. Minimum turn {{ v('ch4.min_turn') }}, profiled on {{ v('ch4.fit_year') }}; halving buffer {{ v('ch4.halving_buffer') }}.
+{{ table('ch3.by_income_group') }}
 
-{{ table('ch4.buffer_curve') }}
+{{ table('ch3.line_interior') }}
 
-### {{ v('chapter.5.heading') }}
+### {{ v('ch4.title') }}
 
-{{ table('ch5.ranking') }}
+{{ table('ch4.specifications') }}
 
-Raw top three: {{ v('ch5.raw.top3') }}; raw bottom three: {{ v('ch5.raw.bottom3') }}. Adjusted top three: {{ v('ch5.adjusted.top3') }}; adjusted bottom three: {{ v('ch5.adjusted.bottom3') }}.
+{{ table('ch4.window_interior') }}
 
-### {{ v('chapter.6.heading') }}
+### {{ v('ch5.title') }}
 
-{{ table('ch6.reported_by_year') }}
+{{ table('ch5.largest') }}
 
-{{ table('ch6.nas_by_airport') }}
+### {{ v('ch6.title') }}
 
-{{ table('ch6.coefficients') }}
+{{ table('ch6.by_year') }}
 
-### {{ v('chapter.7.heading') }}
+{{ table('ch6.largest_metros') }}
 
-{{ table('ch7.events') }}
+### {{ v('ch7.title') }}
 
-Threshold {{ v('ch7.threshold') }}, chosen from {{ v('ch7.grid_low') }} to {{ v('ch7.grid_high') }} with a false alarm costed at {{ v('ch7.cost_false_alarm') }} and a miss at {{ v('ch7.cost_miss') }}, {{ v('ch7.interior') }}. Fitting years: {{ v('ch7.fit.detected') }} of {{ v('ch7.fit.events') }} events flagged, {{ v('ch7.fit.false_alarms') }} false alarm episodes. Reporting years: {{ v('ch7.test.detected') }} of {{ v('ch7.test.events') }}, {{ v('ch7.test.false_alarms') }} false alarm episodes over {{ v('ch7.test.unit_days') }} unit days.
+{{ table('ch7.regression') }}
 
-{{ table('ch7.recovery_by_carrier') }}
+{{ table('ch7.synthetic_controls') }}
 
-### {{ v('chapter.8.heading') }}
+### {{ v('ch8.title') }}
 
-{{ table('ch8.by_position') }}
+{{ table('ch8.largest') }}
 
-{{ table('ch8.by_hour') }}
+{{ table('ch8.line_interior') }}
 
-{{ table('ch8.by_dow') }}
+{{ table('ch8.down_interior') }}
 
-{{ table('ch8.by_month') }}
+{{ table('ch8.saving_interior') }}
 
-{{ table('ch8.hubs') }}
+## The API
 
-{{ table('ch8.trade_airports') }}
-
-{{ table('ch8.trade_routes') }}
-
-## Latency
-
-{% if raw('latency.live.status') == 'measured' %}Against {{ v('latency.live.base_url') }} from a separate client, {{ v('latency.live.requests') }} sequential checks after one warming request, which took {{ v('latency.live.first_request_ms') }}: POST /v1/checks p50 {{ v('latency.live.check.p50_ms') }} and p99 {{ v('latency.live.check.p99_ms') }}; GET /v1/checks/{id} p50 {{ v('latency.live.read.p50_ms') }} and p99 {{ v('latency.live.read.p99_ms') }}; a burst of {{ v('latency.live.concurrency') }} concurrent checks finished within {{ v('latency.live.burst_max_ms') }}.{% else %}The live load test has not run yet.{% endif %}
+{{ v('deploy.base_url') }}: {{ v('deploy.status') }}. {% if raw('deploy.passed') == 'yes' %}Checked from {{ v('deploy.client') }} at {{ v('deploy.checked_at') }}: health {{ v('deploy.health_status') }} with the database {{ v('deploy.health_database') }}, model {{ v('deploy.model_version') }}, {{ v('deploy.metros') }} metros, latest period {{ v('deploy.latest_period') }}; a check for {{ v('deploy.metro') }} at {{ v('deploy.income') }} came back with a payment share of {{ v('deploy.payment_share') }}, an affordable price of {{ v('deploy.affordable_price') }}, an affordable share of {{ v('deploy.affordable_share') }} and a breakeven of {{ v('deploy.breakeven_years') }}; audit before response: {{ v('deploy.audit_before_response') }}; statement present: {{ v('deploy.statement_present') }}.{% endif %} Latency: {% if raw('latency.live.status') == 'measured' %}live POST /v1/checks p50 {{ v('latency.live.check.p50_ms') }}, p99 {{ v('latency.live.check.p99_ms') }}, first request after idle {{ v('latency.live.first_request_ms') }}, over {{ v('latency.live.requests') }} requests at concurrency {{ v('latency.live.concurrency') }}{% else %}live {{ v('latency.live.status') }}{% endif %}; {% if raw('latency.local.status') == 'measured' %}local p50 {{ v('latency.local.check.p50_ms') }}, p99 {{ v('latency.local.check.p99_ms') }}{% else %}local {{ v('latency.local.status') }}{% endif %}. Live check in a real browser: {{ v('live.status') }} ({{ v('live.browser') }}, {{ v('live.checked_at') }}; {{ v('live.routes_loaded') }} of {{ v('live.routes_total') }} routes; asleep: {{ v('live.asleep_outcome') }}).
 
 ## Limitations
 
-- **The weather covers thirty airports.** The weather estimate uses flights between two of the FAA's Core 30 airports, which carry most of the traffic and most of the weather delay but not the regional airports where a storm can close the only runway. It is also airport weather at the scheduled hours, not weather along the route, so it is a floor on weather's share.
-- **Inherited delay rests on tail numbers.** An aircraft swap at the same airport inside one turn is invisible, and the chain rules split only the swaps that break the airport sequence. The simulator plants swaps; the real swap rate is unknown.
-- **The propagation interval is narrower than the uncertainty.** On the simulator rho was biased by {{ v('recovery.rho_bias.weak') }} at weak propagation and its interval covered the truth in {{ v('recovery.rho_coverage.weak') }} of runs; the published interval carries sampling error only.
-- **The fair ranking holds constant what the data records.** Spare aircraft, reserve crews and turn standards are the carrier's own choices and are charged to the carrier; they are not in the data.
-- **The density test sees arrivals, not schedules.** Managing to the line by lengthening the schedule shows up in the padding chapter, not in the test at the line.
-- **The detector is graded against a short table.** {{ v('ch7.test.events') }} reporting year events with citations; disruptions not in the table count as false alarms, which overstates the false alarm rate.
-- **Missed connections ignore protection.** The curve treats every inbound and outbound pair the same; airlines hold flights for connecting passengers and rebook the rest, and the minimum connection time is one number for every hub.
-- **Reported causes are reported.** The cause fields are filled by the carriers under rules that keep the weather field for extreme weather; the chapter compares them with an estimate, it does not correct them.
+- The dollar level of every price is the census median value in {{ v('policy.anchor_year') }} moved by the regulator index. Self reported values run high or low by metro (the census value over the transaction values in the loan extract has a median of {{ v('ch1.self_report.median_ratio') }} across {{ v('ch1.self_report.metros') }} metros, from {{ v('ch1.self_report.p10') }} to {{ v('ch1.self_report.p90') }}), and the anchor carries that bias into every year; the sensitivity table bounds it.
+- The payment is principal and interest on {{ v('policy.loan_term_years') }} year money with {{ v('policy.down_payment_share') }} down at the quarterly average rate; taxes, insurance and maintenance enter the breakeven and the workbook, not the headline share, so every share is understated by the same amount in every year.
+- The census has no one year release for {{ v('data.acs.gap_year') }}; every series that crosses it breaks, and the borrower pool compares that year's loans with the prior year's incomes.
+- The supply estimate is a lower bound in size: builders answer the price growth they are regressed on, and the simulator puts the attenuation at {{ v('recovery.supply_controlled.mean_bias') }} with the demand control and {{ v('recovery.supply_uncontrolled.mean_bias') }} without it under its conditions. The migration series is one demand shock, not all of them.
+- The migration regression's pre pandemic control removes most of the planted reverse causality on the simulator, where households move for one reason with one lag; the placebo flags the strong reverse causality condition in {{ v('recovery.migration.strong.flag_rate') }} of worlds, and remote work moved demand without moving many people.
+- Intervals are cluster robust with {{ v('ch4.clusters') }} state clusters on the panel regressions, read on the t distribution with one fewer degree of freedom than clusters; with few clusters the recovery study, not the formula, is the evidence on coverage.
+- The breakeven paths are drawn from each metro's own past, which includes a decade nobody expects to repeat; graded as late arriving truth on the simulator, the estimate missed the realised breakeven by {{ v('recovery.breakeven_horizon.mean_bias') }} years on average.
+- The lock in measure counts originations, so a metro whose owners refinanced twice at the bottom counts each refinance; the notebook keeps the version that counted refinances twice as a dead end, and turnover also fell because inventory fell.
+- The check log stores a metro code, an income rounded to the nearest thousand, a down payment share, a rate and a horizon; it cannot say who asked, and the planted identifier scan proves nothing else is stored.

@@ -1,0 +1,23 @@
+# Provenance
+
+{{ statement() }}
+
+Every file the build reads is listed in `data/ingest_ledger.csv` with its byte count and SHA-256 checksum ({{ v('data.ledger.files') }} files, {{ v('data.ledger.bytes') }} bytes in the last run), written by the data stage; the fetch status files under `data/external` record every URL asked for, its row count and the latest period each source had published when it was fetched.
+
+| Source | Files | Window in the build | Latest period | License and terms |
+|---|---|---|---|---|
+| Federal Housing Finance Agency, House Price Index master file (`hpi_master.csv`) | `data/external/fhfa` | {{ v('data.fhfa.first_year') }} to {{ v('data.fhfa.latest_period') }}, {{ v('data.fhfa.rows') }} rows | {{ v('data.latest.fhfa') }} | U.S. government work, public domain |
+| Census Bureau, American Community Survey one year release, by API | `data/external/acs/<year>/<table>.json` | {{ v('data.acs.first_year') }} to {{ v('data.acs.last_year') }}, {{ v('data.acs.years') }} releases, {{ v('data.acs.tables') }} tables, {{ v('data.acs.rows') }} estimates; no release for {{ v('data.acs.gap_year') }} | {{ v('data.latest.acs') }} | U.S. government work, public domain |
+| Department of Housing and Urban Development, fair market rents and income limits | `data/external/hud` | fiscal years to {{ v('data.hud.fmr_fiscal_year') }} ({{ v('data.hud.fmr_history_years') }} years of history), income limits {{ v('data.hud.income_limit_first_year') }} to {{ v('data.hud.income_limit_last_year') }} | {{ v('data.latest.hud_fmr') }}, {{ v('data.latest.hud_il') }} | U.S. government work, public domain |
+| Freddie Mac, Primary Mortgage Market Survey weekly history | `data/external/pmms` | {{ v('data.pmms.weeks') }} weeks to {{ v('data.pmms.latest_week') }} | {{ v('data.latest.pmms') }} | Free with attribution under Freddie Mac's terms of use; attributed on every page that shows a rate |
+| Census Bureau, Building Permits Survey, county and metro files | `data/external/bps` | {{ v('data.bps.first_year') }} to {{ v('data.bps.last_full_year') }} plus the year to date file ({{ v('data.bps.ytd_year') }} through month {{ v('data.bps.ytd_month') }}), {{ v('data.bps.rows') }} rows | {{ v('data.latest.bps') }} | U.S. government work, public domain |
+| Census Bureau, population estimates with components of change | `data/external/popest` | {{ v('data.popest.first_year') }} to {{ v('data.popest.last_year') }}, {{ v('data.popest.vintages') }} vintages, {{ v('data.popest.rows') }} county rows | {{ v('data.latest.popest') }} | U.S. government work, public domain |
+| Consumer Financial Protection Bureau, HMDA loan level extract | `data/external/hmda/<year>` | {{ v('data.hmda.first_year') }} to {{ v('data.hmda.last_year') }}, {{ v('data.hmda.rows_in_source_files') }} source rows, {{ v('data.hmda.rows_after_fetch_filter') }} after the fetch filter, {{ v('data.hmda.rows_in_analysis') }} in the analysis | {{ v('data.latest.hmda') }} | U.S. government work, public domain; the derived race and ethnicity fields are not loaded |
+| Office of Management and Budget, metropolitan delineation files, via the Census Bureau | `data/external/delineations` | {{ v('data.omb.vintages') }} vintages to {{ v('data.omb.latest_vintage') }} | {{ v('data.omb.latest_vintage') }} | U.S. government work, public domain |
+| Census Bureau gazetteer (area names and land area) | `data/external/gazetteer` | latest file | latest | U.S. government work, public domain |
+
+The fetch filter for HMDA, stated once and applied as the files are read: {{ v('data.hmda.filter_fetch') }}. The analysis filter: {{ v('data.hmda.filter_ingest') }}.
+
+{{ rate_attribution }}
+
+Contract digests, which change when a rule or a field changes: FHFA `{{ v('data.fhfa.contract_digest') }}`, ACS `{{ v('data.acs.contract_digest') }}`, HUD `{{ v('data.hud.contract_digest') }}`, PMMS `{{ v('data.pmms.contract_digest') }}`, permits `{{ v('data.bps.contract_digest') }}`, population `{{ v('data.popest.contract_digest') }}`, HMDA `{{ v('data.hmda.contract_digest') }}`, delineations `{{ v('data.omb.contract_digest') }}`.

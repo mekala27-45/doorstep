@@ -1,0 +1,34 @@
+# Methods
+
+{{ statement() }}
+
+## Pre registration
+
+Each chapter module exposes `plan()`: the claim, the estimator, the split, the family of comparisons and the interval method, as a dictionary hashed with SHA-256 over its canonical JSON. `doorstep chapters` registers every hash in `results/chapters/plans.json` before any estimate runs on real metros; a plan whose hash differs from its registration fails the run (`doorstep_chapters.plans.RegistrationError`), and a chapter that reports on its fitting years is rejected (`SplitViolation`). The hashes: chapter 1 `{{ v('ch1.plan_hash') }}`, 2 `{{ v('ch2.plan_hash') }}`, 3 `{{ v('ch3.plan_hash') }}`, 4 `{{ v('ch4.plan_hash') }}`, 5 `{{ v('ch5.plan_hash') }}`, 6 `{{ v('ch6.plan_hash') }}`, 7 `{{ v('ch7.plan_hash') }}`, 8 `{{ v('ch8.plan_hash') }}`.
+
+## The split
+
+Chapters that fit anything choose on {{ v('policy.fit_years') }} and report on {{ v('policy.test_first_year') }} onward; descriptive chapters report the latest release. The lock in regression's base years are {{ v('policy.turnover_base_years') }} and its test years start in {{ v('policy.turnover_test_first_year') }}; the migration window is {{ v('policy.migration_window') }} with the placebo on {{ v('policy.migration_placebo_window') }}.
+
+## Intervals
+
+- **Monte Carlo over the census margins** (chapters 1 and 5): each ACS estimate is drawn from a normal with standard deviation margin over {{ v('ch1.draws') }} draws, the index held fixed, and the statistic is recomputed per draw; the interval is the percentile interval at {{ v('policy.interval_level') }}. Code: `doorstep_stats.monte_carlo`.
+- **Block bootstrap** (chapters 3, 6 and 8): resampling metros, lenders or blocks of years with replacement, {{ v('policy.bootstrap_replicates') }} replicates in the full run. Code: `doorstep_stats.bootstrap`.
+- **Cluster robust regression** (chapters 2, 4 and 7): weighted least squares with the fixed effects absorbed by alternating projections on weighted cells (`doorstep_stats.fe`, which reproduces a row level fit on a fixture to floating tolerance), CR1 standard errors clustered by state, and intervals on the t distribution with one fewer degree of freedom than there are clusters. Code: `doorstep_stats.regression`.
+- **Synthetic control** (chapter 7): weights on the simplex found by sequential least squares over every donor whose shock was small, with each donor treated in turn as a placebo; the p value is the rank of the treated metro's mean post gap among the placebos. Code: `doorstep_stats.synthetic`.
+- **Changepoints** (chapter 3): PELT with a BIC penalty and a minimum segment of three years on the national severely burdened series. Code: `doorstep_stats.pelt`.
+- **Benjamini-Hochberg** at q = {{ v('policy.bh_q') }} wherever a chapter publishes a family of comparisons (`doorstep_stats.multiple`); the chapters whose family is one comparison say so in their method note.
+
+## Interior tests
+
+Every operating point prints its headline under its neighbours and the word degenerate when the headline turns at the first one: the affordable line over {{ v('policy.affordable_lines') }} ({{ v('ch1.line_degenerate') if has('ch1.line_degenerate') else v('ch8.line_degenerate') }} in chapter 8), the down payment over {{ v('policy.down_payment_shares') }} ({{ v('ch8.down_degenerate') }}), the saving rate over {{ v('policy.saving_rates') }}, the anchor year over {{ v('policy.anchor_years') }} ({{ v('ch1.anchor_degenerate') }}), the lock in threshold over {{ v('policy.lock_in_thresholds') }} ({{ v('ch2.threshold_degenerate') }}), the supply window over {{ v('policy.supply_windows') }} years ({{ v('ch4.window_degenerate') }}) and the severe line over {{ v('policy.severe_lines') }} ({{ v('ch3.line_degenerate') }}).
+
+## The recovery study
+
+`doorstep recovery` generates {{ v('recovery.conditions') }} conditions (demand strength at two levels, supply dispersion at two, reverse causality at three, noise at two) with {{ v('recovery.seeds') }} seeds each, runs every chapter's `simulate_estimate` on each world and grades it against the planted truth: {{ v('recovery.grades') }} grades over {{ v('recovery.estimators') }} estimators, cached by a digest of the simulator and chapter sources. The worst grade is {{ v('recovery.worst.estimator') }} under {{ v('recovery.worst.condition') }}. The study is the only place an estimator is told it is wrong: real metros have no truth to grade against.
+
+{{ table('recovery.by_estimator') }}
+
+## Determinism
+
+Every seeded step sorts before it samples and seeds its generator from the policy seed ({{ v('policy.seed') }}) and a label; every published table has a stable tie break; the manifest is identical under two PYTHONHASHSEED values; caches are keyed by a digest of their inputs and a changed input is a miss.

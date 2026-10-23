@@ -1,12 +1,11 @@
 # doorstep
 
-**Why your flight is late: a data story in {{ v('story.chapters') }} chapters, built on every scheduled domestic flight in the United States from {{ v('data.first_month') }} to {{ v('data.last_month') }}.**
+**Can anyone still afford a home: a data story in {{ v('story.chapters') }} chapters, built on every metropolitan area present in both the regulator price index and the census one year release, {{ v('chapters.metropolitan') }} of them, from {{ v('data.window.start_year') }} to {{ v('data.fhfa.latest_period') }}.**
 
-The window starts in {{ v('data.first_month') }}, the year American Airlines and US Airways moved onto one operating certificate, the last merger among the legacy network carriers, which gives ten complete years after the last major carrier integration; it runs to the latest month the Bureau of Transportation Statistics has published ({{ v('data.last_month') }}). Every row in it is used, {{ v('data.rows') }} scheduled flights of {{ v('data.carriers') }} reporting carriers, with nothing sampled. Two sources are narrower than the flights and say so: hourly weather is pulled at the FAA's Core 30 airports rather than at every airport (the free weather tier cannot carry every airport for the window in a day; the weather estimate uses flights between two of them), and the FAA registry join covers {{ v('registry.flight_join_rate') }} of flights. {% if raw('checklist.missing') == 'none' %}All {{ v('checklist.total') }} mandatory steps are done; the checklist below gives the evidence for each.{% else %}Mandatory steps not yet done: {{ v('checklist.missing') }} (numbered as in the checklist below); the build is not called complete until that list is empty.{% endif %}
-
+The window opens in {{ v('data.window.start_year') }} with the first quarter of the price index and the first year of the permits and population files, and runs to the latest quarter the Federal Housing Finance Agency has published ({{ v('data.fhfa.latest_period') }}); the census one year release runs from its first year, {{ v('data.acs.first_year') }}, to the latest, {{ v('data.acs.last_year') }}, and the {{ v('data.acs.gap_year') }} release does not exist, so that year is carried as a gap and every series that crosses it breaks; the mortgage disclosure extract runs from {{ v('data.hmda.first_year') }}, the first year of the current reporting rule, to {{ v('data.hmda.last_year') }}, the latest year published. Every row inside the window is used and nothing is sampled: {{ v('data.fhfa.rows') }} index rows, {{ v('data.acs.rows') }} census estimates with their margins over {{ v('data.acs.years') }} releases, {{ v('data.pmms.weeks') }} weekly rate observations, {{ v('data.bps.rows') }} permit rows, {{ v('data.popest.rows') }} county population rows and {{ v('data.hmda.rows_in_source_files') }} mortgage records. The extract is the one subset, stated here as the spec asks: the fetch keeps originated loans ({{ v('data.hmda.filter_fetch') }}), {{ v('data.hmda.rows_after_fetch_filter') }} rows, and the analysis keeps the ones with a usable income, rate and term ({{ v('data.hmda.filter_ingest') }}), {{ v('data.hmda.rows_in_analysis') }} rows, with the excluded rows counted in the quarantine report rather than deleted. Micropolitan areas are carried in the warehouse and shown in the explorer and are excluded from the ranking, because the one year release covers only the largest of them. {% if raw('checklist.missing') == 'none' %}All {{ v('checklist.total') }} mandatory steps are done; the checklist below gives the evidence for each.{% else %}Mandatory steps not yet done: {{ v('checklist.missing') }} (numbered as in the checklist below); the build is not called complete until that list is empty.{% endif %}
 
 - **The story:** {{ v('live.site_url') }}
-- **The misconnect calculator's API:** {{ v('deploy.base_url') }} ({% if raw('deploy.passed') == 'yes' %}verified from a separate client, {{ v('deploy.client') }}, at {{ v('deploy.checked_at') }}: a check for {{ v('deploy.connection') }} in {{ v('deploy.travel_month') }} at a {{ v('deploy.buffer') }} buffer came back at {{ v('deploy.probability') }} ({{ v('deploy.low') }} to {{ v('deploy.high') }}) on {{ v('deploy.flights') }} flights and read back with its audit row written before the response{% else %}{{ v('deploy.status') }}{% endif %})
+- **The affordability calculator's API:** {{ v('deploy.base_url') }} ({% if raw('deploy.passed') == 'yes' %}verified from a separate client, {{ v('deploy.client') }}, at {{ v('deploy.checked_at') }}: a check for {{ v('deploy.metro') }} at an income of {{ v('deploy.income') }} came back with a payment share of {{ v('deploy.payment_share') }}, an affordable price of {{ v('deploy.affordable_price') }} and a breakeven of {{ v('deploy.breakeven_years') }}, resting on {{ v('deploy.quarter') }}, and read back with its audit row written before the response{% else %}{{ v('deploy.status') }}{% endif %})
 - **The briefing:** [report/briefing.md](report/briefing.md), rendered from the same manifest as the site
 
 {{ statement() }}
@@ -15,23 +14,23 @@ The window starts in {{ v('data.first_month') }}, the year American Airlines and
 
 | Chapter | The finding | The number |
 |---|---|---|
-| {{ v('chapter.1.heading') }} | {{ message('definition') }} | on time rate {{ v('ch1.on_time.change') }} ({{ v('ch1.on_time.change.low') }} to {{ v('ch1.on_time.change.high') }}); actual gate to gate {{ v('ch1.actual.change') }} on the same routes |
-| {{ v('chapter.2.heading') }} | {{ message('padding') }} | padding {{ v('ch2.padding.change') }} ({{ v('ch2.padding.change.low') }} to {{ v('ch2.padding.change.high') }}) on matched cells, {{ v('ch2.first_year') }} to {{ v('ch2.last_year') }} |
-| {{ v('chapter.3.heading') }} | {{ message('line') }} | {{ v('ch3.flagged') }} of {{ v('ch3.carriers') }} carriers after Benjamini-Hochberg; pooled z {{ v('ch3.pooled.z') }} against {{ v('ch3.placebos') }} placebos |
-| {{ v('chapter.4.heading') }} | {{ message('inherited') }} | {{ v('ch4.share') }} inherited ({{ v('ch4.share.low') }} to {{ v('ch4.share.high') }}) against {{ v('ch4.reported_share') }} reported |
-| {{ v('chapter.5.heading') }} | {{ message('ranking') }} | {{ v('ch5.moved') }} of {{ v('ch5.carriers') }} carriers move; {{ v('ch5.up.carrier') }} {{ v('ch5.up.raw_rank') }} to {{ v('ch5.up.adjusted_rank') }}, {{ v('ch5.down.carrier') }} {{ v('ch5.down.raw_rank') }} to {{ v('ch5.down.adjusted_rank') }} |
-| {{ v('chapter.6.heading') }} | {{ message('causes') }} | weather explains {{ v('ch6.weather_share') }} ({{ v('ch6.weather_share.low') }} to {{ v('ch6.weather_share.high') }}); the weather field records {{ v('ch6.reported_weather_share') }} |
-| {{ v('chapter.7.heading') }} | {{ message('meltdowns') }} | {{ v('ch7.test.detected') }} of {{ v('ch7.test.events') }} reporting year disruptions flagged at threshold {{ v('ch7.threshold') }}, {{ v('ch7.interior') }} |
-| {{ v('chapter.8.heading') }} | {{ message('decision') }} | first leg on time {{ v('ch8.first_on_time') }} against {{ v('ch8.later_on_time') }}; {{ v('ch8.hub1.code') }} needs {{ v('ch8.hub1.buffer') }} to stay under {{ v('ch8.line') }} |
+| {{ v('ch1.title') }} | {{ message('definition') }} | payment share {{ v('ch1.latest.payment_share') }} in {{ v('ch1.latest_year') }} ({{ v('ch1.latest.payment_share.low') }} to {{ v('ch1.latest.payment_share.high') }}), {{ v('ch1.diff') }} against the {{ v('ch1.peak_year') }} peak; price to income {{ v('ch1.pti_change') }} over the span |
+| {{ v('ch2.title') }} | {{ message('rate_shock') }} | rate part {{ v('ch2.rate_part_share') }} of the payment change since {{ v('ch2.base_period') }}, overtaking in {{ v('ch2.overtaking_quarter') }}; lock in {{ v('ch2.lock_in.coef') }} per point ({{ v('ch2.lock_in.low') }} to {{ v('ch2.lock_in.high') }}), placebo {{ v('ch2.placebo.coef') }} |
+| {{ v('ch3.title') }} | {{ message('burden') }} | severe share {{ v('ch3.severe.share') }} ({{ v('ch3.severe.low') }} to {{ v('ch3.severe.high') }}); breaks in {{ v('ch3.changepoints') }} |
+| {{ v('ch4.title') }} | {{ message('supply') }} | {{ v('ch4.controlled.per_window') }} per window per extra permit per hundred households ({{ v('ch4.controlled.per_window.low') }} to {{ v('ch4.controlled.per_window.high') }}); {{ v('ch4.uncontrolled.per_window') }} without the demand control |
+| {{ v('ch5.title') }} | {{ message('ranking') }} | rank correlation {{ v('ch5.spearman') }}; {{ v('ch5.movers') }} of the {{ v('ch5.largest') }} largest metros move beyond their intervals; largest move {{ v('ch5.biggest_mover') }}, {{ v('ch5.biggest_mover.raw_rank') }} to {{ v('ch5.biggest_mover.adjusted_rank') }} |
+| {{ v('ch6.title') }} | {{ message('buyers') }} | borrower income over the local median {{ v('ch6.base.ratio') }} to {{ v('ch6.latest.ratio') }} ({{ v('ch6.ratio_diff') }}, {{ v('ch6.ratio_diff.low') }} to {{ v('ch6.ratio_diff.high') }}); under 35 share {{ v('ch6.under_35_diff') }} |
+| {{ v('ch7.title') }} | {{ message('migration') }} | {{ v('ch7.coef') }} per person gained per hundred residents ({{ v('ch7.low') }} to {{ v('ch7.high') }}); placebo {{ v('ch7.placebo.coef') }} ({{ v('ch7.placebo.low') }} to {{ v('ch7.placebo.high') }}) |
+| {{ v('ch8.title') }} | {{ message('decision') }} | median breakeven {{ v('ch8.breakeven.median') }} ({{ v('ch8.breakeven.low') }} to {{ v('ch8.breakeven.high') }}); the median household can afford the median home in {{ v('ch8.median_can_afford.metros') }} of {{ v('ch8.metros') }} metros |
 
-Every chapter is a claim that could have come out the other way: a plan hashed before the estimate touched a real flight, an estimator first proven on a simulated airline where the answer is known, a result with an interval, one chart with one message and the SQL behind it, a method note, and a paragraph on what an operations director would push back on.
+Every chapter is a claim that could have come out the other way: a plan hashed before the estimate touched a real metro, an estimator first proven on a simulated country where the answer is known, a result with an interval, one chart with one message and the SQL behind it, a method note, and a paragraph on what a housing economist would push back on.
 
 ## What is in it
 
-- **A modeled warehouse.** dbt over DuckDB: {{ v('warehouse.models') }} models and {{ v('warehouse.tests') }} tests over the flights, the aircraft, the airports and the weather, with named quarantine rules that flag and count and delete nothing, and a metric layer that defines each of {{ v('metrics.count') }} metrics once, two ways, reconciled at {{ v('metrics.grains') }} grains with {{ v('metrics.disagreements') }} disagreements.
-- **A simulator with known truth.** A synthetic network of {{ v('sim.carriers') }} carriers and {{ v('sim.airports') }} airports with known padding steps, a known propagation coefficient, known carrier effects on routes of known difficulty, planted bunching, a planted meltdown and storms whose minutes the reported cause field under records by design. The recovery study ran {{ v('recovery.conditions') }} conditions with {{ v('recovery.seeds') }} seeds each.
-- **The aircraft's day.** Every rotation rebuilt from tail numbers with integrity rules: {{ v('ch4.rotations') }} rotations, the inherited share of delay, and the buffer curve.
-- **The reader's tools.** A misconnect calculator on a live API with a check log scored against the month it was asked about, an explorer with an SQL box over the marts in the browser, a workbook with live formulas, Tableau and Power BI companions.
+- **A modeled warehouse.** dbt over DuckDB: {{ v('warehouse.models') }} models and {{ v('warehouse.tests') }} tests over prices, incomes, rents, rates, permits, population, loans and the delineation crosswalk, with {{ v('data.quarantine.rules') }} named quarantine rules that flag and count and delete nothing, and a metric layer that defines each of {{ v('metrics.count') }} metrics once, two ways, reconciled at {{ v('metrics.grains') }} grains with {{ v('metrics.disagreements') }} disagreements.
+- **A simulator with known truth.** {{ v('sim.metros') }} synthetic metros over {{ v('sim.years') }} years with known incomes and income distributions, known supply elasticities, known demand shocks with a reverse causality knob, a known rate path, owners with known mortgage rates and a known lock in response, planted self report bias and suppressed cells, and a true affordability ranking confounded by design. The recovery study ran {{ v('recovery.conditions') }} conditions with {{ v('recovery.seeds') }} seeds each, {{ v('recovery.grades') }} grades over {{ v('recovery.estimators') }} estimators, and the chapter that fails under one condition says so.
+- **The level is a stated decision.** The regulator publishes the movement of prices and the census publishes their level; every dollar here is the census median value in {{ v('policy.anchor_year') }} moved by the index, with the sensitivity to anchoring in {{ v('policy.anchor_years') }} on the data page.
+- **The reader tools.** An affordability calculator on a live API with a check log scored when the next quarter publishes, an explorer with the SQL behind every chart and an SQL box over the marts in the browser, a workbook with live formulas, Tableau and Power BI companions.
 
 ## Skills
 
@@ -39,17 +38,17 @@ Every chapter is a claim that could have come out the other way: a plan hashed b
 |---|---|
 | SQL | `warehouse/`, `metrics/`, the SQL behind every chart |
 | Data modeling, analytics engineering | `warehouse/` (dbt models, tests, exposures) |
-| Data quality | the quarantine rules (`packages/contracts`) and the quarantine report on the data page |
+| Data quality | the quarantine rules (`packages/contracts`) and the report on the data page; the HMDA contract with its rounding rules |
+| Geography and crosswalks | `data/delineations`, `docs/geography.md`, the vintage tests |
 | Metric definitions and governance | `metrics/metrics.yml`, `docs/definitions.md` |
-| Statistics: inference | `packages/stats` (block bootstrap by day, cluster robust errors) |
-| Statistics: multiple comparisons | Benjamini-Hochberg across carriers in {{ v('chapter.3.heading') }} |
-| Regression with fixed effects | {{ v('chapter.4.heading') }}, {{ v('chapter.5.heading') }}, {{ v('chapter.6.heading') }} (`packages/stats/fe.py`, weighted cells and the direct solve) |
-| Changepoint detection | {{ v('chapter.2.heading') }} (PELT) |
-| Density and bunching tests | {{ v('chapter.3.heading') }} |
-| Event studies, quasi experiments | {{ v('chapter.7.heading') }} (`packages/events/study.py`) |
+| Statistics: inference | `packages/stats` (block bootstrap, cluster robust errors, Monte Carlo over margins of error) |
+| Statistics: multiple comparisons | Benjamini-Hochberg in every family (`packages/stats/multiple.py`) |
+| Panel regression with fixed effects | {{ v('ch2.title') }}, {{ v('ch4.title') }}, {{ v('ch7.title') }} (`packages/stats/fe.py`, weighted cells) |
+| Quasi experiments | {{ v('ch2.title') }} and {{ v('ch7.title') }} (placebos, synthetic control with permutation inference) |
+| Changepoint detection | {{ v('ch3.title') }} (PELT) |
 | Simulation and estimator validation | `packages/sim`, the recovery study (`packages/evaluation`) |
-| Anomaly detection | `packages/events` |
-| Probability for decisions | {{ v('chapter.8.heading') }}, the misconnect curves (`packages/misconnect`) |
+| Financial modeling | `packages/finance` (tested to the cent), the workbook model sheet |
+| Probability for decisions | {{ v('ch8.title') }}, the breakeven intervals |
 | Data storytelling | `story/`, the sticky chart layout, the method notes |
 | Dashboards and BI | `exports/tableau`, `exports/powerbi`, `/explore` |
 | Spreadsheet modeling | `exports/workbook.xlsx` with live formulas |
@@ -57,7 +56,7 @@ Every chapter is a claim that could have come out the other way: a plan hashed b
 | Visualization | `web/`, the validated palette, one message per chart |
 | Communication | `report/briefing.md`, the pushback paragraphs |
 | Reproducibility | the claim gate, the rederive, the corrections log |
-| Data licensing and provenance | `data/PROVENANCE.md`, the four declared sources |
+| Data licensing and provenance | `data/PROVENANCE.md`, the declared sources |
 
 ## Definition of done
 
@@ -65,24 +64,26 @@ Every chapter is a claim that could have come out the other way: a plan hashed b
 {{ n }}. **{{ v('checklist.' ~ n ~ '.status') }}.** {{ v('checklist.' ~ n ~ '.text') }}. *Evidence:* {{ v('checklist.' ~ n ~ '.evidence') }}
 {% endfor %}
 
+Stretch, not counted: wages as a second income measure (not done), the vendor cross check (not done), the county view (not done), the owners chapter (not done), household formation (not done), the containers in CI (not done).
+
 ## Run it
 
 ```
 make setup        # uv sync and the site's packages
-make data         # every monthly file into typed, flagged parquet; airports, aircraft, weather
+make data         # every source into typed, flagged parquet; the crosswalk; the HMDA extract
 make warehouse    # dbt build and test, then the shipped marts
 make metrics      # the metric layer's reconcile
-make simulate     # the demonstration network and its truth
+make simulate     # the demonstration country and its truth
 make recovery     # every estimator on every condition and seed
-make chapters     # plans registered, then the eight chapters
-make metrics-chapters exports manifest render marts
+make chapters     # plans registered, then the eight chapters and the calculator marts
+make exports manifest render marts
 make gates        # dash, vocabulary, statement, claim gate, identifier scan, palette
 make test         # with the Postgres tests when DOORSTEP_TEST_DATABASE_URL is set
 make rederive     # everything again from the raw files in a worktree, and a diff
 ```
 
-The raw files are fetched on a machine that can reach the hosts (`deploy/fetch-data.ps1`); `docs/runbook.md` has the order, what each step writes and what to do when one stops.
+The raw files are fetched on a machine that can reach the hosts (`deploy/fetch-data.ps1`, with a free Census API key); `docs/runbook.md` has the order, what each step writes and what to do when one stops.
 
 ## Data and licenses
 
-Code: Apache 2.0. Data: the Bureau of Transportation Statistics' Reporting Carrier On-Time Performance files and the FAA's releasable aircraft registry are U.S. government works in the public domain; OurAirports is public domain; Open-Meteo's historical weather is CC BY 4.0, attributed in `data/weather/ATTRIBUTION.md` and on every page that shows it. `data/PROVENANCE.md` lists every file with its source and its checksum. This is a portfolio analysis and a demonstration API with a token gate on writes and no other authentication.
+Code: Apache 2.0. Data: the Federal Housing Finance Agency house price index, the Census Bureau's American Community Survey, Building Permits Survey, population estimates and delineation files, the Department of Housing and Urban Development's fair market rents and income limits and the Consumer Financial Protection Bureau's mortgage disclosure extract are U.S. government works in the public domain; the Freddie Mac Primary Mortgage Market Survey is free with attribution under its terms of use, attributed in `data/PROVENANCE.md` and on every page that shows a rate. `data/PROVENANCE.md` lists every file with its source and its checksum. The derived race and ethnicity fields of the loan extract are not loaded. This is a portfolio analysis and a demonstration API with a token gate on writes and no other authentication; it is not financial advice, not a forecast and not a fair lending finding.
