@@ -35,7 +35,7 @@ Each stage writes its own partial manifest, so a stage can be rerun alone; `make
 
 ## Deploy
 
-`deploy/deploy.ps1` builds and deploys the API image to Fly and runs the migration, or the `space` workflow publishes the same image to a Hugging Face Docker Space (the free route, no card: an `HF_TOKEN` secret and an `HF_SPACE` variable on the repository, the Space's own secrets for the database and the write token); either way `deploy/live-url.txt` holds the base URL the other scripts read; `deploy/verify.ps1` checks it from a separate client and writes `results/deploy/verification.json`; `deploy/replay.ps1` preloads the demo queue; `scripts/load_test.py --base-url ...` measures latency into `results/latency`; `scripts/live_check.py` records the browser check into `results/live_check.json`. Then `make manifest render` and commit.
+Vercel builds `Dockerfile.vercel` on every push to main and serves it as a container function (the free route, no card; the migration runs when an instance starts); `deploy/deploy.ps1` deploys the same image to Fly for an account with a card; the `space` workflow is the Hugging Face route, closed for free accounts since the middle of this year. Whichever host answers, `deploy/live-url.txt` holds the base URL the other scripts read; `deploy/verify.ps1` checks it from a separate client and writes `results/deploy/verification.json`; `deploy/replay.ps1` preloads the demo queue; `scripts/load_test.py --base-url ...` measures latency into `results/latency`; `scripts/live_check.py` records the browser check into `results/live_check.json`. Then `make manifest render` and commit.
 
 ## Rederive
 

@@ -81,3 +81,12 @@ The registered message rule for the buyers chapter had branches for richer, olde
 ## 2026-10-23: The API container is host neutral, because the Fly trial ended
 
 The deploy step found Fly refusing every operation, app creation and even listing machines, until a card is on the account; the trial had ended, which also stopped the three earlier builds' APIs. The build rule is no spending, so the image is not deployed to Fly. The same container now publishes to a Hugging Face Docker Space through `.github/workflows/space.yml`, which needs only a token and a Space name on the repository and no card anywhere; `fly.toml` and the Fly scripts stay for an account that has one. The site reads the recorded session while no API answers and says so on the page, which is the behaviour the tests already cover.
+
+## 2026-10-23: The Hugging Face route closed before it was used; the container goes to Vercel
+
+Docker and Gradio Spaces require a paid plan since mid 2026 and only static Spaces are free, so the `space` workflow added this morning cannot run on this account. The same image deploys as a Vercel container function from `Dockerfile.vercel` (the Hobby plan: no card, non commercial use, a 300 second ceiling per request, scale to zero), with the migration in the container start command as before. The Space workflow and the Fly scripts stay as records of the two routes that were open when the series started. The lesson from this morning holds twice over: probe the host before the deploy step, and probe it the same day, because a free tier can close between two builds.
+
+## 2026-10-23: Git GUI hands its own repository to every tool, so the doorstep tools pushed turnaround
+
+The deploy tools for this build live in the turnaround repository's Git GUI menu, because Git GUI splits a tool command on spaces and this repository's path has one. Run from that window, `doorstep push tag` reported everything up to date while GitHub had no tag: Git GUI exports its own `GIT_DIR` to the tools it launches, so every git command in the doorstep scripts acted on turnaround, whose `v0.1.0` was already pushed. The tag went up through the Push dialog of Git GUI with this repository opened directly, and the push scripts now clear `GIT_DIR` and `GIT_WORK_TREE` before any git command. The fetch, verify, replay and load test scripts never call git and were not affected.
+
