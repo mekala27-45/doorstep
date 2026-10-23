@@ -223,6 +223,8 @@ def run(p: Paths) -> Manifest:
         + sorted((p.external / "gazetteer").glob("*.zip"))
     )
     latest_v = geography.latest_vintage(flagged)
+    alias_table = geography.aliases(flagged)
+    write_parquet(alias_table, derived / "area_aliases.parquet")
     s = Scribe(
         manifest,
         source="real:omb",
@@ -231,6 +233,20 @@ def run(p: Paths) -> Manifest:
     )
     s.put("data.omb.vintages", flagged["vintage"].n_unique(), "int")
     s.put("data.omb.latest_vintage", latest_v, "int")
+    s.put("data.omb.earlier_codes", alias_table["cbsa_code"].n_unique(), "int")
+    s.put(
+        "data.omb.recoded",
+        alias_table.filter(pl.col("rule") == "recode")["cbsa_code"].n_unique(),
+        "int",
+    )
+    s.put(
+        "data.omb.merged",
+        alias_table.filter(pl.col("rule") == "merged")["cbsa_code"].n_unique(),
+        "int",
+    )
+    with_alias = alias_table.filter(pl.col("latest_code").is_not_null())["cbsa_code"].n_unique()
+    s.put("data.omb.with_alias", with_alias, "int")
+    s.put("data.omb.without_alias", alias_table["cbsa_code"].n_unique() - with_alias, "int")
     s.put(
         "data.omb.metropolitan_areas",
         geography.areas(flagged, latest_v).filter(pl.col("kind") == "metropolitan").height,

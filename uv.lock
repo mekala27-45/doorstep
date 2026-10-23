@@ -848,6 +848,7 @@ name = "doorstep-sim"
 version = "0.1.0"
 source = { editable = "packages/sim" }
 dependencies = [
+    { name = "doorstep-contracts" },
     { name = "doorstep-core" },
     { name = "doorstep-finance" },
     { name = "numpy" },
@@ -856,6 +857,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "doorstep-contracts", editable = "packages/contracts" },
     { name = "doorstep-core", editable = "packages/core" },
     { name = "doorstep-finance", editable = "packages/finance" },
     { name = "numpy", specifier = ">=1.26" },

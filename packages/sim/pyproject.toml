@@ -5,6 +5,7 @@ description = "Synthetic metros with known truth: incomes, distributions, elasti
 requires-python = ">=3.12,<3.13"
 license = "Apache-2.0"
 dependencies = [
+  "doorstep-contracts",
   "doorstep-core",
   "doorstep-finance",
   "numpy>=1.26",

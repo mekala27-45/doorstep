@@ -42,7 +42,8 @@
 } %}
 with long as (
     select year, cbsa_code, name, variable, estimate, moe, is_national
-    from {{ ref('stg_acs') }}
+    from {{ ref('int_acs_resolved') }}
+    where kept
 ),
 pivoted as (
     select

@@ -1,4 +1,4 @@
--- Permits and population by county and year, each mapped to its area through the vintage in force that year.
+-- Permits and population by county and year, each county mapped to its area on the latest delineation (int_county_vintage_map).
 with permits as (
     select year, partial_through_month, county_fips, units_total, units_1, units_5_plus, value_total
     from {{ ref('stg_permits') }}

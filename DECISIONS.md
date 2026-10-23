@@ -57,3 +57,15 @@ The validator ported from the previous builds rejected three of the stated value
 ## 2026-10-23: The HMDA year is read a part at a time
 
 Reading a year of the extract into one frame with its flags took six gigabytes on a seven gigabyte machine and the first full run was killed. Each gzip part is typed, flagged and written on its own; the year's parquet is then written by DuckDB streaming the parts under its memory limit, and the quarantine report is the sum over parts. The year's parquet is cached by a digest of the parts and the contract, so a rerun that changes nothing reads nothing.
+
+## 2026-10-23: The rent burden table changed layout with the 2014 release, not 2015
+
+The fetch script asked for fifty cells of table B25074 through 2014 on the strength of a comment. The first real warehouse failed its burden test with negative renter counts in 2014 alone, and the cells showed the sixty four cell layout already in that release: the fifty cells fetched were the first fifty of nine per group. The script and the mart now switch with the 2013 release, the 2014 table was fetched again, and the warehouse test that caught it stays as it is.
+
+## 2026-10-23: Puerto Rico's areas are outside the price test and every anchored chapter
+
+Four Puerto Rico metropolitan areas are in the delineation with census rows and loans, and FHFA publishes no index for them. The warehouse test that asks for a year of prices in every metropolitan area with more than two hundred thousand households failed on San Juan alone. The test leaves Puerto Rico out by name rather than lowering the threshold, and the geography page says so.
+
+## 2026-10-23: Counties on the latest delineation, census areas through an alias table
+
+The first warehouse mapped every county through the delineation in force in the data year, as the spec reads, and the first real build failed the metric reconcile: the county roll up carried a hundred area codes the latest delineation no longer has, and Connecticut's metros had no population at all for 2020 to 2022, because the planning regions that replaced its counties are not in the 2020 vintage. The county sources (permits, population, the loans, the HUD files) are now placed on the latest delineation for every year, so a metro is the same counties throughout, and a retired county code maps through the last vintage that carried it. The census, which publishes by area, resolves its codes through an alias table derived from the delineation files: an earlier code goes to the latest area that holds more than half of its counties. The reconciliation the spec asks for is run on population rather than owner households, because the one year census tables carry no county level owner counts: the roll up reproduces the Bureau's own published metro totals of the latest vintage within a tenth of a percent, and that test is in the warehouse.

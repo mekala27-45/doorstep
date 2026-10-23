@@ -13,6 +13,7 @@ from pathlib import Path
 
 import numpy as np
 import polars as pl
+from doorstep_contracts import geography
 from doorstep_core.config import INCOME_BRACKETS
 from doorstep_core.scalars import num
 from doorstep_core.seeds import rng
@@ -389,6 +390,8 @@ def export(w: World, external: Path, derived: Path, hmda: Path, *, loan_scale: f
     delin = pl.DataFrame(del_rows, schema_overrides={"division_code": pl.Utf8, "division_title": pl.Utf8})
     delin.write_parquet(derived / "delineations.parquet")
     counts["delineations"] = delin.height
+    # The same areas in every vintage, so the alias table is empty with its schema.
+    geography.aliases(delin).write_parquet(derived / "area_aliases.parquet")
     gaz = pl.DataFrame(
         {
             "cbsa_code": codes,

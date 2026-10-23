@@ -163,6 +163,14 @@ def test_permit_rules_three_ways() -> None:
         permits.quarantine(_permits(1.0, 1.0).clear())
 
 
+def test_permit_years_must_be_continuous() -> None:
+    full = pl.concat([_permits(1.0, 1.0).with_columns(pl.lit(y).alias("year")) for y in (2021, 2022, 2023)])
+    permits.refuse_missing_years(full)
+    with_hole = pl.concat([_permits(1.0, 1.0).with_columns(pl.lit(y).alias("year")) for y in (2021, 2023)])
+    with pytest.raises(ContractError, match="2022"):
+        permits.refuse_missing_years(with_hole)
+
+
 # Population
 
 

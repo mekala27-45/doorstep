@@ -14,14 +14,44 @@ models:
       - name: kind
         data_tests:
           - accepted_values: {values: ['metropolitan', 'micropolitan']}
+  - name: int_vintage_in_force
+    description: The delineation vintage in force for each publication year.
+    data_tests:
+      - not_empty
+    columns:
+      - name: year
+        data_tests: [not_null, unique]
+      - name: vintage
+        data_tests: [not_null]
   - name: int_county_vintage_map
-    description: County to area per publication year through the vintage in force.
+    description: County to area for every publication year on the latest delineation, retired counties through the last vintage that carried them, the area under its latest code.
     data_tests:
       - not_empty
       - unique_combination:
           combination_of_columns: [year, county_fips]
     columns:
-      - name: vintage
+      - name: mapping
+        data_tests:
+          - accepted_values: {values: ['latest', 'retired county', 'dropped from every area']}
+      - name: cbsa_code
+        description: Null when the area of that year was dissolved or split since; such a county enters no metro series.
+        data_tests:
+          - relationships:
+              to: ref('int_metro_dim')
+              field: cbsa_code
+      - name: kind
+        data_tests:
+          - accepted_values: {values: ['metropolitan', 'micropolitan']}
+  - name: int_acs_resolved
+    description: The census long table with every area under its latest code and one kept row per area, year and variable.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, cbsa_code, variable, is_national]
+          config:
+            where: "kept"
+    columns:
+      - name: cbsa_code
         data_tests: [not_null]
   - name: int_fhfa_area
     description: The index per area and quarter, divisions rolled up to their area.

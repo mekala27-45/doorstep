@@ -46,6 +46,17 @@ models:
       - name: kind
         data_tests:
           - accepted_values: {values: ['metropolitan', 'micropolitan']}
+  - name: stg_aliases
+    description: Every earlier area code with the latest area it resolves to, or none.
+    data_tests:
+      - unique_combination:
+          combination_of_columns: [vintage, cbsa_code]
+    columns:
+      - name: rule
+        data_tests:
+          - accepted_values: {values: ['recode', 'merged', 'dissolved', 'split']}
+      - name: counties_in_latest
+        data_tests: [non_negative]
   - name: stg_permits
     data_tests:
       - not_empty

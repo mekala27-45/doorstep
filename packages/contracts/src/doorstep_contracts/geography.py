@@ -1,11 +1,11 @@
 """The OMB metropolitan delineation files, one per vintage, and the CBSA gazetteer.
 
-Every source in this build is published against the delineation in force when it came out: the
-census tables carry the vintage of their year, the permits and population files their release's, the
-loans the vintage HMDA used for that year, and the price index the current one. The crosswalk here
-maps every county to exactly one area per vintage, and the warehouse carries each metro under its
-latest code with the earlier codes as aliases. The 2023 delineation renamed and recomposed areas
-(Connecticut's planning regions among them), which is why the crosswalk is tested rather than assumed.
+The census publishes by area against the delineation in force in the release year; the county files
+(permits, population, the loans, the HUD files) are placed on the latest delineation for every year. The
+crosswalk here maps every county to exactly one area per vintage, and ``aliases`` derives the table the
+warehouse uses to carry each area under its latest code with the earlier codes as aliases. The 2023
+delineation renamed and recomposed areas (Connecticut's planning regions among them), which is why the
+crosswalk is tested rather than assumed.
 """
 
 from __future__ import annotations
@@ -158,6 +158,98 @@ def areas(frame: pl.DataFrame, vintage: int) -> pl.DataFrame:
         .agg(pl.len().alias("counties"))
         .sort("cbsa_code")
     )
+
+
+ALIAS_RULES = ("recode", "merged", "dissolved", "split")
+
+
+def aliases(frame: pl.DataFrame) -> pl.DataFrame:
+    """Every area code of an earlier vintage that is not a code of the latest vintage, with the latest area that
+    holds more than half of its counties as its alias. The rule names what happened: ``recode`` when the latest
+    code did not exist in that vintage (the area went on under a new code), ``merged`` when it did (the area was
+    absorbed into a neighbour), ``dissolved`` when none of its counties is in any latest area, and ``split`` when
+    no latest area holds more than half of them; the last two carry no alias. One row per vintage and code."""
+    clean = frame.filter(~pl.col("quarantined")) if "quarantined" in frame.columns else frame
+    latest_v = latest_vintage(clean)
+    latest = clean.filter(pl.col("vintage") == latest_v)
+    latest_codes = latest.select("cbsa_code", "cbsa_title").unique()
+    county_to_latest = latest.select("county_fips", pl.col("cbsa_code").alias("latest_code"))
+    earlier = clean.filter(pl.col("vintage") != latest_v)
+    counts = earlier.group_by(["vintage", "cbsa_code"]).agg(
+        pl.col("cbsa_title").first().alias("cbsa_title"), pl.len().alias("counties")
+    )
+    shared = (
+        earlier.join(county_to_latest, on="county_fips", how="inner")
+        .group_by(["vintage", "cbsa_code", "latest_code"])
+        .agg(pl.len().alias("counties_in_latest"))
+        .sort(
+            ["vintage", "cbsa_code", "counties_in_latest", "latest_code"],
+            descending=[False, False, True, False],
+        )
+        .group_by(["vintage", "cbsa_code"], maintain_order=True)
+        .first()
+    )
+    present = (
+        earlier.select("vintage", pl.col("cbsa_code").alias("latest_code"))
+        .unique()
+        .with_columns(pl.lit(True).alias("latest_code_in_vintage"))
+    )
+    out = (
+        counts.join(shared, on=["vintage", "cbsa_code"], how="left")
+        .join(
+            latest_codes.rename({"cbsa_code": "cbsa_code_latest"}),
+            left_on="cbsa_code",
+            right_on="cbsa_code_latest",
+            how="anti",
+        )
+        .join(present, on=["vintage", "latest_code"], how="left")
+        .join(
+            latest_codes.rename({"cbsa_code": "latest_code", "cbsa_title": "latest_title"}),
+            on="latest_code",
+            how="left",
+        )
+        .with_columns(
+            pl.when(pl.col("counties_in_latest").is_null())
+            .then(pl.lit("dissolved"))
+            .when(pl.col("counties_in_latest") * 2 <= pl.col("counties"))
+            .then(pl.lit("split"))
+            .when(pl.col("latest_code_in_vintage").fill_null(False))
+            .then(pl.lit("merged"))
+            .otherwise(pl.lit("recode"))
+            .alias("rule")
+        )
+        .with_columns(
+            pl.when(pl.col("rule").is_in(["dissolved", "split"]))
+            .then(None)
+            .otherwise(pl.col("latest_code"))
+            .alias("latest_code"),
+            pl.when(pl.col("rule").is_in(["dissolved", "split"]))
+            .then(None)
+            .otherwise(pl.col("latest_title"))
+            .alias("latest_title"),
+            pl.col("counties_in_latest").fill_null(0),
+        )
+        .select(
+            "vintage",
+            "cbsa_code",
+            "cbsa_title",
+            "latest_code",
+            "latest_title",
+            "counties",
+            "counties_in_latest",
+            "rule",
+        )
+        .sort(["vintage", "cbsa_code"])
+    )
+    if out.filter(pl.col("latest_code").is_not_null()).height > 0:
+        unresolved = out.filter(pl.col("latest_code").is_not_null()).join(
+            latest_codes, left_on="latest_code", right_on="cbsa_code", how="anti"
+        )
+        if unresolved.height:
+            raise ContractError(
+                f"{unresolved.height} aliases point at a code that is not in the latest vintage"
+            )
+    return out
 
 
 def divisions(frame: pl.DataFrame, vintage: int) -> pl.DataFrame:

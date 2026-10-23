@@ -26,6 +26,8 @@ sources:
       - name: popest_metro_published
       - name: delineations
         description: The OMB county to area mapping, one row per county per vintage.
+      - name: area_aliases
+        description: Every earlier area code that is not a latest code, with the latest area that holds more than half of its counties, or none.
       - name: gazetteer
 
   - name: loans
