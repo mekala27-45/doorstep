@@ -1,0 +1,38 @@
+{
+    "base_url":  "https://doorstep-housing-api.vercel.app",
+    "client":  "AJAY, Windows, PowerShell 5.1.26100.9711",
+    "checked_at":  "2026-10-23T16:21:02.4811389Z",
+    "health":  {
+                   "model_version":  "marts-247f8dbafa",
+                   "rate_default":  7.32,
+                   "database":  "ok",
+                   "latest_period":  "2026Q2",
+                   "status":  "ok",
+                   "metros":  382
+               },
+    "metro":  "New York-Newark-Jersey City, NY-NJ",
+    "cbsa_code":  "35620",
+    "income":  100000,
+    "quarter":  "2026Q1",
+    "check_id":  "8298cd9a-4e61-4612-92ab-d0c10e742b62",
+    "payment_share":  0.5120067640104823,
+    "affordable_price":  457935.58451320353,
+    "affordable_share":  0.28783658864187056,
+    "breakeven_years":  22.5,
+    "breakeven_low":  2.0,
+    "breakeven_high":  31.0,
+    "read_back_payment_share":  0.5120067640104823,
+    "score":  {
+                  "scored_quarter":  "2026Q2",
+                  "realized_payment_share":  0.5422020952629604,
+                  "absolute_error":  0.030195331252478086,
+                  "price_moved":  0.025375757411998157,
+                  "rate_moved":  0.30544871794871753,
+                  "scored_at":  "2026-10-23T16:20:59.705767+00:00"
+              },
+    "unscored_share":  0.0,
+    "audit_entries":  2,
+    "audit_before_response":  true,
+    "statement_present":  true,
+    "passed":  true
+}

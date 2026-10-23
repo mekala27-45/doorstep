@@ -1,0 +1,23 @@
+{
+    "base_url":  "https://doorstep-housing-api.vercel.app",
+    "measured_at":  "2026-10-23T16:23:23.4429490Z",
+    "requests":  40,
+    "concurrency":  6,
+    "metros":  20,
+    "first_request_ms":  104.1,
+    "check":  {
+                  "p50_ms":  1033.8,
+                  "p99_ms":  1104.6,
+                  "max_ms":  1104.6,
+                  "mean_ms":  998.4
+              },
+    "read":  {
+                 "p50_ms":  100.6,
+                 "p99_ms":  1094.8,
+                 "max_ms":  1094.8,
+                 "mean_ms":  506.1
+             },
+    "burst_check_max_ms":  2251.3,
+    "errors":  0,
+    "note":  "sequential requests after one warming request from a Windows client; the burst is concurrent checks"
+}

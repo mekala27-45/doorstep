@@ -3,8 +3,9 @@
 The browser session runs on a machine that can reach both hosts (the build machine cannot): every
 route loaded with the statement on it, the API's health read, one check saved through the planner
 with its id shown, and the planner opened again after the machine stopped on its idle timeout, so
-the first probe meets the wake up and the page either answers on the second probe or shows the
-recorded session, labeled. This script turns what was seen into results/live_check.json in the
+the first probe meets the wake up and the page either answers on the second probe, answers on the
+first probe after a cold start (a serverless host starts an instance instead of returning 503), or
+shows the recorded session, labeled. This script turns what was seen into results/live_check.json in the
 shape the manifest reads, and refuses a report that names no browser, misses a route or saved no
 check.
 
@@ -30,7 +31,11 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "results" / "live_check.json"
 ROUTES = ("/", "/explore/", "/rank/", "/buyers/", "/shocks/", "/planner/", "/data/", "/report/")
-ASLEEP_OUTCOMES = ("answered on the second probe", "showed the recorded session, labeled")
+ASLEEP_OUTCOMES = (
+    "answered on the second probe",
+    "answered on the first probe after a cold start",
+    "showed the recorded session, labeled",
+)
 
 
 def build_report(seen: dict[str, Any]) -> dict[str, Any]:

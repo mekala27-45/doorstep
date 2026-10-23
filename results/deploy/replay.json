@@ -1,0 +1,16 @@
+{
+    "base_url":  "https://doorstep-housing-api.vercel.app",
+    "replayed_at":  "2026-10-23T16:21:52.8143495Z",
+    "latest_period":  "2026Q2",
+    "checks_made":  20,
+    "metros":  20,
+    "scored":  20,
+    "unscored_share":  0.0,
+    "scorecard":  {
+                      "scored":  21,
+                      "mean_price_move":  0.006292539249783659,
+                      "mean_absolute_error":  0.01531832206694488,
+                      "checks":  21,
+                      "mean_rate_move":  0.30544871794871753
+                  }
+}
