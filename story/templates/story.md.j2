@@ -1,8 +1,8 @@
-# Why your flight is late
+# Can anyone still afford a home
 
 *A data story in {{ v('story.chapters') }} chapters, about {{ reading_minutes }} minutes to read. Every number below is rendered from the analysis manifest; none was typed.*
 
-**{{ message('inherited') }}: {{ v('ch4.share') }} of arrival delay minutes in the reporting years were inherited from the aircraft's previous flight, against {{ v('ch4.reported_share') }} in the field the airlines report.**
+**{{ message('definition') }}**
 
 {{ statement() }}
 
@@ -22,6 +22,6 @@ No published number has been corrected since the first release. Corrections will
 {% endfor %}
 ## How this was built
 
-Every scheduled domestic flight of the reporting carriers from {{ v('data.first_month') }} to {{ v('data.last_month') }}, {{ v('data.rows_millions') }} rows, went through named quarantine rules into a dbt warehouse whose metric layer defines each number once and reconciles it at {{ v('metrics.grains') }} grains. Each chapter's plan was hashed before its estimate touched a real flight, and each estimator was first run on a simulated airline network where the answer is known. The story, the memo, the site and the workbook all render from one manifest, so a number here is the number everywhere.
+Prices from the regulator index for every metropolitan area it covers from {{ v('data.fhfa.first_year') }} to {{ v('data.fhfa.latest_period') }}, incomes, rents and tenure from every one year census release from {{ v('data.acs.first_year') }} to {{ v('data.acs.last_year') }} with the {{ v('data.acs.gap_year') }} release carried as a gap, weekly mortgage rates, permits, population with its components, and {{ v('data.hmda.rows_in_analysis') }} mortgage originations from {{ v('data.hmda.first_year') }} to {{ v('data.hmda.last_year') }} went through {{ v('data.quarantine.rules') }} named quarantine rules into a dbt warehouse whose metric layer defines each number once and reconciles it at {{ v('metrics.grains') }} grains. Each chapter's plan was hashed before its estimate touched a real metro, and each estimator was first run on a simulated country of {{ v('sim.metros') }} metros where the answer is known, over {{ v('recovery.conditions') }} conditions and {{ v('recovery.seeds') }} seeds each. The story, the briefing, the site and the workbook all render from one manifest, so a number here is the number everywhere.
 
-The method appendix, the definitions, the warehouse and the simulator's recovery study are on the [data page](data/), and every chart's SQL is one click from the chart.
+The method appendix, the definitions, the warehouse and the recovery study are on the [data page](data/), the calculator is on the [planner page](planner/), and every chart's SQL is one click from the chart.

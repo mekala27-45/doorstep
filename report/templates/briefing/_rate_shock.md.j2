@@ -1,0 +1,12 @@
+## {{ number }}. The rate shock and the lock in
+
+<!-- chart: rate_shock -->
+**{{ message('rate_shock') }}** The payment on the home as priced in {{ v('ch2.base_period') }} went from {{ v('ch2.base_payment') }} to {{ v('ch2.latest_payment') }} by {{ v('ch2.latest_period') }} ({{ v('ch2.latest_change') }}): {{ v('ch2.latest_price_part') }} from the price and {{ v('ch2.latest_rate_part') }} from the rate, {{ v('ch2.rate_part_share') }} of the change, which overtook the price part in {{ v('ch2.overtaking_quarter') }}. Lock in intensity ({{ v('ch2.low_rate_originations') }} originations under {{ v('policy.lock_in_threshold') }} in {{ v('policy.lock_in_years') }}, per hundred owner households) runs from {{ v('ch2.lock_in.p10') }} to {{ v('ch2.lock_in.p90') }} across metros; turnover fell from {{ v('ch2.turnover.before') }} to {{ v('ch2.turnover.after') }}; the regression gives {{ v('ch2.lock_in.coef') }} per point ({{ v('ch2.lock_in.low') }} to {{ v('ch2.lock_in.high') }}) against a placebo of {{ v('ch2.placebo.coef') }} ({{ v('ch2.placebo.low') }} to {{ v('ch2.placebo.high') }}).
+
+{{ table('ch2.threshold_interior') }}
+
+**Method.** Plan `{{ v('ch2.plan_hash') }}`; {{ v('ch2.method.estimator') }}; {{ v('ch2.method.interval') }}; {{ v('ch2.method.split') }}; {{ v('ch2.cells') }} cells. Threshold interior: {{ v('ch2.threshold_degenerate') }}. Simulator: lock in mean bias {{ v('recovery.lock_in_did.mean_bias') }}, coverage {{ v('recovery.lock_in_did.mean_coverage') }}.
+
+### What the housing economist would push back on
+
+{{ v('ch2.pushback') }}

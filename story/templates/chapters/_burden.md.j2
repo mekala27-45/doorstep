@@ -1,0 +1,15 @@
+<!-- chapter: burden | {{ number }} | burden -->
+## The rent burden is a distribution, not a median
+<!-- claim -->
+**{{ v('ch3.message') }}**
+<!-- step: bands -->
+The census asks every renter what share of income the rent takes and publishes the answer in bands. The two lines that matter are the ones the government draws: cost burdened at {{ v('policy.affordable_line') }} of income and severely burdened at {{ v('policy.severe_line') }}. Across the {{ v('ch3.metros') }} metros in {{ v('ch3.latest_year') }}, {{ v('ch3.burdened.share') }} of renter households with a computed share pay {{ v('policy.affordable_line') }} or more (interval {{ v('ch3.burdened.low') }} to {{ v('ch3.burdened.high') }}). In {{ v('ch3.median_under_line_metros') }} of those metros ({{ v('ch3.median_under_line_share') }}) the median renter sits under the line. A story that reports the median rent against the median renter income can report either of those facts and miss the other.
+<!-- step: severe -->
+The severe band is the one a median hides entirely. {{ v('ch3.severe.share') }} of renter households pay half or more of their income in rent (interval {{ v('ch3.severe.low') }} to {{ v('ch3.severe.high') }}), against the {{ v('ch3.severe_share_line') }} line this chapter stated before it looked. Nationally the severe share went from {{ v('ch3.national.severe.first') }} in {{ v('ch3.national.first_year') }} to {{ v('ch3.national.severe.latest') }} in {{ v('ch3.latest_year') }}, a change of {{ v('ch3.national.severe.change') }}. By household income the picture is a cliff: among renters in the lowest income group {{ v('ch3.groups.lowest.severe') }} are severely burdened in {{ v('ch3.groups.year') }}; in the highest group it is {{ v('ch3.groups.highest.severe') }}. Owners with a mortgage sit beside them for scale: {{ v('ch3.owner_mortgage_burdened_share') }} pay {{ v('policy.affordable_line') }} or more of income in owner costs.
+<!-- step: changepoints -->
+Did the national severe series drift, or did it move and stay moved? A changepoint search with a penalty fixed before the data finds {{ v('ch3.changepoint_count') }} breaks, in {{ v('ch3.changepoints') }}. The years are on the chart; the reader can decide what each one was. What the search rules out is a smooth line.
+<!-- method -->
+Plan `{{ v('ch3.plan_hash') }}`. {{ v('ch3.method.estimator') }}; {{ v('ch3.method.interval') }}; {{ v('ch3.method.split') }}; {{ v('ch3.method.family') }}. The severe line has its interior test on the data page: the headline under {{ v('policy.severe_lines') }} is {{ v('ch3.line_degenerate') }}. On the simulator the severe share recovers the planted distribution with a mean bias of {{ v('recovery.severe_share.mean_bias') }}, and the changepoint search lands within a year of the planted step in {{ v('recovery.burden_changepoint.mean_flag_rate') }} of worlds.
+<!-- pushback -->
+{{ v('ch3.pushback') }}
+<!-- /chapter -->

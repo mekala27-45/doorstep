@@ -1,0 +1,12 @@
+## {{ number }}. Affordable is a decision
+
+<!-- chart: definition -->
+**{{ message('definition') }}** Price to income for the owner weighted aggregate of {{ v('ch1.metros_compared') }} metros went from {{ v('ch1.first.price_to_income') }} in {{ v('ch1.first_year') }} to {{ v('ch1.latest.price_to_income') }} in {{ v('ch1.latest_year') }} ({{ v('ch1.pti_change') }}), with the cycle peak at {{ v('ch1.peak.price_to_income') }} in {{ v('ch1.peak_year') }}. The payment share, twelve payments on the median home at the rate of each quarter over the median income, went from {{ v('ch1.first.payment_share') }} to {{ v('ch1.latest.payment_share') }} ({{ v('ch1.latest.payment_share.low') }} to {{ v('ch1.latest.payment_share.high') }}), {{ v('ch1.diff') }} against the peak ({{ v('ch1.diff.low') }} to {{ v('ch1.diff.high') }}). {{ v('ch1.metros_above_peak') }} metros ({{ v('ch1.metros_above_peak_share') }}) sit above their own peak payment share; {{ v('ch1.metros_above_line') }} ({{ v('ch1.metros_above_line_share') }}) sit above the {{ v('policy.affordable_line') }} line.
+
+{{ table('ch1.anchor_sensitivity') }}
+
+**Method.** Plan `{{ v('ch1.plan_hash') }}`; {{ v('ch1.method.estimator') }}; {{ v('ch1.method.interval') }}; {{ v('ch1.method.split') }}. Anchor sensitivity: {{ v('ch1.anchor_degenerate') }}. Simulator: anchored payment share mean bias {{ v('recovery.anchored_payment_share.mean_bias') }}; self report correction mean bias {{ v('recovery.self_report_correction.mean_bias') }}.
+
+### What the housing economist would push back on
+
+{{ v('ch1.pushback') }}

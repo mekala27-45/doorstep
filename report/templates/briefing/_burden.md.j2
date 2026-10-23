@@ -1,0 +1,12 @@
+## {{ number }}. The rent burden is a distribution
+
+<!-- chart: burden -->
+**{{ message('burden') }}** {{ v('ch3.burdened.share') }} of renter households pay {{ v('policy.affordable_line') }} or more of income in rent ({{ v('ch3.burdened.low') }} to {{ v('ch3.burdened.high') }}) and {{ v('ch3.severe.share') }} pay {{ v('policy.severe_line') }} or more ({{ v('ch3.severe.low') }} to {{ v('ch3.severe.high') }}) in {{ v('ch3.latest_year') }}; the median renter is under the line in {{ v('ch3.median_under_line_metros') }} of {{ v('ch3.metros') }} metros. Nationally the severe share went from {{ v('ch3.national.severe.first') }} to {{ v('ch3.national.severe.latest') }} ({{ v('ch3.national.severe.change') }}) with breaks in {{ v('ch3.changepoints') }}. Owners with a mortgage: {{ v('ch3.owner_mortgage_burdened_share') }} burdened.
+
+{{ table('ch3.by_income_group') }}
+
+**Method.** Plan `{{ v('ch3.plan_hash') }}`; {{ v('ch3.method.estimator') }}; {{ v('ch3.method.interval') }}. Severe line interior: {{ v('ch3.line_degenerate') }}. Simulator: severe share mean bias {{ v('recovery.severe_share.mean_bias') }}; changepoint within a year of the planted step in {{ v('recovery.burden_changepoint.mean_flag_rate') }} of worlds.
+
+### What the housing economist would push back on
+
+{{ v('ch3.pushback') }}

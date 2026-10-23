@@ -1,0 +1,15 @@
+<!-- chapter: supply | {{ number }} | supply -->
+## Where builders kept pace, prices rose less
+<!-- claim -->
+**{{ v('ch4.message') }}**
+<!-- step: cells -->
+Every metro is cut into {{ v('ch4.window_years') }} year windows from {{ v('ch4.first_year') }} to {{ v('ch4.last_year') }}, {{ v('ch4.windows') }} windows and {{ v('ch4.cells') }} cells over {{ v('ch4.metros') }} metros. For each cell the chart plots the building rate, permits per hundred households averaged over the window and shifted back one year so that permits lead prices, against the annual price growth of the window. The building rate runs from {{ v('ch4.permits_rate.p10') }} at the tenth percentile cell to {{ v('ch4.permits_rate.p90') }} at the ninetieth, around a mean of {{ v('ch4.permits_rate.mean') }}. The spec asked for permits per new household; that ratio has no value in a metro that lost households, which {{ v('ch4.permits_per_new_household.defined_share') }} of cells avoid, so it is published as a descriptive beside the rate (median {{ v('ch4.permits_per_new_household.median') }}) and the decision is logged.
+<!-- step: controlled -->
+With metro and window fixed effects, each extra permit per hundred households is associated with {{ v('ch4.controlled.per_window') }} price growth over the window (interval {{ v('ch4.controlled.per_window.low') }} to {{ v('ch4.controlled.per_window.high') }}), with domestic migration per hundred residents over the window and the two years before it in the regression as the observed demand shock. Between the tenth and the ninetieth percentile building rate that is {{ v('ch4.effect_p90_vs_p10') }} over a window.
+<!-- step: both -->
+Take the demand control out and the estimate is {{ v('ch4.uncontrolled.per_window') }} (interval {{ v('ch4.uncontrolled.per_window.low') }} to {{ v('ch4.uncontrolled.per_window.high') }}). The two are published side by side because the gap between them is the size of the objection: builders build where people are arriving, and a regression that cannot see the arrivals credits the building with what the demand did. The simulator, where the elasticity is planted at {{ v('recovery.supply_controlled.truth') }}, puts the controlled estimate's mean bias at {{ v('recovery.supply_controlled.mean_bias') }} and the uncontrolled at {{ v('recovery.supply_uncontrolled.mean_bias') }}; under strong demand the uncontrolled bias is {{ v('recovery.supply_uncontrolled.strong_demand.bias') }} against {{ v('recovery.supply_controlled.strong_demand.bias') }} with the control. Both estimates are pulled toward zero when builders also answer the price growth they are regressed on, and the recovery table on the data page quantifies that by condition, which is why the headline is read as a lower bound in size.
+<!-- method -->
+Plan `{{ v('ch4.plan_hash') }}`. {{ v('ch4.method.estimator') }}; {{ v('ch4.method.interval') }}; {{ v('ch4.method.split') }}; {{ v('ch4.method.family') }}. The window length has its interior test: the headline under windows of {{ v('policy.supply_windows') }} years is {{ v('ch4.window_degenerate') }}.
+<!-- pushback -->
+{{ v('ch4.pushback') }}
+<!-- /chapter -->

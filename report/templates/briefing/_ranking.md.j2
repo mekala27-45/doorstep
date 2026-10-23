@@ -1,0 +1,12 @@
+## {{ number }}. The fair ranking
+
+<!-- chart: ranking -->
+**{{ message('ranking') }}** {{ v('ch5.metros_ranked') }} metropolitan areas ranked in {{ v('ch5.year') }} by the anchored median value and by the payment share at the local median income, with rank intervals from {{ v('ch5.draws') }} Monte Carlo draws over the census margins. Most expensive: {{ v('ch5.raw.top3') }}. Least affordable: {{ v('ch5.adjusted.top3') }}, led by {{ v('ch5.least_affordable') }} at {{ v('ch5.least_affordable.payment_share') }} ({{ v('ch5.least_affordable.low') }} to {{ v('ch5.least_affordable.high') }}). Rank correlation {{ v('ch5.spearman') }}; mean rank change {{ v('ch5.mean_abs_rank_change') }} places; largest {{ v('ch5.max_rank_change') }} ({{ v('ch5.biggest_mover') }}). Affordable share from {{ v('ch5.affordable_share.min') }} to {{ v('ch5.affordable_share.max') }}, median {{ v('ch5.affordable_share.median') }}.
+
+{{ table('ch5.largest') }}
+
+**Method.** Plan `{{ v('ch5.plan_hash') }}`; {{ v('ch5.method.estimator') }}; {{ v('ch5.method.interval') }}. Simulator: adjusted ranking rank correlation with the truth {{ v('recovery.ranking.adjusted') }} against {{ v('recovery.ranking.raw') }} for the price ranking; bracket interpolation mean absolute error {{ v('recovery.bracket_interpolation.mean_bias') }}.
+
+### What the housing economist would push back on
+
+{{ v('ch5.pushback') }}

@@ -1,0 +1,12 @@
+## {{ number }}. The migration shock
+
+<!-- chart: migration -->
+**{{ message('migration') }}** Across {{ v('ch7.metros') }} metros, price growth over {{ v('ch7.window') }} on the migration shock (per hundred residents, {{ v('policy.migration_years') }} less {{ v('policy.migration_pre_years') }}): {{ v('ch7.coef') }} per person ({{ v('ch7.low') }} to {{ v('ch7.high') }}); placebo on {{ v('ch7.placebo_window') }}: {{ v('ch7.placebo.coef') }} ({{ v('ch7.placebo.low') }} to {{ v('ch7.placebo.high') }}); level alone with no control: {{ v('ch7.naive.coef') }}. Synthetic controls for {{ v('ch7.top_gainers') }}: peak gaps {{ v('ch7.sc.1.peak_gap') }}, {{ v('ch7.sc.2.peak_gap') }} and {{ v('ch7.sc.3.peak_gap') }}; latest gaps {{ v('ch7.sc.1.last_gap') }}, {{ v('ch7.sc.2.last_gap') }} and {{ v('ch7.sc.3.last_gap') }}; permutation p values {{ v('ch7.sc.1.p') }}, {{ v('ch7.sc.2.p') }} and {{ v('ch7.sc.3.p') }}.
+
+{{ table('ch7.regression') }}
+
+**Method.** Plan `{{ v('ch7.plan_hash') }}`; {{ v('ch7.method.estimator') }}; {{ v('ch7.method.interval') }}; {{ v('ch7.method.split') }}. Simulator: controlled estimate mean bias {{ v('recovery.migration_effect.mean_bias') }}, coverage {{ v('recovery.migration_effect.mean_coverage') }}; level alone {{ v('recovery.migration_naive.none.bias') }} with no reverse causality and {{ v('recovery.migration_naive.strong.bias') }} under strong; placebo flag rate {{ v('recovery.migration.strong.flag_rate') }} under strong reverse causality against {{ v('recovery.migration.none.flag_rate') }} under none.
+
+### What the housing economist would push back on
+
+{{ v('ch7.pushback') }}

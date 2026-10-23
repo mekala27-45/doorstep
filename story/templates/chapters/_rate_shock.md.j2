@@ -1,0 +1,15 @@
+<!-- chapter: rate_shock | {{ number }} | rate_shock -->
+## The rate shock and the lock in
+<!-- claim -->
+**{{ v('ch2.message') }}**
+<!-- step: price -->
+Take the owner weighted median home as it was priced in {{ v('ch2.base_period') }} and ask what it costs to carry each quarter since. The payment was {{ v('ch2.base_payment') }} a month at the start of the window. By {{ v('ch2.latest_period') }} it was {{ v('ch2.latest_payment') }}, a change of {{ v('ch2.latest_change') }}. The chart splits that change exactly into two parts: what the price did, holding the rate at its starting level, and what the rate did, on the home as priced. The price part is the slow one. It built through the pandemic years and stands at {{ v('ch2.latest_price_part') }} in the latest quarter.
+<!-- step: rate -->
+The rate part is the fast one. It was close to nothing while the thirty year rate sat near its lows, then it took over the chart in a few quarters. In the latest quarter the rate part is {{ v('ch2.latest_rate_part') }}, {{ v('ch2.rate_part_share') }} of the whole change; it peaked at {{ v('ch2.peak_rate_part') }} in {{ v('ch2.peak_rate_part_period') }}.
+<!-- step: overtaking -->
+The quarter the rate part overtook the price part was {{ v('ch2.overtaking_quarter') }}. That is the date of the payment story. The second half of this chapter asks what the shock did to the people who already owned. {{ v('ch2.low_rate_originations') }} mortgages were originated in {{ v('policy.lock_in_years') }} at rates under {{ v('policy.lock_in_threshold') }}, and the lock in intensity is those loans per hundred owner households in each metro, from {{ v('ch2.lock_in.p10') }} at the tenth percentile to {{ v('ch2.lock_in.p90') }} at the ninetieth. Turnover, purchase originations per hundred owner households, fell from {{ v('ch2.turnover.before') }} in the base years to {{ v('ch2.turnover.after') }} after the shock. Regressed on the intensity with metro and year fixed effects, each point of lock in moved turnover by {{ v('ch2.lock_in.coef') }} (interval {{ v('ch2.lock_in.low') }} to {{ v('ch2.lock_in.high') }}); the same regression on the two years before the shock, the placebo, gives {{ v('ch2.placebo.coef') }} (interval {{ v('ch2.placebo.low') }} to {{ v('ch2.placebo.high') }}). Between the tenth and ninetieth percentile metro that is {{ v('ch2.lock_in.effect_p90_vs_p10') }} purchases per hundred owners.
+<!-- method -->
+Plan `{{ v('ch2.plan_hash') }}`. {{ v('ch2.method.estimator') }}; {{ v('ch2.method.interval') }}; {{ v('ch2.method.split') }}; {{ v('ch2.method.family') }}. {{ v('ch2.cells') }} metro by year cells over {{ v('ch2.metros') }} metros. The threshold has its interior test on the shocks page: the headline under {{ v('policy.lock_in_thresholds') }} is {{ v('ch2.threshold_degenerate') }}. On the simulator, where the lock in response is planted, the difference in differences recovers it with a mean bias of {{ v('recovery.lock_in_did.mean_bias') }} and {{ v('recovery.lock_in_did.mean_coverage') }} interval coverage.
+<!-- pushback -->
+{{ v('ch2.pushback') }}
+<!-- /chapter -->

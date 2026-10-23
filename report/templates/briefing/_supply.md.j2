@@ -1,0 +1,12 @@
+## {{ number }}. Supply
+
+<!-- chart: supply -->
+**{{ message('supply') }}** {{ v('ch4.cells') }} metro by window cells over {{ v('ch4.windows') }} windows of {{ v('ch4.window_years') }} years; the building rate runs from {{ v('ch4.permits_rate.p10') }} to {{ v('ch4.permits_rate.p90') }} permits per hundred households. With the demand control: {{ v('ch4.controlled.per_window') }} per window per extra permit ({{ v('ch4.controlled.per_window.low') }} to {{ v('ch4.controlled.per_window.high') }}); without: {{ v('ch4.uncontrolled.per_window') }} ({{ v('ch4.uncontrolled.per_window.low') }} to {{ v('ch4.uncontrolled.per_window.high') }}). Between the tenth and ninetieth percentile building rate: {{ v('ch4.effect_p90_vs_p10') }} over a window.
+
+{{ table('ch4.specifications') }}
+
+**Method.** Plan `{{ v('ch4.plan_hash') }}`; {{ v('ch4.method.estimator') }}; {{ v('ch4.method.interval') }}; {{ v('ch4.method.split') }}. Window interior: {{ v('ch4.window_degenerate') }}. Simulator (truth {{ v('recovery.supply_controlled.truth') }}): controlled mean bias {{ v('recovery.supply_controlled.mean_bias') }}, uncontrolled {{ v('recovery.supply_uncontrolled.mean_bias') }}; under strong demand {{ v('recovery.supply_controlled.strong_demand.bias') }} against {{ v('recovery.supply_uncontrolled.strong_demand.bias') }}.
+
+### What the housing economist would push back on
+
+{{ v('ch4.pushback') }}

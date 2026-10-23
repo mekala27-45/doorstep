@@ -1,0 +1,12 @@
+## {{ number }}. Who still buys
+
+<!-- chart: buyers -->
+**{{ message('buyers') }}** From {{ v('ch6.base.loans') }} purchase originations in {{ v('ch6.base_year') }} and {{ v('ch6.latest.loans') }} in {{ v('ch6.latest_year') }}: borrower income over the metro median {{ v('ch6.base.ratio') }} to {{ v('ch6.latest.ratio') }} ({{ v('ch6.ratio_diff') }}, {{ v('ch6.ratio_diff.low') }} to {{ v('ch6.ratio_diff.high') }}); share earning over twice the median {{ v('ch6.base.over_2x') }} to {{ v('ch6.latest.over_2x') }}; under thirty five share {{ v('ch6.base.under_35') }} to {{ v('ch6.latest.under_35') }} ({{ v('ch6.under_35_diff') }}, {{ v('ch6.under_35_diff.low') }} to {{ v('ch6.under_35_diff.high') }}); value to income {{ v('ch6.base.vti') }} to {{ v('ch6.latest.vti') }}; median rate spread {{ v('ch6.latest.spread.p50') }}.
+
+{{ table('ch6.by_year') }}
+
+**Method.** Plan `{{ v('ch6.plan_hash') }}`; {{ v('ch6.method.estimator') }}; {{ v('ch6.method.interval') }}; {{ v('ch6.method.split') }}. Simulator: ratio shift mean bias {{ v('recovery.borrower_ratio_shift.mean_bias') }}; under thirty five shift {{ v('recovery.under_35_shift.mean_bias') }}.
+
+### What the housing economist would push back on
+
+{{ v('ch6.pushback') }}

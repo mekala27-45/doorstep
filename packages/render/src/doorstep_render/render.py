@@ -16,9 +16,9 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from doorstep_core.manifest import Manifest
 from doorstep_core.statements import RATE_ATTRIBUTION, STATEMENT, statement_markdown
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 from doorstep_render.story import READING_PLACEHOLDER, corrections, reading_minutes
 

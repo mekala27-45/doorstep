@@ -1,0 +1,13 @@
+<!-- chapter: buyers | {{ number }} | buyers -->
+## Who still buys
+<!-- claim -->
+**{{ v('ch6.message') }}**
+<!-- step: ratio -->
+The loans say who got a mortgage. From the purchase subset of the mortgage disclosure extract, {{ v('ch6.base.loans') }} originations across {{ v('ch6.base.lenders') }} lenders in {{ v('ch6.base_year') }} and {{ v('ch6.latest.loans') }} across {{ v('ch6.latest.lenders') }} in {{ v('ch6.latest_year') }}, the median purchase borrower earned {{ v('ch6.base.ratio') }} the median household income of the metro in {{ v('ch6.base_year') }} and {{ v('ch6.latest.ratio') }} in {{ v('ch6.latest_year') }}, a move of {{ v('ch6.ratio_diff') }} (interval {{ v('ch6.ratio_diff.low') }} to {{ v('ch6.ratio_diff.high') }}, resampling lenders). The share of buyers earning more than twice the local median went from {{ v('ch6.base.over_2x') }} to {{ v('ch6.latest.over_2x') }}, {{ v('ch6.over_2x_diff') }}. The ratio moved most in {{ v('ch6.top_mover') }}, {{ v('ch6.top_mover.change') }}, and {{ v('ch6.movers') }} of the {{ v('ch6.largest') }} largest metros moved beyond their intervals.
+<!-- step: age -->
+Age is the other half of the question. Buyers under thirty five were {{ v('ch6.base.under_35') }} of purchase borrowers with a reported age in {{ v('ch6.base_year') }} and {{ v('ch6.latest.under_35') }} in {{ v('ch6.latest_year') }}, a move of {{ v('ch6.under_35_diff') }} (interval {{ v('ch6.under_35_diff.low') }} to {{ v('ch6.under_35_diff.high') }}). The median property value to borrower income went from {{ v('ch6.base.vti') }} to {{ v('ch6.latest.vti') }}, and the rate spread over the benchmark sat at {{ v('ch6.latest.spread.p50') }} for the median loan, from {{ v('ch6.latest.spread.p10') }} to {{ v('ch6.latest.spread.p90') }} across the deciles. Denials are not in this chapter: fair lending is a different build with a different standard of evidence, and the race and ethnicity fields were not loaded.
+<!-- method -->
+Plan `{{ v('ch6.plan_hash') }}`. {{ v('ch6.method.estimator') }}; {{ v('ch6.method.interval') }}; {{ v('ch6.method.split') }}; {{ v('ch6.method.family') }}. Incomes arrive in thousands and values at the midpoints of their reporting bins; the rounding rules are part of the extract contract on the buyers page. On the simulator, where the shift in the buyer pool is planted, the ratio shift recovers with a mean bias of {{ v('recovery.borrower_ratio_shift.mean_bias') }} and the under thirty five shift with {{ v('recovery.under_35_shift.mean_bias') }}.
+<!-- pushback -->
+{{ v('ch6.pushback') }}
+<!-- /chapter -->

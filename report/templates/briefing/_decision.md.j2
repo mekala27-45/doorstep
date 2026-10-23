@@ -1,0 +1,12 @@
+## {{ number }}. The reader decision
+
+<!-- chart: decision -->
+**{{ message('decision') }}** At the {{ v('policy.affordable_line') }} line, {{ v('policy.down_payment_share') }} down and {{ v('ch8.rate') }}, the median household can afford the median home in {{ v('ch8.median_can_afford.metros') }} of {{ v('ch8.metros') }} metros ({{ v('ch8.median_can_afford.share') }}); median affordable share {{ v('ch8.affordable_share.median') }}; down payment years {{ v('ch8.down_payment_years.median') }} in the typical metro, {{ v('ch8.down_payment_years.max') }} in {{ v('ch8.down_payment_years.max_metro') }}. Owner weighted median breakeven {{ v('ch8.breakeven.median') }} ({{ v('ch8.breakeven.low') }} to {{ v('ch8.breakeven.high') }}); {{ v('ch8.breakeven.never_share') }} of paths never break even inside {{ v('ch8.horizon') }} years; one point of rate moves the breakeven by {{ v('ch8.breakeven.rate_move') }} years. Quickest: {{ v('ch8.quickest.1.metro') }} ({{ v('ch8.quickest.1.years') }}); slowest: {{ v('ch8.longest.1.metro') }} ({{ v('ch8.longest.1.years') }}).
+
+{{ table('ch8.largest') }}
+
+**Method.** Plan `{{ v('ch8.plan_hash') }}`; {{ v('ch8.method.estimator') }}; {{ v('ch8.method.interval') }}; {{ v('ch8.method.split') }}. Interior tests: line {{ v('ch8.line_degenerate') }}, down payment {{ v('ch8.down_degenerate') }}. Simulator, late arriving truth: mean error {{ v('recovery.breakeven_horizon.mean_bias') }} years, interval coverage {{ v('recovery.breakeven_horizon.mean_flag_rate') }}.
+
+### What the housing economist would push back on
+
+{{ v('ch8.pushback') }}

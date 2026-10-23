@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The doorstep briefing: eight findings on housing affordability across every metropolitan area the public record covers, rendered from the analysis manifest.">
+<meta name="color-scheme" content="light dark">
+<title>Can anyone still afford a home: the briefing</title>
+<style>
+/* The briefing as a printed memo: one measure, stone surfaces, the long read face for prose and the
+   interface face for headings, tabular figures right aligned. The same values as the site's palette. */
+:root {
+  --surface: #F2F4F1; --card: #FFFFFF; --ink: #15201B; --ink2: #5A6660; --hairline: #D5DAD6; --control: #6F7A74;
+  --owning: #1A5E40; --renting: #BF6F2A; --adjusted: #3568B8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --surface: #121715; --card: #1B2420; --ink: #E8ECE9; --ink2: #A3ADA7; --hairline: #2E3A34; --control: #8E9892;
+          --owning: #2DB88F; --renting: #D5812E; --adjusted: #7B9BE8; }
+}
+html { background: var(--surface); color: var(--ink); }
+body { margin: 0; font-family: Alegreya, Georgia, "Times New Roman", serif; font-size: 16px; line-height: 1.55; }
+main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
+h1, h2, h3 { font-family: Epilogue, "Segoe UI", system-ui, sans-serif; letter-spacing: -0.01em; line-height: 1.2; }
+h1 { font-size: 2rem; font-weight: 800; margin: 0 0 0.75rem; }
+h2 { font-size: 1.35rem; font-weight: 700; margin: 2.5rem 0 0.75rem; padding-top: 1.25rem; border-top: 1px solid var(--hairline); break-before: page; }
+h2:first-of-type { break-before: auto; }
+h3 { font-size: 1rem; font-weight: 700; margin: 1.5rem 0 0.5rem; color: var(--ink2); }
+p, li { max-width: 66ch; }
+em { color: var(--ink2); }
+code { font-family: "Fragment Mono", ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 0.85em; background: var(--card); padding: 0.05em 0.3em; border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.86rem; margin: 1rem 0; font-variant-numeric: tabular-nums; }
+th, td { padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--hairline); text-align: left; vertical-align: top; }
+th.num, td.num { text-align: right; }
+thead th { font-family: Epilogue, system-ui, sans-serif; font-size: 0.78rem; color: var(--ink2); font-weight: 600; }
+blockquote { margin: 1rem 0; padding: 0.5rem 1rem; border-left: 3px solid var(--control); color: var(--ink2); }
+hr { border: 0; border-top: 1px solid var(--hairline); margin: 2rem 0; }
+footer, .statement { color: var(--ink2); font-size: 0.9rem; }
+@media print {
+  html { background: #fff; color: #000; }
+  main { max-width: none; padding: 0; }
+  h2 { break-before: page; border-top: 0; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<main>
+<h1>Can anyone still afford a home: the briefing</h1>
+<p><em>doorstep, as of 2026-10-22. 60 metropolitan areas present in both the regulator price index and the one year census release; prices and rates from 1975 to 2026Q2, census releases from 2005 to 2024, mortgage originations from 2018 to 2024. Chapters that fit anything choose on 2005 to 2019 and report from 2021. Every figure is rendered from the analysis manifest.</em></p>
+<blockquote>
+<p>Public data from the Federal Housing Finance Agency, the Census Bureau (American Community Survey, Building Permits Survey, Population Estimates), the Department of Housing and Urban Development and the Consumer Financial Protection Bureau (HMDA), with mortgage rates from Freddie Mac under its terms of use. Metros are real and appear as they do in the public record; no household, borrower or address appears. The findings are a portfolio analysis, not financial advice, not a market forecast and not a fair lending finding.</p>
+</blockquote>
+<h2>The eight findings</h2>
+<ul>
+<li><strong>The payment story happened in eighteen months while the price story took twenty years: the share of income the median home takes in 2024 sits +2.6 pts above 2006 (interval +2.4 pts to +2.8 pts).</strong> The payment share of the median home is 26.8% in 2024 (26.6% to 27.0%), +2.6 pts against the 2006 peak, while price to income moved +3.6% over the whole span.</li>
+<li><strong>The rate part of the payment overtook the price part in 2022Q3. The lock in coefficient (-0.02, interval -0.13 to +0.10) cannot be told from zero.</strong> The rate part is 57% of the payment change since 2019Q1; each point of lock in moved turnover by -0.019 (-0.132 to +0.095) against a placebo of +0.046.</li>
+<li><strong>The median renter is burdened in most metros (100% of them) in 2024; the problem is the whole distribution, with 32.5% of renters paying half or more. The national series moved and stayed moved in 2009, 2013, 2018, 2022.</strong> 32.5% of renters pay half or more of income in rent (29.3% to 36.3%); the national severe series broke in 2009, 2013, 2018, 2022.</li>
+<li><strong>Where builders kept pace, prices rose less: 10.7% less price growth over 5 years per extra permit per hundred households (interval -13.8% to -7.6%); without the demand control the estimate is -8.3%.</strong> -10.7% price growth per window per extra permit per hundred households with the demand control (-13.8% to -7.6%); -8.3% without it.</li>
+<li><strong>The ranking changes when you hold constant what people earn there: 10 of the 20 largest metros move beyond their intervals. Less affordable than their price says: Simulated metro 38 from 37 to 18; Simulated metro 53 from 35 to 23; Simulated metro 12 from 31 to 20. More affordable: Simulated metro 46 from 4 to 15; Simulated metro 15 from 39 to 49; Simulated metro 23 from 33 to 37.</strong> Rank correlation 0.90 between the price ranking and the payment share ranking; the largest move is Simulated metro 59, from 18 to 47.</li>
+<li><strong>The buyer is richer than in 2019 by +0.09 of the local median income (interval +0.08 to +0.10), but not measurably older: the under 35 share moved -0.2 pts with an interval that includes zero. The ratio moved most in Simulated metro 12 +0.20; Simulated metro 33 +0.17; Simulated metro 56 +0.15.</strong> The median purchase borrower earns 1.43x the local median income in 2024 against 1.35x in 2019; the under thirty five share moved -0.2 pts.</li>
+<li><strong>Demand moved and prices followed: +1.5% price growth over the window per person gained per hundred residents beyond the pre pandemic pace (interval +1.2% to +1.9%), with a placebo of 0.0% on the years before the pandemic whose interval includes zero.</strong> +1.54% price growth per person gained per hundred residents (+1.23% to +1.86%), placebo -0.04% (-0.48% to +0.41%).</li>
+<li><strong>Buying beats renting only after 15.0 years in the typical metro (interval 2.0 years to beyond 30 years), and one point of rate moves the breakeven by +5.5 years. Longest to break even among the largest metros: Simulated metro 29 beyond 30 years; Simulated metro 14 beyond 30 years; Simulated metro 47 beyond 30 years.</strong> Median breakeven 15.0 years (2.0 years to beyond 30 years); the median household can afford the median home in 37 of 60 metros; 6.1 years to the down payment in the typical metro.</li>
+</ul>
+<h2>1. Affordable is a decision</h2>
+<p>&lt;!-- chart: definition --&gt;
+<strong>The payment story happened in eighteen months while the price story took twenty years: the share of income the median home takes in 2024 sits +2.6 pts above 2006 (interval +2.4 pts to +2.8 pts).</strong> Price to income for the owner weighted aggregate of 60 metros went from 3.6x in 2005 to 3.8x in 2024 (+3.6%), with the cycle peak at 3.7x in 2006. The payment share, twelve payments on the median home at the rate of each quarter over the median income, went from 24.1% to 26.8% (26.6% to 27.0%), +2.6 pts against the peak (+2.4 pts to +2.8 pts). 47 metros (78%) sit above their own peak payment share; 23 (38%) sit above the 30% line.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Anchor year</th>
+<th style="text-align:right">Latest payment share</th>
+<th style="text-align:right">2006 payment share</th>
+<th style="text-align:right">Difference</th>
+<th style="text-align:right">Metros above 2006</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">2,015</td>
+<td style="text-align:right">26.9%</td>
+<td style="text-align:right">24.3%</td>
+<td style="text-align:right">+2.6 pts</td>
+<td style="text-align:right">47</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:right">2,017</td>
+<td style="text-align:right">26.7%</td>
+<td style="text-align:right">24.1%</td>
+<td style="text-align:right">+2.6 pts</td>
+<td style="text-align:right">47</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:right">2,019</td>
+<td style="text-align:right">26.8%</td>
+<td style="text-align:right">24.2%</td>
+<td style="text-align:right">+2.6 pts</td>
+<td style="text-align:right">47</td>
+<td>chosen</td>
+</tr>
+<tr>
+<td style="text-align:right">2,023</td>
+<td style="text-align:right">26.6%</td>
+<td style="text-align:right">24.0%</td>
+<td style="text-align:right">+2.6 pts</td>
+<td style="text-align:right">47</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method.</strong> Plan <code>ac7975b9fb0c601f</code>; the anchored index with the payment at the quarterly rate; 2000 Monte Carlo draws over the census margins of error, index held fixed; no fitted parameter; the baseline years are 2005 to 2019 and the headline is the latest release. Anchor sensitivity: stable. Simulator: anchored payment share mean bias -0.02 pts; self report correction mean bias -0.002.</p>
+<h3>What the housing economist would push back on</h3>
+<p>Self reported values run high or low by metro, and the anchor carries that bias into every year. The anchor sensitivity table shows what moving the anchor year does to the headline, and the self report check prints the census value over the transaction values in the loan extract for the same year; neither removes the bias, they bound it. The payment is principal and interest only, so a reader who adds taxes and insurance will find every share here understated by the same amount in every year.</p>
+<h2>2. The rate shock and the lock in</h2>
+<p>&lt;!-- chart: rate_shock --&gt;
+<strong>The rate part of the payment overtook the price part in 2022Q3. The lock in coefficient (-0.02, interval -0.13 to +0.10) cannot be told from zero.</strong> The payment on the home as priced in 2019Q1 went from $1,208 to $2,191 by 2024Q4 (+$983): +$424 from the price and +$559 from the rate, 57% of the change, which overtook the price part in 2022Q3. Lock in intensity (1.7 million originations under 4.00% in 2019 to 2021, per hundred owner households) runs from 10.4 to 11.7 across metros; turnover fell from 1.63 to 1.17; the regression gives -0.019 per point (-0.132 to +0.095) against a placebo of +0.046 (-0.025 to +0.117).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Threshold</th>
+<th style="text-align:right">Coefficient</th>
+<th style="text-align:right">Low</th>
+<th style="text-align:right">High</th>
+<th style="text-align:right">Placebo</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">3.00%</td>
+<td style="text-align:right">-0.023</td>
+<td style="text-align:right">-0.275</td>
+<td style="text-align:right">+0.229</td>
+<td style="text-align:right">+0.085</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:right">3.50%</td>
+<td style="text-align:right">-0.016</td>
+<td style="text-align:right">-0.152</td>
+<td style="text-align:right">+0.121</td>
+<td style="text-align:right">+0.050</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:right">4.00%</td>
+<td style="text-align:right">-0.019</td>
+<td style="text-align:right">-0.132</td>
+<td style="text-align:right">+0.095</td>
+<td style="text-align:right">+0.046</td>
+<td>chosen</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method.</strong> Plan <code>dc55265cae0a0e21</code>; exact price and rate decomposition of the payment; turnover on lock in intensity with metro and year fixed effects on owner weighted cells; cluster robust by state, 9 clusters; event window 2019 to the latest quarter; base years 2018 and 2019; test years from 2023; 240 cells. Threshold interior: stable. Simulator: lock in mean bias +0.0015, coverage 94%.</p>
+<h3>What the housing economist would push back on</h3>
+<p>Lock in is measured from originations, so a metro where owners refinanced twice at the bottom counts each refinance; the measure is an intensity, not a count of owners, and the notebook keeps the version that counted refinances twice as a dead end. Turnover also fell because inventory fell, and a metro with little inventory sees fewer purchases whatever its owners hold; the placebo bounds the trend, it does not remove the mechanism.</p>
+<h2>3. The rent burden is a distribution</h2>
+<p>&lt;!-- chart: burden --&gt;
+<strong>The median renter is burdened in most metros (100% of them) in 2024; the problem is the whole distribution, with 32.5% of renters paying half or more. The national series moved and stayed moved in 2009, 2013, 2018, 2022.</strong> 57.8% of renter households pay 30% or more of income in rent (54.0% to 61.8%) and 32.5% pay 50% or more (29.3% to 36.3%) in 2024; the median renter is under the line in 0 of 60 metros. Nationally the severe share went from 28.1% to 32.5% (+4.4 pts) with breaks in 2009, 2013, 2018, 2022. Owners with a mortgage: 28.0% burdened.</p>
+<table>
+<thead>
+<tr>
+<th>Income group</th>
+<th style="text-align:right">Renters</th>
+<th style="text-align:right">Burdened</th>
+<th style="text-align:right">Severely burdened</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>under 10k</td>
+<td style="text-align:right">682,620</td>
+<td style="text-align:right">95.0%</td>
+<td style="text-align:right">75.0%</td>
+</tr>
+<tr>
+<td>10k to 20k</td>
+<td style="text-align:right">1,450,567</td>
+<td style="text-align:right">85.0%</td>
+<td style="text-align:right">50.0%</td>
+</tr>
+<tr>
+<td>20k to 35k</td>
+<td style="text-align:right">1,877,204</td>
+<td style="text-align:right">60.0%</td>
+<td style="text-align:right">25.0%</td>
+</tr>
+<tr>
+<td>35k to 50k</td>
+<td style="text-align:right">1,450,567</td>
+<td style="text-align:right">35.0%</td>
+<td style="text-align:right">8.0%</td>
+</tr>
+<tr>
+<td>50k to 75k</td>
+<td style="text-align:right">1,535,894</td>
+<td style="text-align:right">15.0%</td>
+<td style="text-align:right">2.0%</td>
+</tr>
+<tr>
+<td>75k to 100k</td>
+<td style="text-align:right">767,947</td>
+<td style="text-align:right">5.0%</td>
+<td style="text-align:right">0.0%</td>
+</tr>
+<tr>
+<td>100k plus</td>
+<td style="text-align:right">767,947</td>
+<td style="text-align:right">2.0%</td>
+<td style="text-align:right">0.0%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method.</strong> Plan <code>a2850a134d98e2a1</code>; burdened and severely burdened renters over renters with a computed share; PELT with a BIC penalty on the national series; block bootstrap over metros, 200 replicates; census ratio margins per metro. Severe line interior: stable. Simulator: severe share mean bias 0.00 pts; changepoint within a year of the planted step in 100% of worlds.</p>
+<h3>What the housing economist would push back on</h3>
+<p>Gross rent as a share of income is computed only for renters who reported both, and the census excludes those it could not compute; a metro where many students or retirees rent shows a high severe share that is income, not rent. The bands are left closed at thirty and fifty percent because the census publishes them that way, and a household at 29.9 percent is counted as unburdened by a line it did not choose.</p>
+<h2>4. Supply</h2>
+<p>&lt;!-- chart: supply --&gt;
+<strong>Where builders kept pace, prices rose less: 10.7% less price growth over 5 years per extra permit per hundred households (interval -13.8% to -7.6%); without the demand control the estimate is -8.3%.</strong> 180 metro by window cells over 3 windows of 5 years; the building rate runs from 0.60 to 1.89 permits per hundred households. With the demand control: -10.7% per window per extra permit (-13.8% to -7.6%); without: -8.3% (-12.1% to -4.5%). Between the tenth and ninetieth percentile building rate: -13.8% over a window.</p>
+<table>
+<thead>
+<tr>
+<th>Specification</th>
+<th style="text-align:right">Annual growth per permit per 100 households</th>
+<th style="text-align:right">Low</th>
+<th style="text-align:right">High</th>
+<th style="text-align:right">Over the window</th>
+<th style="text-align:right">Clusters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>with the demand control</td>
+<td style="text-align:right">-0.0215</td>
+<td style="text-align:right">-0.0277</td>
+<td style="text-align:right">-0.0153</td>
+<td style="text-align:right">-10.7%</td>
+<td style="text-align:right">9</td>
+</tr>
+<tr>
+<td>without the demand control</td>
+<td style="text-align:right">-0.0166</td>
+<td style="text-align:right">-0.0242</td>
+<td style="text-align:right">-0.0091</td>
+<td style="text-align:right">-8.3%</td>
+<td style="text-align:right">9</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method.</strong> Plan <code>a1d050c1b22c5986</code>; fixed effects on population weighted metro by window cells, alternating projections, two specifications; cluster robust by state, 9 clusters; non overlapping 5 year windows from 2006; permits shifted back one year. Window interior: stable. Simulator (truth -0.025): controlled mean bias +0.0026, uncontrolled +0.0058; under strong demand +0.0031 against +0.0078.</p>
+<h3>What the housing economist would push back on</h3>
+<p>Permits respond to demand: a metro builds because prices are rising, which pushes the uncontrolled estimate toward zero or past it, and the recovery study measures that bias under every condition. The migration series is one demand shock, not all of them; income growth and investor demand are not in the regression. Permits are not completions, and a permit pulled in a downturn may never become a home. The notebook keeps the specification that put the demand shock in the wrong fixed effect as a dead end.</p>
+<h2>5. The fair ranking</h2>
+<p>&lt;!-- chart: ranking --&gt;
+<strong>The ranking changes when you hold constant what people earn there: 10 of the 20 largest metros move beyond their intervals. Less affordable than their price says: Simulated metro 38 from 37 to 18; Simulated metro 53 from 35 to 23; Simulated metro 12 from 31 to 20. More affordable: Simulated metro 46 from 4 to 15; Simulated metro 15 from 39 to 49; Simulated metro 23 from 33 to 37.</strong> 60 metropolitan areas ranked in 2024 by the anchored median value and by the payment share at the local median income, with rank intervals from 2,000 Monte Carlo draws over the census margins. Most expensive: Simulated metro 1; Simulated metro 30; Simulated metro 43. Least affordable: Simulated metro 1; Simulated metro 5; Simulated metro 43, led by Simulated metro 1 at 49.9% (46.8% to 53.5%). Rank correlation 0.90; mean rank change 5.4 places; largest 29 (Simulated metro 59). Affordable share from 16% to 80%, median 55%.</p>
+<table>
+<thead>
+<tr>
+<th>Metro</th>
+<th style="text-align:right">Households</th>
+<th style="text-align:right">Median home</th>
+<th style="text-align:right">Median income</th>
+<th style="text-align:right">Payment share</th>
+<th style="text-align:right">Low</th>
+<th style="text-align:right">High</th>
+<th style="text-align:right">Raw rank</th>
+<th style="text-align:right">Adjusted rank</th>
+<th>Interval</th>
+<th>Moves</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simulated metro 41</td>
+<td style="text-align:right">557,235</td>
+<td style="text-align:right">$642,747</td>
+<td style="text-align:right">$129,949</td>
+<td style="text-align:right">35.1%</td>
+<td style="text-align:right">33.5%</td>
+<td style="text-align:right">36.7%</td>
+<td style="text-align:right">7</td>
+<td style="text-align:right">7</td>
+<td>5 to 14</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 57</td>
+<td style="text-align:right">727,854</td>
+<td style="text-align:right">$526,629</td>
+<td style="text-align:right">$108,026</td>
+<td style="text-align:right">34.6%</td>
+<td style="text-align:right">33.1%</td>
+<td style="text-align:right">36.1%</td>
+<td style="text-align:right">14</td>
+<td style="text-align:right">11</td>
+<td>6 to 15</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 32</td>
+<td style="text-align:right">377,166</td>
+<td style="text-align:right">$623,129</td>
+<td style="text-align:right">$129,541</td>
+<td style="text-align:right">34.1%</td>
+<td style="text-align:right">32.5%</td>
+<td style="text-align:right">35.9%</td>
+<td style="text-align:right">9</td>
+<td style="text-align:right">13</td>
+<td>6 to 15</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 46</td>
+<td style="text-align:right">474,447</td>
+<td style="text-align:right">$686,358</td>
+<td style="text-align:right">$144,024</td>
+<td style="text-align:right">33.8%</td>
+<td style="text-align:right">32.3%</td>
+<td style="text-align:right">35.3%</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">15</td>
+<td>8 to 16</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 38</td>
+<td style="text-align:right">594,461</td>
+<td style="text-align:right">$311,358</td>
+<td style="text-align:right">$70,375</td>
+<td style="text-align:right">31.4%</td>
+<td style="text-align:right">30.1%</td>
+<td style="text-align:right">32.9%</td>
+<td style="text-align:right">37</td>
+<td style="text-align:right">18</td>
+<td>15 to 23</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 12</td>
+<td style="text-align:right">988,062</td>
+<td style="text-align:right">$354,255</td>
+<td style="text-align:right">$81,346</td>
+<td style="text-align:right">30.9%</td>
+<td style="text-align:right">29.6%</td>
+<td style="text-align:right">32.3%</td>
+<td style="text-align:right">31</td>
+<td style="text-align:right">20</td>
+<td>16 to 24</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 53</td>
+<td style="text-align:right">1,162,044</td>
+<td style="text-align:right">$321,217</td>
+<td style="text-align:right">$75,456</td>
+<td style="text-align:right">30.2%</td>
+<td style="text-align:right">28.9%</td>
+<td style="text-align:right">31.6%</td>
+<td style="text-align:right">35</td>
+<td style="text-align:right">23</td>
+<td>18 to 27</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 29</td>
+<td style="text-align:right">2,415,629</td>
+<td style="text-align:right">$433,797</td>
+<td style="text-align:right">$106,051</td>
+<td style="text-align:right">29.0%</td>
+<td style="text-align:right">28.0%</td>
+<td style="text-align:right">30.1%</td>
+<td style="text-align:right">23</td>
+<td style="text-align:right">26</td>
+<td>22 to 30</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 56</td>
+<td style="text-align:right">1,200,110</td>
+<td style="text-align:right">$426,732</td>
+<td style="text-align:right">$105,511</td>
+<td style="text-align:right">28.7%</td>
+<td style="text-align:right">27.4%</td>
+<td style="text-align:right">29.9%</td>
+<td style="text-align:right">24</td>
+<td style="text-align:right">28</td>
+<td>23 to 32</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 33</td>
+<td style="text-align:right">940,395</td>
+<td style="text-align:right">$367,828</td>
+<td style="text-align:right">$94,900</td>
+<td style="text-align:right">27.5%</td>
+<td style="text-align:right">26.3%</td>
+<td style="text-align:right">28.7%</td>
+<td style="text-align:right">29</td>
+<td style="text-align:right">32</td>
+<td>27 to 33</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 6</td>
+<td style="text-align:right">389,663</td>
+<td style="text-align:right">$306,824</td>
+<td style="text-align:right">$80,806</td>
+<td style="text-align:right">26.9%</td>
+<td style="text-align:right">25.8%</td>
+<td style="text-align:right">28.2%</td>
+<td style="text-align:right">38</td>
+<td style="text-align:right">33</td>
+<td>30 to 34</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 14</td>
+<td style="text-align:right">845,635</td>
+<td style="text-align:right">$277,225</td>
+<td style="text-align:right">$77,900</td>
+<td style="text-align:right">25.2%</td>
+<td style="text-align:right">24.2%</td>
+<td style="text-align:right">26.4%</td>
+<td style="text-align:right">45</td>
+<td style="text-align:right">35</td>
+<td>34 to 40</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 23</td>
+<td style="text-align:right">608,212</td>
+<td style="text-align:right">$341,824</td>
+<td style="text-align:right">$98,773</td>
+<td style="text-align:right">24.6%</td>
+<td style="text-align:right">23.4%</td>
+<td style="text-align:right">25.7%</td>
+<td style="text-align:right">33</td>
+<td style="text-align:right">37</td>
+<td>35 to 44</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 4</td>
+<td style="text-align:right">1,065,271</td>
+<td style="text-align:right">$291,652</td>
+<td style="text-align:right">$86,216</td>
+<td style="text-align:right">24.0%</td>
+<td style="text-align:right">23.0%</td>
+<td style="text-align:right">25.0%</td>
+<td style="text-align:right">42</td>
+<td style="text-align:right">41</td>
+<td>36 to 45</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 15</td>
+<td style="text-align:right">457,833</td>
+<td style="text-align:right">$304,452</td>
+<td style="text-align:right">$99,837</td>
+<td style="text-align:right">21.6%</td>
+<td style="text-align:right">20.6%</td>
+<td style="text-align:right">22.7%</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">49</td>
+<td>46 to 51</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 48</td>
+<td style="text-align:right">937,869</td>
+<td style="text-align:right">$240,403</td>
+<td style="text-align:right">$80,738</td>
+<td style="text-align:right">21.1%</td>
+<td style="text-align:right">20.3%</td>
+<td style="text-align:right">22.0%</td>
+<td style="text-align:right">50</td>
+<td style="text-align:right">50</td>
+<td>48 to 52</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 13</td>
+<td style="text-align:right">423,046</td>
+<td style="text-align:right">$201,536</td>
+<td style="text-align:right">$67,737</td>
+<td style="text-align:right">21.1%</td>
+<td style="text-align:right">20.2%</td>
+<td style="text-align:right">22.0%</td>
+<td style="text-align:right">54</td>
+<td style="text-align:right">51</td>
+<td>48 to 52</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 39</td>
+<td style="text-align:right">906,168</td>
+<td style="text-align:right">$221,898</td>
+<td style="text-align:right">$76,278</td>
+<td style="text-align:right">20.6%</td>
+<td style="text-align:right">19.8%</td>
+<td style="text-align:right">21.5%</td>
+<td style="text-align:right">52</td>
+<td style="text-align:right">52</td>
+<td>49 to 52</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Simulated metro 47</td>
+<td style="text-align:right">747,488</td>
+<td style="text-align:right">$198,531</td>
+<td style="text-align:right">$84,053</td>
+<td style="text-align:right">16.8%</td>
+<td style="text-align:right">16.0%</td>
+<td style="text-align:right">17.6%</td>
+<td style="text-align:right">55</td>
+<td style="text-align:right">57</td>
+<td>56 to 60</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Simulated metro 35</td>
+<td style="text-align:right">988,391</td>
+<td style="text-align:right">$133,428</td>
+<td style="text-align:right">$59,311</td>
+<td style="text-align:right">16.0%</td>
+<td style="text-align:right">15.3%</td>
+<td style="text-align:right">16.6%</td>
+<td style="text-align:right">60</td>
+<td style="text-align:right">60</td>
+<td>58 to 60</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method.</strong> Plan <code>e23fc6df73f96272</code>; payment share at the local median income; affordable share by bracket interpolation; 2000 Monte Carlo draws over the income and anchor value margins, index held fixed. Simulator: adjusted ranking rank correlation with the truth 0.956 against 0.890 for the price ranking; bracket interpolation mean absolute error 0.4 pts.</p>
+<h3>What the housing economist would push back on</h3>
+<p>The median income is not the buyer income: in a metro where buyers earn twice the median, the payment share of the median household overstates what the people who actually buy face, and chapter 6 measures that ratio from the loans. The index has no margin, so the interval understates what a thin market's index carries. Metros that lost their one year census coverage drop out of the ranking in that year rather than being carried.</p>
+<h2>6. Who still buys</h2>
+<p>&lt;!-- chart: buyers --&gt;
+<strong>The buyer is richer than in 2019 by +0.09 of the local median income (interval +0.08 to +0.10), but not measurably older: the under 35 share moved -0.2 pts with an interval that includes zero. The ratio moved most in Simulated metro 12 +0.20; Simulated metro 33 +0.17; Simulated metro 56 +0.15.</strong> From 251,037 purchase originations in 2019 and 189,323 in 2024: borrower income over the metro median 1.35x to 1.43x (+0.09, +0.08 to +0.10); share earning over twice the median 18.8% to 22.5%; under thirty five share 34.1% to 33.9% (-0.2 pts, -0.5 pts to +0.1 pts); value to income 2.62x to 2.62x; median rate spread 0.31%.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Year</th>
+<th style="text-align:right">Loans</th>
+<th style="text-align:right">Lenders</th>
+<th style="text-align:right">Income ratio</th>
+<th style="text-align:right">Low</th>
+<th style="text-align:right">High</th>
+<th style="text-align:right">Under 35</th>
+<th style="text-align:right">Above twice the median</th>
+<th style="text-align:right">Value to income</th>
+<th style="text-align:right">Spread p50</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">2,018</td>
+<td style="text-align:right">244,600</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">1.35x</td>
+<td style="text-align:right">1.35x</td>
+<td style="text-align:right">1.35x</td>
+<td style="text-align:right">34.0%</td>
+<td style="text-align:right">19.0%</td>
+<td style="text-align:right">2.62x</td>
+<td style="text-align:right">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:right">2,019</td>
+<td style="text-align:right">251,037</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">1.35x</td>
+<td style="text-align:right">1.34x</td>
+<td style="text-align:right">1.35x</td>
+<td style="text-align:right">34.1%</td>
+<td style="text-align:right">18.8%</td>
+<td style="text-align:right">2.62x</td>
+<td style="text-align:right">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:right">2,020</td>
+<td style="text-align:right">249,883</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">1.40x</td>
+<td style="text-align:right">1.40x</td>
+<td style="text-align:right">1.41x</td>
+<td style="text-align:right">34.1%</td>
+<td style="text-align:right">21.5%</td>
+<td style="text-align:right">2.62x</td>
+<td style="text-align:right">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:right">2,021</td>
+<td style="text-align:right">251,458</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">1.34x</td>
+<td style="text-align:right">1.33x</td>
+<td style="text-align:right">1.35x</td>
+<td style="text-align:right">33.9%</td>
+<td style="text-align:right">18.6%</td>
+<td style="text-align:right">2.62x</td>
+<td style="text-align:right">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:right">2,022</td>
+<td style="text-align:right">257,943</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">1.36x</td>
+<td style="text-align:right">1.35x</td>
+<td style="text-align:right">1.36x</td>
+<td style="text-align:right">33.8%</td>
+<td style="text-align:right">19.5%</td>
+<td style="text-align:right">2.88x</td>
+<td style="text-align:right">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:right">2,023</td>
+<td style="text-align:right">181,989</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">1.44x</td>
+<td style="text-align:right">1.44x</td>
+<td style="text-align:right">1.44x</td>
+<td style="text-align:right">34.0%</td>
+<td style="text-align:right">23.2%</td>
+<td style="text-align:right">2.62x</td>
+<td style="text-align:right">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:right">2,024</td>
+<td style="text-align:right">189,323</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">1.43x</td>
+<td style="text-align:right">1.43x</td>
+<td style="text-align:right">1.44x</td>
+<td style="text-align:right">33.9%</td>
+<td style="text-align:right">22.5%</td>
+<td style="text-align:right">2.62x</td>
+<td style="text-align:right">0.31%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method.</strong> Plan <code>fa89aa88427acdac</code>; weighted medians over five thousand dollar income bins per lender; shares as ratios of sums; bootstrap over lenders within year, 200 replicates; base year 2019; reported on 2024. Simulator: ratio shift mean bias -0.001; under thirty five shift -0.02 pts.</p>
+<h3>What the housing economist would push back on</h3>
+<p>The HMDA income is the income the lender used, not the household's; a co-borrower or a self employed buyer is reported differently by different lenders, which is why the interval resamples lenders. The ratio compares buyers with the metro median household in the nearest census year, and the census has no 2020 release, so 2020 loans are compared with 2019 incomes. The purchase subset leaves out buyers who paid cash, who are the richest buyers of all.</p>
+<h2>7. The migration shock</h2>
+<p>&lt;!-- chart: migration --&gt;
+<strong>Demand moved and prices followed: +1.5% price growth over the window per person gained per hundred residents beyond the pre pandemic pace (interval +1.2% to +1.9%), with a placebo of 0.0% on the years before the pandemic whose interval includes zero.</strong> Across 60 metros, price growth over 2019Q4 to 2021Q4 on the migration shock (per hundred residents, 2020 and 2021 less 2018 and 2019): +1.54% per person (+1.23% to +1.86%); placebo on 2016Q4 to 2018Q4: -0.04% (-0.48% to +0.41%); level alone with no control: +0.96%. Synthetic controls for Simulated metro 37; Simulated metro 26; Simulated metro 40: peak gaps +3.8%, +7.9% and +2.1%; latest gaps -2.6%, +7.9% and -3.3%; permutation p values 0.774, 0.355 and 0.839.</p>
+<table>
+<thead>
+<tr>
+<th>Window</th>
+<th style="text-align:right">Growth per person per 100 residents of shock</th>
+<th style="text-align:right">Low</th>
+<th style="text-align:right">High</th>
+<th style="text-align:right">p</th>
+<th style="text-align:right">Clusters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2019Q4 to 2021Q4</td>
+<td style="text-align:right">+1.54%</td>
+<td style="text-align:right">+1.23%</td>
+<td style="text-align:right">+1.86%</td>
+<td style="text-align:right">0.000</td>
+<td style="text-align:right">9</td>
+</tr>
+<tr>
+<td>2016Q4 to 2018Q4 (placebo)</td>
+<td style="text-align:right">-0.04%</td>
+<td style="text-align:right">-0.48%</td>
+<td style="text-align:right">+0.41%</td>
+<td style="text-align:right">0.855</td>
+<td style="text-align:right">9</td>
+</tr>
+<tr>
+<td>2019Q4 to 2021Q4 (level alone, no pre pandemic control)</td>
+<td style="text-align:right">+0.96%</td>
+<td style="text-align:right">+0.71%</td>
+<td style="text-align:right">+1.21%</td>
+<td style="text-align:right">0.000</td>
+<td style="text-align:right">9</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method.</strong> Plan <code>b2cbe5f6a4559c90</code>; cross section of metros on the migration shock with the pre pandemic migration as a control, one observation per metro, state clusters; synthetic control on the simplex with every donor searched; cluster robust by state, 9 clusters; permutation p values over 30 donors; window 2019Q4 to 2021Q4; placebo 2016Q4 to 2018Q4. Simulator: controlled estimate mean bias -0.02%, coverage 98%; level alone -0.30% with no reverse causality and -0.51% under strong; placebo flag rate 46% under strong reverse causality against 6% under none.</p>
+<h3>What the housing economist would push back on</h3>
+<p>Migration follows affordability: people move to the metros they can afford, and a metro that was already cheap for its incomes was already on a different price path. On the simulator the regression on the migration level alone carries that bias and the pre pandemic control removes most of it, but the simulator's households move for one reason with one lag, and the placebo flags the planted reverse causality only part of the time; that is the limit this chapter admits in print. The population estimates count domestic migration from July to June, so the migration years and the price window overlap by two quarters and not four. Remote work moved demand without moving many people, and that part is not in the migration series.</p>
+<h2>8. The reader decision</h2>
+<p>&lt;!-- chart: decision --&gt;
+<strong>Buying beats renting only after 15.0 years in the typical metro (interval 2.0 years to beyond 30 years), and one point of rate moves the breakeven by +5.5 years. Longest to break even among the largest metros: Simulated metro 29 beyond 30 years; Simulated metro 14 beyond 30 years; Simulated metro 47 beyond 30 years.</strong> At the 30% line, 10% down and 6.88%, the median household can afford the median home in 37 of 60 metros (62%); median affordable share 55%; down payment years 6.1 years in the typical metro, 11.4 years in Simulated metro 1. Owner weighted median breakeven 15.0 years (2.0 years to beyond 30 years); 36% of paths never break even inside 30 years; one point of rate moves the breakeven by +5.5 years. Quickest: Simulated metro 15 (3 years); slowest: Simulated metro 29 (beyond 30 years).</p>
+<table>
+<thead>
+<tr>
+<th>Metro</th>
+<th style="text-align:right">Median home</th>
+<th style="text-align:right">Affordable price</th>
+<th>Can afford</th>
+<th style="text-align:right">Affordable share</th>
+<th style="text-align:right">Down payment years</th>
+<th style="text-align:right">Breakeven</th>
+<th style="text-align:right">Low</th>
+<th style="text-align:right">High</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simulated metro 29</td>
+<td style="text-align:right">$433,797</td>
+<td style="text-align:right">$448,429</td>
+<td>yes</td>
+<td style="text-align:right">52%</td>
+<td style="text-align:right">6.5 years</td>
+<td style="text-align:right">beyond 30 years</td>
+<td style="text-align:right">beyond 30 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 14</td>
+<td style="text-align:right">$277,225</td>
+<td style="text-align:right">$329,393</td>
+<td>yes</td>
+<td style="text-align:right">61%</td>
+<td style="text-align:right">5.5 years</td>
+<td style="text-align:right">beyond 30 years</td>
+<td style="text-align:right">10.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 47</td>
+<td style="text-align:right">$198,531</td>
+<td style="text-align:right">$355,412</td>
+<td>yes</td>
+<td style="text-align:right">80%</td>
+<td style="text-align:right">3.7 years</td>
+<td style="text-align:right">beyond 30 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 23</td>
+<td style="text-align:right">$341,824</td>
+<td style="text-align:right">$417,653</td>
+<td>yes</td>
+<td style="text-align:right">61%</td>
+<td style="text-align:right">5.4 years</td>
+<td style="text-align:right">beyond 30 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 38</td>
+<td style="text-align:right">$311,358</td>
+<td style="text-align:right">$297,574</td>
+<td>no</td>
+<td style="text-align:right">48%</td>
+<td style="text-align:right">6.9 years</td>
+<td style="text-align:right">beyond 30 years</td>
+<td style="text-align:right">3.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 41</td>
+<td style="text-align:right">$642,747</td>
+<td style="text-align:right">$549,479</td>
+<td>no</td>
+<td style="text-align:right">43%</td>
+<td style="text-align:right">7.5 years</td>
+<td style="text-align:right">beyond 30 years</td>
+<td style="text-align:right">9.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 12</td>
+<td style="text-align:right">$354,255</td>
+<td style="text-align:right">$343,967</td>
+<td>no</td>
+<td style="text-align:right">50%</td>
+<td style="text-align:right">6.7 years</td>
+<td style="text-align:right">24.0 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 35</td>
+<td style="text-align:right">$133,428</td>
+<td style="text-align:right">$250,791</td>
+<td>yes</td>
+<td style="text-align:right">80%</td>
+<td style="text-align:right">3.5 years</td>
+<td style="text-align:right">22.5 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 13</td>
+<td style="text-align:right">$201,536</td>
+<td style="text-align:right">$286,421</td>
+<td>yes</td>
+<td style="text-align:right">68%</td>
+<td style="text-align:right">4.6 years</td>
+<td style="text-align:right">15.5 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 33</td>
+<td style="text-align:right">$367,828</td>
+<td style="text-align:right">$401,277</td>
+<td>yes</td>
+<td style="text-align:right">55%</td>
+<td style="text-align:right">6.1 years</td>
+<td style="text-align:right">15.0 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 57</td>
+<td style="text-align:right">$526,629</td>
+<td style="text-align:right">$456,779</td>
+<td>no</td>
+<td style="text-align:right">42%</td>
+<td style="text-align:right">7.6 years</td>
+<td style="text-align:right">15.0 years</td>
+<td style="text-align:right">3.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 32</td>
+<td style="text-align:right">$623,129</td>
+<td style="text-align:right">$547,754</td>
+<td>no</td>
+<td style="text-align:right">44%</td>
+<td style="text-align:right">7.5 years</td>
+<td style="text-align:right">13.0 years</td>
+<td style="text-align:right">3.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 56</td>
+<td style="text-align:right">$426,732</td>
+<td style="text-align:right">$446,145</td>
+<td>yes</td>
+<td style="text-align:right">53%</td>
+<td style="text-align:right">6.3 years</td>
+<td style="text-align:right">11.5 years</td>
+<td style="text-align:right">4.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 4</td>
+<td style="text-align:right">$291,652</td>
+<td style="text-align:right">$364,560</td>
+<td>yes</td>
+<td style="text-align:right">61%</td>
+<td style="text-align:right">5.3 years</td>
+<td style="text-align:right">11.0 years</td>
+<td style="text-align:right">4.0 years</td>
+<td style="text-align:right">beyond 30 years</td>
+</tr>
+<tr>
+<td>Simulated metro 53</td>
+<td style="text-align:right">$321,217</td>
+<td style="text-align:right">$319,061</td>
+<td>no</td>
+<td style="text-align:right">51%</td>
+<td style="text-align:right">6.5 years</td>
+<td style="text-align:right">9.0 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">25.0 years</td>
+</tr>
+<tr>
+<td>Simulated metro 39</td>
+<td style="text-align:right">$221,898</td>
+<td style="text-align:right">$322,538</td>
+<td>yes</td>
+<td style="text-align:right">71%</td>
+<td style="text-align:right">4.6 years</td>
+<td style="text-align:right">7.0 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">20.0 years</td>
+</tr>
+<tr>
+<td>Simulated metro 48</td>
+<td style="text-align:right">$240,403</td>
+<td style="text-align:right">$341,393</td>
+<td>yes</td>
+<td style="text-align:right">69%</td>
+<td style="text-align:right">4.5 years</td>
+<td style="text-align:right">6.0 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">15.0 years</td>
+</tr>
+<tr>
+<td>Simulated metro 46</td>
+<td style="text-align:right">$686,358</td>
+<td style="text-align:right">$608,995</td>
+<td>no</td>
+<td style="text-align:right">43%</td>
+<td style="text-align:right">7.6 years</td>
+<td style="text-align:right">6.0 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">26.1 years</td>
+</tr>
+<tr>
+<td>Simulated metro 6</td>
+<td style="text-align:right">$306,824</td>
+<td style="text-align:right">$341,683</td>
+<td>yes</td>
+<td style="text-align:right">55%</td>
+<td style="text-align:right">6.0 years</td>
+<td style="text-align:right">6.0 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">18.1 years</td>
+</tr>
+<tr>
+<td>Simulated metro 15</td>
+<td style="text-align:right">$304,452</td>
+<td style="text-align:right">$422,155</td>
+<td>yes</td>
+<td style="text-align:right">70%</td>
+<td style="text-align:right">4.7 years</td>
+<td style="text-align:right">3.0 years</td>
+<td style="text-align:right">2.0 years</td>
+<td style="text-align:right">28.0 years</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method.</strong> Plan <code>10988e362f89ee23</code>; closed form payment arithmetic; bracket interpolation; breakeven under the cost model on bootstrap paths; block bootstrap, blocks of 3 years, 200 paths per metro; paths from each metro's own history; reported in 2024 at the latest quarterly rate. Interior tests: line degenerate, down payment stable. Simulator, late arriving truth: mean error 4.42 years, interval coverage 70%.</p>
+<h3>What the housing economist would push back on</h3>
+<p>A payment is not the whole cost of owning: the cost model adds taxes, insurance, maintenance and the costs of buying and selling, but not the roof that fails in year four, and it credits the renter with a return the renter has to earn. The paths are drawn from the metro's own past, which includes a decade nobody expects to repeat, and the interval is the spread of those paths, not a forecast. The down payment years assume a renter who saves a tenth of income with no help and no return, which is the simplest honest reading of the question.</p>
+<h2>Limitations</h2>
+<ul>
+<li>The dollar level of every price is the census median value in 2019 moved by the regulator index; self reported values run high or low by metro and the anchor carries that bias into every year. The anchor sensitivity table bounds it; nothing here removes it.</li>
+<li>The payment is principal and interest on 30 year money with 10% down; taxes, insurance and maintenance enter the breakeven and the workbook, not the headline share.</li>
+<li>The one year census release does not exist for 2020; every series that crosses it breaks, and the borrower pool compares that year's loans with the prior year's incomes.</li>
+<li>The supply estimate is a lower bound in size: builders answer the price growth they are regressed on, and the simulator puts the resulting attenuation at +0.0026 with the demand control under its conditions.</li>
+<li>The migration regression's control removes most of the planted reverse causality on the simulator, but the simulator's households move for one reason with one lag; the placebo flags the strong reverse causality condition in 46% of worlds.</li>
+<li>The breakeven paths are drawn from each metro's own past, which includes a decade nobody expects to repeat; graded as late arriving truth on the simulator the estimate missed the realised breakeven by 4.42 years on average because the simulated decade held a boom the history did not.</li>
+<li>The check log stores a metro code, an income rounded to the nearest thousand, a down payment share, a rate and a horizon; it cannot say who asked.</li>
+</ul>
+<h3>What the housing economist would push back on</h3>
+<p>Every number here rests on a definition this build chose and stated: the anchor year, the 30% line, 10% down, the cost model. The interior tests print each headline under the neighbours of those choices and the word degenerate where the headline turns at the first one; the economist would start there, and so should the reader.</p>
+</main>
+</body>
+</html>
