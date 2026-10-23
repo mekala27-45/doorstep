@@ -23,7 +23,7 @@ CHAPTER_ESTIMATORS: dict[int, tuple[str, ...]] = {
     4: ("supply_controlled", "supply_uncontrolled"),
     5: ("ranking_adjusted", "bracket_interpolation"),
     6: ("borrower_ratio_shift", "under_35_shift"),
-    7: ("migration_effect", "migration_placebo"),
+    7: ("migration_effect", "migration_placebo", "migration_naive"),
     8: ("breakeven_horizon",),
 }
 
@@ -44,6 +44,7 @@ FORMATS: dict[str, tuple[str, str]] = {
     "under_35_shift": ("pts2", "pct0"),
     "migration_effect": ("spct2", "pct1"),
     "migration_placebo": ("spct2", "pct1"),
+    "migration_naive": ("spct2", "pct1"),
     "breakeven_horizon": ("float2", "float1"),
 }
 
@@ -108,6 +109,15 @@ def run(p: Paths, *, seeds: int = SEEDS, workers: int = 2, use_cache: bool = Tru
         s.put(
             f"recovery.migration.{level}.flag_rate",
             num(sub["flag_rate"].mean()) if sub.height else None,
+            "pct0",
+        )
+    naive = summary.filter(pl.col("estimator") == "migration_naive")
+    for level in ("none", "mild", "strong"):
+        sub = naive.filter(pl.col("reverse_causality") == level)
+        s.put(f"recovery.migration_naive.{level}.bias", num(sub["bias"].mean()) if sub.height else None, "spct2")
+        s.put(
+            f"recovery.migration_naive.{level}.coverage",
+            num(sub["coverage"].mean()) if sub.height else None,
             "pct0",
         )
     sup = summary.filter(pl.col("estimator").is_in(["supply_controlled", "supply_uncontrolled"]))

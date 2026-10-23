@@ -668,7 +668,7 @@ def _chart7(r: ChapterResult, source: str, policy: Policy) -> Chart:
             float(x["growth"]),
             float(x["placebo_growth"]),
         ]
-        for x in sc.sort("migration_shock", descending=True).iter_rows(named=True)
+        for x in sc.iter_rows(named=True)
     ]
     return Chart(
         "migration",
@@ -830,14 +830,14 @@ def run(
     s.put("calculator.rate_default", float(calc_meta["rate_default"]), "rate2")
     s.put("calculator.rate_default_source", str(calc_meta["rate_default_source"]), "text")
     s.put("calculator.latest_period", str(calc_meta["latest_period"]), "quarter")
-    s.put("calculator.income_year", int(calc_meta["income_year"]), "int")
+    s.put("calculator.income_year", int(calc_meta["income_year"]), "year")
     s.put("chapters.panel_source", panel.source, "text")
     s.put("chapters.metros", int(panel.metro_year["cbsa_code"].n_unique()), "int")
     s.put("chapters.metropolitan", int(panel.metropolitan()["cbsa_code"].n_unique()), "int")
-    s.put("chapters.latest_year", panel.latest_year, "int")
-    s.put("chapters.latest_acs_year", panel.latest_acs_year, "int")
+    s.put("chapters.latest_year", panel.latest_year, "year")
+    s.put("chapters.latest_acs_year", panel.latest_acs_year, "year")
     s.put("chapters.latest_period", panel.latest_period, "quarter")
-    s.put("chapters.anchor_year", panel.anchor_year, "int")
+    s.put("chapters.anchor_year", panel.anchor_year, "year")
     s.put("chapters.seconds", sum(timings.values()), "float1")
     (p.results / "chapters" / "index.json").write_text(
         json.dumps({"chapters": index, "timings": timings}, indent=1, sort_keys=True) + "\n", encoding="utf-8"
