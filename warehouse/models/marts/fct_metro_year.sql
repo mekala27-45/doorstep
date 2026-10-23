@@ -81,6 +81,7 @@ select
     a.median_rent_share,
     a.housing_units, a.vacant_units, a.vacant_for_rent, a.vacant_for_sale, a.vacant_seasonal,
     a.renters_burdened, a.renters_severe, a.renters_with_share,
+    a.renters_burdened_moe, a.renters_severe_moe, a.renters_with_share_moe,
     a.renter_burdened_share, a.renter_severe_share,
     a.owners_mortgage_burdened, a.owners_mortgage_with_share, a.owner_mortgage_burdened_share,
     a.owner_mortgage_total as owners_with_mortgage, a.owner_no_mortgage_total as owners_without_mortgage,

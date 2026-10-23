@@ -72,3 +72,12 @@ models:
         data_tests:
           - expression_is_true:
               expression: "purchase_under_35 is null or purchase_with_age is null or purchase_under_35 <= purchase_with_age"
+  - name: int_purchase_loans
+    description: Purchase loans on principal residences with the metro median income of the nearest census year.
+    data_tests:
+      - not_empty
+    columns:
+      - name: metro_median
+        data_tests:
+          - expression_is_true:
+              expression: "metro_median is null or metro_median > 0"

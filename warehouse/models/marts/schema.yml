@@ -185,3 +185,38 @@ models:
     columns:
       - name: cbsa_code
         data_tests: [not_null]
+  - name: mart_borrowers_income
+    description: Purchase loans per year, metro, lender and five thousand dollar income bin, with the buyers under 35 and above twice the metro median.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, cbsa_code, lei, income_bin]
+    columns:
+      - name: loans
+        data_tests: [non_negative]
+      - name: under_35
+        data_tests:
+          - expression_is_true:
+              expression: "under_35 <= loans"
+      - name: over_2x
+        data_tests:
+          - expression_is_true:
+              expression: "over_2x <= loans"
+      - name: income_bin
+        data_tests: [non_negative]
+  - name: mart_borrowers_vti
+    description: Property value over borrower income per year and lender in quarter point bins.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, lei, vti_bin]
+    columns:
+      - name: vti_bin
+        data_tests:
+          - between: {min_value: 0, max_value: 20}
+  - name: mart_borrowers_spread
+    description: The rate spread distribution of purchase loans by year in eighth point bins.
+    data_tests:
+      - not_empty
+      - unique_combination:
+          combination_of_columns: [year, spread_bin]

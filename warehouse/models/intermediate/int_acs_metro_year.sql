@@ -71,6 +71,10 @@ select
     (coalesce(rent_share_30_35, 0) + coalesce(rent_share_35_40, 0) + coalesce(rent_share_40_50, 0) + coalesce(rent_share_50_plus, 0)) as renters_burdened,
     coalesce(rent_share_50_plus, 0) as renters_severe,
     rent_share_total - coalesce(rent_share_not_computed, 0) as renters_with_share,
+    -- margins of error on the sums, combined in quadrature as the census handbook does for a sum of estimates
+    sqrt(coalesce(rent_share_30_35_moe, 0) ^ 2 + coalesce(rent_share_35_40_moe, 0) ^ 2 + coalesce(rent_share_40_50_moe, 0) ^ 2 + coalesce(rent_share_50_plus_moe, 0) ^ 2) as renters_burdened_moe,
+    coalesce(rent_share_50_plus_moe, 0) as renters_severe_moe,
+    sqrt(coalesce(rent_share_total_moe, 0) ^ 2 + coalesce(rent_share_not_computed_moe, 0) ^ 2) as renters_with_share_moe,
     (coalesce(owner_mortgage_30_35, 0) + coalesce(owner_mortgage_35_40, 0) + coalesce(owner_mortgage_40_50, 0) + coalesce(owner_mortgage_50_plus, 0)) as owners_mortgage_burdened,
     owner_mortgage_total - coalesce(owner_mortgage_not_computed, 0) as owners_mortgage_with_share,
     coalesce(units_5_plus_a, 0) + coalesce(units_5_plus_b, 0) + coalesce(units_5_plus_c, 0) + coalesce(units_5_plus_d, 0) as units_5_plus
