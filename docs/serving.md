@@ -17,7 +17,7 @@ A check stores the metro code, the income rounded to the nearest thousand, the d
 Live latency not measured. Local latency not measured.
 ## The site
 
-Static export of the Next.js app on GitHub Pages at not yet published, reading the committed marts in the browser through DuckDB-WASM. The test server (`web/scripts/serve.mjs`) refuses HEAD and answers the first mock API request with HTTP 503, the way the host and the Fly machine behave, and the Playwright suite runs against it. The live check in a real browser (no browser yet, not yet): not checked, 0 of 0 routes loaded with the statement; with the API asleep: not observed.
+Static export of the Next.js app on GitHub Pages at not yet published, reading the committed marts in the browser through DuckDB-WASM. The test server (`web/scripts/serve.mjs`) refuses HEAD and answers the first mock API request with HTTP 503, the way the Pages host and a sleeping API behave, and the Playwright suite runs against it. The live check in a real browser (no browser yet, not yet): not checked, 0 of 0 routes loaded with the statement; with the API asleep: not observed.
 
 ## Operations
 

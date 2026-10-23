@@ -21,8 +21,8 @@ export default function PlannerPage() {
           on {m.vOr("calculator.latest_period", "the latest quarter")} and incomes on the {m.vOr("calculator.income_year", "latest")} census release.
         </p>
         <p className="text-sm text-ink2">
-          The answers come from the live API on Fly. Its machine sleeps when idle; the page asks twice, and if it is still asleep it answers from a
-          session recorded against the live API and says so.
+          The answers come from the live API. Its instance stops when idle and starts again on the first request; the page asks twice, and if it
+          is still starting it answers from a session recorded against the live API and says so.
         </p>
       </PageHeader>
       <PlannerClient line={m.has("policy.affordable_line") ? m.num("policy.affordable_line") : 0.3} />

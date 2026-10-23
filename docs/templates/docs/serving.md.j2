@@ -18,7 +18,7 @@ A check stores the metro code, the income rounded to the nearest thousand, the d
 
 ## The site
 
-Static export of the Next.js app on GitHub Pages at {{ v('live.site_url') }}, reading the committed marts in the browser through DuckDB-WASM. The test server (`web/scripts/serve.mjs`) refuses HEAD and answers the first mock API request with HTTP 503, the way the host and the Fly machine behave, and the Playwright suite runs against it. The live check in a real browser ({{ v('live.browser') }}, {{ v('live.checked_at') }}): {{ v('live.status') }}, {{ v('live.routes_loaded') }} of {{ v('live.routes_total') }} routes loaded with the statement; with the API asleep: {{ v('live.asleep_outcome') }}.
+Static export of the Next.js app on GitHub Pages at {{ v('live.site_url') }}, reading the committed marts in the browser through DuckDB-WASM. The test server (`web/scripts/serve.mjs`) refuses HEAD and answers the first mock API request with HTTP 503, the way the Pages host and a sleeping API behave, and the Playwright suite runs against it. The live check in a real browser ({{ v('live.browser') }}, {{ v('live.checked_at') }}): {{ v('live.status') }}, {{ v('live.routes_loaded') }} of {{ v('live.routes_total') }} routes loaded with the statement; with the API asleep: {{ v('live.asleep_outcome') }}.
 
 ## Operations
 
