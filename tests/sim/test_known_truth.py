@@ -1,5 +1,6 @@
-"""Known truth tests on the simulator: under the clean condition every estimator recovers what the generator
-planted, within a stated tolerance, and the generator itself is deterministic in its seed."""
+"""Known truth tests on the simulator: under the clean condition (no price noise, no reverse causality) every
+estimator recovers what the generator planted, within a stated tolerance, and the generator itself is
+deterministic in its seed. The recovery study, not these tests, grades the estimators under noise."""
 
 from __future__ import annotations
 
@@ -21,7 +22,7 @@ from doorstep_sim.lenders import lender_loans
 from doorstep_sim.metros import DEMONSTRATION, Condition, burden_by_income, conditions, generate
 
 CLEAN = Condition(
-    name="clean", demand_strength="strong", supply_dispersion="narrow", reverse_causality="none", noise="low"
+    name="clean", demand_strength="strong", supply_dispersion="narrow", reverse_causality="none", noise="none"
 )
 
 
@@ -66,7 +67,21 @@ def test_lock_in_recovers_the_planted_response(world) -> None:  # type: ignore[n
 
 def test_supply_elasticity_recovered_with_the_demand_control(world) -> None:  # type: ignore[no-untyped-def]
     grades = {g.estimator: g for g in c4_supply.simulate_estimate(world)}
-    assert abs(grades["supply_controlled"].error) < 0.006
+    # Within a tenth of the planted value; the residual is the annual index being the mean of its quarters.
+    assert abs(grades["supply_controlled"].error) < 0.0025
+
+
+def test_supply_estimator_attenuates_when_builders_answer_the_growth_they_are_regressed_on() -> None:
+    """The caveat the chapter prints: permits respond to price growth inside the window, so under price noise the
+    coefficient is pulled toward zero. The recovery study quantifies it by condition; this test pins the direction."""
+    noisy = Condition(
+        name="noisy", demand_strength="strong", supply_dispersion="narrow", reverse_causality="none", noise="high"
+    )
+    errors = [
+        {g.estimator: g for g in c4_supply.simulate_estimate(generate(noisy, seed))}["supply_controlled"].error
+        for seed in range(4)
+    ]
+    assert np.mean(errors) > 0.0  # toward zero from a negative truth
 
 
 def test_migration_effect_recovered_and_placebo_near_zero(world) -> None:  # type: ignore[no-untyped-def]

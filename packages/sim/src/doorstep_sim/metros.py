@@ -43,14 +43,14 @@ class Condition(StrictModel):
     demand_strength: str  # "weak" or "strong": the price response to a migration shock
     supply_dispersion: str  # "narrow" or "wide": how much elasticity varies across metros
     reverse_causality: str  # "none", "mild" or "strong": migration's response to lagged affordability
-    noise: str  # "low" or "high"
+    noise: str  # "low" or "high" in the study; "none" for the known truth tests
 
     def knobs(self) -> dict[str, float]:
         return {
             "beta_demand": {"weak": 0.004, "strong": 0.012}[self.demand_strength],
             "elasticity_sd": {"narrow": 0.10, "wide": 0.40}[self.supply_dispersion],
             "reverse": {"none": 0.0, "mild": 0.6, "strong": 1.8}[self.reverse_causality],
-            "noise_sd": {"low": 0.010, "high": 0.030}[self.noise],
+            "noise_sd": {"none": 0.0, "low": 0.010, "high": 0.030}[self.noise],
         }
 
 
@@ -119,7 +119,9 @@ FIRST_YEAR = 2005
 LAST_YEAR = 2024
 RATE_SHOCK_YEAR = 2022
 LOCK_IN_RESPONSE = 0.04  # purchases per 100 owner households lost per point of lock in share after the shock
-BETA_SUPPLY = 0.025  # log price growth per permit per hundred new households, lagged one year
+BETA_SUPPLY = 0.025  # log price growth per permit per hundred households, lagged one year
+PERMIT_RESPONSE_MIGRATION = 0.30  # building rate response per person per hundred residents arrived last year, at unit elasticity
+PERMIT_RESPONSE_GROWTH = 0.40  # the growth surprise that moves the building rate by its elasticity (ten percent per four points)
 BURDEN_STEP_YEAR = 2013
 BURDEN_STEP_SIZE = 0.03
 BORROWER_RATIO_BASE = 1.35
@@ -129,6 +131,8 @@ SUPPRESSION_THRESHOLD = 50
 MEAN_REVERSION = 0.006  # log price growth lost per standard deviation of the affordability gap
 SUPPLY_SHOCK_SD = 0.30  # log building rate shock a metro's own land, zoning and costs give it each year
 SUPPLY_SHOCK_PERSISTENCE = 0.6
+MIGRATION_PERSISTENCE = 0.7  # a metro that gained people this year tends to gain them next year
+MIGRATION_INNOVATION_SD = 0.3  # per 100 residents per year
 
 
 def state_of(i: int) -> str:
@@ -198,6 +202,7 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
     households = size.copy()
     population = households * 2.5
     migration = np.zeros(n_metros)
+    migration_prev = np.zeros(n_metros)
     permits = base_permits.copy()
     permits_prev = base_permits.copy()
     last_growth = np.zeros(n_metros)
@@ -209,30 +214,47 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
     affordability_gap = np.zeros(n_metros)
     households_prev = households.copy()
     supply_shock = g_metro.normal(0.0, SUPPLY_SHOCK_SD, n_metros)
+    migration_swing = g_metro.normal(0.0, MIGRATION_INNOVATION_SD, n_metros)
     gap_history: list[np.ndarray] = []
-    gap_two_years_ago = np.zeros(n_metros)
+    gap_lagged = np.zeros(n_metros)  # the affordability gap two years ago: a move answers the gap with a lag
+    gap_lagged_change = np.zeros(n_metros)  # how that gap had moved over the two years before it
 
     for t, year in enumerate(years):
         shock_t = 1.0 if year >= 2020 and year <= 2021 else 0.0
         national_pull = g_year.normal(0.0, 0.5)
-        # Migration: an exogenous draw, a national pull in the pandemic years, and under reverse causality a
-        # response to last year's affordability gap (cheaper metros gain people).
-        # Under reverse causality people leave the metros that are expensive for their incomes and, more so, the
-        # metros that have just become expensive: the level of last year's gap and its change over two years.
+        # Migration: a metro level, a persistent swing (booms last several years, which is what makes the demand
+        # shock a confounder for the supply chapter: a metro's building rate and its price growth rise together
+        # while people arrive), a national pull, the pandemic draw, and under reverse causality a response to the
+        # affordability gap two years back: people leave the metros that are expensive for their incomes and, more
+        # so, the metros that had just become expensive. The lag is what a move takes, and it is what gives the
+        # pre trend placebo its power: the metros people are leaving were already growing more slowly.
+        migration_swing = MIGRATION_PERSISTENCE * migration_swing + g_metro.normal(
+            0.0, MIGRATION_INNOVATION_SD, n_metros
+        )
         migration = (
             base_migration
+            + migration_swing
             + 1.2 * shock_t * g_metro.normal(0.0, 1.0, n_metros)
             + national_pull
-            - k["reverse"] * (0.5 * affordability_gap + 1.0 * (affordability_gap - gap_two_years_ago))
-            + g_metro.normal(0.0, 0.3, n_metros)
+            - k["reverse"] * (1.0 * gap_lagged + 0.5 * gap_lagged_change)
         )
-        # Permits respond to last year's price growth with the metro's elasticity, around a persistent supply shock of
-        # their own (land, zoning, costs) that gives the building rate variation prices did not cause.
+        # Permits follow demand: builders build where people arrived last year (the demand shock the supply chapter
+        # must control for; a permit follows the inflow it answers by about a year) and, weakly, where prices just
+        # rose; both scaled by the metro's elasticity, around a persistent supply shock of their own (land, zoning,
+        # costs) that gives the building rate the variation demand did not cause.
         supply_shock = SUPPLY_SHOCK_PERSISTENCE * supply_shock + g_metro.normal(
             0.0, SUPPLY_SHOCK_SD, n_metros
         )
         permits = np.clip(
-            base_permits * (1.0 + elasticity * last_growth / 0.04) * np.exp(supply_shock), 0.05, None
+            base_permits
+            * (
+                1.0
+                + elasticity
+                * (PERMIT_RESPONSE_MIGRATION * migration_prev + last_growth / PERMIT_RESPONSE_GROWTH)
+            )
+            * np.exp(supply_shock),
+            0.05,
+            None,
         )
         # Price growth: income growth passes through, demand pushes, lagged permits pull down.
         permits_lag = permits_prev
@@ -255,6 +277,7 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
         log_price = log_price + growth
         last_growth = growth
         permits_prev = permits
+        migration_prev = migration.copy()
         income = income * (1.0 + income_growth + g_metro.normal(0.0, 0.004, n_metros))
         households_prev = households.copy()
         households = households * (1.0 + 0.006 + migration / 100.0)
@@ -270,7 +293,8 @@ def generate(condition: Condition, seed: int, *, n_metros: int = N_METROS) -> Wo
         share = np.array([payment_share(p, i, rate, 0.10, 30) for p, i in zip(price, income, strict=True)])
         affordability_gap = (share - share.mean()) / share.std() if share.std() > 0 else np.zeros(n_metros)
         gap_history.append(affordability_gap)
-        gap_two_years_ago = gap_history[-3] if len(gap_history) >= 3 else gap_history[0]
+        gap_lagged = gap_history[-2] if len(gap_history) >= 2 else gap_history[0]
+        gap_lagged_change = gap_lagged - (gap_history[-4] if len(gap_history) >= 4 else gap_history[0])
         rent = rent_to_price * price / 12.0 * np.exp(g_metro.normal(0.0, 0.02, n_metros))
         mu = np.log(income)
         renter_mu = mu - 0.45

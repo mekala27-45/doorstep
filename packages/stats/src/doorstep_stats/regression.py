@@ -1,9 +1,10 @@
 """Cross section and panel regressions with cluster robust standard errors, on top of the fixed effects
 solver. The migration chapter regresses two year price growth on migration per hundred residents across
 metros with state clusters; the lock in chapter regresses turnover on lock in intensity with metro and
-year fixed effects and state clusters; both print a placebo beside the headline. The p values are from
-the normal approximation on the cluster robust t statistic, which with thirty or more clusters is the
-convention the literature uses; the pushback names the small cluster case.
+year fixed effects and state clusters; both print a placebo beside the headline. The intervals and p
+values use the t distribution with one fewer degree of freedom than there are clusters, the small cluster
+convention (Cameron and Miller 2015): with fifteen simulated states or fifty real ones the normal
+approximation runs narrow, and the recovery study reports the coverage either way.
 """
 
 from __future__ import annotations
@@ -41,15 +42,27 @@ class Coefficient:
         return not self.covers(0.0)
 
 
+def critical_value(clusters: int, level: float = 0.95) -> float:
+    """The t critical value on clusters minus one degrees of freedom; the normal value when there are no clusters."""
+    if clusters >= 2:
+        return float(sp_stats.t.ppf(0.5 + level / 2.0, df=clusters - 1))
+    return float(sp_stats.norm.ppf(0.5 + level / 2.0))
+
+
 def coefficients(result: FitResult, *, clusters: int, level: float = 0.95) -> list[Coefficient]:
-    z = float(sp_stats.norm.ppf(0.5 + level / 2.0))
+    z = critical_value(clusters, level)
     out: list[Coefficient] = []
     se = result.se
     for i, name in enumerate(result.names):
         est = float(result.coef[i])
         s = float(se[i])
         t = est / s if s > 0 else float("inf")
-        p = float(2.0 * sp_stats.norm.sf(abs(t))) if np.isfinite(t) else 0.0
+        if not np.isfinite(t):
+            p = 0.0
+        elif clusters >= 2:
+            p = float(2.0 * sp_stats.t.sf(abs(t), df=clusters - 1))
+        else:
+            p = float(2.0 * sp_stats.norm.sf(abs(t)))
         out.append(
             Coefficient(name, est, s, est - z * s, est + z * s, p, clusters, int(result.weights.shape[0]))
         )
