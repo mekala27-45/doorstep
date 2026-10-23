@@ -1,0 +1,41 @@
+{
+ "commit": "3ce1739260be94a1fc80c80213b5acf0c0a7bec2",
+ "drift": 0,
+ "drift_lines": [],
+ "figures_compared": 9,
+ "finished_at": "2026-10-23T07:47:12.115776+00:00",
+ "gates_passed": true,
+ "reproduced": true,
+ "reset": null,
+ "started_at": "2026-10-23T06:59:57.547076+00:00",
+ "status": "reproduced",
+ "steps": {
+  "chapters": 1154.1,
+  "data": 462.3,
+  "exports": 1.3,
+  "manifest": 0.5,
+  "marts": 0.5,
+  "metrics": 10.2,
+  "recovery": 989.4,
+  "render": 0.6,
+  "simulate": 3.0,
+  "warehouse": 190.7
+ },
+ "tables_compared": 23,
+ "timing_differences": {
+  "build.commits": [
+   41,
+   46
+  ],
+  "chapters.seconds": [
+   1088.830375,
+   1151.760067
+  ],
+  "checklist.18.evidence": [
+   "coverage 86.0 percent; mypy clean; ruff clean; palette green; 41 commits; rederive not run; tag not pushed; Apache 2.0 with every data source's terms declared.",
+   "coverage 86.0 percent; mypy clean; ruff clean; palette green; 46 commits; rederive not run; tag not pushed; Apache 2.0 with every data source's terms declared."
+  ]
+ },
+ "values_compared": 928,
+ "where": "/home/claude/doorstep-rederive"
+}

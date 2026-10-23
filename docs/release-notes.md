@@ -30,4 +30,4 @@ Can anyone still afford a home: a data story in 8 chapters, built on every metro
 
 ## The definition of done
 
-12 of 18 lines done; not done: 7, 13, 14, 15, 16, 18. The README prints every line with its evidence.
+13 of 18 lines done; not done: 7, 13, 14, 15, 18. The README prints every line with its evidence.

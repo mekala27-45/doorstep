@@ -6528,7 +6528,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 48
+   "value": 49
   },
   "build.decisions": {
    "fmt": "int",
@@ -12086,7 +12086,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "claim gate over every document; rederive drift not run; limitations section in RESULTS.md."
+   "value": "claim gate over every document; rederive drift 0; limitations section in RESULTS.md."
   },
   "checklist.16.status": {
    "fmt": "text",
@@ -12100,7 +12100,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "not done"
+   "value": "done"
   },
   "checklist.16.text": {
    "fmt": "text",
@@ -12170,7 +12170,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "coverage 86.0 percent; mypy clean; ruff clean; palette green; 48 commits; rederive not run; tag not pushed; Apache 2.0 with every data source's terms declared."
+   "value": "coverage 86.0 percent; mypy clean; ruff clean; palette green; 49 commits; rederive reproduced in a worktree; tag not pushed; Apache 2.0 with every data source's terms declared."
   },
   "checklist.18.status": {
    "fmt": "text",
@@ -12548,7 +12548,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 12
+   "value": 13
   },
   "checklist.missing": {
    "fmt": "text",
@@ -12562,7 +12562,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "7, 13, 14, 15, 16, 18"
+   "value": "7, 13, 14, 15, 18"
   },
   "checklist.total": {
    "fmt": "int",
