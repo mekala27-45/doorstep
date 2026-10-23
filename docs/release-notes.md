@@ -18,7 +18,7 @@ Can anyone still afford a home: a data story in 8 chapters, built on every metro
 ## Where it runs
 
 - The story and its pages: not yet published
-- The calculator's API: not yet deployed (not yet deployed)- The briefing: `report/briefing.md` and `report/briefing.html`
+- The calculator's API: not yet deployed- The briefing: `report/briefing.md` and `report/briefing.html`
 
 ## In this release
 

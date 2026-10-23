@@ -6528,7 +6528,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 41
+   "value": 48
   },
   "build.decisions": {
    "fmt": "int",
@@ -6542,7 +6542,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 19
+   "value": 20
   },
   "build.reversals": {
    "fmt": "int",
@@ -12128,7 +12128,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "DECISIONS.md 19 dated entries, 2 reversals, 0 corrections; 3 executed notebooks, 3 with a dead end."
+   "value": "DECISIONS.md 20 dated entries, 2 reversals, 0 corrections; 3 executed notebooks, 3 with a dead end."
   },
   "checklist.17.status": {
    "fmt": "text",
@@ -12170,7 +12170,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "coverage 86.0 percent; mypy clean; ruff clean; palette green; 41 commits; rederive not run; tag not pushed; Apache 2.0 with every data source's terms declared."
+   "value": "coverage 86.0 percent; mypy clean; ruff clean; palette green; 48 commits; rederive not run; tag not pushed; Apache 2.0 with every data source's terms declared."
   },
   "checklist.18.status": {
    "fmt": "text",
@@ -12422,7 +12422,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "not yet deployed: not yet deployed from no client yet; payment share not measured read back; results/deploy/verification.json."
+   "value": "not yet deployed; results/deploy/verification.json is not written until a host holds the container."
   },
   "checklist.7.status": {
    "fmt": "text",

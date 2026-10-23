@@ -6,7 +6,7 @@
 
 One FastAPI service (`packages/api`) in a container, with its check log in Neon Postgres under the `doorstep` schema and the calculator marts (`calc_metros.parquet`, `calc_quarters.parquet`, `calc_meta.json`) copied into the image from `results/marts`. The routes: `GET /v1/health`; `GET /v1/metros`; `GET /v1/curve` (the breakeven curve for a metro, income, down payment, rate and horizon); `POST /v1/checks` (token gated), which computes the answer, writes the check row, then the audit row, then returns the id; `GET /v1/checks` and `GET /v1/checks/{id}`; `POST /v1/score` (token gated), which scores stored checks whose next quarter has published against the realised payment share; `GET /v1/scorecard`; `GET /v1/audit`. Every response carries the statement and the rate attribution. A write without the token is refused with HTTP 401; a machine that is waking answers its first request with HTTP 503 and the site probes twice.
 
-The live deployment: not yet deployed, not yet deployed.
+The live deployment: not yet deployed.
 
 ## What is stored
 

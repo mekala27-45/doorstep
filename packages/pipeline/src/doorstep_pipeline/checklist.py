@@ -177,8 +177,12 @@ def evaluate(m: Manifest, facts: dict[str, Any]) -> list[Item]:
     )
     add(
         raw("deploy.passed") == "yes",
-        f"{v('deploy.base_url')}: {v('deploy.status')} from {v('deploy.client') if has('deploy.client') else 'no client yet'}; "
-        f"payment share {v('deploy.payment_share') if has('deploy.payment_share') else 'not measured'} read back; results/deploy/verification.json.",
+        (
+            f"{v('deploy.base_url')}: {v('deploy.status')} from {v('deploy.client')}; "
+            f"payment share {v('deploy.payment_share')} read back; results/deploy/verification.json."
+            if raw("deploy.passed") == "yes"
+            else f"{v('deploy.status')}; results/deploy/verification.json is not written until a host holds the container."
+        ),
     )
     api = q.get("api_tests", {})
     add(
