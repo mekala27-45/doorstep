@@ -1,0 +1,30 @@
+# doorstep {{ v('build.version') }}
+
+Can anyone still afford a home: a data story in {{ v('story.chapters') }} chapters, built on every metropolitan area present in both the regulator price index and the census one year release ({{ v('chapters.metropolitan') }} of them) from {{ v('data.window.start_year') }} to {{ v('data.fhfa.latest_period') }}, with the warehouse, the simulator that proves each estimator before it touches a real metro, an affordability calculator on a small API, and the exports a BI team would open.
+
+{{ statement() }}
+
+## The findings
+
+{% for chapter in story_chapters %}
+{% set number = loop.index %}
+- **{{ v('ch' ~ number ~ '.title') }}.** {{ message(chapter) }}
+{% endfor %}
+
+## Where it runs
+
+- The story and its pages: {{ v('live.site_url') }}
+- The calculator's API: {{ v('deploy.base_url') }}{% if raw('deploy.passed') != 'yes' %} ({{ v('deploy.status') }}){% endif %}
+- The briefing: `report/briefing.md` and `report/briefing.html`
+
+## In this release
+
+- {{ v('data.fhfa.rows') }} index rows, {{ v('data.acs.rows') }} census estimates over {{ v('data.acs.years') }} releases, {{ v('data.pmms.weeks') }} weekly rates, {{ v('data.bps.rows') }} permit rows, {{ v('data.popest.rows') }} population rows and {{ v('data.hmda.rows_in_source_files') }} mortgage records, nothing sampled; {{ v('data.quarantine.rules') }} quarantine rules.
+- {{ v('warehouse.models') }} dbt models and {{ v('warehouse.tests') }} tests; {{ v('metrics.count') }} metrics reconciled at {{ v('metrics.grains') }} grains over {{ v('metrics.cells') }} cells with {{ v('metrics.disagreements') }} disagreements.
+- The recovery study: {{ v('recovery.worlds') }} simulated worlds over {{ v('recovery.conditions') }} conditions and {{ v('recovery.seeds') }} seeds, {{ v('recovery.estimators') }} estimators, {{ v('recovery.grades') }} grades.
+- Eight registered plans, each hash in `results/chapters/plans.json` and printed in every method note.
+- The workbook with live formulas, the Tableau and Power BI specifications and the CSV bundle in `exports/`.
+
+## The definition of done
+
+{{ v('checklist.done') }} of {{ v('checklist.total') }} lines done{% if raw('checklist.missing') != 'none' %}; not done: {{ v('checklist.missing') }}{% endif %}. The README prints every line with its evidence.
