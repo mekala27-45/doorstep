@@ -1,0 +1,9 @@
+slot,role,meaning,light,dark
+1,owning,owning; the price and the payment,#1A5E40,#2FC79A
+2,renting,renting and the rent,#BF6F2A,#D5812E
+3,adjusted,the adjusted measure beside the raw one in the control gray,#3568B8,#7B9BE8
+4,burden,the cost burden bands,#D43F6E,#E04A89
+5,rate,the mortgage rate,#7A4A26,#CDA06A
+6,supply,supply and permits,#157F93,#2FB0C2
+7,people,population and migration,#7C8B1F,#A8BB3A
+8,borrowers,the borrowers,#7E327A,#C66AB8
