@@ -60,7 +60,8 @@ def plan(policy: Policy = POLICY) -> dict[str, Any]:
             "income_bin_thousands": INCOME_BIN_K,
         },
         "message_rule": "richer_older: both difference intervals exclude zero in the stated direction; richer: only the ratio does; "
-        "older: only the under 35 share does; null: neither",
+        "older: only the under 35 share does, downward; richer_younger and younger: the under 35 share rose beyond its interval, "
+        "against the claim; null: neither",
     }
 
 
@@ -69,8 +70,17 @@ def message_rule(
 ) -> Branch:
     richer = ratio_diff.low > 0.0
     older = under35_diff.high < 0.0
+    younger = under35_diff.low > 0.0
     named = "; ".join(f"{name} {format_value(d, 'sfloat2')}" for name, d in movers[:3])
     tail = f" The ratio moved most in {named}." if named else ""
+    if richer and younger:
+        return Branch(
+            "richer_younger",
+            f"The buyer is richer than in {BASE_YEAR} by {format_value(ratio_diff.estimate, 'sfloat2')} of the local median income (interval "
+            f"{format_value(ratio_diff.low, 'sfloat2')} to {format_value(ratio_diff.high, 'sfloat2')}) and, against the claim, slightly younger: the under 35 share rose "
+            f"{format_value(under35_diff.estimate, 'pts1')} (interval {format_value(under35_diff.low, 'pts1')} to {format_value(under35_diff.high, 'pts1')}) by {latest_year}."
+            + tail,
+        )
     if richer and older:
         return Branch(
             "richer_older",
@@ -85,6 +95,13 @@ def message_rule(
             f"The buyer is richer than in {BASE_YEAR} by {format_value(ratio_diff.estimate, 'sfloat2')} of the local median income (interval "
             f"{format_value(ratio_diff.low, 'sfloat2')} to {format_value(ratio_diff.high, 'sfloat2')}), but not measurably older: the under 35 share moved "
             f"{format_value(under35_diff.estimate, 'pts1')} with an interval that includes zero." + tail,
+        )
+    if younger:
+        return Branch(
+            "younger",
+            f"The buyer is slightly younger than in {BASE_YEAR} (under 35 share {format_value(under35_diff.estimate, 'pts1')}, interval "
+            f"{format_value(under35_diff.low, 'pts1')} to {format_value(under35_diff.high, 'pts1')}) and not measurably richer relative to the local median."
+            + tail,
         )
     if older:
         return Branch(

@@ -99,6 +99,10 @@ def test_buyers_branches() -> None:
     assert c6_buyers.message_rule(richer, flat_age, 2024, []).name == "richer"
     assert c6_buyers.message_rule(flat_ratio, older, 2024, []).name == "older"
     assert c6_buyers.message_rule(flat_ratio, flat_age, 2024, []).name == "null"
+    younger = interval(0.012, 0.001, 0.023)
+    against = c6_buyers.message_rule(richer, younger, 2025, [])
+    assert against.name == "richer_younger" and "against the claim" in against.text and "+1.2" in against.text
+    assert c6_buyers.message_rule(flat_ratio, younger, 2025, []).name == "younger"
 
 
 # Chapter 7

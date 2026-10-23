@@ -59,7 +59,10 @@ pivoted as (
     group by year, cbsa_code
 )
 select
-    *,
+    * exclude (median_rent_share, median_rent_share_moe),
+    -- B25071 publishes the median rent share as a percentage (31.2); every share in the warehouse is a fraction
+    median_rent_share / 100.0 as median_rent_share,
+    median_rent_share_moe / 100.0 as median_rent_share_moe,
     -- renters paying thirty percent or more, and fifty percent or more, over renters with a computed share
     case when rent_share_total - coalesce(rent_share_not_computed, 0) > 0
          then (coalesce(rent_share_30_35, 0) + coalesce(rent_share_35_40, 0) + coalesce(rent_share_40_50, 0) + coalesce(rent_share_50_plus, 0))

@@ -68,6 +68,10 @@ models:
       - unique_combination:
           combination_of_columns: [year, cbsa_code]
     columns:
+      - name: median_rent_share
+        description: The median gross rent as a share of household income, a fraction (B25071 publishes a percentage).
+        data_tests:
+          - between: {min_value: 0.05, max_value: 0.6}
       - name: renter_burdened_share
         data_tests:
           - between: {min_value: 0, max_value: 1}

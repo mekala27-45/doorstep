@@ -558,6 +558,13 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
         "has to earn. The paths are drawn from the metro's own past, which includes a decade nobody expects to repeat, and "
         "the interval is the spread of those paths, not a forecast. The down payment years assume a renter who saves a tenth "
         "of income with no help and no return, which is the simplest honest reading of the question."
+        + (
+            f" The {format_value(chosen, 'pct0')} line is doing work: at {format_value(neighbour, 'pct0')}, the sensitivity line, the "
+            f"median household can afford the median home in {line_sign[neighbour]} of the {len(table)} metros rather than "
+            f"{line_sign[chosen]}, and the majority reading goes with the line."
+            if line_degenerate
+            else ""
+        )
     )
     return r
 

@@ -75,10 +75,16 @@ def message_rule(
     diff_low: float, diff_high: float, failing_year: int | None, latest_year: int, diff: float
 ) -> Branch:
     if failing_year is not None and failing_year != PEAK_YEAR:
+        above = (
+            f" It sits {format_value(diff, 'pts1')} above 2006 (interval {format_value(diff_low, 'pts1')} to "
+            f"{format_value(diff_high, 'pts1')}), so the 2006 peak is passed, and the window's own peak is {failing_year}."
+            if diff_low > 0.0
+            else ""
+        )
         return Branch(
             "fails_year",
             f"The payment share of {latest_year} does not exceed {failing_year}; the payment story is not yet the "
-            f"largest the window has seen.",
+            f"largest the window has seen." + above,
         )
     if diff_low > 0.0:
         return Branch(

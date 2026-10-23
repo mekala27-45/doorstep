@@ -217,13 +217,44 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     frame = cells(panel, window)
     controlled, uncontrolled = fit_both(frame)
     branch = message_rule(controlled, uncontrolled, window)
+    # Interior test on the window length, before the message is written, because the message says how it went
+    rows: list[list[Any]] = []
+    signs: dict[int, float] = {}
+    for length in SUPPLY_WINDOWS:
+        try:
+            c, u = fit_both(cells(panel, length))
+        except Exception:
+            rows.append([length, None, None, None, None, "not enough windows"])
+            continue
+        signs[length] = c.estimate
+        rows.append([length, c.estimate, c.low, c.high, u.estimate, "chosen" if length == window else ""])
+    neighbours = [x for x in signs if x != window]
+    nearest = min(neighbours, key=lambda x: abs(x - window)) if neighbours else None
+    degenerate = nearest is not None and np.sign(signs[nearest]) != np.sign(
+        signs.get(window, controlled.estimate)
+    )
+    if degenerate:
+        for row in rows:
+            if row[0] == nearest:
+                row[5] = "degenerate"
+    others = ", ".join(
+        f"{length} years {format_value(signs[length] * length, 'spct1')}"
+        for length in sorted(signs)
+        if length != window
+    )
+    message_text = branch.text + (
+        f" The estimate does not survive the window test: over {others} per window, with intervals that include zero, "
+        f"so this is a {window} year statement and the interior table says so."
+        if degenerate
+        else f" The window test holds: over {others} per window the sign is the same."
+    )
     r = ChapterResult(
         number=NUMBER,
         slug=SLUG,
         source=panel.source,
         population=f"{frame['cbsa_code'].n_unique()} metropolitan areas over {frame['window_id'].n_unique()} windows of {window} years ({frame.height} cells, {controlled.clusters} states)",
         branch=branch.name,
-        message=branch.text,
+        message=message_text,
         reported_years=sorted(int(y) for y in frame["last_year"].unique().to_list()),
     )
     for name, c in (("controlled", controlled), ("uncontrolled", uncontrolled)):
@@ -248,28 +279,7 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
     spread = num(frame["permits_rate"].quantile(0.9)) - num(frame["permits_rate"].quantile(0.1))
     r.put("ch4.effect_p90_vs_p10", controlled.estimate * window * spread, "spct1", model="supply_fe")
     r.put("ch4.branch", branch.name, "text")
-    r.put("ch4.message", branch.text, "text")
-
-    # Interior test on the window length
-    rows: list[list[Any]] = []
-    signs: dict[int, float] = {}
-    for length in SUPPLY_WINDOWS:
-        try:
-            c, u = fit_both(cells(panel, length))
-        except Exception:
-            rows.append([length, None, None, None, None, "not enough windows"])
-            continue
-        signs[length] = c.estimate
-        rows.append([length, c.estimate, c.low, c.high, u.estimate, "chosen" if length == window else ""])
-    neighbours = [x for x in signs if x != window]
-    nearest = min(neighbours, key=lambda x: abs(x - window)) if neighbours else None
-    degenerate = nearest is not None and np.sign(signs[nearest]) != np.sign(
-        signs.get(window, controlled.estimate)
-    )
-    if degenerate:
-        for row in rows:
-            if row[0] == nearest:
-                row[5] = "degenerate"
+    r.put("ch4.message", message_text, "text")
     r.put_table(
         "ch4.window_interior",
         ["Window years", "Controlled", "Low", "High", "Uncontrolled", "Note"],
@@ -367,6 +377,12 @@ def estimate(panel: Panel, policy: Policy = POLICY) -> ChapterResult:
         "is one demand shock, not all of them; income growth and investor demand are not in the regression. Permits are "
         "not completions, and a permit pulled in a downturn may never become a home. The notebook keeps the specification "
         "that put the demand shock in the wrong fixed effect as a dead end."
+        + (
+            f" And the window matters: the {window} year estimate is the only one of the three lengths tried whose interval "
+            "excludes zero, which is the kind of result a reader should hold loosely until a second decade of permits is in."
+            if degenerate
+            else ""
+        )
     )
     return r
 

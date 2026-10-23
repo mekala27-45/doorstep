@@ -99,7 +99,8 @@ def message_rule(main: Coefficient, placebo: Coefficient, overtaking: str | None
         if overtaking
         else "The rate part never overtook the price part. "
     )
-    size = f"{format_value(abs(main.estimate), 'float2')} purchases per 100 owner households per point of lock in"
+    magnitude = f"{format_value(abs(main.estimate), 'float2')} purchases per 100 owner households per point of lock in"
+    size = f"{format_value(abs(main.estimate), 'float2')} fewer purchases per 100 owner households per point of lock in"
     if main.high < 0.0 and placebo.covers(0.0):
         return Branch(
             "froze",
@@ -110,7 +111,7 @@ def message_rule(main: Coefficient, placebo: Coefficient, overtaking: str | None
     if main.high < 0.0 and not placebo.covers(0.0):
         return Branch(
             "pre_trend",
-            when + f"Turnover fell by {size}, but the placebo on 2018 to 2019 also moved "
+            when + f"Turnover fell by {magnitude}, but the placebo on 2018 to 2019 also moved "
             f"({format_value(placebo.estimate, 'sfloat2')}, interval excluding zero): the metros with the most lock in were already "
             f"turning over differently, and the headline is an upper bound.",
         )
@@ -118,7 +119,7 @@ def message_rule(main: Coefficient, placebo: Coefficient, overtaking: str | None
         return Branch(
             "reverse",
             when
-            + f"Turnover rose where lock in was higher, by {size}; the lock in story does not hold in these years.",
+            + f"Turnover rose where lock in was higher, by {magnitude}; the lock in story does not hold in these years.",
         )
     return Branch(
         "null",
