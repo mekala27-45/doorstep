@@ -1,31 +1,31 @@
 # Can anyone still afford a home: the briefing
 
-*doorstep, as of 2026-10-22. 60 metropolitan areas present in both the regulator price index and the one year census release; prices and rates from 1975 to 2026Q2, census releases from 2005 to 2024, mortgage originations from 2018 to 2024. Chapters that fit anything choose on 2005 to 2019 and report from 2021. Every figure is rendered from the analysis manifest.*
+*doorstep, as of 2026-10-23. 393 metropolitan areas present in both the regulator price index and the one year census release; prices and rates from 1975 to 2026Q2, census releases from 2005 to 2024, mortgage originations from 2018 to 2025. Chapters that fit anything choose on 2005 to 2019 and report from 2021. Every figure is rendered from the analysis manifest.*
 
 > Public data from the Federal Housing Finance Agency, the Census Bureau (American Community Survey, Building Permits Survey, Population Estimates), the Department of Housing and Urban Development and the Consumer Financial Protection Bureau (HMDA), with mortgage rates from Freddie Mac under its terms of use. Metros are real and appear as they do in the public record; no household, borrower or address appears. The findings are a portfolio analysis, not financial advice, not a market forecast and not a fair lending finding.
 
 ## The eight findings
 
-- **The payment story happened in eighteen months while the price story took twenty years: the share of income the median home takes in 2024 sits +2.6 pts above 2006 (interval +2.4 pts to +2.8 pts).** The payment share of the median home is 26.8% in 2024 (26.6% to 27.0%), +2.6 pts against the 2006 peak, while price to income moved +3.6% over the whole span.
-- **The rate part of the payment overtook the price part in 2022Q3. The lock in coefficient (-0.02, interval -0.13 to +0.10) cannot be told from zero.** The rate part is 57% of the payment change since 2019Q1; each point of lock in moved turnover by -0.019 (-0.132 to +0.095) against a placebo of +0.046.
-- **The median renter is burdened in most metros (100% of them) in 2024; the problem is the whole distribution, with 32.5% of renters paying half or more. The national series moved and stayed moved in 2009, 2013, 2018, 2022.** 32.5% of renters pay half or more of income in rent (29.3% to 36.3%); the national severe series broke in 2009, 2013, 2018, 2022.
-- **Where builders kept pace, prices rose less: 10.7% less price growth over 5 years per extra permit per hundred households (interval -13.8% to -7.6%); without the demand control the estimate is -8.3%.** -10.7% price growth per window per extra permit per hundred households with the demand control (-13.8% to -7.6%); -8.3% without it.
-- **The ranking changes when you hold constant what people earn there: 10 of the 20 largest metros move beyond their intervals. Less affordable than their price says: Simulated metro 38 from 37 to 18; Simulated metro 53 from 35 to 23; Simulated metro 12 from 31 to 20. More affordable: Simulated metro 46 from 4 to 15; Simulated metro 15 from 39 to 49; Simulated metro 23 from 33 to 37.** Rank correlation 0.90 between the price ranking and the payment share ranking; the largest move is Simulated metro 59, from 18 to 47.
-- **The buyer is richer than in 2019 by +0.09 of the local median income (interval +0.08 to +0.10), but not measurably older: the under 35 share moved -0.2 pts with an interval that includes zero. The ratio moved most in Simulated metro 12 +0.20; Simulated metro 33 +0.17; Simulated metro 56 +0.15.** The median purchase borrower earns 1.43x the local median income in 2024 against 1.35x in 2019; the under thirty five share moved -0.2 pts.
-- **Demand moved and prices followed: +1.5% price growth over the window per person gained per hundred residents beyond the pre pandemic pace (interval +1.2% to +1.9%), with a placebo of 0.0% on the years before the pandemic whose interval includes zero.** +1.54% price growth per person gained per hundred residents (+1.23% to +1.86%), placebo -0.04% (-0.48% to +0.41%).
-- **Buying beats renting only after 15.0 years in the typical metro (interval 2.0 years to beyond 30 years), and one point of rate moves the breakeven by +5.5 years. Longest to break even among the largest metros: Simulated metro 29 beyond 30 years; Simulated metro 14 beyond 30 years; Simulated metro 47 beyond 30 years.** Median breakeven 15.0 years (2.0 years to beyond 30 years); the median household can afford the median home in 37 of 60 metros; 6.1 years to the down payment in the typical metro.
+- **The payment share of 2024 does not exceed 2023; the payment story is not yet the largest the window has seen. It sits +1.1 pts above 2006 (interval +1.0 pts to +1.3 pts), so the 2006 peak is passed, and the window's own peak is 2023.** The payment share of the median home is 34.9% in 2024 (34.8% to 35.0%), +1.1 pts against the 2006 peak, while price to income moved +3.4% over the whole span.
+- **The rate part of the payment overtook the price part in 2023Q3. The rate shock froze turnover where owners had the most to lose: 0.06 fewer purchases per 100 owner households per point of lock in (interval -0.08 to -0.03), and the placebo on the years before the shock sits at 0.00 with an interval that includes zero.** The rate part is 40% of the payment change since 2019Q1; each point of lock in moved turnover by -0.056 (-0.077 to -0.034) against a placebo of +0.001.
+- **The median renter is burdened in 51% of metros in 2024, so the median hides nothing; the problem is the whole distribution, with 26.5% of renters paying half or more (interval 25.7% to 27.2%). The national series moved and stayed moved in 2009, 2015, 2021.** 26.5% of renters pay half or more of income in rent (25.7% to 27.2%); the national severe series broke in 2009, 2015, 2021.
+- **Where builders kept pace, prices rose less: 8.0% less price growth over 5 years per extra permit per hundred households (interval -14.3% to -1.7%); without the demand control the estimate is -0.4%.** -8.0% price growth per window per extra permit per hundred households with the demand control (-14.3% to -1.7%); -0.4% without it.
+- **The ranking changes when you hold constant what people earn there: 17 of the 20 largest metros move beyond their intervals. Less affordable than their price says: Tampa-St. Petersburg-Clearwater from 106 to 90; Miami-Fort Lauderdale-West Palm Beach from 33 to 22; Los Angeles-Long Beach-Anaheim from 7 to 2. More affordable: St. Louis from 223 to 307; Minneapolis-St. Paul-Bloomington from 114 to 195; Washington-Arlington-Alexandria from 25 to 102.** Rank correlation 0.94 between the price ranking and the payment share ranking; the largest move is Lexington Park, MD, from 72 to 243.
+- **The buyer is richer than in 2019 by +0.15 of the local median income (interval +0.12 to +0.19) and, against the claim, slightly younger: the under 35 share rose +1.2 pts (interval +0.1 pts to +2.3 pts) by 2025. The ratio moved most in Los Angeles-Long Beach-Anaheim +0.44; Miami-Fort Lauderdale-West Palm Beach +0.37; New York-Newark-Jersey City +0.30.** The median purchase borrower earns 1.39x the local median income in 2025 against 1.23x in 2019; the under thirty five share moved +1.2 pts.
+- **The metros that gained people were already lagging before the pandemic: the placebo on the years before it is -0.8% (interval -1.4% to -0.2%), so the headline of +1.5% price growth over the window per person gained per hundred residents beyond the pre pandemic pace is a lower bound on what the migration itself did.** +1.48% price growth per person gained per hundred residents (+0.40% to +2.55%), placebo -0.78% (-1.35% to -0.20%).
+- **Buying beats renting only after 10.0 years in the typical metro (interval 1.0 years to beyond 30 years), and one point of rate moves the breakeven by +4.5 years. Longest to break even among the largest metros: Boston-Cambridge-Newton 21 years; Chicago-Naperville-Elgin 20 years; San Francisco-Oakland-Fremont 18 years.** Median breakeven 10.0 years (1.0 years to beyond 30 years); the median household can afford the median home in 221 of 382 metros; 6.4 years to the down payment in the typical metro.
 
 ## 1. Affordable is a decision
 
 <!-- chart: definition -->
-**The payment story happened in eighteen months while the price story took twenty years: the share of income the median home takes in 2024 sits +2.6 pts above 2006 (interval +2.4 pts to +2.8 pts).** Price to income for the owner weighted aggregate of 60 metros went from 3.6x in 2005 to 3.8x in 2024 (+3.6%), with the cycle peak at 3.7x in 2006. The payment share, twelve payments on the median home at the rate of each quarter over the median income, went from 24.1% to 26.8% (26.6% to 27.0%), +2.6 pts against the peak (+2.4 pts to +2.8 pts). 47 metros (78%) sit above their own peak payment share; 23 (38%) sit above the 30% line.
+**The payment share of 2024 does not exceed 2023; the payment story is not yet the largest the window has seen. It sits +1.1 pts above 2006 (interval +1.0 pts to +1.3 pts), so the 2006 peak is passed, and the window's own peak is 2023.** Price to income for the owner weighted aggregate of 375 metros went from 4.8x in 2005 to 5.0x in 2024 (+3.4%), with the cycle peak at 5.0x in 2006. The payment share, twelve payments on the median home at the rate of each quarter over the median income, went from 30.8% to 34.9% (34.8% to 35.0%), +1.1 pts against the peak (+1.0 pts to +1.3 pts). 283 metros (75%) sit above their own peak payment share; 161 (42%) sit above the 30% line.
 
 | Anchor year | Latest payment share | 2006 payment share | Difference | Metros above 2006 | Note |
 |---:|---:|---:|---:|---:|---|
-| 2,015 | 26.9% | 24.3% | +2.6 pts | 47 |  |
-| 2,017 | 26.7% | 24.1% | +2.6 pts | 47 |  |
-| 2,019 | 26.8% | 24.2% | +2.6 pts | 47 | chosen |
-| 2,023 | 26.6% | 24.0% | +2.6 pts | 47 |  |
+| 2,015 | 35.0% | 33.8% | +1.1 pts | 283 |  |
+| 2,017 | 34.8% | 33.7% | +1.1 pts | 283 |  |
+| 2,019 | 34.9% | 33.7% | +1.1 pts | 283 | chosen |
+| 2,023 | 33.5% | 32.3% | +1.2 pts | 283 |  |
 
 **Method.** Plan `ac7975b9fb0c601f`; the anchored index with the payment at the quarterly rate; 2000 Monte Carlo draws over the census margins of error, index held fixed; no fitted parameter; the baseline years are 2005 to 2019 and the headline is the latest release. Anchor sensitivity: stable. Simulator: anchored payment share mean bias -0.02 pts; self report correction mean bias -0.002.
 
@@ -36,15 +36,15 @@ Self reported values run high or low by metro, and the anchor carries that bias 
 ## 2. The rate shock and the lock in
 
 <!-- chart: rate_shock -->
-**The rate part of the payment overtook the price part in 2022Q3. The lock in coefficient (-0.02, interval -0.13 to +0.10) cannot be told from zero.** The payment on the home as priced in 2019Q1 went from $1,208 to $2,191 by 2024Q4 (+$983): +$424 from the price and +$559 from the rate, 57% of the change, which overtook the price part in 2022Q3. Lock in intensity (1.7 million originations under 4.00% in 2019 to 2021, per hundred owner households) runs from 10.4 to 11.7 across metros; turnover fell from 1.63 to 1.17; the regression gives -0.019 per point (-0.132 to +0.095) against a placebo of +0.046 (-0.025 to +0.117).
+**The rate part of the payment overtook the price part in 2023Q3. The rate shock froze turnover where owners had the most to lose: 0.06 fewer purchases per 100 owner households per point of lock in (interval -0.08 to -0.03), and the placebo on the years before the shock sits at 0.00 with an interval that includes zero.** The payment on the home as priced in 2019Q1 went from $1,316 to $2,704 by 2026Q2 (+$1,388): +$839 from the price and +$549 from the rate, 40% of the change, which overtook the price part in 2023Q3. Lock in intensity (18.4 million originations under 4.00% in 2019 to 2021, per hundred owner households) runs from 10.7 to 36.6 across metros; turnover fell from 5.28 to 3.71; the regression gives -0.056 per point (-0.077 to -0.034) against a placebo of +0.001 (-0.002 to +0.004).
 
 | Threshold | Coefficient | Low | High | Placebo | Note |
 |---:|---:|---:|---:|---:|---|
-| 3.00% | -0.023 | -0.275 | +0.229 | +0.085 |  |
-| 3.50% | -0.016 | -0.152 | +0.121 | +0.050 |  |
-| 4.00% | -0.019 | -0.132 | +0.095 | +0.046 | chosen |
+| 3.00% | -0.094 | -0.146 | -0.042 | +0.001 |  |
+| 3.50% | -0.067 | -0.096 | -0.038 | +0.001 |  |
+| 4.00% | -0.056 | -0.077 | -0.034 | +0.001 | chosen |
 
-**Method.** Plan `dc55265cae0a0e21`; exact price and rate decomposition of the payment; turnover on lock in intensity with metro and year fixed effects on owner weighted cells; cluster robust by state, 9 clusters; event window 2019 to the latest quarter; base years 2018 and 2019; test years from 2023; 240 cells. Threshold interior: stable. Simulator: lock in mean bias +0.0015, coverage 94%.
+**Method.** Plan `dc55265cae0a0e21`; exact price and rate decomposition of the payment; turnover on lock in intensity with metro and year fixed effects on owner weighted cells; cluster robust by state, 86 clusters; event window 2019 to the latest quarter; base years 2018 and 2019; test years from 2023; 1,549 cells. Threshold interior: stable. Simulator: lock in mean bias +0.0015, coverage 94%.
 
 ### What the housing economist would push back on
 
@@ -53,19 +53,19 @@ Lock in is measured from originations, so a metro where owners refinanced twice 
 ## 3. The rent burden is a distribution
 
 <!-- chart: burden -->
-**The median renter is burdened in most metros (100% of them) in 2024; the problem is the whole distribution, with 32.5% of renters paying half or more. The national series moved and stayed moved in 2009, 2013, 2018, 2022.** 57.8% of renter households pay 30% or more of income in rent (54.0% to 61.8%) and 32.5% pay 50% or more (29.3% to 36.3%) in 2024; the median renter is under the line in 0 of 60 metros. Nationally the severe share went from 28.1% to 32.5% (+4.4 pts) with breaks in 2009, 2013, 2018, 2022. Owners with a mortgage: 28.0% burdened.
+**The median renter is burdened in 51% of metros in 2024, so the median hides nothing; the problem is the whole distribution, with 26.5% of renters paying half or more (interval 25.7% to 27.2%). The national series moved and stayed moved in 2009, 2015, 2021.** 52.5% of renter households pay 30% or more of income in rent (51.5% to 53.5%) and 26.5% pay 50% or more (25.7% to 27.2%) in 2024; the median renter is under the line in 193 of 392 metros. Nationally the severe share went from 25.1% to 26.1% (+0.9 pts) with breaks in 2009, 2015, 2021. Owners with a mortgage: 30.9% burdened.
 
 | Income group | Renters | Burdened | Severely burdened |
 |---|---:|---:|---:|
-| under 10k | 682,620 | 95.0% | 75.0% |
-| 10k to 20k | 1,450,567 | 85.0% | 50.0% |
-| 20k to 35k | 1,877,204 | 60.0% | 25.0% |
-| 35k to 50k | 1,450,567 | 35.0% | 8.0% |
-| 50k to 75k | 1,535,894 | 15.0% | 2.0% |
-| 75k to 100k | 767,947 | 5.0% | 0.0% |
-| 100k plus | 767,947 | 2.0% | 0.0% |
+| under 10k | 2,100,866 | 97.8% | 93.5% |
+| 10k to 20k | 3,318,512 | 86.6% | 70.5% |
+| 20k to 35k | 4,575,863 | 88.3% | 59.8% |
+| 35k to 50k | 4,532,267 | 78.0% | 30.8% |
+| 50k to 75k | 6,509,505 | 56.1% | 10.3% |
+| 75k to 100k | 4,512,280 | 30.6% | 3.2% |
+| 100k plus | 9,407,120 | 9.7% | 0.9% |
 
-**Method.** Plan `a2850a134d98e2a1`; burdened and severely burdened renters over renters with a computed share; PELT with a BIC penalty on the national series; block bootstrap over metros, 200 replicates; census ratio margins per metro. Severe line interior: stable. Simulator: severe share mean bias 0.00 pts; changepoint within a year of the planted step in 100% of worlds.
+**Method.** Plan `a2850a134d98e2a1`; burdened and severely burdened renters over renters with a computed share; PELT with a BIC penalty on the national series; block bootstrap over metros, 400 replicates; census ratio margins per metro. Severe line interior: stable. Simulator: severe share mean bias 0.00 pts; changepoint within a year of the planted step in 100% of worlds.
 
 ### What the housing economist would push back on
 
@@ -74,48 +74,48 @@ Gross rent as a share of income is computed only for renters who reported both, 
 ## 4. Supply
 
 <!-- chart: supply -->
-**Where builders kept pace, prices rose less: 10.7% less price growth over 5 years per extra permit per hundred households (interval -13.8% to -7.6%); without the demand control the estimate is -8.3%.** 180 metro by window cells over 3 windows of 5 years; the building rate runs from 0.60 to 1.89 permits per hundred households. With the demand control: -10.7% per window per extra permit (-13.8% to -7.6%); without: -8.3% (-12.1% to -4.5%). Between the tenth and ninetieth percentile building rate: -13.8% over a window.
+**Where builders kept pace, prices rose less: 8.0% less price growth over 5 years per extra permit per hundred households (interval -14.3% to -1.7%); without the demand control the estimate is -0.4%.** 1,925 metro by window cells over 5 windows of 5 years; the building rate runs from 0.34 to 2.55 permits per hundred households. With the demand control: -8.0% per window per extra permit (-14.3% to -1.7%); without: -0.4% (-4.6% to +3.7%). Between the tenth and ninetieth percentile building rate: -17.7% over a window.
 
 | Specification | Annual growth per permit per 100 households | Low | High | Over the window | Clusters |
 |---|---:|---:|---:|---:|---:|
-| with the demand control | -0.0215 | -0.0277 | -0.0153 | -10.7% | 9 |
-| without the demand control | -0.0166 | -0.0242 | -0.0091 | -8.3% | 9 |
+| with the demand control | -0.0160 | -0.0286 | -0.0034 | -8.0% | 85 |
+| without the demand control | -0.0009 | -0.0092 | +0.0074 | -0.4% | 85 |
 
-**Method.** Plan `a1d050c1b22c5986`; fixed effects on population weighted metro by window cells, alternating projections, two specifications; cluster robust by state, 9 clusters; non overlapping 5 year windows from 2006; permits shifted back one year. Window interior: stable. Simulator (truth -0.025): controlled mean bias +0.0026, uncontrolled +0.0058; under strong demand +0.0031 against +0.0078.
+**Method.** Plan `a1d050c1b22c5986`; fixed effects on population weighted metro by window cells, alternating projections, two specifications; cluster robust by state, 85 clusters; non overlapping 5 year windows from 2001; permits shifted back one year. Window interior: degenerate. Simulator (truth -0.025): controlled mean bias +0.0026, uncontrolled +0.0058; under strong demand +0.0031 against +0.0078.
 
 ### What the housing economist would push back on
 
-Permits respond to demand: a metro builds because prices are rising, which pushes the uncontrolled estimate toward zero or past it, and the recovery study measures that bias under every condition. The migration series is one demand shock, not all of them; income growth and investor demand are not in the regression. Permits are not completions, and a permit pulled in a downturn may never become a home. The notebook keeps the specification that put the demand shock in the wrong fixed effect as a dead end.
+Permits respond to demand: a metro builds because prices are rising, which pushes the uncontrolled estimate toward zero or past it, and the recovery study measures that bias under every condition. The migration series is one demand shock, not all of them; income growth and investor demand are not in the regression. Permits are not completions, and a permit pulled in a downturn may never become a home. The notebook keeps the specification that put the demand shock in the wrong fixed effect as a dead end. And the window matters: the 5 year estimate is the only one of the three lengths tried whose interval excludes zero, which is the kind of result a reader should hold loosely until a second decade of permits is in.
 
 ## 5. The fair ranking
 
 <!-- chart: ranking -->
-**The ranking changes when you hold constant what people earn there: 10 of the 20 largest metros move beyond their intervals. Less affordable than their price says: Simulated metro 38 from 37 to 18; Simulated metro 53 from 35 to 23; Simulated metro 12 from 31 to 20. More affordable: Simulated metro 46 from 4 to 15; Simulated metro 15 from 39 to 49; Simulated metro 23 from 33 to 37.** 60 metropolitan areas ranked in 2024 by the anchored median value and by the payment share at the local median income, with rank intervals from 2,000 Monte Carlo draws over the census margins. Most expensive: Simulated metro 1; Simulated metro 30; Simulated metro 43. Least affordable: Simulated metro 1; Simulated metro 5; Simulated metro 43, led by Simulated metro 1 at 49.9% (46.8% to 53.5%). Rank correlation 0.90; mean rank change 5.4 places; largest 29 (Simulated metro 59). Affordable share from 16% to 80%, median 55%.
+**The ranking changes when you hold constant what people earn there: 17 of the 20 largest metros move beyond their intervals. Less affordable than their price says: Tampa-St. Petersburg-Clearwater from 106 to 90; Miami-Fort Lauderdale-West Palm Beach from 33 to 22; Los Angeles-Long Beach-Anaheim from 7 to 2. More affordable: St. Louis from 223 to 307; Minneapolis-St. Paul-Bloomington from 114 to 195; Washington-Arlington-Alexandria from 25 to 102.** 382 metropolitan areas ranked in 2024 by the anchored median value and by the payment share at the local median income, with rank intervals from 10,000 Monte Carlo draws over the census margins. Most expensive: San Jose-Sunnyvale-Santa Clara; San Francisco-Oakland-Fremont; Santa Cruz-Watsonville. Least affordable: Kahului-Wailuku; Los Angeles-Long Beach-Anaheim; Santa Cruz-Watsonville, led by Kahului-Wailuku, HI at 75.5% (69.7% to 81.7%). Rank correlation 0.94; mean rank change 29.1 places; largest 171 (Lexington Park, MD). Affordable share from 11% to 75%, median 53%.
 
 | Metro | Households | Median home | Median income | Payment share | Low | High | Raw rank | Adjusted rank | Interval | Moves |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|---|
-| Simulated metro 41 | 557,235 | $642,747 | $129,949 | 35.1% | 33.5% | 36.7% | 7 | 7 | 5 to 14 | no |
-| Simulated metro 57 | 727,854 | $526,629 | $108,026 | 34.6% | 33.1% | 36.1% | 14 | 11 | 6 to 15 | no |
-| Simulated metro 32 | 377,166 | $623,129 | $129,541 | 34.1% | 32.5% | 35.9% | 9 | 13 | 6 to 15 | no |
-| Simulated metro 46 | 474,447 | $686,358 | $144,024 | 33.8% | 32.3% | 35.3% | 4 | 15 | 8 to 16 | yes |
-| Simulated metro 38 | 594,461 | $311,358 | $70,375 | 31.4% | 30.1% | 32.9% | 37 | 18 | 15 to 23 | yes |
-| Simulated metro 12 | 988,062 | $354,255 | $81,346 | 30.9% | 29.6% | 32.3% | 31 | 20 | 16 to 24 | yes |
-| Simulated metro 53 | 1,162,044 | $321,217 | $75,456 | 30.2% | 28.9% | 31.6% | 35 | 23 | 18 to 27 | yes |
-| Simulated metro 29 | 2,415,629 | $433,797 | $106,051 | 29.0% | 28.0% | 30.1% | 23 | 26 | 22 to 30 | no |
-| Simulated metro 56 | 1,200,110 | $426,732 | $105,511 | 28.7% | 27.4% | 29.9% | 24 | 28 | 23 to 32 | no |
-| Simulated metro 33 | 940,395 | $367,828 | $94,900 | 27.5% | 26.3% | 28.7% | 29 | 32 | 27 to 33 | no |
-| Simulated metro 6 | 389,663 | $306,824 | $80,806 | 26.9% | 25.8% | 28.2% | 38 | 33 | 30 to 34 | yes |
-| Simulated metro 14 | 845,635 | $277,225 | $77,900 | 25.2% | 24.2% | 26.4% | 45 | 35 | 34 to 40 | yes |
-| Simulated metro 23 | 608,212 | $341,824 | $98,773 | 24.6% | 23.4% | 25.7% | 33 | 37 | 35 to 44 | yes |
-| Simulated metro 4 | 1,065,271 | $291,652 | $86,216 | 24.0% | 23.0% | 25.0% | 42 | 41 | 36 to 45 | no |
-| Simulated metro 15 | 457,833 | $304,452 | $99,837 | 21.6% | 20.6% | 22.7% | 39 | 49 | 46 to 51 | yes |
-| Simulated metro 48 | 937,869 | $240,403 | $80,738 | 21.1% | 20.3% | 22.0% | 50 | 50 | 48 to 52 | no |
-| Simulated metro 13 | 423,046 | $201,536 | $67,737 | 21.1% | 20.2% | 22.0% | 54 | 51 | 48 to 52 | yes |
-| Simulated metro 39 | 906,168 | $221,898 | $76,278 | 20.6% | 19.8% | 21.5% | 52 | 52 | 49 to 52 | no |
-| Simulated metro 47 | 747,488 | $198,531 | $84,053 | 16.8% | 16.0% | 17.6% | 55 | 57 | 56 to 60 | yes |
-| Simulated metro 35 | 988,391 | $133,428 | $59,311 | 16.0% | 15.3% | 16.6% | 60 | 60 | 58 to 60 | no |
+| Los Angeles-Long Beach-Anaheim, CA | 4,583,939 | $984,121 | $96,405 | 71.3% | 70.4% | 72.2% | 7 | 2 | 1 to 4 | yes |
+| San Diego-Chula Vista-Carlsbad, CA | 1,185,092 | $985,575 | $109,132 | 63.1% | 61.7% | 64.5% | 6 | 8 | 6 to 10 | no |
+| San Francisco-Oakland-Fremont, CA | 1,770,425 | $1,161,939 | $135,590 | 59.9% | 58.6% | 61.2% | 2 | 10 | 10 to 12 | yes |
+| New York-Newark-Jersey City, NY-NJ | 7,486,828 | $709,339 | $99,852 | 49.6% | 49.1% | 50.2% | 18 | 21 | 18 to 24 | no |
+| Miami-Fort Lauderdale-West Palm Beach, FL | 2,382,154 | $570,254 | $80,625 | 49.4% | 48.6% | 50.2% | 33 | 22 | 18 to 25 | yes |
+| Seattle-Tacoma-Bellevue, WA | 1,658,652 | $747,400 | $112,388 | 46.4% | 45.2% | 47.8% | 15 | 27 | 24 to 33 | yes |
+| Riverside-San Bernardino-Ontario, CA | 1,484,661 | $601,161 | $91,013 | 46.1% | 45.4% | 46.9% | 29 | 28 | 25 to 33 | no |
+| Boston-Cambridge-Newton, MA-NH | 1,970,240 | $724,836 | $117,825 | 43.0% | 41.9% | 44.1% | 16 | 41 | 35 to 47 | yes |
+| Denver-Aurora-Centennial, CO | 1,265,606 | $625,144 | $108,046 | 40.4% | 39.4% | 41.4% | 23 | 52 | 47 to 61 | yes |
+| Phoenix-Mesa-Chandler, AZ | 1,967,378 | $482,839 | $90,133 | 37.4% | 36.7% | 38.1% | 58 | 70 | 65 to 80 | yes |
+| Tampa-St. Petersburg-Clearwater, FL | 1,377,328 | $400,907 | $78,275 | 35.8% | 34.7% | 36.9% | 106 | 90 | 76 to 100 | yes |
+| Washington-Arlington-Alexandria, DC-VA-MD-WV | 2,415,530 | $619,214 | $126,244 | 34.3% | 33.7% | 34.8% | 25 | 102 | 96 to 113 | yes |
+| Atlanta-Sandy Springs-Roswell, GA | 2,390,346 | $409,790 | $92,344 | 31.0% | 30.5% | 31.5% | 96 | 147 | 139 to 157 | yes |
+| Philadelphia-Camden-Wilmington, PA-NJ-DE-MD | 2,505,818 | $402,523 | $90,850 | 30.9% | 30.4% | 31.5% | 104 | 149 | 139 to 159 | yes |
+| Dallas-Fort Worth-Arlington, TX | 3,012,855 | $393,024 | $92,733 | 29.6% | 29.0% | 30.2% | 113 | 172 | 158 to 180 | yes |
+| Chicago-Naperville-Elgin, IL-IN | 3,690,402 | $365,617 | $90,770 | 28.1% | 27.7% | 28.5% | 131 | 191 | 184 to 205 | yes |
+| Minneapolis-St. Paul-Bloomington, MN-WI | 1,508,526 | $391,204 | $97,928 | 27.9% | 27.3% | 28.5% | 114 | 195 | 185 to 213 | yes |
+| Houston-Pasadena-The Woodlands, TX | 2,768,708 | $313,177 | $81,417 | 26.9% | 26.4% | 27.3% | 174 | 216 | 209 to 232 | yes |
+| Detroit-Warren-Dearborn, MI | 1,777,768 | $284,812 | $76,403 | 26.0% | 25.5% | 26.6% | 204 | 238 | 225 to 253 | yes |
+| St. Louis, MO-IL | 1,178,246 | $271,172 | $81,679 | 23.2% | 22.6% | 23.8% | 223 | 307 | 289 to 318 | yes |
 
-**Method.** Plan `e23fc6df73f96272`; payment share at the local median income; affordable share by bracket interpolation; 2000 Monte Carlo draws over the income and anchor value margins, index held fixed. Simulator: adjusted ranking rank correlation with the truth 0.956 against 0.890 for the price ranking; bracket interpolation mean absolute error 0.4 pts.
+**Method.** Plan `e23fc6df73f96272`; payment share at the local median income; affordable share by bracket interpolation; 10000 Monte Carlo draws over the income and anchor value margins, index held fixed. Simulator: adjusted ranking rank correlation with the truth 0.956 against 0.890 for the price ranking; bracket interpolation mean absolute error 0.4 pts.
 
 ### What the housing economist would push back on
 
@@ -124,19 +124,20 @@ The median income is not the buyer income: in a metro where buyers earn twice th
 ## 6. Who still buys
 
 <!-- chart: buyers -->
-**The buyer is richer than in 2019 by +0.09 of the local median income (interval +0.08 to +0.10), but not measurably older: the under 35 share moved -0.2 pts with an interval that includes zero. The ratio moved most in Simulated metro 12 +0.20; Simulated metro 33 +0.17; Simulated metro 56 +0.15.** From 251,037 purchase originations in 2019 and 189,323 in 2024: borrower income over the metro median 1.35x to 1.43x (+0.09, +0.08 to +0.10); share earning over twice the median 18.8% to 22.5%; under thirty five share 34.1% to 33.9% (-0.2 pts, -0.5 pts to +0.1 pts); value to income 2.62x to 2.62x; median rate spread 0.31%.
+**The buyer is richer than in 2019 by +0.15 of the local median income (interval +0.12 to +0.19) and, against the claim, slightly younger: the under 35 share rose +1.2 pts (interval +0.1 pts to +2.3 pts) by 2025. The ratio moved most in Los Angeles-Long Beach-Anaheim +0.44; Miami-Fort Lauderdale-West Palm Beach +0.37; New York-Newark-Jersey City +0.30.** From 3,533,474 purchase originations in 2019 and 2,722,577 in 2025: borrower income over the metro median 1.23x to 1.39x (+0.15, +0.12 to +0.19); share earning over twice the median 20.9% to 26.7%; under thirty five share 38.3% to 39.4% (+1.2 pts, +0.1 pts to +2.3 pts); value to income 3.38x to 3.38x; median rate spread 0.19%.
 
 | Year | Loans | Lenders | Income ratio | Low | High | Under 35 | Above twice the median | Value to income | Spread p50 |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 2,018 | 244,600 | 40 | 1.35x | 1.35x | 1.35x | 34.0% | 19.0% | 2.62x | 0.31% |
-| 2,019 | 251,037 | 40 | 1.35x | 1.34x | 1.35x | 34.1% | 18.8% | 2.62x | 0.31% |
-| 2,020 | 249,883 | 40 | 1.40x | 1.40x | 1.41x | 34.1% | 21.5% | 2.62x | 0.31% |
-| 2,021 | 251,458 | 40 | 1.34x | 1.33x | 1.35x | 33.9% | 18.6% | 2.62x | 0.31% |
-| 2,022 | 257,943 | 40 | 1.36x | 1.35x | 1.36x | 33.8% | 19.5% | 2.88x | 0.31% |
-| 2,023 | 181,989 | 40 | 1.44x | 1.44x | 1.44x | 34.0% | 23.2% | 2.62x | 0.31% |
-| 2,024 | 189,323 | 40 | 1.43x | 1.43x | 1.44x | 33.9% | 22.5% | 2.62x | 0.31% |
+| 2018 | 3,389,103 | 5,148 | 1.28x | 1.25x | 1.32x | 38.4% | 22.7% | 3.38x | 0.44% |
+| 2019 | 3,533,474 | 5,029 | 1.23x | 1.20x | 1.27x | 38.3% | 20.9% | 3.38x | 0.44% |
+| 2020 | 3,861,776 | 4,164 | 1.24x | 1.22x | 1.28x | 40.7% | 21.4% | 3.62x | 0.31% |
+| 2021 | 4,097,757 | 4,075 | 1.24x | 1.22x | 1.26x | 39.0% | 21.2% | 3.88x | 0.31% |
+| 2022 | 3,317,262 | 4,160 | 1.32x | 1.30x | 1.35x | 38.9% | 23.8% | 3.62x | 0.31% |
+| 2023 | 2,664,039 | 4,605 | 1.38x | 1.35x | 1.40x | 39.8% | 25.5% | 3.38x | 0.19% |
+| 2024 | 2,695,601 | 4,433 | 1.36x | 1.33x | 1.38x | 39.7% | 25.1% | 3.38x | 0.19% |
+| 2025 | 2,722,577 | 4,341 | 1.39x | 1.37x | 1.41x | 39.4% | 26.7% | 3.38x | 0.19% |
 
-**Method.** Plan `fa89aa88427acdac`; weighted medians over five thousand dollar income bins per lender; shares as ratios of sums; bootstrap over lenders within year, 200 replicates; base year 2019; reported on 2024. Simulator: ratio shift mean bias -0.001; under thirty five shift -0.02 pts.
+**Method.** Plan `5714fb93ae481cb1`; weighted medians over five thousand dollar income bins per lender; shares as ratios of sums; bootstrap over lenders within year, 400 replicates; base year 2019; reported on 2025. Simulator: ratio shift mean bias -0.001; under thirty five shift -0.02 pts.
 
 ### What the housing economist would push back on
 
@@ -145,15 +146,15 @@ The HMDA income is the income the lender used, not the household's; a co-borrowe
 ## 7. The migration shock
 
 <!-- chart: migration -->
-**Demand moved and prices followed: +1.5% price growth over the window per person gained per hundred residents beyond the pre pandemic pace (interval +1.2% to +1.9%), with a placebo of 0.0% on the years before the pandemic whose interval includes zero.** Across 60 metros, price growth over 2019Q4 to 2021Q4 on the migration shock (per hundred residents, 2020 and 2021 less 2018 and 2019): +1.54% per person (+1.23% to +1.86%); placebo on 2016Q4 to 2018Q4: -0.04% (-0.48% to +0.41%); level alone with no control: +0.96%. Synthetic controls for Simulated metro 37; Simulated metro 26; Simulated metro 40: peak gaps +3.8%, +7.9% and +2.1%; latest gaps -2.6%, +7.9% and -3.3%; permutation p values 0.774, 0.355 and 0.839.
+**The metros that gained people were already lagging before the pandemic: the placebo on the years before it is -0.8% (interval -1.4% to -0.2%), so the headline of +1.5% price growth over the window per person gained per hundred residents beyond the pre pandemic pace is a lower bound on what the migration itself did.** Across 385 metros, price growth over 2019Q4 to 2021Q4 on the migration shock (per hundred residents, 2020 and 2021 less 2018 and 2019): +1.48% per person (+0.40% to +2.55%); placebo on 2016Q4 to 2018Q4: -0.78% (-1.35% to -0.20%); level alone with no control: +2.41%. Synthetic controls for Panama City-Panama City Beach; Amherst Town-Northampton; Fairbanks-College: peak gaps +9.4%, +1.5% and +0.5%; latest gaps -2.0%, +0.9% and -6.0%; permutation p values 0.829, 0.725 and 0.254.
 
 | Window | Growth per person per 100 residents of shock | Low | High | p | Clusters |
 |---|---:|---:|---:|---:|---:|
-| 2019Q4 to 2021Q4 | +1.54% | +1.23% | +1.86% | 0.000 | 9 |
-| 2016Q4 to 2018Q4 (placebo) | -0.04% | -0.48% | +0.41% | 0.855 | 9 |
-| 2019Q4 to 2021Q4 (level alone, no pre pandemic control) | +0.96% | +0.71% | +1.21% | 0.000 | 9 |
+| 2019Q4 to 2021Q4 | +1.48% | +0.40% | +2.55% | 0.007 | 85 |
+| 2016Q4 to 2018Q4 (placebo) | -0.78% | -1.35% | -0.20% | 0.009 | 85 |
+| 2019Q4 to 2021Q4 (level alone, no pre pandemic control) | +2.41% | +1.87% | +2.95% | 0.000 | 85 |
 
-**Method.** Plan `b2cbe5f6a4559c90`; cross section of metros on the migration shock with the pre pandemic migration as a control, one observation per metro, state clusters; synthetic control on the simplex with every donor searched; cluster robust by state, 9 clusters; permutation p values over 30 donors; window 2019Q4 to 2021Q4; placebo 2016Q4 to 2018Q4. Simulator: controlled estimate mean bias -0.02%, coverage 98%; level alone -0.30% with no reverse causality and -0.51% under strong; placebo flag rate 46% under strong reverse causality against 6% under none.
+**Method.** Plan `b2cbe5f6a4559c90`; cross section of metros on the migration shock with the pre pandemic migration as a control, one observation per metro, state clusters; synthetic control on the simplex with every donor searched; cluster robust by state, 85 clusters; permutation p values over 192 donors; window 2019Q4 to 2021Q4; placebo 2016Q4 to 2018Q4. Simulator: controlled estimate mean bias -0.02%, coverage 98%; level alone -0.30% with no reverse causality and -0.51% under strong; placebo flag rate 46% under strong reverse causality against 6% under none.
 
 ### What the housing economist would push back on
 
@@ -162,36 +163,36 @@ Migration follows affordability: people move to the metros they can afford, and 
 ## 8. The reader decision
 
 <!-- chart: decision -->
-**Buying beats renting only after 15.0 years in the typical metro (interval 2.0 years to beyond 30 years), and one point of rate moves the breakeven by +5.5 years. Longest to break even among the largest metros: Simulated metro 29 beyond 30 years; Simulated metro 14 beyond 30 years; Simulated metro 47 beyond 30 years.** At the 30% line, 10% down and 6.88%, the median household can afford the median home in 37 of 60 metros (62%); median affordable share 55%; down payment years 6.1 years in the typical metro, 11.4 years in Simulated metro 1. Owner weighted median breakeven 15.0 years (2.0 years to beyond 30 years); 36% of paths never break even inside 30 years; one point of rate moves the breakeven by +5.5 years. Quickest: Simulated metro 15 (3 years); slowest: Simulated metro 29 (beyond 30 years).
+**Buying beats renting only after 10.0 years in the typical metro (interval 1.0 years to beyond 30 years), and one point of rate moves the breakeven by +4.5 years. Longest to break even among the largest metros: Boston-Cambridge-Newton 21 years; Chicago-Naperville-Elgin 20 years; San Francisco-Oakland-Fremont 18 years.** At the 30% line, 10% down and 6.72%, the median household can afford the median home in 221 of 382 metros (58%); median affordable share 53%; down payment years 6.4 years in the typical metro, 16.8 years in Kahului-Wailuku, HI. Owner weighted median breakeven 10.0 years (1.0 years to beyond 30 years); 4% of paths never break even inside 30 years; one point of rate moves the breakeven by +4.5 years. Quickest: Miami-Fort Lauderdale-West Palm Beach (3 years); slowest: Boston-Cambridge-Newton (21 years).
 
 | Metro | Median home | Affordable price | Can afford | Affordable share | Down payment years | Breakeven | Low | High |
 |---|---:|---:|---|---:|---:|---:|---:|---:|
-| Simulated metro 29 | $433,797 | $448,429 | yes | 52% | 6.5 years | beyond 30 years | beyond 30 years | beyond 30 years |
-| Simulated metro 14 | $277,225 | $329,393 | yes | 61% | 5.5 years | beyond 30 years | 10.0 years | beyond 30 years |
-| Simulated metro 47 | $198,531 | $355,412 | yes | 80% | 3.7 years | beyond 30 years | 2.0 years | beyond 30 years |
-| Simulated metro 23 | $341,824 | $417,653 | yes | 61% | 5.4 years | beyond 30 years | 2.0 years | beyond 30 years |
-| Simulated metro 38 | $311,358 | $297,574 | no | 48% | 6.9 years | beyond 30 years | 3.0 years | beyond 30 years |
-| Simulated metro 41 | $642,747 | $549,479 | no | 43% | 7.5 years | beyond 30 years | 9.0 years | beyond 30 years |
-| Simulated metro 12 | $354,255 | $343,967 | no | 50% | 6.7 years | 24.0 years | 2.0 years | beyond 30 years |
-| Simulated metro 35 | $133,428 | $250,791 | yes | 80% | 3.5 years | 22.5 years | 2.0 years | beyond 30 years |
-| Simulated metro 13 | $201,536 | $286,421 | yes | 68% | 4.6 years | 15.5 years | 2.0 years | beyond 30 years |
-| Simulated metro 33 | $367,828 | $401,277 | yes | 55% | 6.1 years | 15.0 years | 2.0 years | beyond 30 years |
-| Simulated metro 57 | $526,629 | $456,779 | no | 42% | 7.6 years | 15.0 years | 3.0 years | beyond 30 years |
-| Simulated metro 32 | $623,129 | $547,754 | no | 44% | 7.5 years | 13.0 years | 3.0 years | beyond 30 years |
-| Simulated metro 56 | $426,732 | $446,145 | yes | 53% | 6.3 years | 11.5 years | 4.0 years | beyond 30 years |
-| Simulated metro 4 | $291,652 | $364,560 | yes | 61% | 5.3 years | 11.0 years | 4.0 years | beyond 30 years |
-| Simulated metro 53 | $321,217 | $319,061 | no | 51% | 6.5 years | 9.0 years | 2.0 years | 25.0 years |
-| Simulated metro 39 | $221,898 | $322,538 | yes | 71% | 4.6 years | 7.0 years | 2.0 years | 20.0 years |
-| Simulated metro 48 | $240,403 | $341,393 | yes | 69% | 4.5 years | 6.0 years | 2.0 years | 15.0 years |
-| Simulated metro 46 | $686,358 | $608,995 | no | 43% | 7.6 years | 6.0 years | 2.0 years | 26.1 years |
-| Simulated metro 6 | $306,824 | $341,683 | yes | 55% | 6.0 years | 6.0 years | 2.0 years | 18.1 years |
-| Simulated metro 15 | $304,452 | $422,155 | yes | 70% | 4.7 years | 3.0 years | 2.0 years | 28.0 years |
+| Boston-Cambridge-Newton, MA-NH | $724,836 | $506,109 | no | 34% | 9.9 years | 21.0 years | 2.0 years | beyond 30 years |
+| Chicago-Naperville-Elgin, IL-IN | $365,617 | $389,896 | yes | 53% | 6.5 years | 19.5 years | 2.0 years | beyond 30 years |
+| San Francisco-Oakland-Fremont, CA | $1,161,939 | $582,418 | no | 16% | 12.4 years | 18.0 years | 1.0 years | beyond 30 years |
+| Minneapolis-St. Paul-Bloomington, MN-WI | $391,204 | $420,643 | yes | 54% | 6.9 years | 18.0 years | 2.0 years | beyond 30 years |
+| St. Louis, MO-IL | $271,172 | $350,847 | yes | 61% | 5.6 years | 17.0 years | 2.0 years | beyond 30 years |
+| New York-Newark-Jersey City, NY-NJ | $709,339 | $428,907 | no | 30% | 10.6 years | 16.0 years | 2.0 years | beyond 30 years |
+| Denver-Aurora-Centennial, CO | $625,144 | $464,104 | no | 36% | 8.6 years | 12.0 years | 2.0 years | beyond 30 years |
+| Washington-Arlington-Alexandria, DC-VA-MD-WV | $619,214 | $542,273 | no | 44% | 7.6 years | 11.0 years | 1.0 years | beyond 30 years |
+| Detroit-Warren-Dearborn, MI | $284,812 | $328,184 | yes | 56% | 6.3 years | 11.0 years | 2.0 years | beyond 30 years |
+| Houston-Pasadena-The Woodlands, TX | $313,177 | $349,721 | yes | 55% | 6.0 years | 8.0 years | 2.0 years | 24.0 years |
+| Philadelphia-Camden-Wilmington, PA-NJ-DE-MD | $402,523 | $390,240 | no | 49% | 7.3 years | 8.0 years | 1.0 years | beyond 30 years |
+| San Diego-Chula Vista-Carlsbad, CA | $985,575 | $468,769 | no | 16% | 12.1 years | 7.0 years | 1.0 years | beyond 30 years |
+| Los Angeles-Long Beach-Anaheim, CA | $984,121 | $414,101 | no | 14% | 13.6 years | 6.5 years | 1.0 years | beyond 30 years |
+| Dallas-Fort Worth-Arlington, TX | $393,024 | $398,328 | yes | 51% | 6.2 years | 6.0 years | 1.0 years | beyond 30 years |
+| Atlanta-Sandy Springs-Roswell, GA | $409,790 | $396,657 | no | 49% | 6.6 years | 6.0 years | 1.0 years | beyond 30 years |
+| Seattle-Tacoma-Bellevue, WA | $747,400 | $482,755 | no | 32% | 9.4 years | 6.0 years | 1.0 years | beyond 30 years |
+| Phoenix-Mesa-Chandler, AZ | $482,839 | $387,160 | no | 39% | 7.3 years | 4.0 years | 1.0 years | beyond 30 years |
+| Miami-Fort Lauderdale-West Palm Beach, FL | $570,254 | $346,319 | no | 28% | 9.4 years | 3.0 years | 1.0 years | beyond 30 years |
+| Riverside-San Bernardino-Ontario, CA | $601,161 | $390,940 | no | 29% | 9.4 years | 3.0 years | 1.0 years | beyond 30 years |
+| Tampa-St. Petersburg-Clearwater, FL | $400,907 | $336,225 | no | 43% | 7.2 years | 3.0 years | 1.0 years | beyond 30 years |
 
-**Method.** Plan `10988e362f89ee23`; closed form payment arithmetic; bracket interpolation; breakeven under the cost model on bootstrap paths; block bootstrap, blocks of 3 years, 200 paths per metro; paths from each metro's own history; reported in 2024 at the latest quarterly rate. Interior tests: line degenerate, down payment stable. Simulator, late arriving truth: mean error 4.42 years, interval coverage 70%.
+**Method.** Plan `10988e362f89ee23`; closed form payment arithmetic; bracket interpolation; breakeven under the cost model on bootstrap paths; block bootstrap, blocks of 3 years, 400 paths per metro; paths from each metro's own history; reported in 2024 at the latest quarterly rate. Interior tests: line degenerate, down payment stable. Simulator, late arriving truth: mean error 4.42 years, interval coverage 70%.
 
 ### What the housing economist would push back on
 
-A payment is not the whole cost of owning: the cost model adds taxes, insurance, maintenance and the costs of buying and selling, but not the roof that fails in year four, and it credits the renter with a return the renter has to earn. The paths are drawn from the metro's own past, which includes a decade nobody expects to repeat, and the interval is the spread of those paths, not a forecast. The down payment years assume a renter who saves a tenth of income with no help and no return, which is the simplest honest reading of the question.
+A payment is not the whole cost of owning: the cost model adds taxes, insurance, maintenance and the costs of buying and selling, but not the roof that fails in year four, and it credits the renter with a return the renter has to earn. The paths are drawn from the metro's own past, which includes a decade nobody expects to repeat, and the interval is the spread of those paths, not a forecast. The down payment years assume a renter who saves a tenth of income with no help and no return, which is the simplest honest reading of the question. The 30% line is doing work: at 28%, the sensitivity line, the median household can afford the median home in 191 of the 382 metros rather than 221, and the majority reading goes with the line.
 
 ## Limitations
 
