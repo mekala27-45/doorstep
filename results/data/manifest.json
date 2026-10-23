@@ -28,6 +28,24 @@
    },
    "rows": [
     [
+     "acs",
+     "jam_value",
+     7,
+     2408576
+    ],
+    [
+     "acs",
+     "moe_exceeds_estimate",
+     107965,
+     2408576
+    ],
+    [
+     "acs",
+     "negative_moe",
+     0,
+     2408576
+    ],
+    [
      "bps",
      "imputed_share_high",
      1154,
@@ -62,6 +80,48 @@
      "non_positive_index",
      0,
      85272
+    ],
+    [
+     "hmda",
+     "income_exempt_or_missing",
+     4363109,
+     59155832
+    ],
+    [
+     "hmda",
+     "metro_unresolved",
+     2063526,
+     59155832
+    ],
+    [
+     "hmda",
+     "not_principal_residence",
+     6030142,
+     59155832
+    ],
+    [
+     "hmda",
+     "rate_missing",
+     1884980,
+     59155832
+    ],
+    [
+     "hmda",
+     "reverse_open_or_business",
+     2830277,
+     59155832
+    ],
+    [
+     "hmda",
+     "term_not_30_years",
+     12806394,
+     59155832
+    ],
+    [
+     "hmda",
+     "value_below_loan",
+     886852,
+     59155832
     ],
     [
      "hud_fmr",
@@ -127,6 +187,146 @@
   }
  },
  "values": {
+  "data.acs.areas_latest": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": 535
+  },
+  "data.acs.contract_digest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": "233c33c8be8cdb5c"
+  },
+  "data.acs.first_year": {
+   "fmt": "year",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": 2005
+  },
+  "data.acs.gap_2020": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": 1
+  },
+  "data.acs.gap_year": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": "2020"
+  },
+  "data.acs.gap_years": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": "2020"
+  },
+  "data.acs.last_year": {
+   "fmt": "year",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": 2024
+  },
+  "data.acs.rows": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": 2408576
+  },
+  "data.acs.tables": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": 19
+  },
+  "data.acs.years": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.acs",
+    "population": "every metropolitan and micropolitan area the one year release covers",
+    "seed": null,
+    "seeds": null,
+    "source": "real:acs"
+   },
+   "value": 19
+  },
   "data.bps.contract_digest": {
    "fmt": "text",
    "provenance": {
@@ -142,7 +342,7 @@
    "value": "163504b4b91c7f03"
   },
   "data.bps.first_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -156,7 +356,7 @@
    "value": 2000
   },
   "data.bps.last_full_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -198,7 +398,7 @@
    "value": 8
   },
   "data.bps.ytd_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -223,7 +423,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 0
+   "value": 2
   },
   "data.fhfa.areas_all_transactions": {
    "fmt": "int",
@@ -282,7 +482,7 @@
    "value": 37
   },
   "data.fhfa.first_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -323,6 +523,132 @@
    },
    "value": 85272
   },
+  "data.hmda.contract_digest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": "b04b6198c8a3342d"
+  },
+  "data.hmda.filter_fetch": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": "action_taken = 1 and loan_purpose in (1, 31, 32)"
+  },
+  "data.hmda.filter_ingest": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": "occupancy_type = 1 (principal residence); reverse mortgages, open end lines and business purpose loans flagged"
+  },
+  "data.hmda.first_year": {
+   "fmt": "year",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": 2018
+  },
+  "data.hmda.last_year": {
+   "fmt": "year",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": 2024
+  },
+  "data.hmda.rows_after_fetch_filter": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": 59155832
+  },
+  "data.hmda.rows_in_analysis": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": 51151132
+  },
+  "data.hmda.rows_in_source_files": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": 124134925
+  },
+  "data.hmda.years": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.hmda",
+    "population": "every originated purchase or refinance loan on a principal residence, every year fetched",
+    "seed": null,
+    "seeds": null,
+    "source": "real:hmda"
+   },
+   "value": 7
+  },
   "data.hud.contract_digest": {
    "fmt": "text",
    "provenance": {
@@ -352,7 +678,7 @@
    "value": 4764
   },
   "data.hud.fmr_fiscal_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -394,7 +720,7 @@
    "value": 393
   },
   "data.hud.income_limit_first_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -408,7 +734,7 @@
    "value": 2004
   },
   "data.hud.income_limit_last_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -434,6 +760,20 @@
     "source": "real:hud"
    },
    "value": 18
+  },
+  "data.latest.acs": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "2024"
   },
   "data.latest.bps": {
    "fmt": "text",
@@ -462,6 +802,20 @@
     "source": "mixed"
    },
    "value": "2026Q2"
+  },
+  "data.latest.hmda": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "data.quarantine",
+    "population": "every row of every source",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "2024"
   },
   "data.latest.hud_fmr": {
    "fmt": "text",
@@ -531,7 +885,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 68599729
+   "value": 2350425234
   },
   "data.ledger.files": {
    "fmt": "int",
@@ -545,7 +899,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 39
+   "value": 548
   },
   "data.omb.contract_digest": {
    "fmt": "text",
@@ -688,7 +1042,7 @@
    "value": "6201136c93e2ff87"
   },
   "data.popest.first_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -702,7 +1056,7 @@
    "value": 2000
   },
   "data.popest.last_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
@@ -755,7 +1109,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 1230
+   "value": 30974482
   },
   "data.quarantine.rules": {
    "fmt": "int",
@@ -769,10 +1123,10 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 16
+   "value": 26
   },
   "data.window.start_year": {
-   "fmt": "int",
+   "fmt": "year",
    "provenance": {
     "as_of": "2026-10-22",
     "condition": null,
