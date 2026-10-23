@@ -1,6 +1,6 @@
 """Exact changepoint detection by PELT (Killick, Fearnhead and Eckley, 2012), ported from cityflow.
 
-Chapter 2 asks when each carrier's schedule padding moved and stayed moved. That is a change in
+Chapter 3 asks when the national severely burdened share moved and stayed moved. That is a change in
 mean, found by partitioning the series so that the total within segment cost plus a penalty per
 segment is minimised. Optimal partitioning solves that exactly in O(n squared); PELT drops a
 candidate start for good once its best cost plus the cost of reaching the current point is already
@@ -89,7 +89,7 @@ def bic_penalty(n: int, sigma: float, n_params: int = 1) -> float:
     in mean is two, which is the 2 log n penalty in Killick et al. One is left
     as the default because it is the bare Schwarz form, and because anything
     else would hide the choice inside this function instead of putting it at
-    the call site where a reader of the dashboard code can see it. Pass three
+    the call site where a reader of the chapter can see it. Pass three
     if the variance is allowed to move as well.
     """
     if n < 2:
@@ -104,7 +104,7 @@ def bic_penalty(n: int, sigma: float, n_params: int = 1) -> float:
 def pelt(
     signal: npt.NDArray[np.float64],
     penalty: float,
-    min_size: int = 7,
+    min_size: int = 3,
     jump: int = 1,
 ) -> list[int]:
     """Find the changepoints that minimise segment cost plus penalty per segment.
@@ -112,8 +112,8 @@ def pelt(
     Args:
         signal: one dimensional series, no NaNs.
         penalty: cost charged per segment. See bic_penalty.
-        min_size: shortest admissible segment. Seven on daily data, so a single
-            odd week cannot be split into its own regime.
+        min_size: shortest admissible segment. Three on annual data, so a single
+            odd year cannot be split into its own regime.
         jump: only consider changepoints at multiples of this. One is exact;
             larger values trade optimality for speed on long series.
 

@@ -1,17 +1,16 @@
 """Fixed effects regression on weighted cells, by alternating projections, with cluster robust errors.
 
-Chapter 5 regresses arrival delay on carrier with fixed effects for route, month, departure hour and
-aircraft type. Seventy million flights do not fit in memory as a design matrix, but every regressor
-and every fixed effect is constant within a cell of carrier, route, month, hour and type, so the
-flight level least squares fit equals a weighted fit on cell means with the flight counts as weights
-(the Frisch-Waugh-Lovell theorem, applied to grouped data). The test holds the cell fit to a row
-level fit on a fixture to floating tolerance.
+Chapter 4 regresses five year price growth on permits per hundred households with fixed effects for the
+metro and the period, and chapter 2 regresses turnover on lock in intensity with metro and year effects.
+Every regressor and every fixed effect is constant within a metro by period cell, so the household level
+least squares fit equals a weighted fit on cell means with the household counts as weights (the
+Frisch-Waugh-Lovell theorem, applied to grouped data). The test holds the cell fit to a row level fit on
+a fixture to floating tolerance.
 
 The fixed effects are swept out by alternating projections (demean by each grouping in turn until
-nothing moves), which needs one pass of bincounts per grouping per iteration and no matrix the size
-of the levels. Cluster robust variances are the sandwich with the CR1 small sample factor; when a
-cluster cuts across cells (a day inside a month cell) the scores are summed at the flight level by
-the caller and passed in.
+nothing moves), which needs one pass of bincounts per grouping per iteration and no matrix the size of
+the levels. Cluster robust variances are the sandwich with the CR1 small sample factor, clustered by
+state so that metros sharing a state's housing law and lenders are allowed to move together.
 """
 
 from __future__ import annotations
@@ -47,8 +46,7 @@ def demean(
     copy: bool = True,
 ) -> tuple[Array, int, bool]:
     """Sweep every grouping out of every column of ``values``; returns the residuals, the iterations
-    used and whether the sweep converged. With ``copy=False`` a float64 array is swept in place, which
-    is how twenty million linked legs fit in memory with their design."""
+    used and whether the sweep converged. With ``copy=False`` a float64 array is swept in place."""
     out = np.array(values, dtype=np.float64, copy=True) if copy else np.asarray(values, dtype=np.float64)
     if out.ndim == 1:
         out = out[:, None]
@@ -81,12 +79,11 @@ def demean_exact(
     copy: bool = True,
 ) -> Array:
     """The same residuals as ``demean``, solved directly: one weighted least squares on the stacked
-    indicators. For groupings with a few thousand levels in all (airport by hour, month), where
-    alternating projections crawl because the groupings are nearly nested, this is one dense solve of
-    the levels' cross products. The minimum norm solution is used, so the redundant level in each
-    extra grouping costs nothing, and the fitted part is unique whichever solution is taken. With
-    ``copy=False`` a float64 array is swept in place, one column at a time, so a design of eight
-    million flights is never held twice."""
+    indicators. For groupings with a few thousand levels in all (metro by year, say), where alternating
+    projections crawl because the groupings are nearly nested, this is one dense solve of the levels'
+    cross products. The minimum norm solution is used, so the redundant level in each extra grouping
+    costs nothing, and the fitted part is unique whichever solution is taken. With ``copy=False`` a
+    float64 array is swept in place, one column at a time, so a large design is never held twice."""
     out = np.array(values, dtype=np.float64, copy=True) if copy else np.asarray(values, dtype=np.float64)
     if out.ndim == 1:
         out = out[:, None]
@@ -184,7 +181,8 @@ def fit(
 
 
 def cluster_scores(x_tilde: Array, resid: Array, weights: Array, cluster: npt.ArrayLike) -> Array:
-    """Per cluster sums of w * e * x, one row per cluster. Exact when every cell lies in one cluster."""
+    """Per cluster sums of w * e * x, one row per cluster. Exact when every cell lies in one cluster,
+    which a metro inside a state does."""
     code = _codes(cluster)
     size = int(code.max()) + 1
     # Column by column: the full rows by regressors product would double the memory of the design.
