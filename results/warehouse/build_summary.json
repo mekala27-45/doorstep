@@ -1,0 +1,26 @@
+{
+ "counts": {
+  "errors": 0,
+  "failed": 0,
+  "models": 35,
+  "passed": 164,
+  "skipped": 0,
+  "tests": 164,
+  "warned": 0
+ },
+ "mart_rows": {
+  "fct_metro_year": 25245,
+  "grain_acs": 2361590,
+  "grain_counties": 52029,
+  "grain_loans": 55529246,
+  "mart_borrowers_income": 6871993,
+  "mart_borrowers_spread": 1123,
+  "mart_borrowers_vti": 571193,
+  "mart_income_brackets": 157488,
+  "mart_metro_quarter": 66164,
+  "mart_metro_year": 25245,
+  "mart_national_year": 19,
+  "mart_quarantine": 593,
+  "mart_rent_burden_by_income": 68901
+ }
+}

@@ -1,0 +1,246 @@
+{
+ "as_of": "2026-10-23",
+ "figures": {},
+ "seed": 20261022,
+ "tables": {},
+ "values": {
+  "warehouse.models": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 35
+  },
+  "warehouse.rows.fct_metro_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 25245
+  },
+  "warehouse.rows.grain_acs": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 2361590
+  },
+  "warehouse.rows.grain_counties": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 52029
+  },
+  "warehouse.rows.grain_loans": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 55529246
+  },
+  "warehouse.rows.mart_borrowers_income": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 6871993
+  },
+  "warehouse.rows.mart_borrowers_spread": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1123
+  },
+  "warehouse.rows.mart_borrowers_vti": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 571193
+  },
+  "warehouse.rows.mart_income_brackets": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 157488
+  },
+  "warehouse.rows.mart_metro_quarter": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 66164
+  },
+  "warehouse.rows.mart_metro_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 25245
+  },
+  "warehouse.rows.mart_national_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 19
+  },
+  "warehouse.rows.mart_quarantine": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 593
+  },
+  "warehouse.rows.mart_rent_burden_by_income": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 68901
+  },
+  "warehouse.tests": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 164
+  },
+  "warehouse.tests_failed": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0
+  },
+  "warehouse.tests_passed": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/warehouse.py",
+    "population": "the dbt warehouse over every metro and year in the window",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 164
+  }
+ }
+}

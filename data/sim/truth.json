@@ -1,0 +1,10 @@
+{
+ "beta_demand": 0.012,
+ "beta_supply": 0.025,
+ "borrower_ratio_shift": 0.08,
+ "burden_step_size": 0.03,
+ "burden_step_year": 2013,
+ "lock_in_response": 0.04,
+ "rate_shock_year": 2022,
+ "reverse": 0.6
+}

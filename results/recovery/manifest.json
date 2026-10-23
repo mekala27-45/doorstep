@@ -1,0 +1,6689 @@
+{
+ "as_of": "2026-10-22",
+ "figures": {},
+ "seed": 20261022,
+ "tables": {
+  "recovery.by_condition": {
+   "columns": [
+    "Estimator",
+    "Condition",
+    "Seeds",
+    "Bias",
+    "RMSE",
+    "Coverage",
+    "Flag rate"
+   ],
+   "formats": [
+    "text",
+    "text",
+    "int",
+    "sfloat4",
+    "float4",
+    "pct0",
+    "pct0"
+   ],
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "rows": [
+    [
+     "anchored_level",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.0002918552333,
+     0.01090325009,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.0001438320983,
+     0.01098431416,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.0004056230737,
+     0.01247681206,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.000302955023,
+     0.01250210356,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     5.578726207e-05,
+     0.009651652662,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.0001076468847,
+     0.009579854441,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.0003806207195,
+     0.01093587862,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.0002321435312,
+     0.01101312539,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.0005076600152,
+     0.01256366939,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0004012725776,
+     0.01259034204,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.0001306719587,
+     0.00964530877,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -3.564303846e-05,
+     0.009562094645,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.003158193629,
+     0.01590768717,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.003104790802,
+     0.0159555148,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.003173758553,
+     0.01592354316,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.003128994826,
+     0.01598424017,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.002992853018,
+     0.01592874888,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.002932894675,
+     0.01595584762,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.003158108016,
+     0.01596199057,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.003105961572,
+     0.01601640461,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.003147885454,
+     0.01586281682,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.003110659617,
+     0.01593684212,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.003031201,
+     0.01613168961,
+     null,
+     null
+    ],
+    [
+     "anchored_level",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.002976692755,
+     0.01615525291,
+     null,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.0003002725562,
+     0.00296364346,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.000277491959,
+     0.002989580623,
+     0.45,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.0003535411319,
+     0.003626419586,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.0003540446973,
+     0.00363327924,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.000166724059,
+     0.002507182075,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.0001293830005,
+     0.002519941222,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.0003283854348,
+     0.002973387219,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.0003058951459,
+     0.002999250741,
+     0.45,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.0003923358567,
+     0.003648502669,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0003925387187,
+     0.003658737528,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.0001890004513,
+     0.002510984932,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.0001506176904,
+     0.002520930558,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.000627994267,
+     0.004531291836,
+     0.35,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.0006505149575,
+     0.004544153585,
+     0.35,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.000653431163,
+     0.004633107965,
+     0.35,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.0006819476317,
+     0.004647281824,
+     0.35,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.0005537353954,
+     0.004297686714,
+     0.5,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.0005667087148,
+     0.004308432195,
+     0.4,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.0006205081991,
+     0.004550615507,
+     0.35,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.0006439698551,
+     0.004564307586,
+     0.35,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.0006476817815,
+     0.004633282501,
+     0.35,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.0006779170504,
+     0.004648529344,
+     0.35,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.0005438046208,
+     0.004328536552,
+     0.45,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.0005602846669,
+     0.004342313795,
+     0.35,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.002176631575,
+     0.00561131359,
+     0.8,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.002196052795,
+     0.006535729101,
+     0.7,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.000820382145,
+     0.006035526302,
+     0.85,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.000820382145,
+     0.006035526302,
+     0.85,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.002279810959,
+     0.005798139206,
+     0.6,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.001314265989,
+     0.005378762512,
+     0.7,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.001726191822,
+     0.005111584947,
+     0.8,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.001887624178,
+     0.006350695769,
+     0.7,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.000820382145,
+     0.006035526302,
+     0.85,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.000820382145,
+     0.006035526302,
+     0.85,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.001708846801,
+     0.006461222419,
+     0.8,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.001892555395,
+     0.004959962273,
+     0.75,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.001711649266,
+     0.006041607719,
+     0.7,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.001188549275,
+     0.005123768739,
+     0.7,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.001403966355,
+     0.004878267721,
+     0.85,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.001403966355,
+     0.004878267721,
+     0.85,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.001751326261,
+     0.007008669902,
+     0.7,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.0006166238679,
+     0.006031857519,
+     0.7,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.001541021438,
+     0.006202322419,
+     0.75,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.001335960698,
+     0.006179260903,
+     0.55,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.001403966355,
+     0.004878267721,
+     0.85,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.001403966355,
+     0.004878267721,
+     0.85,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.001976791121,
+     0.006127094063,
+     0.7,
+     null
+    ],
+    [
+     "borrower_ratio_shift",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.0004075366332,
+     0.005794832061,
+     0.7,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.003632247474,
+     0.003905296317,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.003457799574,
+     0.003765785709,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.003940748125,
+     0.004177103426,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.003799720822,
+     0.004068041297,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.002707784743,
+     0.002900362779,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.002528821071,
+     0.002622254699,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.003639932552,
+     0.00389383515,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.003435017289,
+     0.003717252161,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.003891396234,
+     0.004109752113,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.003720188659,
+     0.0039731928,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.00268219538,
+     0.002862987503,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.002527834028,
+     0.002623907909,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.004033621864,
+     0.004212779824,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.003970609642,
+     0.004103734189,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.003850257189,
+     0.004051564877,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.003862313005,
+     0.00401899622,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.004438300581,
+     0.004626753824,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.004350136196,
+     0.004496382925,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.004021311336,
+     0.004225112856,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.003993804599,
+     0.004138022464,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.003883508195,
+     0.00408637503,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.003896141572,
+     0.004062864875,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.004322298477,
+     0.004542690031,
+     null,
+     null
+    ],
+    [
+     "bracket_interpolation",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.004304346061,
+     0.004471893778,
+     null,
+     null
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     4.242592593,
+     4.271971769,
+     null,
+     0.7212962963
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     4.294907407,
+     4.326774179,
+     null,
+     0.7037037037
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     4.323148148,
+     4.355460482,
+     null,
+     0.7148148148
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     4.498148148,
+     4.531238736,
+     null,
+     0.712037037
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     3.962962963,
+     3.993837417,
+     null,
+     0.7138888889
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     3.846296296,
+     3.881721791,
+     null,
+     0.6824074074
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     4.215277778,
+     4.243877721,
+     null,
+     0.7259259259
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     4.292592593,
+     4.326048403,
+     null,
+     0.7037037037
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     4.309259259,
+     4.340913163,
+     null,
+     0.7166666667
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     4.467592593,
+     4.500681057,
+     null,
+     0.7018518519
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     3.891666667,
+     3.925239065,
+     null,
+     0.7194444444
+    ],
+    [
+     "breakeven_horizon",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     3.7875,
+     3.823269689,
+     null,
+     0.6925925926
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     4.582407407,
+     4.600673334,
+     null,
+     0.6787037037
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     4.766203704,
+     4.782469255,
+     null,
+     0.6796296296
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     4.59537037,
+     4.612752571,
+     null,
+     0.6703703704
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     4.708333333,
+     4.728062837,
+     null,
+     0.6787037037
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     4.600925926,
+     4.620147697,
+     null,
+     0.6935185185
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     4.787962963,
+     4.803317826,
+     null,
+     0.6972222222
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     4.589814815,
+     4.606926742,
+     null,
+     0.6740740741
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     4.737962963,
+     4.752954644,
+     null,
+     0.6888888889
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     4.594907407,
+     4.611395109,
+     null,
+     0.6787037037
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     4.670833333,
+     4.687035299,
+     null,
+     0.6824074074
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     4.532407407,
+     4.550587286,
+     null,
+     0.6962962963
+    ],
+    [
+     "breakeven_horizon",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     4.703240741,
+     4.719494946,
+     null,
+     0.7194444444
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.05,
+     0.2236067977,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.05,
+     0.2236067977,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "burden_changepoint",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.0,
+     0.0,
+     null,
+     1.0
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.0004928635219,
+     0.004673325561,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.0004861529382,
+     0.004669302071,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.0005584869216,
+     0.004889937712,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.0005584869216,
+     0.004889937712,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.0004391624249,
+     0.00444702594,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.0004299221687,
+     0.004442576254,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.0004959998649,
+     0.004671399216,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.0004890931964,
+     0.00466710011,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.0005584869216,
+     0.004889937712,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0005584869216,
+     0.004889937712,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.0004485535628,
+     0.004418633851,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.0004444129532,
+     0.004411388745,
+     1.0,
+     0.8
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.002525880583,
+     0.006375499371,
+     0.9,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.002557767604,
+     0.006395650932,
+     0.9,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.00269130886,
+     0.006371105827,
+     0.9,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.00269130886,
+     0.006371105827,
+     0.9,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.002162287471,
+     0.006433333007,
+     0.85,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.002250017506,
+     0.006481928357,
+     0.85,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.00252654447,
+     0.006375502347,
+     0.9,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.00255835994,
+     0.006395273611,
+     0.9,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.00269130886,
+     0.006371105827,
+     0.9,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.00269130886,
+     0.006371105827,
+     0.9,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.002173039306,
+     0.006432854264,
+     0.85,
+     0.9
+    ],
+    [
+     "lock_in_did",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.002260912503,
+     0.006480835854,
+     0.85,
+     0.9
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.001500059079,
+     0.009721165188,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.001486904423,
+     0.009730449726,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.001547419614,
+     0.009770904579,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.001547419614,
+     0.009770904579,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.001349130157,
+     0.009649954472,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.00129436175,
+     0.009675253452,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.001500263186,
+     0.009717905139,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.00148674896,
+     0.009726707694,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.001547419614,
+     0.009770904579,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.001547419614,
+     0.009770904579,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.001359647771,
+     0.009645556741,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.001306480377,
+     0.009671284134,
+     0.8,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.001351981419,
+     0.007579184614,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.001339765798,
+     0.007579691775,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.001430195565,
+     0.007534558805,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.001430195565,
+     0.007534558805,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.00118512851,
+     0.007650857259,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.00115362663,
+     0.007649231812,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.001352100592,
+     0.007579494466,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.001339854645,
+     0.007579641813,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.001430195565,
+     0.007534558805,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.001430195565,
+     0.007534558805,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.001187830607,
+     0.007649711277,
+     0.9,
+     null
+    ],
+    [
+     "lock_in_placebo",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.001156865071,
+     0.007645988103,
+     0.9,
+     null
+    ],
+    [
+     "migration_effect",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.0002284668112,
+     0.003382635303,
+     1.0,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -1.026618655e-05,
+     0.002097720236,
+     1.0,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.0003129864365,
+     0.003569434557,
+     1.0,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     7.528235999e-05,
+     0.001998790522,
+     0.95,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.0005257506141,
+     0.002644361767,
+     1.0,
+     0.85
+    ],
+    [
+     "migration_effect",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.0009804722603,
+     0.002361403688,
+     0.95,
+     0.45
+    ],
+    [
+     "migration_effect",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.0002692383419,
+     0.003371262871,
+     1.0,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -1.29843242e-05,
+     0.002152060764,
+     0.95,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.000237732114,
+     0.003500778317,
+     1.0,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0001570139562,
+     0.002022620459,
+     0.95,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.001047734626,
+     0.00299264773,
+     1.0,
+     0.85
+    ],
+    [
+     "migration_effect",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.001454349588,
+     0.002896315482,
+     0.95,
+     0.55
+    ],
+    [
+     "migration_effect",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     8.26084378e-05,
+     0.003196085679,
+     0.95,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.0001367687665,
+     0.001954615036,
+     1.0,
+     0.0
+    ],
+    [
+     "migration_effect",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     3.299502448e-05,
+     0.003016095648,
+     0.95,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.0001604201947,
+     0.00202088952,
+     1.0,
+     0.1
+    ],
+    [
+     "migration_effect",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -9.632093361e-05,
+     0.003379966116,
+     0.95,
+     0.4
+    ],
+    [
+     "migration_effect",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.0004473538573,
+     0.002126649477,
+     1.0,
+     0.1
+    ],
+    [
+     "migration_effect",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     7.637462869e-05,
+     0.003203273999,
+     0.95,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.0001326626812,
+     0.001906939835,
+     1.0,
+     0.0
+    ],
+    [
+     "migration_effect",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     9.629826174e-05,
+     0.003004244797,
+     0.95,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0002329123065,
+     0.001995712256,
+     0.95,
+     0.05
+    ],
+    [
+     "migration_effect",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.0003888057038,
+     0.003299814619,
+     0.95,
+     0.4
+    ],
+    [
+     "migration_effect",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.0007231040234,
+     0.002060490723,
+     1.0,
+     0.05
+    ],
+    [
+     "migration_naive",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.00328012447,
+     0.004649140155,
+     0.85,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.003150427845,
+     0.003883911821,
+     0.55,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.004041645049,
+     0.0051531159,
+     0.8,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.003700666614,
+     0.004274473712,
+     0.65,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.005492972549,
+     0.005911828339,
+     0.2,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.005874633514,
+     0.00616461713,
+     0.05,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.00334584075,
+     0.004757887608,
+     0.8,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.003210093545,
+     0.004014709158,
+     0.55,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.004037097963,
+     0.005236035929,
+     0.8,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.003703141895,
+     0.004349845628,
+     0.7,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.005849502637,
+     0.006306947918,
+     0.2,
+     null
+    ],
+    [
+     "migration_naive",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.0062842036,
+     0.006675065592,
+     0.05,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.001718663433,
+     0.002824763261,
+     1.0,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.001987603261,
+     0.002315645814,
+     0.95,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.001869889959,
+     0.003094168284,
+     1.0,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.002289903242,
+     0.002909620582,
+     0.9,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.004060100666,
+     0.00435760293,
+     0.4,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.004256532524,
+     0.004345936212,
+     0.05,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.001927132881,
+     0.003006081959,
+     0.9,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.002195724253,
+     0.002513931098,
+     0.9,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.001882034115,
+     0.003128770726,
+     1.0,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.002295055725,
+     0.00290948178,
+     0.9,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.004417241647,
+     0.004679387723,
+     0.35,
+     null
+    ],
+    [
+     "migration_naive",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.004630865329,
+     0.004753139898,
+     0.05,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.00279375963,
+     0.004149735055,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.0009134288339,
+     0.002214959362,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.000138110343,
+     0.003541644344,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.0001492349673,
+     0.00218642218,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.01022133304,
+     0.01073826414,
+     0.15,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.004732441622,
+     0.005415265579,
+     0.55,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.002906751589,
+     0.004207912944,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.001049779691,
+     0.002313191316,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.0001534051912,
+     0.003546948277,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.000183672186,
+     0.002228591151,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.01077835717,
+     0.0112884948,
+     0.15,
+     null
+    ],
+    [
+     "migration_placebo",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.005384559737,
+     0.006033462672,
+     0.45,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.002450799718,
+     0.004098625638,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.0006640563955,
+     0.002195808678,
+     1.0,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -3.349289391e-05,
+     0.003109139581,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     6.903569884e-05,
+     0.002299456727,
+     0.9,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.006639750964,
+     0.007327416888,
+     0.6,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.00230196021,
+     0.003024994116,
+     0.9,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.002569265272,
+     0.004132207969,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.0007947018806,
+     0.002196202556,
+     1.0,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -6.983828328e-05,
+     0.003103206274,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     2.260599465e-05,
+     0.00229339067,
+     0.95,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.006968577641,
+     0.007586089904,
+     0.6,
+     null
+    ],
+    [
+     "migration_placebo",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.002704136038,
+     0.003350479816,
+     0.95,
+     null
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.03744615971,
+     0.03949254313,
+     null,
+     0.895204879
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.04591194969,
+     0.04941761515,
+     null,
+     0.8920182962
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.02660949114,
+     0.02786043314,
+     null,
+     0.9146826758
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.0328759291,
+     0.0356617055,
+     null,
+     0.9141185439
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.09394320564,
+     0.1028844653,
+     null,
+     0.8109014675
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.1237583381,
+     0.1430129512,
+     null,
+     0.8097617686
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.03613112255,
+     0.03862304477,
+     null,
+     0.8936153993
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.04365542215,
+     0.04717961677,
+     null,
+     0.8924147132
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.02670859539,
+     0.02831019046,
+     null,
+     0.9129597865
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.03144654088,
+     0.03374261846,
+     null,
+     0.9139203354
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.09463312369,
+     0.1047423245,
+     null,
+     0.8021421765
+    ],
+    [
+     "ranking_adjusted",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.1203506766,
+     0.1359631031,
+     null,
+     0.801841052
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.02801982085,
+     0.029752901,
+     null,
+     0.9057175529
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.03005145798,
+     0.03140624964,
+     null,
+     0.9054621689
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.03182771107,
+     0.03369979111,
+     null,
+     0.8915913856
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.03562035449,
+     0.0374091193,
+     null,
+     0.8928035068
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.02136458929,
+     0.02249220033,
+     null,
+     0.923643987
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.02250428816,
+     0.02357630543,
+     null,
+     0.9249399657
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.02683056985,
+     0.02833910022,
+     null,
+     0.9062206975
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.02935772823,
+     0.03081713271,
+     null,
+     0.9096207357
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.03137030684,
+     0.03333181102,
+     null,
+     0.8919382504
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.03475890985,
+     0.03612509405,
+     null,
+     0.8947589099
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.02035829998,
+     0.02169928623,
+     null,
+     0.9244978083
+    ],
+    [
+     "ranking_adjusted",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.02255002859,
+     0.02394409089,
+     null,
+     0.9259538784
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.0009548257711,
+     0.003080342195,
+     null,
+     0.01685621919
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "self_report_correction",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.002066075464,
+     0.003632955713,
+     null,
+     0.01778611371
+    ],
+    [
+     "severe_share",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -5.551115123e-18,
+     1.164411732e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -1.110223025e-17,
+     1.164411732e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.0,
+     1.499828715e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -6.661338148e-17,
+     1.277962673e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -3.053113318e-17,
+     1.031073872e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     2.498001805e-17,
+     1.283976648e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -5.551115123e-18,
+     7.850462293e-17,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     1.942890293e-17,
+     1.171009018e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -3.885780586e-17,
+     1.08211155e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -3.330669074e-17,
+     1.253618297e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -2.775557562e-18,
+     1.184093324e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -1.665334537e-17,
+     1.137640067e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     3.60822483e-17,
+     1.04591023e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     8.326672685e-18,
+     1.000741511e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     3.330669074e-17,
+     1.241267077e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -2.775557562e-17,
+     1.08211155e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     -2.636779683e-17,
+     1.098012816e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     4.163336342e-18,
+     1.224080674e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     5.551115123e-18,
+     1.096257399e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -1.110223025e-17,
+     1.164411732e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     1.387778781e-17,
+     1.197034619e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     1.942890293e-17,
+     1.431499026e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     -1.110223025e-17,
+     1.08211155e-16,
+     1.0,
+     null
+    ],
+    [
+     "severe_share",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     2.220446049e-17,
+     8.044330061e-17,
+     1.0,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.005054977086,
+     0.007271901355,
+     0.75,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.001154029094,
+     0.002304922859,
+     0.85,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.004080429929,
+     0.006840261406,
+     0.8,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.0009446333098,
+     0.002132645355,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.006233560173,
+     0.00791018033,
+     0.75,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.0009868626006,
+     0.002481225232,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.005080099123,
+     0.007008432761,
+     0.75,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.001230344574,
+     0.00222967309,
+     0.85,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.004170708477,
+     0.006618918237,
+     0.8,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.001019549289,
+     0.002085532049,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.006068970115,
+     0.00749735852,
+     0.7,
+     null
+    ],
+    [
+     "supply_controlled",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.001141142093,
+     0.002347941208,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.003590547552,
+     0.005778887699,
+     0.85,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.000707923244,
+     0.001557527607,
+     0.95,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.001864977885,
+     0.00471875808,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.0003499285895,
+     0.001524962398,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.005615881007,
+     0.00750821094,
+     0.75,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.001028467035,
+     0.001746333892,
+     0.95,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.003671500791,
+     0.006046199984,
+     0.85,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.0008152126592,
+     0.001615384374,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.002079607638,
+     0.005032424502,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0004677429596,
+     0.001569937371,
+     0.9,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.005138520843,
+     0.007239024791,
+     0.7,
+     null
+    ],
+    [
+     "supply_controlled",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.001047903365,
+     0.001711774186,
+     0.95,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.009496073636,
+     0.01143088396,
+     0.65,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.004590062403,
+     0.005713834632,
+     0.7,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.007283674756,
+     0.009355292095,
+     0.7,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.004201843297,
+     0.005129960501,
+     0.65,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.01458916313,
+     0.01600801223,
+     0.3,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.006941353792,
+     0.008060287471,
+     0.55,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.00937485539,
+     0.01102646038,
+     0.65,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.004546232805,
+     0.005511460604,
+     0.7,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.007235081591,
+     0.009100458716,
+     0.7,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.004155845426,
+     0.005000611308,
+     0.6,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.01424943609,
+     0.0152821279,
+     0.4,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.007192392492,
+     0.00803504611,
+     0.45,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.005567736855,
+     0.00704707602,
+     0.8,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.001774853661,
+     0.002157037479,
+     0.9,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.002994093178,
+     0.004849310448,
+     0.9,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.001416728788,
+     0.001863151012,
+     0.9,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.008971407533,
+     0.01036398743,
+     0.6,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.002416444096,
+     0.002786017031,
+     0.85,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     0.005616252578,
+     0.007155026561,
+     0.8,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.001856976016,
+     0.002165395323,
+     0.9,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.003227602967,
+     0.005076264662,
+     0.9,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.001529132785,
+     0.001908725306,
+     0.9,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.008556480954,
+     0.009941695741,
+     0.6,
+     null
+    ],
+    [
+     "supply_uncontrolled",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.002581326182,
+     0.00282697239,
+     0.75,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     -0.0004901835583,
+     0.002093857077,
+     0.8,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     -0.0006990159848,
+     0.00183237702,
+     0.8,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     -0.001046412949,
+     0.001990742414,
+     0.85,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     -0.001046412949,
+     0.001990742414,
+     0.85,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.000420789386,
+     0.001581870322,
+     0.9,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     0.0005474776739,
+     0.002217045654,
+     0.8,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.001187885004,
+     0.002430820923,
+     0.6,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     -0.0005890509548,
+     0.002148477014,
+     0.8,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/wide_supply/none_reverse/high_noise",
+     20,
+     -0.001046412949,
+     0.001990742414,
+     0.85,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/wide_supply/none_reverse/low_noise",
+     20,
+     -0.001046412949,
+     0.001990742414,
+     0.85,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     0.0002063636895,
+     0.001355332335,
+     0.95,
+     null
+    ],
+    [
+     "under_35_shift",
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     0.0003047438798,
+     0.001689516963,
+     1.0,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/narrow_supply/mild_reverse/high_noise",
+     20,
+     0.0002312341123,
+     0.001298467152,
+     0.9,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/narrow_supply/mild_reverse/low_noise",
+     20,
+     0.0005607385968,
+     0.002022157374,
+     0.7,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     20,
+     0.0002900749832,
+     0.001592888464,
+     0.85,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     20,
+     0.0002900749832,
+     0.001592888464,
+     0.85,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     20,
+     0.0003634445732,
+     0.001317636546,
+     1.0,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     20,
+     -0.0002207977539,
+     0.001581056122,
+     0.9,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/wide_supply/mild_reverse/high_noise",
+     20,
+     -0.0002438776998,
+     0.00150053828,
+     0.9,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     20,
+     0.0002560779589,
+     0.001640936275,
+     0.8,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/wide_supply/none_reverse/high_noise",
+     20,
+     0.0002900749832,
+     0.001592888464,
+     0.85,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/wide_supply/none_reverse/low_noise",
+     20,
+     0.0002900749832,
+     0.001592888464,
+     0.85,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/wide_supply/strong_reverse/high_noise",
+     20,
+     8.945430026e-05,
+     0.001783447354,
+     0.9,
+     null
+    ],
+    [
+     "under_35_shift",
+     "weak_demand/wide_supply/strong_reverse/low_noise",
+     20,
+     -0.0004779616849,
+     0.001780982413,
+     0.95,
+     null
+    ]
+   ]
+  },
+  "recovery.by_estimator": {
+   "columns": [
+    "Estimator",
+    "Mean bias",
+    "Mean RMSE",
+    "Mean coverage",
+    "Mean flag rate",
+    "Worst bias under",
+    "Lowest coverage",
+    "Lowest coverage under"
+   ],
+   "formats": [
+    "text",
+    "sfloat4",
+    "float4",
+    "pct0",
+    "pct0",
+    "text",
+    "pct0",
+    "text"
+   ],
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "rows": [
+    [
+     "anchored_level",
+     -0.001429702598,
+     0.01350537434,
+     null,
+     null,
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     null,
+     null
+    ],
+    [
+     "anchored_payment_share",
+     -0.0001703444834,
+     0.003774224136,
+     0.4333333333,
+     null,
+     "weak_demand/narrow_supply/none_reverse/low_noise",
+     0.35,
+     "weak_demand/narrow_supply/mild_reverse/high_noise"
+    ],
+    [
+     "borrower_ratio_shift",
+     -0.001079972899,
+     0.005765499968,
+     0.75625,
+     null,
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     0.55,
+     "weak_demand/wide_supply/mild_reverse/low_noise"
+    ],
+    [
+     "bracket_interpolation",
+     0.003703763945,
+     0.003902372615,
+     null,
+     null,
+     "weak_demand/narrow_supply/strong_reverse/high_noise",
+     null,
+     null
+    ],
+    [
+     "breakeven_horizon",
+     4.416763117,
+     4.441535459,
+     null,
+     0.6977623457,
+     "weak_demand/narrow_supply/strong_reverse/low_noise",
+     null,
+     null
+    ],
+    [
+     "burden_changepoint",
+     0.004166666667,
+     0.01863389981,
+     null,
+     1.0,
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     null,
+     null
+    ],
+    [
+     "lock_in_did",
+     0.001489173048,
+     0.005533991818,
+     0.9416666667,
+     0.85,
+     "weak_demand/narrow_supply/none_reverse/high_noise",
+     0.85,
+     "weak_demand/narrow_supply/strong_reverse/high_noise"
+    ],
+    [
+     "lock_in_placebo",
+     -7.022244281e-05,
+     0.008653080467,
+     0.85,
+     null,
+     "strong_demand/narrow_supply/none_reverse/high_noise",
+     0.8,
+     "strong_demand/narrow_supply/mild_reverse/high_noise"
+    ],
+    [
+     "migration_effect",
+     -0.0002313428835,
+     0.002673117058,
+     0.975,
+     0.1833333333,
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     0.95,
+     "strong_demand/narrow_supply/none_reverse/low_noise"
+    ],
+    [
+     "migration_naive",
+     -0.003562545728,
+     0.004259004548,
+     0.6083333333,
+     null,
+     "strong_demand/wide_supply/strong_reverse/low_noise",
+     0.05,
+     "strong_demand/narrow_supply/strong_reverse/low_noise"
+    ],
+    [
+     "migration_placebo",
+     -0.00268790715,
+     0.004274246277,
+     0.8166666667,
+     null,
+     "strong_demand/wide_supply/strong_reverse/high_noise",
+     0.15,
+     "strong_demand/narrow_supply/strong_reverse/high_noise"
+    ],
+    [
+     "ranking_adjusted",
+     -0.04367019249,
+     0.04747848723,
+     null,
+     0.8896137475,
+     "strong_demand/narrow_supply/strong_reverse/low_noise",
+     null,
+     null
+    ],
+    [
+     "self_report_correction",
+     -0.001510450617,
+     0.003356648954,
+     null,
+     0.01732116645,
+     "weak_demand/wide_supply/mild_reverse/low_noise",
+     null,
+     null
+    ],
+    [
+     "severe_share",
+     -4.163336342e-18,
+     1.145960627e-16,
+     1.0,
+     null,
+     "strong_demand/narrow_supply/none_reverse/low_noise",
+     1.0,
+     "strong_demand/narrow_supply/mild_reverse/high_noise"
+    ],
+    [
+     "supply_controlled",
+     0.002647646643,
+     0.004282434093,
+     0.8479166667,
+     null,
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     0.7,
+     "strong_demand/wide_supply/strong_reverse/high_noise"
+    ],
+    [
+     "supply_uncontrolled",
+     0.005848543766,
+     0.006991462305,
+     0.7020833333,
+     null,
+     "strong_demand/narrow_supply/strong_reverse/high_noise",
+     0.3,
+     "strong_demand/narrow_supply/strong_reverse/high_noise"
+    ],
+    [
+     "under_35_shift",
+     -0.0001647416806,
+     0.001775376764,
+     0.8541666667,
+     null,
+     "strong_demand/wide_supply/mild_reverse/high_noise",
+     0.6,
+     "strong_demand/wide_supply/mild_reverse/high_noise"
+    ]
+   ]
+  }
+ },
+ "values": {
+  "recovery.anchored_level.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.anchored_level.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "none"
+  },
+  "recovery.anchored_level.mean_bias": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.001429702598
+  },
+  "recovery.anchored_level.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.anchored_level.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.anchored_level.mean_rmse": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.01350537434
+  },
+  "recovery.anchored_level.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the anchored national value over the true one in the latest year"
+  },
+  "recovery.anchored_level.truth": {
+   "fmt": "float1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 1.0
+  },
+  "recovery.anchored_level.worst_bias": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.003173758553
+  },
+  "recovery.anchored_level.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/narrow_supply/none_reverse/high_noise"
+  },
+  "recovery.anchored_payment_share.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.35
+  },
+  "recovery.anchored_payment_share.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/narrow_supply/mild_reverse/high_noise"
+  },
+  "recovery.anchored_payment_share.mean_bias": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.0001703444834
+  },
+  "recovery.anchored_payment_share.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.4333333333
+  },
+  "recovery.anchored_payment_share.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.anchored_payment_share.mean_rmse": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.003774224136
+  },
+  "recovery.anchored_payment_share.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the national payment share in the latest year; the interval is the Monte Carlo over the census margins"
+  },
+  "recovery.anchored_payment_share.truth": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.2780913318
+  },
+  "recovery.anchored_payment_share.worst_bias": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.0006819476317
+  },
+  "recovery.anchored_payment_share.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/narrow_supply/none_reverse/low_noise"
+  },
+  "recovery.borrower_ratio_shift.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.55
+  },
+  "recovery.borrower_ratio_shift.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/wide_supply/mild_reverse/low_noise"
+  },
+  "recovery.borrower_ratio_shift.mean_bias": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.001079972899
+  },
+  "recovery.borrower_ratio_shift.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.75625
+  },
+  "recovery.borrower_ratio_shift.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.borrower_ratio_shift.mean_rmse": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.005765499968
+  },
+  "recovery.borrower_ratio_shift.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the borrower income ratio shift after the shock with its lender bootstrap interval"
+  },
+  "recovery.borrower_ratio_shift.truth": {
+   "fmt": "sfloat2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.08
+  },
+  "recovery.borrower_ratio_shift.worst_bias": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.002279810959
+  },
+  "recovery.borrower_ratio_shift.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/high_noise"
+  },
+  "recovery.bracket_interpolation.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.bracket_interpolation.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "none"
+  },
+  "recovery.bracket_interpolation.mean_bias": {
+   "fmt": "apts1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.003703763945
+  },
+  "recovery.bracket_interpolation.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.bracket_interpolation.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.bracket_interpolation.mean_rmse": {
+   "fmt": "apts1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.003902372615
+  },
+  "recovery.bracket_interpolation.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "mean absolute error of the affordable share against the exact share"
+  },
+  "recovery.bracket_interpolation.truth": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.0
+  },
+  "recovery.bracket_interpolation.worst_bias": {
+   "fmt": "apts1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.004438300581
+  },
+  "recovery.bracket_interpolation.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/narrow_supply/strong_reverse/high_noise"
+  },
+  "recovery.breakeven_horizon.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.breakeven_horizon.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "none"
+  },
+  "recovery.breakeven_horizon.mean_bias": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 4.416763117
+  },
+  "recovery.breakeven_horizon.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.breakeven_horizon.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.6977623457
+  },
+  "recovery.breakeven_horizon.mean_rmse": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 4.441535459
+  },
+  "recovery.breakeven_horizon.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "mean absolute error of the breakeven year against the realised path; the flag is the interval coverage"
+  },
+  "recovery.breakeven_horizon.truth": {
+   "fmt": "float1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.0
+  },
+  "recovery.breakeven_horizon.worst_bias": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 4.787962963
+  },
+  "recovery.breakeven_horizon.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/narrow_supply/strong_reverse/low_noise"
+  },
+  "recovery.burden_changepoint.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.burden_changepoint.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "none"
+  },
+  "recovery.burden_changepoint.mean_bias": {
+   "fmt": "sfloat1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.004166666667
+  },
+  "recovery.burden_changepoint.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.burden_changepoint.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 1.0
+  },
+  "recovery.burden_changepoint.mean_rmse": {
+   "fmt": "float1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.01863389981
+  },
+  "recovery.burden_changepoint.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the PELT changepoint nearest the planted step; the flag is a hit within a year"
+  },
+  "recovery.burden_changepoint.truth": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 2013.0
+  },
+  "recovery.burden_changepoint.worst_bias": {
+   "fmt": "sfloat1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.05
+  },
+  "recovery.burden_changepoint.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/low_noise"
+  },
+  "recovery.conditions": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 24
+  },
+  "recovery.estimators": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 17
+  },
+  "recovery.grades": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 8160
+  },
+  "recovery.lock_in_did.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.85
+  },
+  "recovery.lock_in_did.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/narrow_supply/strong_reverse/high_noise"
+  },
+  "recovery.lock_in_did.mean_bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.001489173048
+  },
+  "recovery.lock_in_did.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.9416666667
+  },
+  "recovery.lock_in_did.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.85
+  },
+  "recovery.lock_in_did.mean_rmse": {
+   "fmt": "float4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.005533991818
+  },
+  "recovery.lock_in_did.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "turnover on lock in intensity with metro and year effects; the flag is the placebo covering zero"
+  },
+  "recovery.lock_in_did.truth": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.04
+  },
+  "recovery.lock_in_did.worst_bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.00269130886
+  },
+  "recovery.lock_in_did.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/narrow_supply/none_reverse/high_noise"
+  },
+  "recovery.lock_in_placebo.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.8
+  },
+  "recovery.lock_in_placebo.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/mild_reverse/high_noise"
+  },
+  "recovery.lock_in_placebo.mean_bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -7.022244281e-05
+  },
+  "recovery.lock_in_placebo.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.85
+  },
+  "recovery.lock_in_placebo.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.lock_in_placebo.mean_rmse": {
+   "fmt": "float4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.008653080467
+  },
+  "recovery.lock_in_placebo.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the pre period placebo of the lock in regression against zero"
+  },
+  "recovery.lock_in_placebo.truth": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.0
+  },
+  "recovery.lock_in_placebo.worst_bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.001547419614
+  },
+  "recovery.lock_in_placebo.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/none_reverse/high_noise"
+  },
+  "recovery.migration.mild.bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -1.156764372e-05
+  },
+  "recovery.migration.mild.coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.98125
+  },
+  "recovery.migration.mild.flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.0375
+  },
+  "recovery.migration.none.bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 2.552544413e-05
+  },
+  "recovery.migration.none.coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.96875
+  },
+  "recovery.migration.none.flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.05625
+  },
+  "recovery.migration.strong.bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.0007079864509
+  },
+  "recovery.migration.strong.coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.975
+  },
+  "recovery.migration.strong.flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.45625
+  },
+  "recovery.migration_effect.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.95
+  },
+  "recovery.migration_effect.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/none_reverse/low_noise"
+  },
+  "recovery.migration_effect.mean_bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.0002313428835
+  },
+  "recovery.migration_effect.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.975
+  },
+  "recovery.migration_effect.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.1833333333
+  },
+  "recovery.migration_effect.mean_rmse": {
+   "fmt": "pct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.002673117058
+  },
+  "recovery.migration_effect.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the price response to the migration shock; the flag is the placebo excluding zero"
+  },
+  "recovery.migration_effect.truth": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.008
+  },
+  "recovery.migration_effect.worst_bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.001454349588
+  },
+  "recovery.migration_effect.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/wide_supply/strong_reverse/low_noise"
+  },
+  "recovery.migration_naive.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.05
+  },
+  "recovery.migration_naive.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/low_noise"
+  },
+  "recovery.migration_naive.mean_bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.003562545728
+  },
+  "recovery.migration_naive.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.6083333333
+  },
+  "recovery.migration_naive.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.migration_naive.mean_rmse": {
+   "fmt": "pct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.004259004548
+  },
+  "recovery.migration_naive.mild.bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.002601951305
+  },
+  "recovery.migration_naive.mild.coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.8125
+  },
+  "recovery.migration_naive.none.bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.00297742932
+  },
+  "recovery.migration_naive.none.coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.84375
+  },
+  "recovery.migration_naive.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "growth on the pandemic migration level with no pre pandemic control, against the same truth"
+  },
+  "recovery.migration_naive.strong.bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.005108256558
+  },
+  "recovery.migration_naive.strong.coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.16875
+  },
+  "recovery.migration_naive.truth": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.008
+  },
+  "recovery.migration_naive.worst_bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.0062842036
+  },
+  "recovery.migration_naive.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/wide_supply/strong_reverse/low_noise"
+  },
+  "recovery.migration_placebo.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.15
+  },
+  "recovery.migration_placebo.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/high_noise"
+  },
+  "recovery.migration_placebo.mean_bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.00268790715
+  },
+  "recovery.migration_placebo.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.8166666667
+  },
+  "recovery.migration_placebo.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.migration_placebo.mean_rmse": {
+   "fmt": "pct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.004274246277
+  },
+  "recovery.migration_placebo.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the pre trend placebo of the migration regression against zero"
+  },
+  "recovery.migration_placebo.truth": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.0
+  },
+  "recovery.migration_placebo.worst_bias": {
+   "fmt": "spct2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.01077835717
+  },
+  "recovery.migration_placebo.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/wide_supply/strong_reverse/high_noise"
+  },
+  "recovery.ranking.adjusted": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.9563298075
+  },
+  "recovery.ranking.raw": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.8896137475
+  },
+  "recovery.ranking_adjusted.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.ranking_adjusted.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "none"
+  },
+  "recovery.ranking_adjusted.mean_bias": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.04367019249
+  },
+  "recovery.ranking_adjusted.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.ranking_adjusted.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.8896137475
+  },
+  "recovery.ranking_adjusted.mean_rmse": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.04747848723
+  },
+  "recovery.ranking_adjusted.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "rank correlation of the adjusted ranking with the true one; the flag is the raw ranking's"
+  },
+  "recovery.ranking_adjusted.truth": {
+   "fmt": "float1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 1.0
+  },
+  "recovery.ranking_adjusted.worst_bias": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.1237583381
+  },
+  "recovery.ranking_adjusted.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/low_noise"
+  },
+  "recovery.seeds": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 20
+  },
+  "recovery.self_report_correction.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.self_report_correction.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "none"
+  },
+  "recovery.self_report_correction.mean_bias": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.001510450617
+  },
+  "recovery.self_report_correction.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.self_report_correction.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.01732116645
+  },
+  "recovery.self_report_correction.mean_rmse": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.003356648954
+  },
+  "recovery.self_report_correction.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the census value over the transaction value against the planted self report factor"
+  },
+  "recovery.self_report_correction.truth": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 1.001105055
+  },
+  "recovery.self_report_correction.worst_bias": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.002066075464
+  },
+  "recovery.self_report_correction.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "weak_demand/wide_supply/mild_reverse/low_noise"
+  },
+  "recovery.severe_share.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 1.0
+  },
+  "recovery.severe_share.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/mild_reverse/high_noise"
+  },
+  "recovery.severe_share.mean_bias": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -4.163336342e-18
+  },
+  "recovery.severe_share.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 1.0
+  },
+  "recovery.severe_share.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.severe_share.mean_rmse": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 1.145960627e-16
+  },
+  "recovery.severe_share.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the severely burdened share with its block bootstrap interval"
+  },
+  "recovery.severe_share.truth": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.3421405429
+  },
+  "recovery.severe_share.worst_bias": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -6.661338148e-17
+  },
+  "recovery.severe_share.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/none_reverse/low_noise"
+  },
+  "recovery.supply_controlled.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.7
+  },
+  "recovery.supply_controlled.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/wide_supply/strong_reverse/high_noise"
+  },
+  "recovery.supply_controlled.mean_bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.002647646643
+  },
+  "recovery.supply_controlled.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.8479166667
+  },
+  "recovery.supply_controlled.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.supply_controlled.mean_rmse": {
+   "fmt": "float4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.004282434093
+  },
+  "recovery.supply_controlled.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the building rate coefficient with the demand control"
+  },
+  "recovery.supply_controlled.strong_demand.bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.003097108822
+  },
+  "recovery.supply_controlled.truth": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.025
+  },
+  "recovery.supply_controlled.weak_demand.bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.002198184464
+  },
+  "recovery.supply_controlled.worst_bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.006233560173
+  },
+  "recovery.supply_controlled.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/high_noise"
+  },
+  "recovery.supply_uncontrolled.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.3
+  },
+  "recovery.supply_uncontrolled.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/high_noise"
+  },
+  "recovery.supply_uncontrolled.mean_bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.005848543766
+  },
+  "recovery.supply_uncontrolled.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.7020833333
+  },
+  "recovery.supply_uncontrolled.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.supply_uncontrolled.mean_rmse": {
+   "fmt": "float4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.006991462305
+  },
+  "recovery.supply_uncontrolled.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the building rate coefficient without the demand control"
+  },
+  "recovery.supply_uncontrolled.strong_demand.bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.007821334567
+  },
+  "recovery.supply_uncontrolled.truth": {
+   "fmt": "sfloat3",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.025
+  },
+  "recovery.supply_uncontrolled.weak_demand.bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.003875752966
+  },
+  "recovery.supply_uncontrolled.worst_bias": {
+   "fmt": "sfloat4",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.01458916313
+  },
+  "recovery.supply_uncontrolled.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/high_noise"
+  },
+  "recovery.under_35_shift.lowest_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.6
+  },
+  "recovery.under_35_shift.lowest_coverage_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/wide_supply/mild_reverse/high_noise"
+  },
+  "recovery.under_35_shift.mean_bias": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.0001647416806
+  },
+  "recovery.under_35_shift.mean_coverage": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.8541666667
+  },
+  "recovery.under_35_shift.mean_flag_rate": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": null
+  },
+  "recovery.under_35_shift.mean_rmse": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 0.001775376764
+  },
+  "recovery.under_35_shift.note": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "the under 35 share shift after the shock with its lender bootstrap interval"
+  },
+  "recovery.under_35_shift.truth": {
+   "fmt": "pct0",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.05
+  },
+  "recovery.under_35_shift.worst_bias": {
+   "fmt": "pts2",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": -0.001187885004
+  },
+  "recovery.under_35_shift.worst_bias_condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/wide_supply/mild_reverse/high_noise"
+  },
+  "recovery.worlds": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": 480
+  },
+  "recovery.worst.condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "strong_demand/narrow_supply/strong_reverse/low_noise"
+  },
+  "recovery.worst.estimator": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-22",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/recovery.py",
+    "population": "the recovery study, every condition and seed",
+    "seed": 20261022,
+    "seeds": 20,
+    "source": "simulated"
+   },
+   "value": "migration_naive"
+  }
+ }
+}

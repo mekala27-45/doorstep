@@ -1,0 +1,288 @@
+{
+ "as_of": "2026-10-23",
+ "figures": {},
+ "seed": 20261022,
+ "tables": {},
+ "values": {
+  "sim.beta_demand": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 0.012
+  },
+  "sim.beta_supply": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 0.025
+  },
+  "sim.borrower_ratio_shift": {
+   "fmt": "sfloat2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 0.08
+  },
+  "sim.burden_step_size": {
+   "fmt": "pts1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 0.03
+  },
+  "sim.burden_step_year": {
+   "fmt": "year",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 2013
+  },
+  "sim.condition": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": "demonstration"
+  },
+  "sim.first_year": {
+   "fmt": "year",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 2005
+  },
+  "sim.last_year": {
+   "fmt": "year",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 2024
+  },
+  "sim.lenders": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 12
+  },
+  "sim.loans": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 1426884
+  },
+  "sim.lock_in_response": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 0.04
+  },
+  "sim.metros": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 60
+  },
+  "sim.micropolitan": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 6
+  },
+  "sim.quarters": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 80
+  },
+  "sim.rate_shock_year": {
+   "fmt": "year",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 2022
+  },
+  "sim.reverse": {
+   "fmt": "float1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 0.6
+  },
+  "sim.states": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 15
+  },
+  "sim.suppressed_cells": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 117
+  },
+  "sim.value_bias_sd": {
+   "fmt": "float3",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 0.05387370842
+  },
+  "sim.years": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": "demonstration",
+    "model": "none",
+    "origin": "stages/simulate.py",
+    "population": "the demonstration world, sixty simulated metros",
+    "seed": 20261022,
+    "seeds": null,
+    "source": "simulated"
+   },
+   "value": 20
+  }
+ }
+}

@@ -1,0 +1,1384 @@
+{
+ "as_of": "2026-10-23",
+ "figures": {},
+ "seed": 20261022,
+ "tables": {
+  "metrics.definitions": {
+   "columns": [
+    "Metric",
+    "Over the grain",
+    "Over the mart"
+   ],
+   "formats": [
+    "text",
+    "text",
+    "text"
+   ],
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "rows": [
+    [
+     "households",
+     "sum(estimate) filter (where variable = 'B11001_001')",
+     "sum(households)"
+    ],
+    [
+     "owner households",
+     "sum(estimate) filter (where variable = 'B25003_002')",
+     "sum(owner_households)"
+    ],
+    [
+     "renter households",
+     "sum(estimate) filter (where variable = 'B25003_003')",
+     "sum(renter_households)"
+    ],
+    [
+     "renters burdened",
+     "sum(estimate) filter (where variable in ('B25070_007', 'B25070_008', 'B25070_009', 'B25070_010'))",
+     "sum(renters_burdened)"
+    ],
+    [
+     "renters severe",
+     "sum(estimate) filter (where variable = 'B25070_010')",
+     "sum(renters_severe)"
+    ],
+    [
+     "renter burdened share",
+     "sum(estimate) filter (where variable in ('B25070_007', 'B25070_008', 'B25070_009', 'B25070_010')) / (sum(estimate) filter (where variable = 'B25070_001') - coalesce(sum(estimate) filter (where variable = 'B25070_011'), 0))",
+     "sum(renters_burdened) / sum(renters_with_share)"
+    ],
+    [
+     "housing units",
+     "sum(estimate) filter (where variable = 'B25001_001')",
+     "sum(housing_units)"
+    ],
+    [
+     "permits",
+     "sum(permits)",
+     "sum(permits)"
+    ],
+    [
+     "population",
+     "sum(population)",
+     "sum(population)"
+    ],
+    [
+     "domestic migration",
+     "sum(domestic_migration)",
+     "sum(domestic_migration)"
+    ],
+    [
+     "purchase loans",
+     "count(*) filter (where loan_purpose = 1)",
+     "sum(purchase_loans)"
+    ],
+    [
+     "refinance loans",
+     "count(*) filter (where loan_purpose in (31, 32))",
+     "sum(refinance_loans)"
+    ],
+    [
+     "low rate originations",
+     "count(*) filter (where interest_rate < 4.0 and not q_rate_missing and not q_term_not_30_years)",
+     "sum(low_rate_originations)"
+    ],
+    [
+     "turnover per 100 owners",
+     "100.0 * sum(purchase_loans) / sum(owner_households)",
+     "100.0 * sum(purchase_loans) / sum(owner_households)"
+    ],
+    [
+     "lock in per 100 owners",
+     "100.0 * sum(low_rate_originations) / sum(owner_households)",
+     "100.0 * sum(low_rate_originations) / sum(owner_households)"
+    ],
+    [
+     "permits per 100 households",
+     "100.0 * sum(permits) / sum(households)",
+     "100.0 * sum(permits) / sum(households)"
+    ],
+    [
+     "domestic migration per 100",
+     "100.0 * sum(domestic_migration) / sum(population)",
+     "100.0 * sum(domestic_migration) / sum(population)"
+    ],
+    [
+     "purchase under 35 share",
+     "sum(purchase_under_35) / sum(purchase_with_age)",
+     "sum(purchase_under_35) / sum(purchase_with_age)"
+    ],
+    [
+     "owner mortgage burdened share",
+     "sum(owners_mortgage_burdened) / sum(owners_mortgage_with_share)",
+     "sum(owners_mortgage_burdened) / sum(owners_mortgage_with_share)"
+    ],
+    [
+     "payment share ratio of sums",
+     "12.0 * sum(payment) / sum(median_income)",
+     "12.0 * sum(payment) / sum(median_income)"
+    ],
+    [
+     "price to income ratio of sums",
+     "sum(value_anchored) / sum(median_income)",
+     "sum(value_anchored) / sum(median_income)"
+    ]
+   ]
+  }
+ },
+ "values": {
+  "metric.domestic_migration": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 363037.0
+  },
+  "metric.domestic_migration.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": -55333.0
+  },
+  "metric.domestic_migration_per_100": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.004725057636
+  },
+  "metric.domestic_migration_per_100.summary_year": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": -0.01718308456
+  },
+  "metric.households": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 2014479004.0
+  },
+  "metric.households.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 120182993.0
+  },
+  "metric.housing_units": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 2251112415.0
+  },
+  "metric.housing_units.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 131661249.0
+  },
+  "metric.lock_in_per_100_owners": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1.678188845
+  },
+  "metric.lock_in_per_100_owners.summary_year": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.06009931136
+  },
+  "metric.low_rate_originations": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 21606788.0
+  },
+  "metric.low_rate_originations.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 46429.0
+  },
+  "metric.owner_households": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1287506353.0
+  },
+  "metric.owner_households.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 77253797.0
+  },
+  "metric.owner_mortgage_burdened_share": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.3259611351
+  },
+  "metric.owner_mortgage_burdened_share.summary_year": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.2977220145
+  },
+  "metric.payment_share_ratio_of_sums": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.2612319635
+  },
+  "metric.payment_share_ratio_of_sums.summary_year": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.2376753642
+  },
+  "metric.permits": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 35446087.0
+  },
+  "metric.permits.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1430633.0
+  },
+  "metric.permits_per_100_households": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1.759565969
+  },
+  "metric.permits_per_100_households.summary_year": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1.190378908
+  },
+  "metric.population": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 7683229031.0
+  },
+  "metric.population.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 322020181.0
+  },
+  "metric.price_to_income_ratio_of_sums": {
+   "fmt": "ratio2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 4.326956447
+  },
+  "metric.price_to_income_ratio_of_sums.summary_year": {
+   "fmt": "ratio2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 3.403061367
+  },
+  "metric.purchase_loans": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 28704904.0
+  },
+  "metric.purchase_loans.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 2956878.0
+  },
+  "metric.purchase_under_35_share": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.3943595451
+  },
+  "metric.purchase_under_35_share.summary_year": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.3992553976
+  },
+  "metric.refinance_loans": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 26824342.0
+  },
+  "metric.refinance_loans.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1208959.0
+  },
+  "metric.renter_burdened_share": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.5136190073
+  },
+  "metric.renter_burdened_share.summary_year": {
+   "fmt": "pct1",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0.5229679016
+  },
+  "metric.renter_households": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 726972651.0
+  },
+  "metric.renter_households.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 42929196.0
+  },
+  "metric.renters_burdened": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 347896134.0
+  },
+  "metric.renters_burdened.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 20995038.0
+  },
+  "metric.renters_severe": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 177158174.0
+  },
+  "metric.renters_severe.summary_year": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 10600408.0
+  },
+  "metric.turnover_per_100_owners": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 2.229496106
+  },
+  "metric.turnover_per_100_owners.summary_year": {
+   "fmt": "float2",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 3.827485657
+  },
+  "metric_sql.domestic_migration.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(domestic_migration)"
+  },
+  "metric_sql.domestic_migration.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(domestic_migration)"
+  },
+  "metric_sql.domestic_migration_per_100.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "100.0 * sum(domestic_migration) / sum(population)"
+  },
+  "metric_sql.domestic_migration_per_100.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "100.0 * sum(domestic_migration) / sum(population)"
+  },
+  "metric_sql.households.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(estimate) filter (where variable = 'B11001_001')"
+  },
+  "metric_sql.households.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(households)"
+  },
+  "metric_sql.housing_units.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(estimate) filter (where variable = 'B25001_001')"
+  },
+  "metric_sql.housing_units.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(housing_units)"
+  },
+  "metric_sql.lock_in_per_100_owners.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "100.0 * sum(low_rate_originations) / sum(owner_households)"
+  },
+  "metric_sql.lock_in_per_100_owners.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "100.0 * sum(low_rate_originations) / sum(owner_households)"
+  },
+  "metric_sql.low_rate_originations.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "count(*) filter (where interest_rate < 4.0 and not q_rate_missing and not q_term_not_30_years)"
+  },
+  "metric_sql.low_rate_originations.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(low_rate_originations)"
+  },
+  "metric_sql.owner_households.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(estimate) filter (where variable = 'B25003_002')"
+  },
+  "metric_sql.owner_households.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(owner_households)"
+  },
+  "metric_sql.owner_mortgage_burdened_share.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(owners_mortgage_burdened) / sum(owners_mortgage_with_share)"
+  },
+  "metric_sql.owner_mortgage_burdened_share.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(owners_mortgage_burdened) / sum(owners_mortgage_with_share)"
+  },
+  "metric_sql.payment_share_ratio_of_sums.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "12.0 * sum(payment) / sum(median_income)"
+  },
+  "metric_sql.payment_share_ratio_of_sums.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "12.0 * sum(payment) / sum(median_income)"
+  },
+  "metric_sql.permits.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(permits)"
+  },
+  "metric_sql.permits.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(permits)"
+  },
+  "metric_sql.permits_per_100_households.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "100.0 * sum(permits) / sum(households)"
+  },
+  "metric_sql.permits_per_100_households.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "100.0 * sum(permits) / sum(households)"
+  },
+  "metric_sql.population.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(population)"
+  },
+  "metric_sql.population.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(population)"
+  },
+  "metric_sql.price_to_income_ratio_of_sums.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(value_anchored) / sum(median_income)"
+  },
+  "metric_sql.price_to_income_ratio_of_sums.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(value_anchored) / sum(median_income)"
+  },
+  "metric_sql.purchase_loans.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "count(*) filter (where loan_purpose = 1)"
+  },
+  "metric_sql.purchase_loans.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(purchase_loans)"
+  },
+  "metric_sql.purchase_under_35_share.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(purchase_under_35) / sum(purchase_with_age)"
+  },
+  "metric_sql.purchase_under_35_share.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(purchase_under_35) / sum(purchase_with_age)"
+  },
+  "metric_sql.refinance_loans.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "count(*) filter (where loan_purpose in (31, 32))"
+  },
+  "metric_sql.refinance_loans.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(refinance_loans)"
+  },
+  "metric_sql.renter_burdened_share.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(estimate) filter (where variable in ('B25070_007', 'B25070_008', 'B25070_009', 'B25070_010')) / (sum(estimate) filter (where variable = 'B25070_001') - coalesce(sum(estimate) filter (where variable = 'B25070_011'), 0))"
+  },
+  "metric_sql.renter_burdened_share.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(renters_burdened) / sum(renters_with_share)"
+  },
+  "metric_sql.renter_households.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(estimate) filter (where variable = 'B25003_003')"
+  },
+  "metric_sql.renter_households.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(renter_households)"
+  },
+  "metric_sql.renters_burdened.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(estimate) filter (where variable in ('B25070_007', 'B25070_008', 'B25070_009', 'B25070_010'))"
+  },
+  "metric_sql.renters_burdened.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(renters_burdened)"
+  },
+  "metric_sql.renters_severe.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(estimate) filter (where variable = 'B25070_010')"
+  },
+  "metric_sql.renters_severe.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "sum(renters_severe)"
+  },
+  "metric_sql.turnover_per_100_owners.grain": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "100.0 * sum(purchase_loans) / sum(owner_households)"
+  },
+  "metric_sql.turnover_per_100_owners.mart": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "100.0 * sum(purchase_loans) / sum(owner_households)"
+  },
+  "metrics.cells": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 1764
+  },
+  "metrics.count": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 21
+  },
+  "metrics.disagreements": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 0
+  },
+  "metrics.grains": {
+   "fmt": "int",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": 4
+  },
+  "metrics.summary_year": {
+   "fmt": "text",
+   "provenance": {
+    "as_of": "2026-10-23",
+    "condition": null,
+    "model": "none",
+    "origin": "stages/metrics.py",
+    "population": "every metro and year in the window, through the metric layer",
+    "seed": null,
+    "seeds": null,
+    "source": "mixed"
+   },
+   "value": "2024"
+  }
+ }
+}

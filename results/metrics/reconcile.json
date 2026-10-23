@@ -1,0 +1,29 @@
+{
+ "cells": 1764,
+ "disagreements": 0,
+ "grains": 4,
+ "metrics": 21,
+ "values": {
+  "domestic_migration": 363037.0,
+  "domestic_migration_per_100": 0.004725057635731437,
+  "households": 2014479004.0,
+  "housing_units": 2251112415.0,
+  "lock_in_per_100_owners": 1.6781888454106912,
+  "low_rate_originations": 21606788.0,
+  "owner_households": 1287506353.0,
+  "owner_mortgage_burdened_share": 0.32596113506267826,
+  "payment_share_ratio_of_sums": 0.26123196351626926,
+  "permits": 35446087.0,
+  "permits_per_100_households": 1.7595659686508205,
+  "population": 7683229031.0,
+  "price_to_income_ratio_of_sums": 4.326956447313895,
+  "purchase_loans": 28704904.0,
+  "purchase_under_35_share": 0.3943595451235275,
+  "refinance_loans": 26824342.0,
+  "renter_burdened_share": 0.5136190073447227,
+  "renter_households": 726972651.0,
+  "renters_burdened": 347896134.0,
+  "renters_severe": 177158174.0,
+  "turnover_per_100_owners": 2.229496105639799
+ }
+}

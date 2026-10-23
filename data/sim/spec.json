@@ -1,0 +1,12 @@
+{
+ "condition": {
+  "demand_strength": "strong",
+  "name": "demonstration",
+  "noise": "low",
+  "reverse_causality": "mild",
+  "supply_dispersion": "wide"
+ },
+ "first_year": 2005,
+ "last_year": 2024,
+ "seed": 20261022
+}
