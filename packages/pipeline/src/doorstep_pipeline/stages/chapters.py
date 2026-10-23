@@ -712,8 +712,8 @@ def _chart8(r: ChapterResult, source: str) -> Chart:
         rules=[{"y": 0.0, "label": "owning catches up", "role": "owning"}],
         bands=[
             {
-                "from": str(int(low)),
-                "to": str(int(min(high, curve.height))),
+                "from": int(low),
+                "to": int(min(high, curve.height)),
                 "label": "interval across metros",
             }
         ],

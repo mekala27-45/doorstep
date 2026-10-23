@@ -102,7 +102,8 @@ def message_rule(
             "median_burdened",
             f"The median renter is burdened in {format_value(1.0 - median_under_share, 'pct0')} of metros in {latest_year}, so the "
             f"median hides nothing; the problem is the whole distribution, with {format_value(severe.estimate, 'pct1')} of renters "
-            f"paying half or more (interval {format_value(severe.low, 'pct1')} to {format_value(severe.high, 'pct1')})." + moved,
+            f"paying half or more (interval {format_value(severe.low, 'pct1')} to {format_value(severe.high, 'pct1')})."
+            + moved,
         )
     if severe.covers(line):
         return Branch(

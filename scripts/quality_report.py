@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-RECALC_TEST = "test_recalculated_summary_equals_the_metric_values"
+RECALC_TEST = "test_model_sheet_matches_the_calculator_after_recalculation"
 
 
 def run(command: list[str]) -> subprocess.CompletedProcess[str]:

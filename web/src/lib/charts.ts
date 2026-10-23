@@ -111,6 +111,8 @@ export function xNumber(x: Scalar): number {
   if (typeof x === "string") {
     const q = /^(\d{4})Q([1-4])$/.exec(x);
     if (q) return Number(q[1]) + (Number(q[2]) - 1) / 4;
+    // A plain number written as text is a number, never a date: Date.parse("1") is a year.
+    if (/^-?\d+(\.\d+)?$/.test(x.trim())) return Number(x);
     const t = Date.parse(x.length === 10 ? `${x}T00:00:00Z` : x);
     if (!Number.isNaN(t)) return t;
     const n = Number(x);

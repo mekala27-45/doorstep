@@ -132,13 +132,14 @@ metro_year = pl.read_parquet(MARTS / "mart_metro_year.parquet").filter(pl.col("k
 
 
 def national_payment_share(frame, anchor_year):
+    # the mart carries the policy anchor as anchor_value already, so this notebook's anchor gets its own names
     base = frame.filter((pl.col("year") == anchor_year) & pl.col("median_value_reported").is_not_null() & pl.col("index_at").is_not_null()).select(
-        "cbsa_code", pl.col("median_value_reported").alias("anchor_value"), pl.col("index_at").alias("anchor_index")
+        "cbsa_code", pl.col("median_value_reported").alias("nb_anchor_value"), pl.col("index_at").alias("nb_anchor_index")
     )
     rows = (
         frame.join(base, on="cbsa_code")
         .filter(pl.col("index_at").is_not_null() & (pl.col("median_income") > 0) & pl.col("rate").is_not_null() & pl.col("owner_households").is_not_null())
-        .with_columns((pl.col("anchor_value") * pl.col("index_at") / pl.col("anchor_index")).alias("value"))
+        .with_columns((pl.col("nb_anchor_value") * pl.col("index_at") / pl.col("nb_anchor_index")).alias("value"))
     )
     out = []
     for year, group in sorted(rows.group_by("year"), key=lambda kv: kv[0][0]):

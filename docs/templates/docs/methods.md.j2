@@ -4,7 +4,7 @@
 
 ## Pre registration
 
-Each chapter module exposes `plan()`: the claim, the estimator, the split, the family of comparisons and the interval method, as a dictionary hashed with SHA-256 over its canonical JSON. `doorstep chapters` registers every hash in `results/chapters/plans.json` before any estimate runs on real metros; a plan whose hash differs from its registration fails the run (`doorstep_chapters.plans.RegistrationError`), and a chapter that reports on its fitting years is rejected (`SplitViolation`). The hashes: chapter 1 `{{ v('ch1.plan_hash') }}`, 2 `{{ v('ch2.plan_hash') }}`, 3 `{{ v('ch3.plan_hash') }}`, 4 `{{ v('ch4.plan_hash') }}`, 5 `{{ v('ch5.plan_hash') }}`, 6 `{{ v('ch6.plan_hash') }}`, 7 `{{ v('ch7.plan_hash') }}`, 8 `{{ v('ch8.plan_hash') }}`.
+Each chapter module exposes `plan()`: the claim, the estimator, the split, the family of comparisons and the interval method, as a dictionary hashed with SHA-256 over its canonical JSON. `doorstep chapters` registers every hash in `results/chapters/plans.json` before any estimate runs on real metros; a plan whose hash differs from its registration fails the run (`doorstep_chapters.plans.RegistrationError`), and a chapter that reports on its fitting years is rejected (`SplitViolation`). The hashes: {% for n in range(1, 9) %}chapter {{ n }} `{{ v('ch' ~ n ~ '.plan_hash') }}`{% if not loop.last %}, {% endif %}{% endfor %}.
 
 ## The split
 

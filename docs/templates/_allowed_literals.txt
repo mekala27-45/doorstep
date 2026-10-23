@@ -1,10 +1,7 @@
-# Literals a template may contain that are not results: names of licenses, conventions and datasets.
-CC BY 4.0
+# Literals a template may contain that are not results: names of licenses, conventions, tables and codes.
 Apache 2.0
-A14
-1987
-# The FAA's name for the thirty airports it reports delays at.
-Core 30
+# The hash the plans are registered under.
+SHA-256
 # The PowerShell file extension in script names.
 .ps1
 # The API version in a route.
@@ -15,12 +12,30 @@ p99
 # HTTP status codes the serving notes name.
 HTTP 401
 HTTP 503
-# The chapter modules' file names, as the definitions name the code.
-ch01_definition
-ch02_padding
-ch03_line
-ch04_inherited
-ch05_ranking
-ch06_causes
-ch07_meltdowns
-ch08_decision
+# Census table identifiers the definitions name.
+table B25077
+table B19013
+table B19001
+table B25070
+table B25074
+table B25091
+# HMDA code values the extract's filter names.
+action taken 1
+loan purposes 1, 31 and 32
+occupancy type 1
+# The age band and the metric names the definitions name.
+under 35
+turnover_per_100_owners
+# The cluster robust estimator's name.
+CR1
+# Chapter numbers in the method notes.
+chapters 1 and 5
+chapters 3, 6 and 8
+chapters 2, 4 and 7
+in chapter 8
+chapter 1
+chapter 3
+chapter 7
+# Manifest keys and module names the definitions cite.
+ch1.anchor_sensitivity
+c6_buyers
