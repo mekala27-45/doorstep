@@ -384,7 +384,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
     r.put_table(
         "ch3.bands",
         ["Year", "Under 30 percent", "30 to 50 percent", "50 percent and over"],
-        ["int", "pct1", "pct1", "pct1"],
+        ["year", "pct1", "pct1", "pct1"],
         [
             [int(x["year"]), float(x["under_30"]), float(x["from_30_to_50"]), float(x["over_50"])]
             for x in bands.iter_rows(named=True)

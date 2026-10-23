@@ -123,7 +123,7 @@ jobs:
       - name: Build against the test server's mock API, which refuses HEAD and answers a first 503
         run: npm run build:e2e
       - run: npx playwright install --with-deps chromium
-      - name: Every route, the sticky charts, the method notes and SQL toggles, the explorer, the slope chart, the timeline, a saved check and the recorded session, phone layouts
+      - name: Every route, the sticky charts, the method notes and SQL toggles, the explorer, the slope chart, the shocks page, a saved check and the recorded session, phone layouts
         run: npx playwright test
       - uses: actions/upload-artifact@v4
         if: failure()

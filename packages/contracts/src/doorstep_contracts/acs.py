@@ -187,8 +187,18 @@ def quarantine(frame: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
     return flagged, report.frame()
 
 
+GAP_YEAR = 2020
+"""The one year release that does not exist; a row claiming it is a planted error, never a fill."""
+
+
 def years_present(frame: pl.DataFrame) -> list[int]:
     return sorted(int(y) for y in frame["year"].unique().to_list())
+
+
+def refuse_gap_year(frame: pl.DataFrame) -> None:
+    """The gap is carried as a gap: a row for the missing release is refused rather than carried."""
+    if frame.filter(pl.col("year") == GAP_YEAR).height:
+        raise ContractError(f"the {GAP_YEAR} one year release does not exist; a row claiming it was planted")
 
 
 def coverage(frame: pl.DataFrame) -> pl.DataFrame:

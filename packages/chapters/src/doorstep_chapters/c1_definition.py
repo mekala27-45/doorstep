@@ -296,7 +296,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, draws: int | None = None)
     r.put_table(
         "ch1.series",
         ["Year", "Metros", "Rate", "Median home", "Price to income", "Payment share", "Low", "High"],
-        ["int", "int", "rate2", "usd0", "ratio2", "pct1", "pct1", "pct1"],
+        ["year", "int", "rate2", "usd0", "ratio2", "pct1", "pct1", "pct1"],
         [
             [
                 int(x["year"]),

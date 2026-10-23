@@ -87,8 +87,8 @@ class Disagreement:
     metric: str
     grain: str
     key: str
-    grain: float | None
-    mart: float | None
+    grain_value: float | None
+    mart_value: float | None
 
 
 @dataclass(frozen=True)

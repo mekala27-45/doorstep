@@ -7,9 +7,9 @@ doorstep:
       path: "{{ env_var('DOORSTEP_WAREHOUSE_PATH', '../.cache/warehouse.duckdb') }}"
       threads: 1
       settings:
-        # DuckDB can run past its limit by a gigabyte on a large distinct or window; the build machine
-        # kills a process past six, so the limit leaves that room.
-        memory_limit: "{{ env_var('DOORSTEP_DUCKDB_MEMORY', '4GB') }}"
+        # DuckDB can run past its limit by a gigabyte or two on the loan medians (a quantile holds every value of
+        # its group in memory); the build machine kills a process past six, so the limit leaves that room.
+        memory_limit: "{{ env_var('DOORSTEP_DUCKDB_MEMORY', '2500MB') }}"
         threads: 2
         preserve_insertion_order: false
       # The spill directory is fixed when the database opens: dbt applies `settings` to every cursor,

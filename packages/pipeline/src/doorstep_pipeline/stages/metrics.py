@@ -39,7 +39,7 @@ def run(p: Paths, *, stages: tuple[str, ...] = ("warehouse",)) -> Manifest:
     report = reconcile(con, metrics)
     if not report.ok:
         lines = [
-            f"{d.metric} [{d.grain}] {d.key}: grain {d.grain} against mart {d.mart}"
+            f"{d.metric} [{d.grain}] {d.key}: grain {d.grain_value} against mart {d.mart_value}"
             for d in report.disagreements[:20]
         ]
         raise MetricError("the metric layer does not reconcile:\n" + "\n".join(lines))

@@ -28,5 +28,10 @@ models:
       +materialized: view
     intermediate:
       +materialized: view
+      # The loan roll ups scan fifty million rows; built once as tables so every test and mart reads the result.
+      int_loans_metro_year:
+        +materialized: table
+      int_purchase_loans:
+        +materialized: table
     marts:
       +materialized: table

@@ -243,6 +243,7 @@ def run(p: Paths) -> Manifest:
         cov = acs.coverage(flagged)
         write_parquet(cov, derived / "acs_coverage.parquet")
         read_files.extend(sorted(acs_dir.glob("*/*.json")))
+        acs.refuse_gap_year(flagged)
         years = acs.years_present(flagged)
         source_latest["acs"] = str(max(years))
         s = Scribe(

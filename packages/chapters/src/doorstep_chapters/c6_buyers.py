@@ -419,7 +419,7 @@ def estimate(panel: Panel, policy: Policy = POLICY, *, replicates: int | None = 
             "Value to income",
             "Spread p50",
         ],
-        ["int", "int", "int", "ratio2", "ratio2", "ratio2", "pct1", "pct1", "ratio2", "rate2"],
+        ["year", "int", "int", "ratio2", "ratio2", "ratio2", "pct1", "pct1", "ratio2", "rate2"],
         [
             [
                 y,

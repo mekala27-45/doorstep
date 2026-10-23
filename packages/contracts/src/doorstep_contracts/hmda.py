@@ -50,6 +50,8 @@ FIELDS = (
 FILTER = {
     "fetch": "action_taken = 1 and loan_purpose in (1, 31, 32)",
     "ingest": "occupancy_type = 1 (principal residence); reverse mortgages, open end lines and business purpose loans flagged",
+    "rounding": "income in thousands of dollars; loan amount and property value at the midpoint of their reporting bins; "
+    "applicant age in bands; the derived race, ethnicity and sex fields are not loaded",
 }
 
 RULES = (
