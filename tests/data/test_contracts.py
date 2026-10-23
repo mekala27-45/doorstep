@@ -159,6 +159,8 @@ def test_permit_rules_three_ways() -> None:
     assert _flags(flagged, "negative_units") == 1
     assert _flags(flagged, "imputed_share_high") >= 1
     assert _flags(flagged, "malformed_fips") == 1
+    twice, _ = permits.quarantine(pl.concat([_permits(10.0, 10.0), _permits(10.0, 10.0), _permits(3.0, 3.0, "36047")]))
+    assert twice["q_county_listed_twice"].to_list() == [False, True, False]
     with pytest.raises(ContractError):
         permits.quarantine(_permits(1.0, 1.0).clear())
 
