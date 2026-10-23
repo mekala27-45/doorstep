@@ -6528,7 +6528,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 49
+   "value": 50
   },
   "build.decisions": {
    "fmt": "int",
@@ -6542,7 +6542,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 20
+   "value": 22
   },
   "build.reversals": {
    "fmt": "int",
@@ -12128,7 +12128,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "DECISIONS.md 20 dated entries, 2 reversals, 0 corrections; 3 executed notebooks, 3 with a dead end."
+   "value": "DECISIONS.md 22 dated entries, 2 reversals, 0 corrections; 3 executed notebooks, 3 with a dead end."
   },
   "checklist.17.status": {
    "fmt": "text",
@@ -12170,7 +12170,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "coverage 86.0 percent; mypy clean; ruff clean; palette green; 49 commits; rederive reproduced in a worktree; tag not pushed; Apache 2.0 with every data source's terms declared."
+   "value": "coverage 86.0 percent; mypy clean; ruff clean; palette green; 50 commits; rederive reproduced in a worktree; tag pushed; Apache 2.0 with every data source's terms declared."
   },
   "checklist.18.status": {
    "fmt": "text",
@@ -12184,7 +12184,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "not done"
+   "value": "done"
   },
   "checklist.18.text": {
    "fmt": "text",
@@ -12548,7 +12548,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": 13
+   "value": 14
   },
   "checklist.missing": {
    "fmt": "text",
@@ -12562,7 +12562,7 @@
     "seeds": null,
     "source": "mixed"
    },
-   "value": "7, 13, 14, 15, 18"
+   "value": "7, 13, 14, 15"
   },
   "checklist.total": {
    "fmt": "int",
