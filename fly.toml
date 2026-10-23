@@ -1,6 +1,6 @@
 # Fly.io, free allowance: one shared CPU machine that stops when idle and starts on the first
 # request. The planner page reads its recorded session while the machine wakes and says so.
-app = "doorstep-flights-api"
+app = "doorstep-housing-api"
 primary_region = "ewr"
 
 [build]

@@ -40,7 +40,7 @@ flyctl version
 
 $candidates = @()
 if ($env:DOORSTEP_FLY_APP_NAME) { $candidates += $env:DOORSTEP_FLY_APP_NAME }
-$candidates += @("doorstep-flights-api", "doorstep-flights-api-am")
+$candidates += @("doorstep-housing-api", "doorstep-housing-api-am")
 $apps = flyctl apps list --json | ConvertFrom-Json
 $app = $null
 foreach ($name in $candidates) {
@@ -67,7 +67,7 @@ for ($i = 0; $i -lt 12 -and -not $health; $i++) {
     try { $health = Invoke-RestMethod -Uri "$base/v1/health" -TimeoutSec 60 } catch { Start-Sleep -Seconds 10 }
 }
 if (-not $health) { throw "the API did not answer at $base/v1/health" }
-Write-Host "health: status=$($health.status) database=$($health.database) model=$($health.model_version) hubs=$($health.hubs) outcome=$($health.outcome_month)"
+Write-Host "health: status=$($health.status) database=$($health.database) model=$($health.model_version) metros=$($health.metros) latest=$($health.latest_period)"
 Set-Content -Path (Join-Path $repo "deploy\live-url.txt") -Value $base
 Set-Content -Path $tokenFile -Value $env:DOORSTEP_WRITE_TOKEN
 Write-Host "deployed: $base"

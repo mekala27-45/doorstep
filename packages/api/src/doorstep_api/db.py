@@ -1,8 +1,9 @@
 """What the calculator persists across a request boundary: the checks, their scores and the audit
 log. Every table is observed from an independently opened connection in the tests, because a test
 that shares the application's session cannot see a missing commit (Day 5 of this series found
-exactly that bug). No table has a column for a person: a check is airports, hours, a month and a
-buffer, and the planted identifier scan holds the log to that."""
+exactly that bug). No table has a column for a person: a check is a metro code, an income rounded to
+the nearest thousand, a down payment share, a rate and a horizon, and the planted identifier scan
+holds the log to that."""
 
 from __future__ import annotations
 
@@ -22,18 +23,24 @@ class Check(SQLModel, table=True):
     __tablename__ = "checks"
     id: int | None = Field(default=None, primary_key=True)
     check_id: str = Field(index=True, unique=True)
-    origin: str
-    connection: str = Field(index=True)
-    destination: str
-    travel_month: str = Field(index=True)
-    inbound_hour: int
-    outbound_hour: int
-    buffer_minutes: int
-    probability: float
-    low: float
-    high: float
-    flights: int
-    level: str
+    cbsa_code: str = Field(index=True)
+    income: int
+    """Annual household income rounded to the nearest thousand dollars."""
+    down_share: float
+    rate: float
+    horizon_years: int
+    quarter: str = Field(index=True)
+    """The quarter of prices the check rests on."""
+    median_home: float
+    payment: float
+    payment_share: float
+    affordable_price: float
+    affordable_share: float | None
+    breakeven_years: float | None
+    breakeven_low: float | None
+    breakeven_high: float | None
+    expected_next_payment_share: float
+    """The payment share next quarter if prices and rates do not move: the carry forward expectation."""
     model_version: str
     note: str = ""
     created_at: datetime = Field(default_factory=now)
@@ -43,11 +50,12 @@ class CheckScore(SQLModel, table=True):
     __tablename__ = "check_scores"
     id: int | None = Field(default=None, primary_key=True)
     check_id: str = Field(foreign_key="checks.check_id", index=True, unique=True)
-    outcome_month: str
-    realized_rate: float
-    pairs: int
+    scored_quarter: str
+    realized_payment_share: float
     absolute_error: float
-    inside_interval: bool
+    """Realized payment share less the carry forward expectation, in absolute value."""
+    price_moved: float
+    rate_moved: float
     scored_at: datetime = Field(default_factory=now)
 
 

@@ -61,29 +61,18 @@ async def run(base: str, token: str, requests: int, concurrency: int) -> dict[st
     headers = {"Authorization": f"Bearer {token}"}
     async with httpx.AsyncClient() as client:
         health = (await client.get(f"{base}/v1/health", timeout=60.0)).json()
-        hubs = (await client.get(f"{base}/v1/hubs", timeout=60.0)).json()["hubs"]
-        if not hubs:
-            raise SystemExit("the server covers no hubs")
-        # One connection per hub: the busiest routes the server names for the outcome month, which
-        # were flown that month and never lead back to where they started.
-        routed = [
-            (h, h["busiest_origin"], h["busiest_destination"])
-            for h in hubs
-            if h.get("busiest_origin") and h.get("busiest_destination")
-        ]
-        if not routed:
-            raise SystemExit("the server lists no connection that goes somewhere else")
+        metros = (await client.get(f"{base}/v1/metros", timeout=60.0)).json()["metros"][:20]
+        if not metros:
+            raise SystemExit("the server covers no metros")
+        # One check per large metro at its median income, with the income nudged so the bodies differ.
         bodies = [
             {
-                "origin": origin,
-                "connection": h["hub"],
-                "destination": destination,
-                "travel_month": health["outcome_month"],
-                "inbound_hour": 12,
-                "outbound_hour": 13,
-                "buffer_minutes": 45 + 15 * (i % 4),
+                "cbsa_code": m["cbsa_code"],
+                "income": round(float(m["median_income"]) / 1000.0) * 1000 + 5000 * (i % 4),
+                "down_share": 0.10,
+                "horizon_years": 30,
             }
-            for i, (h, origin, destination) in enumerate(routed)
+            for i, m in enumerate(metros)
         ]
         # The first request may wake the machine; it is timed separately and not counted.
         wake_ms, _ = await _check(client, base, bodies[0], headers)
@@ -102,7 +91,8 @@ async def run(base: str, token: str, requests: int, concurrency: int) -> dict[st
         "measured_at": datetime.now(UTC).isoformat(),
         "requests": requests,
         "concurrency": concurrency,
-        "hubs": len(hubs),
+        "metros": len(metros),
+        "latest_period": health.get("latest_period"),
         "first_request_ms": round(wake_ms, 1),
         "check": _summary(made),
         "read": _summary(reads),

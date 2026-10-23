@@ -1,19 +1,20 @@
-"""The doorstep API: the misconnect calculator and its check log.
+"""The doorstep API: the affordability calculator and its check log.
 
-``GET /v1/curve`` answers for one connection at every buffer from 0 to 180 minutes, read only.
-``POST /v1/checks`` takes an origin, a connecting airport, a destination, a travel month, a scheduled
-inbound arrival hour, a scheduled outbound departure hour and a buffer, computes the historical
-misconnect probability with its interval and the flights it rests on, writes the check row, then the
-audit row, then returns the id. ``GET /v1/checks/{id}`` returns it with its score if any.
-``POST /v1/score`` scores every stored check whose travel month is the outcome month the committed
-marts hold, against what happened on that connection that month, and reports the share still
-unscored. Writes need the token; this is a demonstration and the README says so. Every response body
-carries the statement. Every write goes: the row, then the audit row, then commit, then the response.
+``POST /v1/checks`` takes a metro code, an annual income, a down payment share, an optional rate (the
+latest PMMS week when absent) and a horizon in years, returns the payment share, the affordable price,
+the share of households in that metro that can afford the median home, the breakeven horizon with its
+interval and the quarter of prices it rests on, writes the check row, then the audit row, then returns
+the id. The check also stores the carry forward expectation: the payment share next quarter if prices
+and rates do not move. ``GET /v1/checks/{id}`` returns the check with its score if any. ``POST /v1/score``
+scores stored checks whose next quarter has now published, against the realized payment share in that
+metro, and reports the share still unscored. ``GET /v1/curve`` is the rent or buy curve for the planner.
+Writes need the token; this is a demonstration and the README says so. The income is stored rounded to
+the nearest thousand; nothing else about the person is stored. Every response body carries the statement.
+Every write goes: the row, then the audit row, then commit, then the response.
 """
 
 from __future__ import annotations
 
-import hashlib
 import logging
 import re
 import uuid
@@ -22,7 +23,8 @@ from contextlib import asynccontextmanager
 from datetime import UTC, datetime
 from typing import Annotated, Any
 
-import polars as pl
+from doorstep_core.config import POLICY
+from doorstep_core.statements import RATE_ATTRIBUTION, STATEMENT
 from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,56 +34,66 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlmodel import col, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from doorstep_core.config import POLICY
-from doorstep_core.statements import STATEMENT
-from doorstep_misconnect import marts as misconnect_marts
-from doorstep_misconnect.model import Cells, Estimate, UnknownConnection, realized
 
+from doorstep_api.calculator import Answer, Calculator, UnknownMetro, UnknownQuarter
 from doorstep_api.db import AuditEntry, Check, CheckScore, make_async_engine
 from doorstep_api.settings import Settings, load_settings
 
 log = logging.getLogger("doorstep_api")
-# Real airports are three letter IATA codes; the simulator's hubs are two characters, and the tests
-# drive the API with them, so the shape check allows two to four.
-AIRPORT = re.compile(r"^[A-Z0-9]{2,4}$")
-MONTH = re.compile(r"^(20[0-9]{2})-(0[1-9]|1[0-2])$")
-CURVE_BUFFERS = tuple(range(0, 185, 5))
+# Real metros are five digit CBSA codes; the simulator's are S plus three digits, and the tests drive the API with them.
+METRO = re.compile(r"^(\d{5}|S\d{3})$")
+QUARTER = re.compile(r"^(19|20)\d{2}Q[1-4]$")
 
 
 def envelope(data: dict[str, Any]) -> dict[str, Any]:
-    return {**data, "statement": STATEMENT, "served_at": datetime.now(UTC).isoformat()}
+    return {
+        **data,
+        "statement": STATEMENT,
+        "rate_attribution": RATE_ATTRIBUTION,
+        "served_at": datetime.now(UTC).isoformat(),
+    }
 
 
 class CheckIn(BaseModel):
-    origin: str = Field(min_length=2, max_length=4)
-    connection: str = Field(min_length=2, max_length=4)
-    destination: str = Field(min_length=2, max_length=4)
-    travel_month: str = Field(min_length=7, max_length=7, description="YYYY-MM")
-    inbound_hour: int = Field(ge=0, le=23)
-    outbound_hour: int = Field(ge=0, le=23)
-    buffer_minutes: int = Field(ge=0, le=360)
+    cbsa_code: str = Field(min_length=4, max_length=5)
+    income: float = Field(
+        gt=0, le=10_000_000, description="annual household income in dollars; stored rounded to the thousand"
+    )
+    down_share: float = Field(default=POLICY.down_payment_share, ge=0.0, lt=0.9)
+    rate: float | None = Field(
+        default=None, ge=0.5, le=20.0, description="annual rate in percent; the latest PMMS week when absent"
+    )
+    horizon_years: int = Field(default=POLICY.breakeven_horizon_years, ge=1, le=40)
+    quarter: str | None = Field(
+        default=None,
+        min_length=6,
+        max_length=6,
+        description="the quarter of prices to rest on; the latest when absent",
+    )
     note: str = Field(default="", max_length=60)
 
-    @field_validator("origin", "connection", "destination")
+    @field_validator("cbsa_code")
     @classmethod
-    def airport(cls, value: str) -> str:
-        value = value.upper()
-        if not AIRPORT.match(value):
-            raise ValueError("an airport is a three letter code")
+    def metro(cls, value: str) -> str:
+        value = value.strip().upper()
+        if not METRO.match(value):
+            raise ValueError("a metro is a five digit CBSA code")
         return value
 
-    @field_validator("travel_month")
+    @field_validator("quarter")
     @classmethod
-    def month(cls, value: str) -> str:
-        if not MONTH.match(value):
-            raise ValueError("the travel month is YYYY-MM")
+    def quarter_shape(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        if not QUARTER.match(value):
+            raise ValueError("a quarter is YYYYQn")
         return value
 
     @field_validator("note")
     @classmethod
     def plain_note(cls, value: str) -> str:
         # A note labels where a check came from (demo, persistence check); it is not a place for a
-        # name or a booking reference, so it is held to a short word list of plain characters.
+        # name or an address, so it is held to a short word list of plain characters.
         if value and not re.fullmatch(r"[a-z ]{1,60}", value):
             raise ValueError("a note is lower case words")
         return value
@@ -91,43 +103,11 @@ class ScoreIn(BaseModel):
     note: str = Field(default="", max_length=60)
 
 
-class Served:
-    """The committed marts, loaded once, with a version that is the digest of their bytes."""
-
-    def __init__(self, settings: Settings) -> None:
-        self.cells: Cells | None = None
-        self.outcomes: pl.DataFrame | None = None
-        self.version = "none"
-        self.outcome_month: str | None = None
-        self.hubs: list[str] = []
-        self.routes: pl.DataFrame | None = None
-        paths = [settings.marts / f"{name}.parquet" for name in misconnect_marts.FILES]
-        if not all(p.exists() for p in paths):
-            log.warning("the calculator marts are missing under %s", settings.marts)
-            return
-        digest = hashlib.sha256()
-        for p in paths:
-            digest.update(p.read_bytes())
-        self.version = f"cells-{digest.hexdigest()[:10]}"
-        frames = misconnect_marts.load(settings.marts)
-        self.cells = Cells.from_frames(
-            frames["misconnect_cells"],
-            frames["misconnect_lost"],
-            frames["misconnect_routes"],
-            frames["misconnect_hubs"],
-        )
-        self.outcomes = frames["misconnect_outcomes"]
-        self.routes = frames["misconnect_routes"]
-        self.hubs = self.cells.hubs
-        first = self.outcomes["flight_date"].min() if self.outcomes.height else None
-        self.outcome_month = first.strftime("%Y-%m") if first is not None else None  # type: ignore[union-attr]
-
-
 class AppState:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
         self.engine: AsyncEngine = make_async_engine(settings.database_url, settings.schema)
-        self.served = Served(settings)
+        self.calculator = Calculator(settings.marts)
 
 
 def state_of(request: Request) -> AppState:
@@ -158,10 +138,10 @@ def require_writer(actor: str) -> None:
         raise HTTPException(status_code=401, detail="writes need the token")
 
 
-def require_cells(state: AppState) -> Cells:
-    if state.served.cells is None:
+def require_calculator(state: AppState) -> Calculator:
+    if not state.calculator.ready:
         raise HTTPException(status_code=503, detail="the calculator marts are not on this server")
-    return state.served.cells
+    return state.calculator
 
 
 async def audit(
@@ -180,47 +160,17 @@ async def audit(
     await session.commit()
 
 
-def _busiest(frame: pl.DataFrame, column: str, month: int | None) -> list[str]:
-    """The airports in ``column`` ordered by scheduled flights in the month, busiest first, ties by code."""
-    pool = frame.filter(pl.col("month") == month) if month is not None else frame
-    if pool.height == 0:
-        pool = frame
-    ranked = (
-        pool.group_by(column)
-        .agg(pl.col("scheduled").sum())
-        .sort(["scheduled", column], descending=[True, False])
-    )
-    return [str(a) for a in ranked[column].to_list()]
-
-
-def _estimate(cells: Cells, body: CheckIn, buffer: int) -> Estimate:
+def _answer(calc: Calculator, body: CheckIn) -> Answer:
     try:
-        return cells.estimate(
-            origin=body.origin,
-            hub=body.connection,
-            destination=body.destination,
-            month=int(body.travel_month[5:7]),
-            inbound_hour=body.inbound_hour,
-            outbound_hour=body.outbound_hour,
-            buffer=buffer,
-            min_connection=POLICY.min_connection_minutes,
+        return calc.check(
+            body.cbsa_code, body.income, body.down_share, body.rate, body.horizon_years, quarter=body.quarter
         )
-    except UnknownConnection as exc:
+    except UnknownMetro as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-
-
-def _estimate_payload(e: Estimate) -> dict[str, Any]:
-    return {
-        "probability": e.probability,
-        "low": e.low,
-        "high": e.high,
-        "flights": e.flights,
-        "inbound_flights": e.inbound_flights,
-        "outbound_flights": e.outbound_flights,
-        "level": e.level,
-        "correlation_ratio": e.correlation_ratio,
-        "lost_share": e.lost_share,
-    }
+    except UnknownQuarter as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -263,85 +213,58 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         except Exception as exc:  # the reason goes to the server log, never to the client
             log.warning("health: the database is unreachable: %s: %s", type(exc).__name__, exc)
             database = "unreachable"
+        calc = state.calculator
         return envelope(
             {
                 "status": "ok",
                 "environment": state.settings.environment,
                 "database": database,
-                "model_version": state.served.version,
-                "hubs": len(state.served.hubs),
-                "outcome_month": state.served.outcome_month,
-                "min_connection_minutes": POLICY.min_connection_minutes,
+                "model_version": calc.version,
+                "metros": int(calc.metros.height) if calc.metros is not None else 0,
+                "latest_period": calc.latest_period,
+                "rate_default": calc.rate_default if calc.ready else None,
+                "income_year": calc.meta.get("income_year"),
                 "writes": "token gated",
             }
         )
 
-    @app.get("/v1/hubs")
-    async def hubs(request: Request) -> dict[str, Any]:
+    @app.get("/v1/metros")
+    async def metros(request: Request) -> dict[str, Any]:
         state = state_of(request)
-        require_cells(state)
-        routes = state.served.routes
-        assert routes is not None
-        outcome = state.served.outcome_month
-        month = int(outcome[5:7]) if outcome else None
-        out = []
-        for hub in state.served.hubs:
-            inbound = routes.filter((pl.col("direction") == "in") & (pl.col("dest") == hub))
-            outbound = routes.filter((pl.col("direction") == "out") & (pl.col("origin") == hub))
-            # The busiest route each way in the outcome month's calendar month: a connection a client
-            # can check without guessing, flown that month, and never back to where it started.
-            origins = _busiest(inbound, "origin", month)
-            destinations = [
-                d for d in _busiest(outbound, "dest", month) if d != (origins[0] if origins else None)
-            ]
-            out.append(
-                {
-                    "hub": hub,
-                    "origins": sorted(inbound["origin"].unique().to_list()),
-                    "destinations": sorted(outbound["dest"].unique().to_list()),
-                    "busiest_origin": origins[0] if origins else None,
-                    "busiest_destination": destinations[0] if destinations else None,
-                }
-            )
-        return envelope({"hubs": out, "model_version": state.served.version})
+        calc = require_calculator(state)
+        assert calc.metros is not None
+        rows = calc.metros.sort("households", descending=True).select(
+            "cbsa_code",
+            "cbsa_title",
+            "households",
+            "median_income",
+            "median_rent",
+            "latest_period",
+            "value_latest",
+            "rate_latest",
+            "income_year",
+        )
+        return envelope(
+            {"metros": rows.to_dicts(), "rate_default": calc.rate_default, "model_version": calc.version}
+        )
 
     @app.get("/v1/curve")
     async def curve(
         request: Request,
-        origin: Annotated[str, Query(min_length=2, max_length=4)],
-        connection: Annotated[str, Query(min_length=2, max_length=4)],
-        destination: Annotated[str, Query(min_length=2, max_length=4)],
-        travel_month: Annotated[str, Query(min_length=7, max_length=7)],
-        inbound_hour: Annotated[int, Query(ge=0, le=23)],
-        outbound_hour: Annotated[int, Query(ge=0, le=23)],
+        cbsa_code: Annotated[str, Query(min_length=4, max_length=5)],
+        income: Annotated[float, Query(gt=0)],
+        down_share: Annotated[float, Query(ge=0.0, lt=0.9)] = POLICY.down_payment_share,
+        rate: Annotated[float | None, Query(ge=0.5, le=20.0)] = None,
+        horizon_years: Annotated[int, Query(ge=1, le=40)] = POLICY.breakeven_horizon_years,
     ) -> dict[str, Any]:
         state = state_of(request)
-        cells = require_cells(state)
+        calc = require_calculator(state)
         body = CheckIn(
-            origin=origin,
-            connection=connection,
-            destination=destination,
-            travel_month=travel_month,
-            inbound_hour=inbound_hour,
-            outbound_hour=outbound_hour,
-            buffer_minutes=0,
+            cbsa_code=cbsa_code, income=income, down_share=down_share, rate=rate, horizon_years=horizon_years
         )
-        points = [{"buffer": b, **_estimate_payload(_estimate(cells, body, b))} for b in CURVE_BUFFERS]
-        crossing = next((p["buffer"] for p in points if p["probability"] <= POLICY.misconnect_line), None)
-        return envelope(
-            {
-                "origin": body.origin,
-                "connection": body.connection,
-                "destination": body.destination,
-                "travel_month": body.travel_month,
-                "inbound_hour": inbound_hour,
-                "outbound_hour": outbound_hour,
-                "line": POLICY.misconnect_line,
-                "crossing": crossing,
-                "points": points,
-                "model_version": state.served.version,
-            }
-        )
+        answer = _answer(calc, body)
+        points = calc.curve(body.cbsa_code, income, down_share, rate, horizon_years)
+        return envelope({**answer.payload(), "points": points, "model_version": calc.version})
 
     @app.post("/v1/checks", status_code=201)
     async def create_check(
@@ -349,23 +272,26 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     ) -> dict[str, Any]:
         require_writer(actor)
         state = state_of(request)
-        cells = require_cells(state)
-        e = _estimate(cells, body, body.buffer_minutes)
+        calc = require_calculator(state)
+        a = _answer(calc, body)
         row = Check(
             check_id=str(uuid.uuid4()),
-            origin=body.origin,
-            connection=body.connection,
-            destination=body.destination,
-            travel_month=body.travel_month,
-            inbound_hour=body.inbound_hour,
-            outbound_hour=body.outbound_hour,
-            buffer_minutes=body.buffer_minutes,
-            probability=e.probability,
-            low=e.low,
-            high=e.high,
-            flights=e.flights,
-            level=e.level,
-            model_version=state.served.version,
+            cbsa_code=a.cbsa_code,
+            income=a.income,
+            down_share=a.down_share,
+            rate=a.rate,
+            horizon_years=a.horizon_years,
+            quarter=a.quarter,
+            median_home=a.median_home,
+            payment=a.payment,
+            payment_share=a.payment_share,
+            affordable_price=a.affordable_price,
+            affordable_share=a.affordable_share,
+            breakeven_years=a.breakeven_years,
+            breakeven_low=a.breakeven_low,
+            breakeven_high=a.breakeven_high,
+            expected_next_payment_share=a.expected_next_payment_share,
+            model_version=calc.version,
             note=body.note,
         )
         session.add(row)
@@ -376,21 +302,25 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "create",
             "check",
             row.check_id,
-            {
-                "connection": row.connection,
-                "travel_month": row.travel_month,
-                "model_version": row.model_version,
-            },
+            {"cbsa_code": row.cbsa_code, "quarter": row.quarter, "model_version": row.model_version},
         )
-        return envelope({"check_id": row.check_id, **_check_payload(row), **_estimate_payload(e)})
+        return envelope(
+            {
+                "check_id": row.check_id,
+                **_check_payload(row),
+                "households_can_afford": a.households_can_afford,
+                "never_share": a.never_share,
+                "cbsa_title": a.cbsa_title,
+            }
+        )
 
     @app.get("/v1/checks")
     async def list_checks(
-        session: SessionDep, connection: str | None = None, limit: int = 50
+        session: SessionDep, cbsa_code: str | None = None, limit: int = 50
     ) -> dict[str, Any]:
         query = select(Check).order_by(col(Check.created_at).desc()).limit(min(max(limit, 1), 500))
-        if connection:
-            query = query.where(Check.connection == connection.upper())
+        if cbsa_code:
+            query = query.where(Check.cbsa_code == cbsa_code.upper())
         rows = (await session.exec(query)).all()
         return envelope({"checks": [_check_payload(r) for r in rows]})
 
@@ -406,38 +336,29 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def score(body: ScoreIn, request: Request, session: SessionDep, actor: ActorDep) -> dict[str, Any]:
         require_writer(actor)
         state = state_of(request)
-        require_cells(state)
-        outcomes = state.served.outcomes
-        month = state.served.outcome_month
+        calc = require_calculator(state)
         checks = (await session.exec(select(Check))).all()
         scored_ids = {s.check_id for s in (await session.exec(select(CheckScore))).all()}
         added = 0
-        no_pairs = 0
+        waiting = 0
         for c in checks:
-            if c.check_id in scored_ids or month is None or outcomes is None or c.travel_month != month:
+            if c.check_id in scored_ids:
                 continue
-            result = realized(
-                outcomes,
-                origin=c.origin,
-                hub=c.connection,
-                destination=c.destination,
-                inbound_hour=c.inbound_hour,
-                outbound_hour=c.outbound_hour,
-                buffer=c.buffer_minutes,
-                min_connection=POLICY.min_connection_minutes,
-            )
+            try:
+                result = calc.realized(c.cbsa_code, c.quarter, c.income, c.down_share, c.rate, c.median_home)
+            except (UnknownMetro, UnknownQuarter):
+                result = None
             if result is None:
-                no_pairs += 1
+                waiting += 1
                 continue
-            rate, pairs = result
             session.add(
                 CheckScore(
                     check_id=c.check_id,
-                    outcome_month=month,
-                    realized_rate=rate,
-                    pairs=pairs,
-                    absolute_error=abs(c.probability - rate),
-                    inside_interval=c.low <= rate <= c.high,
+                    scored_quarter=str(result["quarter"]),
+                    realized_payment_share=float(result["payment_share"]),
+                    absolute_error=abs(float(result["payment_share"]) - c.expected_next_payment_share),
+                    price_moved=float(result["price_moved"]),
+                    rate_moved=float(result["rate_moved"]),
                 )
             )
             added += 1
@@ -451,14 +372,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "score",
             "check",
             "",
-            {"scored": added, "no_pairs": no_pairs, "outcome_month": month, "unscored_share": unscored_share},
+            {
+                "scored": added,
+                "waiting": waiting,
+                "latest_period": calc.latest_period,
+                "unscored_share": unscored_share,
+            },
         )
         return envelope(
             {
                 "scored": added,
                 "checks": total,
-                "no_pairs": no_pairs,
-                "outcome_month": month,
+                "waiting_for_next_quarter": waiting,
+                "latest_period": calc.latest_period,
                 "unscored_share": unscored_share,
             }
         )
@@ -475,9 +401,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 "mean_absolute_error": sum(s.absolute_error for s in scores) / len(scores)
                 if scores
                 else None,
-                "interval_coverage": sum(1 for s in scores if s.inside_interval) / len(scores)
-                if scores
-                else None,
+                "mean_price_move": sum(s.price_moved for s in scores) / len(scores) if scores else None,
+                "mean_rate_move": sum(s.rate_moved for s in scores) / len(scores) if scores else None,
             }
         )
 
@@ -510,18 +435,21 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 def _check_payload(row: Check) -> dict[str, Any]:
     return {
         "check_id": row.check_id,
-        "origin": row.origin,
-        "connection": row.connection,
-        "destination": row.destination,
-        "travel_month": row.travel_month,
-        "inbound_hour": row.inbound_hour,
-        "outbound_hour": row.outbound_hour,
-        "buffer_minutes": row.buffer_minutes,
-        "probability": row.probability,
-        "low": row.low,
-        "high": row.high,
-        "flights": row.flights,
-        "level": row.level,
+        "cbsa_code": row.cbsa_code,
+        "income": row.income,
+        "down_share": row.down_share,
+        "rate": row.rate,
+        "horizon_years": row.horizon_years,
+        "quarter": row.quarter,
+        "median_home": row.median_home,
+        "payment": row.payment,
+        "payment_share": row.payment_share,
+        "affordable_price": row.affordable_price,
+        "affordable_share": row.affordable_share,
+        "breakeven_years": row.breakeven_years,
+        "breakeven_low": row.breakeven_low,
+        "breakeven_high": row.breakeven_high,
+        "expected_next_payment_share": row.expected_next_payment_share,
         "model_version": row.model_version,
         "note": row.note,
         "created_at": row.created_at.isoformat(),
@@ -530,10 +458,10 @@ def _check_payload(row: Check) -> dict[str, Any]:
 
 def _score_payload(s: CheckScore) -> dict[str, Any]:
     return {
-        "outcome_month": s.outcome_month,
-        "realized_rate": s.realized_rate,
-        "pairs": s.pairs,
+        "scored_quarter": s.scored_quarter,
+        "realized_payment_share": s.realized_payment_share,
         "absolute_error": s.absolute_error,
-        "inside_interval": s.inside_interval,
+        "price_moved": s.price_moved,
+        "rate_moved": s.rate_moved,
         "scored_at": s.scored_at.isoformat(),
     }

@@ -22,11 +22,11 @@ function Summary($samples) {
 }
 
 $health = Invoke-RestMethod -Uri "$base/v1/health" -TimeoutSec 120
-$hubs = (Invoke-RestMethod -Uri "$base/v1/hubs" -TimeoutSec 120).hubs
+$metros = (Invoke-RestMethod -Uri "$base/v1/metros" -TimeoutSec 120).metros | Select-Object -First 20
 $bodies = @()
-for ($i = 0; $i -lt $hubs.Count; $i++) {
-    $h = $hubs[$i]
-    $bodies += (@{ origin = $h.busiest_origin; connection = $h.hub; destination = $h.busiest_destination; travel_month = $health.outcome_month; inbound_hour = 12; outbound_hour = 13; buffer_minutes = 45 + 15 * ($i % 4); note = "load test" } | ConvertTo-Json)
+for ($i = 0; $i -lt $metros.Count; $i++) {
+    $m = $metros[$i]
+    $bodies += (@{ cbsa_code = $m.cbsa_code; income = ([Math]::Round($m.median_income / 1000) * 1000) + 5000 * ($i % 4); down_share = 0.10; horizon_years = 30; note = "load test" } | ConvertTo-Json)
 }
 $sw = [Diagnostics.Stopwatch]::StartNew()
 $null = Invoke-RestMethod -Method Post -Uri "$base/v1/checks" -Headers $headers -ContentType "application/json" -TimeoutSec 120 -Body $bodies[0]
@@ -60,7 +60,7 @@ $result = [ordered]@{
     measured_at = (Get-Date).ToUniversalTime().ToString("o")
     requests = $requests
     concurrency = $concurrency
-    hubs = $hubs.Count
+    metros = $metros.Count
     first_request_ms = [Math]::Round($wake, 1)
     check = Summary $made
     read = Summary $reads

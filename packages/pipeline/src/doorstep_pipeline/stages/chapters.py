@@ -24,6 +24,7 @@ from doorstep_chapters import (
     c7_migration,
     c8_decision,
 )
+from doorstep_chapters import calculator
 from doorstep_chapters.common import ChapterResult, check_reporting_years
 from doorstep_chapters.panel import Panel, from_marts
 from doorstep_chapters.plans import MODULES, register
@@ -822,8 +823,14 @@ def run(
     r8 = timed("decision", lambda: c8_decision.estimate(panel, policy, draws=replicates))
     done(r8, _chart8(r8, CHAPTER_SOURCES[8] if src == "real" else "simulated"))
 
+    calc_meta = calculator.write(panel, p.derived, p.marts, policy)
     s = Scribe(manifest, source="mixed", population="the eight chapters", origin="stages/chapters.py")
     s.put("chapters.count", len(index), "int")
+    s.put("calculator.metros", int(calc_meta["metros"]), "int")
+    s.put("calculator.rate_default", float(calc_meta["rate_default"]), "rate2")
+    s.put("calculator.rate_default_source", str(calc_meta["rate_default_source"]), "text")
+    s.put("calculator.latest_period", str(calc_meta["latest_period"]), "quarter")
+    s.put("calculator.income_year", int(calc_meta["income_year"]), "int")
     s.put("chapters.panel_source", panel.source, "text")
     s.put("chapters.metros", int(panel.metro_year["cbsa_code"].n_unique()), "int")
     s.put("chapters.metropolitan", int(panel.metropolitan()["cbsa_code"].n_unique()), "int")

@@ -1,15 +1,16 @@
-# The doorstep API: the misconnect calculator and its check log.
-# Built after the chapters stage, so results/marts holds the calculator's cells, the hub curves and the
-# outcome month the scorer reads; without them the calculator routes answer 503 and health says so.
+# The doorstep API: the affordability calculator and its check log.
+# Built after the chapters stage, so results/marts holds the calculator marts (the metros with their latest value,
+# income, rent, brackets and history, and the quarters the scorer reads); without them the calculator routes answer
+# 503 and health says so.
 FROM python:3.12-slim AS base
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 RUN pip install --no-cache-dir "uv>=0.8,<0.9"
 WORKDIR /app
 COPY pyproject.toml uv.lock README.md ./
 COPY packages ./packages
-# Only the API package and what it imports: core, stats and misconnect.
+# Only the API package and what it imports: core and finance.
 RUN uv sync --frozen --no-dev --no-default-groups --package doorstep-api
-COPY results/marts/misconnect_cells.parquet results/marts/misconnect_lost.parquet results/marts/misconnect_routes.parquet results/marts/misconnect_hubs.parquet results/marts/misconnect_outcomes.parquet ./results/marts/
+COPY results/marts/calc_metros.parquet results/marts/calc_quarters.parquet results/marts/calc_meta.json ./results/marts/
 ENV DOORSTEP_ROOT=/app PORT=8080 PATH="/app/.venv/bin:$PATH" DOORSTEP_ENV=production
 EXPOSE 8080
 CMD ["sh", "-c", "cd packages/api && alembic upgrade head && cd /app && uvicorn doorstep_api.main:app --host 0.0.0.0 --port ${PORT}"]
