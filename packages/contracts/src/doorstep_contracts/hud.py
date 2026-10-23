@@ -15,6 +15,7 @@ import re
 from pathlib import Path
 
 import polars as pl
+from doorstep_core.scalars import num
 
 from doorstep_contracts.common import ContractError, Rule, apply_rules, contract_digest
 
@@ -116,7 +117,7 @@ def _num(value: object) -> float | None:
     if value is None or value == "":
         return None
     try:
-        return float(value)
+        return num(value)
     except (TypeError, ValueError):
         return None
 
@@ -245,7 +246,7 @@ def parse_income_limits(external: Path) -> tuple[pl.DataFrame, list[int]]:
             if fips_col is not None and r[fips_col] not in (None, ""):
                 fips = _fips(r[fips_col])
             elif state_col is not None and county_col is not None and r[state_col] not in (None, ""):
-                fips = _fips(r[state_col]).lstrip("0").zfill(2)[-2:] + str(int(float(r[county_col]))).zfill(3)
+                fips = _fips(r[state_col]).lstrip("0").zfill(2)[-2:] + str(int(num(r[county_col]))).zfill(3)
             else:
                 continue
             code = str(r[area_col]).strip() if area_col is not None and r[area_col] is not None else ""

@@ -20,6 +20,7 @@ from doorstep_core.hashing import file_sha256
 from doorstep_core.log import get_logger
 from doorstep_core.manifest import Manifest, Scribe
 from doorstep_core.paths import Paths
+from doorstep_core.scalars import integer
 
 from doorstep_pipeline.common import connect, new_partial, save_partial
 
@@ -134,6 +135,15 @@ def run(p: Paths) -> Manifest:
     )
     source_latest["hud_fmr"] = f"FY{fmr_fy}"
     source_latest["hud_il"] = f"FY{max(il_years)}"
+    # The HUD area to metro map, committed from the latest fiscal year's area definitions with its source.
+    area_map = (
+        flagged.filter(pl.col("cbsa_code").is_not_null())
+        .select("hud_area_code", "hud_area_name", "cbsa_code")
+        .unique()
+        .sort(["cbsa_code", "hud_area_code"])
+        .with_columns(pl.lit(f"HUD Fair Market Rents, fiscal year {fmr_fy}").alias("source"))
+    )
+    area_map.write_csv(p.data / "hud_area_map.csv")
     s = Scribe(
         manifest,
         source="real:hud",
@@ -162,7 +172,7 @@ def run(p: Paths) -> Manifest:
     full_years = flagged.filter(pl.col("partial_through_month").is_null())
     ytd = flagged.filter(pl.col("partial_through_month").is_not_null())
     source_latest["bps"] = (
-        f"{int(ytd['year'].max())} through month {int(ytd['partial_through_month'].max())}"
+        f"{integer(ytd['year'].max())} through month {integer(ytd['partial_through_month'].max())}"
         if ytd.height
         else str(int(full_years["year"].max()))  # type: ignore[arg-type]
     )
@@ -257,7 +267,9 @@ def run(p: Paths) -> Manifest:
         s.put("data.acs.first_year", min(years), "year")
         s.put("data.acs.last_year", max(years), "year")
         s.put("data.acs.tables", flagged["table"].n_unique(), "int")
-        s.put("data.acs.areas_latest", cov.filter(pl.col("year") == max(years))["areas"].max(), "int")
+        s.put(
+            "data.acs.areas_latest", integer(cov.filter(pl.col("year") == max(years))["areas"].max()), "int"
+        )
         s.put("data.acs.gap_2020", 1 if 2020 not in years else 0, "int")
         missing = sorted(set(range(min(years), max(years) + 1)) - set(years))
         s.put("data.acs.gap_years", ", ".join(str(y) for y in missing) if missing else "none", "text")
@@ -277,7 +289,7 @@ def run(p: Paths) -> Manifest:
         fetch_total = 0
         for year in hmda_years:
             summary = hmda.fetch_summary(p.external, year)
-            fetch_total += int(summary.get("rows_total", 0))  # type: ignore[arg-type]
+            fetch_total += integer(summary.get("rows_total", 0))
             # The year's parquet is kept when the parts it was made from have not changed: the cache key is the
             # digest of every part's name and size with the contract digest, so a new part or a new rule misses.
             key = _hmda_cache_key(p.external, year, metro_counties)

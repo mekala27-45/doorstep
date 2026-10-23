@@ -17,6 +17,7 @@ import re
 from pathlib import Path
 
 import polars as pl
+from doorstep_core.scalars import num
 
 from doorstep_contracts.common import ContractError, Rule, apply_rules, contract_digest
 
@@ -74,7 +75,7 @@ def _number(value: object) -> float | None:
     if value is None or value == "" or value == "null":
         return None
     try:
-        return float(value)
+        return num(value)
     except (TypeError, ValueError):
         return None
 
@@ -83,7 +84,13 @@ def _parse_census(
     payload: list[list[object]], year: int, table: str, is_national: bool
 ) -> list[dict[str, object]]:
     header = [str(h) for h in payload[0]]
+    # The geography column is found by name, not position: a table fetched in several requests may carry the
+    # column in the middle once the requests are joined, and the last column is then an estimate.
     geo_index = len(header) - 1
+    for i, h in enumerate(header):
+        if h == "us" or "statistical area" in h.lower():
+            geo_index = i
+            break
     name_index = header.index("NAME") if "NAME" in header else None
     rows: list[dict[str, object]] = []
     for record in payload[1:]:
